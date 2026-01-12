@@ -1,0 +1,48 @@
+/*  */
+.chart-container{
+    position: relative;
+}
+
+.dontcanvas{
+    height: 150px;
+    margin: 0px auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+canvas#statusChart {
+  height: 100% !important;
+  width: auto !important;
+  
+
+}
+.chart-no--data{
+    background:var(--neutral-light);
+    height: 150px;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    color: #c5cbe4;
+    border-radius: 4px;
+}
+
+.chartstatuslist{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 0px;
+}
+
+.chartstatuslist .disable {
+      opacity: 0.4;
+      text-decoration: line-through;
+    }
+.leftline{
+    height: 20px;
+    width: 4px;
+}
+

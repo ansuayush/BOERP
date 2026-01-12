@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "RoleMenuManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using SahajFramework.CommonClass;
+@using SahajFramework.Models;
+@{
+    string auth = Request.QueryString["auth"];
+    string roleId = Request.QueryString["roleId"];
+    var AdminModuleMenu = SahajFramework.CommonClass.ClsCommon.GetMenuForPermission(auth, roleId,"");
+    var MainMenuModal = AdminModuleMenu.AdminModuleList;
+    var MenuList = AdminModuleMenu.AdminMenuList;
+
+}
+
+    <!-- page title -->
+    <input type="hidden" value="@ViewBag.Auth" id="hdnAuth" />
+    <input type="hidden" value="@ViewBag.RoleId" id="hdnRoleId" />
+    <div class="pagetitle gap-bottom d-flex justify-content-between">
+        <h1 class="m-0 d-flex ">Role Menu Management</h1>
+		<div class="align-self-center heading-action-btn w-100-slt primary-color-slt">
+			<a href="/Masters/Master/FMSStepsPermission?auth=@ViewBag.Auth&roleId=@ViewBag.RoleId" class="btn actionbtn border-r-8">
+				<img src="~/assets/images/icons/help/edit-white-icon.png" alt="" class="btn-icon" />FMS Permisssion
+			</a>
+			
+			<button id="btnUpdate" type="button" value="Update" class="btn  btn-lg  actionbtn " fdprocessedid="rjwvrn"><i class="fas fa-pencil-alt"></i> Update</button>
+			<button type="button" class="btn btn-lg  cancelbtn" data-toggle="tooltip" title="" onclick="RedirectToRole()" data-original-title="Cancel" fdprocessedid="vfl4k4"><i class="fas fa-times"></i> Cancel</button>
+		</div>
+    </div>
+    <!--  -->
+
+    <div class="secondmain main-br main-min-height-primary">
+        <!--  -->
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div id="accordion" class="acdgn" role="tablist" aria-multiselectable="true">
+                    <!--  -->
+                    <div class="card p-0 mb-2">
+                        <div class="card-header  p-0" role="tab" id="heading_1">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse_2" class="blk-gdn-btn hd-acd" aria-expanded="true" aria-controls="collapse_2">
+                                <strong>Menus</strong>
+                            </a>
+                        </div>
+                        <div id="collapse_2" class="collapse show " role="tabpanel" aria-labelledby="heading_1" aria-expanded="false" style="">
+                            <div class="card-body p-0 shadow-box">
+                                <div class="table-responsive menu-tbl">
+                                    <table class="table rstable  " width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th><i class="fas fa-bars"></i> Menu Name</th>
+                                                <th class="text-center" width="90"><i class="fas fa-book"></i> View</th>
+                                                <th class="text-center" width="90"><i class="fas fa-pencil-alt"></i> Add</th>
+                                                <th class="text-center" width="90"><i class="fas fa-edit"></i> Edit</th>
+                                                <th class="text-center" width="90"><i class="fas fa-trash-alt"></i> Delete</th>
+                                                <th class="text-center" width="90"><i class="fa fa-file-excel"></i> Print</th>
+                                               
+                                                    <th class="text-center hack hidden" width="90"><i class="fa fa-file-excel"></i> Full View Access</th>
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (AdminModule item in MainMenuModal.OrderBy(a => a.ModulePriority))
+                                            {
+                                                <tr class="ParentMenuList data-label-none" data-module-id="@item.ModuleID" aria-expanded="false">
+
+                                                    <td colspan="6"><div class="d-flex justify-content-between align-items-center pl-3"><strong><i class="fas fa-folder "></i> @item.ModuleName</strong><img src="~/assets/images/icons/help/arrow-right.png" class="icon-lg chev" /></div> </td>
+                                                    @*<td class="text-right d-none-1024"></td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+                <td class="text-center"></td>*@
+                                                </tr>
+                                                if (MenuList.Where(a => a.ModuleID == item.ModuleID).ToList().Count > 0)
+                                                {
+                                                    foreach (var menuItem in MenuList.Where(a => a.ModuleID == item.ModuleID).OrderBy(a => a.MenuPriority).ToList())
+                                                    {
+                                                        if (menuItem.ParentMenuID != 0)
+                                                        {
+
+                                                        }
+                                                        else
+                                                        {
+                                        <tr class="ChildMenuList" data-module-id="@item.ModuleID" style="display:none;">
+                                            <td class="data-label-none"><span class="spDocNo" id="@menuItem.DocNumber"></span> <i class="fa fa-chevron-right"></i> @menuItem.MenuName</td>
+                                            <td class="text-right text-center">
+                                                <input class="Readchild_1" type="checkbox" id="Read_@menuItem.DocNumber" name="Read_@menuItem.DocNumber" @(menuItem.R ? "checked" : "")>
+                                                <label for="Read_@menuItem.DocNumber" class="pr-none p-0"></label>
+                                            </td>
+                                            <td class="text-right text-center">
+                                                <input class="Writechild_1" type="checkbox" id="Write_@menuItem.DocNumber" name="Write_@menuItem.DocNumber" @(menuItem.W ? "checked" : "")>
+                                                <label for="Write_@menuItem.DocNumber" class="pr-none p-0"></label>
+                                            </td>
+                                            <td class="text-right text-center">
+                                                <input class="Modifychild_1" type="checkbox" id="Modify_@menuItem.DocNumber" name="Modify_@menuItem.DocNumber" @(menuItem.M ? "checked" : "")>
+                                                <label for="Modify_@menuItem.DocNumber" class="pr-none p-0"></label>
+                                            </td>
+                                            <td class="text-right text-center">
+                                                <input class="Deletechild_1" type="checkbox" id="Delete_@menuItem.DocNumber" name="Delete_@menuItem.DocNumber" @(menuItem.D ? "checked" : "")>
+                                                <label for="Delete_@menuItem.DocNumber" class="pr-none p-0"></label>
+                                            </td>
+                                            <td class="text-right text-center">
+                                                <input class="Exportchild_1" type="checkbox" id="Export_@menuItem.DocNumber" name="Export_@menuItem.DocNumber" @(menuItem.E ? "checked" : "")>
+                                                <label for="Export_@menuItem.DocNumber" class="pr-none p-0"></label>
+                                            </td>
+                                           
+                                                <td class="text-right text-center hack hidden">
+                                                    <input class="Viewchild_1" type="checkbox" id="View_@menuItem.DocNumber" name="View_@menuItem.DocNumber" @(menuItem.V ? "checked" : "")>
+                                                    <label for="View_@menuItem.DocNumber" class="pr-none p-0"></label>
+                                                </td>
+                                            </tr>
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                </div>
+
+
+
+            </div>
+        </div>
+        <!--  -->
+    </div>
+
+
+<script src="~/Areas/Masters/DevScript/RoleMenuManagement.js"></script>
+<script>
+    // toggle helper
+    const hack = "@ViewBag.hack";
+
+    if (parseInt(hack) > 0) {
+        $('.hack').removeClass('hidden');
+        //$('.hack').removeClass('hidden');
+    }
+
+    function toggleModule($parent) {
+        const modId = $parent.data('module-id');
+        const $kids = $('.ChildMenuList[data-module-id="' + modId + '"]');
+        const willOpen = $parent.attr('aria-expanded') !== 'true';
+
+        $parent.attr('aria-expanded', willOpen);
+
+        if (willOpen) {
+            // show as table-row, then fade in (simple, smooth)
+            $kids.stop(true, true)
+                .css('display', 'table-row')
+                .hide()
+                .fadeIn(150);
+        } else {
+            // fade out, then set display none to keep table tidy
+            $kids.stop(true, true)
+                .fadeOut(120, function () { $(this).css('display', 'none'); });
+        }
+    }
+
+    // click anywhere on the parent row (except inputs/links) to toggle
+    $(document).on('click', '.ParentMenuList', function (e) {
+        if ($(e.target).closest('input,label,button,a').length) return;
+        toggleModule($(this));
+    });
+
+    // click on the arrow only (no bubble) to toggle
+    $(document).on('click', '.ParentMenuList .chev', function (e) {
+        e.stopPropagation();
+        toggleModule($(this).closest('.ParentMenuList'));
+    });
+
+    // Open the first accordion by default (with no animation on first paint)
+    $(function () {
+        const $first = $('.ParentMenuList').first();
+        if (!$first.length) return;
+        const modId = $first.data('module-id');
+        $first.attr('aria-expanded', true);
+        $('.ChildMenuList[data-module-id="' + modId + '"]').css('display', 'table-row');
+    });
+</script>
+
+<script>
+  $(function () {
+    const $first = $('.ParentMenuList').first();
+    if (!$first.length) return;
+
+    const modId = $first.data('module-id');
+    $first.attr('aria-expanded', true);
+
+    // Show its children without animation and keep table layout intact
+    $('.ChildMenuList[data-module-id="' + modId + '"]').css('display', 'table-row');
+  });
+</script>

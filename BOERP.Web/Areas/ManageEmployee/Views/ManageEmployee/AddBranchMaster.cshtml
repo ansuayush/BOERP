@@ -1,0 +1,143 @@
+﻿﻿
+@{
+    ViewBag.Title = "AddBranchMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center" ">
+        <a href="BranchMaster?auth=@ViewBag.Auth"><img src="~/../../assets/images/icons/help/back-icon.png" class="headingicon"></a>Create Branch <div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnBranchMasterId" />
+<div class="row">
+    <div class="col-md-12 form-group">
+        <div class="card br-none p-0 h-100">
+
+            @*<div class="card-header d-flex justify-content-between bg-none ">
+                    <h2 class="title-two align-self-center">Heading</h2>
+                    <div class="align-self-center"></div>
+                </div>*@
+
+            <div class="card-body view-form-group">
+                <div class="row">
+
+                    <div class="col-lg-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Branch ID<sup class="red-clr">*</sup></label>
+                        <input type="text" disabled class="form-control Mandatory" name="Branch ID" onchange="HideErrorMessage(this)" id="BranchUserId" placeholder="Branch ID">
+                        <span id="spBranchUserId" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class=" form-group col-lg-3">
+
+                        <label for="Lead Details" class="form-control-label">Branch Name<sup class="red-clr">*</sup></label>
+                        <input type="text" disabled class="form-control Mandatory" name="Branch Name" onchange="HideErrorMessage(this)" id="BranchName" placeholder="Branch Name">
+                        <span id="spBranchName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                    </div>
+                    <div class=" form-group col-lg-3">
+                        <label for="Lead Details" class="form-control-label">Email<sup class="red-clr">*</sup></label>
+                        <input type="text" disabled class="form-control Mandatory" name="Email" onchange="HideErrorMessage(this)" id="email" placeholder="Email" onchange="validateEmailInput(this)">
+                        <span id="spemail" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class=" form-group col-lg-3">
+                        <label for="Lead Details" class="form-control-label">Phone</label>
+                        <input type="text" disabled class="form-control" name="Phone" maxlength="10" id="phoneno" onchange="HideErrorMessage(this)" placeholder="Phone" onchange="validatePhoneInput(this)">
+                        <span id="spphoneno" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class=" form-group col-lg-3">
+                        <label for="Lead Details" class="form-control-label">Password<sup class="red-clr">*</sup></label>
+                        <input type="password" disabled id="password" class="form-control Mandatory" onchange="HideErrorMessage(this)" placeholder="Password">
+                        <span id="sppassword" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        <i class="toggle-password fa fa-fw fa-eye-slash"></i>
+                    </div>
+
+                    <div class=" form-group col-lg-3">
+                        <label for="Lead Details" class="form-control-label">Reporting Manager <sup class="red-clr">*</sup></label>
+                        <select class="form-control applyselect Mandatory" onchange="GetEmpDetails(this)" id="dldManager">
+                            <option value="Select">Select</option>
+                        </select>
+                        <span id="spdldManager" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+
+                    <div class=" form-group col-lg-3">
+                        <label for="Lead Details" class="form-control-label">EM Start Date<sup class="red-clr">*</sup></label>
+                        <input type="text" class="form-control Mandatory " onchange="HideErrorMessage(this)" autocomplete="off" placeholder="dd-mm-yyyy" id="dtStartDate">
+                        @*<div class="input-group">
+            <input type="text" class="form-control Mandatory datepicker" onchange="HideErrorMessage(this)" autocomplete="off" placeholder="dd-mm-yyyy" id="dtStartDate">
+            <div class="input-group-append">
+                <span class="input-group-text bg-white d-border"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+            </div>
+        </div>*@
+                        <span id="spdtStartDate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+
+                    <div  class=" form-group col-lg-3">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-6 wf-575">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">
+                                        In Time <sup class="red-clr">*</sup>
+                                    </label>
+                                    <input type="time" id="dtInTime" class="form-control Mandatory" onchange="HideErrorMessage(this)" name="" placeholder="Enter">
+                                    <span id="spdtInTime" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-6 wf-575">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">
+                                        Out Time <sup class="red-clr">*</sup>
+                                    </label>
+                                    <input type="time" id="dtOutTime" class="form-control Mandatory" onchange="HideErrorMessage(this)" name="" placeholder="Enter">
+                                    <span id="spdtOutTime" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<footer class="footer-action-btn">
+    <!--  <button type="submit" class="btn btn-primary"><i class="fa fa-save	" aria-hidden="true"></i> Submit</button> -->
+    <a href="~/ManageEmployee/BranchMaster?auth=@ViewBag.Auth">
+        <button type="button" class="btn btn-lg  cancelbtn">
+            CANCEL
+        </button>
+    </a>
+
+    <button type="button" class="btn  btn-lg  actionbtn" " onclick="SaveBranchCategory()">
+        Save
+    </button>
+</footer>
+
+<script type="text/javascript">
+    var Edit_ID = "@ViewBag.EditId";
+    console.log("Edit Id" + Edit_ID);
+</script>
+
+<script type="text/javascript">
+    $(".toggle-password").click(function () {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        input = $(this).parent().find("input");
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        } 
+    });
+</script>
+
+<script src="~/Areas/ManageEmployee/DevScript/AddBranchDetails.js"></script>

@@ -1,0 +1,185 @@
+/* Primary & Secondary Colors */
+:root {
+    --primary-color: #6B54C8;
+    --secondary-color: #ECBF5F;
+    --tertiary-color: #54C86B;
+    --secondary-two-color: #44488C;
+    --active-primary-color: #6b54c1;
+    /* Neutral Colors */
+    --secondary-neutral-light: #F2F2F2;
+    --neutral-light: #F7F8FC;
+    --neutral-white: #FFFFFF;
+    --neutral-black: #000;
+    /* Accent Colors */
+    --accent-red: #FF3B30;
+    --accent-green: #58E291;
+    /* Status */
+
+    --green-status: #34C759;
+    /* Status */
+    --status-passed: #FFE5E5;
+    --status-completed: #D9FFE1;
+    --status-blue-charcoal: #212529;
+    --error: #EC1414;
+    /* Status Light bg */
+    --status-light-p: #FFF6DA;
+    --status-light-r: #FFE5E5;
+    --status-light-c: #D9FFE1;
+    /* Shades of Black */
+    --black-dark: #212529;
+    --black-medium: #333333;
+    --black-light: #4F4F4F;
+    --black-gray-dark: #828282;
+    --black-gray-light: #BDBDBD;
+    --secondary-black-gray-light: #F3F4F6;
+    --arrow-bg: #DFE4EA;
+    --input-group-bg: #EDEDED;
+    /* border color */
+    --color-border: #EDEDED;
+    --secondary-border-color: #e5e7eb;
+    --form-control-border: #4F4F4F;
+    --color-border-two: #DBDDE0;
+    /* width  */
+    --gap-0: 0px;
+    --gap-5: 5px;
+    --gap-7: 7px;
+    --gap-8: 8px;
+    --gap-10: 10px;
+    --gap-15: 15px;
+    --gap-17: 17px;
+    --gap-20: 20px;
+    --gap-25: 25px;
+    --gap-30: 30px;
+    --gap-32: 32px;
+    --gap-35: 35px;
+    --gap-36: 36px;
+    --gap-40: 40px;
+    --gap-45: 45px;
+    --gap-50: 50px;
+    --gap-55: 55px;
+    --gap-60: 60px;
+    --gap-65: 65px;
+    --gap-70: 70px;
+    --gap-75: 75px;
+    --gap-80: 80px;
+    --gap-85: 85px;
+    --gap-90: 90px;
+    --gap-95: 95px;
+    --nav-width: 92px;
+    --gap-100: 100px;
+    --gap-105: 105px;
+    --gap-110: 110px;
+    --gap-115: 115px;
+    --gap-120: 120px;
+    --gap-125: 125px;
+    --gap-130: 130px;
+    --gap-135: 135px;
+    --gap-140: 140px;
+    --gap-145: 145px;
+    --gap-150: 150px;
+    --gap-200: 200px;
+    --gap-250: 250px;
+    --gap-300: 300px;
+    /*  full and vh */
+    --full: 100%;
+    --vh: 100vh;
+    /* font size  */
+    --font-size-10: 10px;
+    --font-size-12: 12px;
+    --font-size-13: 13px;
+    --font-size-14: 14px;
+    --font-size-16: 16px;
+    --font-size-18: 18px;
+    --font-size-20: 20px;
+    --font-size-24: 24px;
+    --font-size-28: 28px;
+    --font-size-32: 32px;
+    --font-size-38: 38px;
+    /* font weight */
+    --font-weight-400: 400;
+    --font-weight-500: 500;
+    --font-weight-600: 600;
+    --font-weight-700: 700;
+    --font-weight-800: 800;
+    --font-weight-900: 900;
+    /* radius */
+    --radius-5: 5px;
+    --radius-8: 8px;
+    --radius-12: 12px;
+    --radius-10: 10px;
+    --radius-20: 20px;
+    --radius-24: 20px;
+    --radius-30: 30px;
+    --radius-40: 40px;
+    /* auto */
+    --auto: auto;
+    /* zero */
+
+    --zero: 0px;
+    /* td bg */
+    --td-bg: #F9F9F9;
+    --label-color: #333333;
+    --select-active-bg: #FFF6DA;
+    --select-active-clr: #E8B931;
+    /* menu css */
+    --active-menu-bg: #6B54C826;
+    /* width */
+    --width-10: 10px;
+    --width-14: 14px;
+    --width-16: 16px;
+    --width-20: 20px;
+    --width-30: 30px;
+    --width-40: 40px;
+    --width-46: 46px;
+    --width-50: 50px;
+    --width-60: 60px;
+    --width-70: 70px;
+    --width-80: 80px;
+    --width-90: 90px;
+    --width-100: 100px;
+    --width-110: 110px;
+    --width-120: 120px;
+    --width-130: 130px;
+    --width-140: 140px;
+    --width-150: 150px;
+    --width-160: 160px;
+    --width-170: 170px;
+    --width-180: 180px;
+    --width-190: 190px;
+    --width-200: 200px;
+    --width-210: 210px;
+    --width-220: 220px;
+    --width-230: 230px;
+    --width-240: 240px;
+    --width-250: 250px;
+    --width-260: 260px;
+    --width-270: 270px;
+    /* Height */
+    --height-46: 46px;
+    --height-72: 72px;
+    --height-100: 100px;
+    --height-180: 180px;
+    /* Top Header Shadow */
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    /* border radius */
+    --radius-5: 5px;
+    --radius-8: 8px;
+    --radius-10: 10px;
+    --radius-15: 15px;
+    --radius-16: 16px;
+    --radius-20: 20px;
+    --radius-25: 25px;
+    --radius-30: 30px;
+    --radius-35: 35px;
+    --radius-40: 40px;
+    --radius-45: 45px;
+    --radius-50: 50px;
+    --radius-100: 100px;
+    --third-light-bg: #F6F6F6;
+    --four-light-bg: #C8C7CC;
+    --bg-thrid: #CCCEEE;
+}

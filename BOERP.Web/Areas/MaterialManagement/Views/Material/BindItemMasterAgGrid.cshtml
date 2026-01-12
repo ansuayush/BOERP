@@ -1,0 +1,431 @@
+﻿
+@{
+    ViewBag.Title = "ItemMasterList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+        background-color: #44488c !important;
+    }
+
+    #customLoader {
+        background: rgba(0, 0, 0, 0.7) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding: 0px 5px !important;
+    }
+
+    .ag-header-group-cell-label, .ag-cell-label-container {
+        padding: 0px 0px !important;
+    }
+
+    #customLoader img {
+        width: 40px;
+        height: 40px
+    }
+
+    .ag-text-field-input {
+        color: #000 !important;
+        font-size: 10px !important
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        display: none;
+        width: auto;
+        z-index: 1000;
+        overflow: inherit !important;
+    }
+
+        .custom-alert .modal-body {
+            padding-bottom: 0px;
+            overflow: scroll;
+            height: 400px;
+            overflow-x: hidden;
+        }
+
+    .custom-lg {
+        width: 630px;
+        background: #fff;
+        font-size: 10px;
+        border-radius: 8px
+    }
+
+    .custom-alert table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .custom-alert th {
+        background: #2f3261;
+        color: #fff;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 2px 5px !important;
+        text-align: left;
+        word-break: break-all;
+        vertical-align: top;
+        line-height: 25px;
+        font-size: 12px;
+        text-transform: lowercase;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+</style>
+<ul class="tablink">
+    <li><a href="/MaterialManagement/Material/StockStatement?auth=@ViewBag.Auth" class="nav-link  ">Stock Statement</a></li>
+    <li><a href="/MaterialManagement/Material/StockLedger?auth=@ViewBag.Auth" class="nav-link ">Stock Ledger</a></li>
+    <li><a href="/MaterialManagement/Material/BindItemMasterList?auth=@ViewBag.Auth" class="nav-link active">Item Master</a></li>
+
+</ul>
+
+<!--  -->
+<!-- Open -->
+
+<fourbox-widgets></fourbox-widgets>
+<div class="overlay" id="overlay"></div>
+<div class=" modal custom-alert" id="customAlert">
+    <div class="custom-lg">
+        <div class="modal-header">
+            <h2 class="modal-title">Empty Columns</h2>
+            <img src="~/assets/images/icons/help/close-icon.png" onclick="closeAlert()" class="closeicon" data-dismiss="modal" />
+        </div>
+        <div class="modal-body">
+            <div id="alertContent"></div>
+        </div>
+
+
+
+        <div class="text-center modal-footer"> <button onclick="closeAlert()" class="btn btn-lg cancelbtn mt-2">Close</button></div>
+    </div>
+</div>
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h5 class="title-two m-0 align-self-center">Item Master <img src="~/assets/images/icons/help/info-icon.png" alt="info icon" class="icon-sm" data-toggle="tooltip" title="This page shows list of all items"></h5>
+    <div class="align-self-center gap-10 d-flex">
+        <a href="#" class="btn border-r-8" data-toggle="tooltip" onclick="ExportItemsData();" title="Download"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+        @*<a href="#" data-toggle="tooltip" onclick="SelectUploadDocument();" title="Import" class="btn border-r-8">
+            <img src="~/assets/images/icons/help/filter/import-icon.svg" class="btn-icon m-0">
+            </a>*@
+        <a href="" class="btn border-r-8" data-toggle="modal" data-target="#upload">
+            <img data-toggle="tooltip" title="Upload" src="~/assets/images/icons/help/filter/import-icon.svg" class="btn-icon m-0" data-original-title="Import">
+        </a>
+        @*<a href="#" data-toggle="tooltip" title="Share"  class="btn border-r-8"><img src="~/assets/images/icons/help/filter/export-icon.svg" class="btn-icon m-0"></a>*@
+
+        <a href="/MaterialManagement/Material/ItemMaster?auth=@ViewBag.Auth&itemId=0" class="btn mr-2 actionbtn border-r-8"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Add Item</a>
+    </div>
+</div>
+<div class="modal" id="modelError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Error</h2>
+                <img src="~/assets/images/icons/help/close-icon.png" class="closeicon" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <div class="section-container section-container-popup">
+                    <div id="tblMissingFields" style="width: 100%; display: none; ">
+                        <span>Column Validation</span>
+                        <table border="1" style="height: 200px; overflow: scroll; ">
+                            <tr>
+                                <th style="width:20%">Row No</th>
+                                <th>Empty Columns</th>
+                            </tr>
+                            <tbody id="data-table1"></tbody>
+                        </table>
+                    </div>
+                    <div id="tblDuplicateItems" style="width: 100%; display: none; overflow: scroll;" border="1">
+                        <span>Duplicate Items</span>
+                        <table id="tblDuplicateItems" border="1">
+                            <thead>
+                                <tr>
+                                    <th style="width:20%">Item Code</th>
+                                    <th>Item Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-table2"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        <div class="col-sm-2 form-group">
+            <label for="role">Category </label>
+            <select class="form-control applyselect Mandatory" id="ddlItemCategory" name="Category" onchange="OnchangeCategory()"></select>
+        </div>
+        <div class="col-sm-2 form-group">
+            <label for="role">Status </label>
+            <select class="form-control applyselect" id="ddlStatus" onchange="OnchangeStatus()">
+                <option value="0">All</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">InActive</option>
+            </select>
+        </div>
+
+        <div class="col-sm-2 form-group" style="display: none;">
+            <label for="role">Show/Hide Columns 1</label>
+            <select class="form-control border-r-8 multiple-checkboxes" multiple="multiple">
+                <option value="itemcode">Item Code</option>
+                <option value="itemname">Item Name	</option>
+                <option value="category">Category	</option>
+                <option value="currentstklevel">Current Stk. Level	</option>
+                <option value="currentstklevel">Current Stk. Level	</option>
+                <option value="safetystock">Safety Stock	</option>
+            </select>
+        </div>
+
+
+        <div class="col-lg-2 col-md-4 col-sm-4 form-group">
+            <label for="role"></label>
+            <button class="btn btn-success" id="exportExcel">Download Excel</button>
+            <button class="btn btn-danger" id="exportPDF" style="display:none;">Download PDF</button>
+
+        </div>
+
+        <div class="col-sm-2 ml-auto form-group">
+
+            <div class="searchbox">
+                <label style="" for="role"></label>
+                <div class="search w-300">
+                    <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                    <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--  -->
+    <!-- Export Buttons and Controls -->
+    <div class="mb-2 d-flex justify-content-between">
+        <div class="row">
+            <button class="btn btn-success" id="exportExcel">Download Excel</button>
+            <button class="btn btn-danger" id="exportPDF" style="display:none;">Download PDF</button>
+
+        </div>
+        <div class="d-flex align-items-center gap-10">
+            <label for="pageSize">Show</label>
+            <select id="pageSize" class="form-control d-inline-block w-auto">
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="75">75</option>
+                <option value="100">100</option>
+            </select>
+            <label for="pageNumber">Go to Page:</label>
+            <input type="number" id="pageNumber" class="form-control d-inline-block w-auto" style="width: 80px;" min="1">
+            <button class="btn btn-secondary" id="goToPage">Go</button>
+        </div>
+    </div>
+
+
+    <!--  -->
+    <div class="">
+        <!-- Global Search -->
+        <div class="row">
+            <div class="col-sm-2 ml-auto form-group">
+
+                <div class="searchbox">
+                    <div class="search w-300">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Grid with Scrollable Area -->
+        <div id="myGrid" class="ag-theme-balham" style="height: 600px; width: 100%; overflow-x: auto;"></div>
+
+
+        <button id="prevPage">Previous</button>
+        <button id="nextPage">Next</button>
+        <span id="pageIndicator"></span>
+
+
+
+
+        <!--  -->
+    </div>
+    <!--  -->
+
+</div>
+<div class="modal uploaddgn" id="upload">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-center w-100">Upload</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="section-container section-container-popup">
+                    <div class="fileuploadview drag-area">
+
+                        <div class="uploadicon_text file-input-button">
+                            <div class="uploadtext drag-file ">
+
+                                <h4>Drag & Drop the Excel File <span class="d-block">OR</span> Click here to Select File</h4>
+                                <span class="error error-center">The file size should be between 0kb upto 2 MB,</span>
+                            </div>
+                        </div>
+                        <input type="file" onchange="UploadExcel();" id="fileUpload" class="file-input hidden" accept=".xls,.xlsx">
+                        <div class="document-images single-attach"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*<span id="uploadedRecordsCount">Uploaded Records: 0</span>*@
+                <button type="button" class="btn btn-lg cancelbtn" data-dismiss="modal">Cancel</button>
+                <button type="button" style="display:none;" id="btnExcelUpload" onclick="SaveUploadDocument();" class="btn btn-lg actionbtn" data-dismiss="modal">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Popup Modal for File Limit -->
+<div id="fileLimitPopup" class="popup-modal">
+    <div class="popup-content">
+        <p id="popup-message"></p>
+        <button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+    </div>
+</div>
+
+<style>
+    #globalSearch {
+        display: none
+    }
+
+    .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+        transition: opacity 0.2s;
+        opacity: 1;
+        color: #fff;
+    }
+
+    .ag-icon::before {
+        color: #fff;
+    }
+
+    .ag-theme-balham .ag-header-cell-label {
+        white-space: normal; /* Allow wrapping in header text */
+    }
+
+    .ag-theme-balham {
+        overflow-x: auto; /* Avoid extra whitespace */
+    }
+
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding-left: var(--ag-cell-horizontal-padding);
+        padding-right: var(--ag-cell-horizontal-padding);
+        background: #44488c;
+        color: #fff !important
+    }
+
+    .ag-icon-filter {
+        font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+        font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+        color: #ffffff !important;
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 1000;
+    }
+
+        .custom-alert table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-alert th {
+            background-color: #f2f2f2;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+
+    .ag-icon.ag-icon-previous::before {
+        content: "\f104"; /* Font Awesome: fa-angle-left */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .ag-icon.ag-icon-next::before {
+        content: "\f105"; /* Font Awesome: fa-angle-right */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+</style>
+
+ 
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/ItemMasterAgGrid.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/ItemUpload.js"></script>
+<!-- ✅ jsPDF classic build (non-UMD) -->

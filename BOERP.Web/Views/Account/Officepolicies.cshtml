@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Employee.OfficePolicy>
+
+@{
+    string src = ViewBag.src;
+    if (ViewBag.Mobile == "Mobile")
+    {
+        Layout = "~/Views/Shared/_MLayoutPage.cshtml";
+    }
+    else if (ViewBag.Mobile == "IOSMobile")
+    {
+        Layout = "~/Views/Shared/_IOSLayout.cshtml";
+    }
+}
+<div class="mb-100">
+    <div class="inner-main mb-5 iso-container default-height">
+        <div class="row">
+            <div class="col-sm-5 align-self-center">
+                <h1 class="heading-one mb-0" style="font-size: 18px;">Office Policies</h1>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-3">
+                    <a href="@item.FileUrl" download="@item.ActualFileName" class="box-classic">
+                        <div class="box-classic-icon">
+                            <i class="fad fa-file-alt"></i>
+                        </div>
+                        <h2>
+                            <p class="title ellipsis-td">@item.DocumentName</p>
+                        </h2>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,223 @@
+﻿
+@model IList<SahajFramework.Models.UserMan.List>
+
+@{
+    ViewBag.Title = "UserList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div>
+    @Html.Partial("ListHeader_Partial", "User List")
+
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="card p-0">
+                <div class="card-body">
+
+                    <div class="x_content table-currency mt-0">
+
+                        <div class="table-responsive">
+                            <table id="datatable-buttons" class="table mt-0 table-striped table-bordered dt-responsive nowrap tbltick new_width" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">S.no.</th>
+                                        <th>User Type</th>
+                                        <th>User ID</th>
+                                        <th>Role Name</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Inserted Date</th>
+                                        <th>Updated Date</th>
+                                        <th>IP Address</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                    <tr class="searchbar">
+                                        <th class="searchhide"></th>
+                                        <th class="searchhide"></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th> </th>
+                                        <th> </th>
+                                        <th> </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    @{ int Count = 0;}
+                                    @foreach (SahajFramework.Models.UserMan.List item in Model)
+                                    {
+                                        Count++;
+                                        <tr class="@(item.IsActive == true?"": "trrowred")">
+                                            <td class="text-center">@Count</td>
+                                            <td> @item.UserType</td>
+                                            <td> @item.user_name</td>
+                                            <td> @item.RolesName</td>
+                                            <td> @item.full_name</td>
+                                            <td> @item.email</td>
+                                            <td>@item.createdat</td>
+                                            <td>@item.modifiedat</td>
+                                            <td>@item.IPAddress</td>
+                                            <td class="text-center">
+                                                <input type="hidden" name="I" value="@item.ID" />
+                                                <input type="hidden" name="N" value="@item.user_name" />
+                                                @if (clsApplicationSetting.GetSessionValue("Modify") == "True")
+                                                {
+                                                    @Html.Raw(item.IsActive == true
+                                                   ? "<a  data-toggle='tooltip' data-original-title='Click to DeActivate' list='userslist' OP='0' class='AIsActive' > <i class='fa fa-check-circle checkgreen' aria-hidden='true'></i></a>"
+                                                   : "<a data-toggle='tooltip' data-original-title='Click to Activate' list='userslist' OP='1'  class='AIsActive' > <i class='fa fa-times-circle crossred' aria-hidden='true'></i></a>")
+
+                                                    <a title="Edit" onclick="ListHeaderAdd(@item.ID);" data-toggle='tooltip'><i class="fas fa-edit checkgreen" aria-hidden="true"></i> </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade pop-dgn" id="ViewModal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header blk-gdn-btn">
+                <h4 class="modal-title"><i class="fas fa-print"></i>Add User </h4>
+                <div class="close" data-dismiss="modal">&times;</div>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="TagetDiv"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/assets/js/jquery-3.6.0.min.js"></script>
+<script src="~/assets/js/jquery-ui.min.js"></script>
+<script src="~/CommonJS/Common.js"></script>
+<script src="~/assets/js/popper.min.js"></script>
+<script src="~/assets/js/bootstrap.min.js"></script>
+<script src="~/assets/js/AddInit.js"></script>
+<script src="~/assets/js/ToolTip.js"></script>
+<script>
+
+
+ function ListHeaderAdd(ID) {
+        if (ID == undefined)
+        {
+            ID = 0;
+     }
+     $("#TagetDiv").empty();
+     $("#TagetDiv").html('');
+     $("#ViewModal").modal("show");
+
+     $('#ddRoleIDs').change(function () {
+         GetRolesValue()
+     });
+
+     var UserType = $("#UserType").find("option:selected").val();
+
+     if (UserType != "") {
+         FillUsers();
+     }
+     $(".applyselect").select2();
+     var form = $("form")
+         .removeData("validator")
+         .removeData("unobtrusiveValidation");
+     $.validator.unobtrusive.parse(form);
+			@*$.ajax({
+                url: "/Tools/_AddUser",
+				type: "Get",
+				data: { src: EncryptQueryStringJSON(@ViewBag.MenuID+"*" + "/Tools/_AddUser" + "*" + ID) },
+                success: function (data)
+                {
+					$("#TagetDiv").empty();
+                    $("#TagetDiv").html(data);
+                    $("#ViewModal").modal("show");
+
+                    $('#ddRoleIDs').change(function () {
+                        GetRolesValue()
+                    });
+
+                    var UserType = $("#UserType").find("option:selected").val();
+
+                    if (UserType!="") {
+                        FillUsers();
+                    }
+                    $(".applyselect").select2();
+                     var form = $("form")
+                .removeData("validator")
+                .removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse(form);
+				},
+				error: function (er) {
+					alert(er);
+
+				}
+			});*@
+      }
+
+
+        function OnActionSuccess(obj) {
+            if (obj.Status) {
+                SuccessToaster(obj.SuccessMessage);
+                window.location.href = obj.RedirectURL;
+            }
+            else {
+                CloseLoadingDialog();
+                FailToaster(obj.SuccessMessage);
+
+            }
+        }
+
+
+        function GetRolesValue() {
+            var ddRoleIDs = $("#ddRoleIDs").val();
+            $("#RoleIDs").val(ddRoleIDs);
+        }
+
+        function FillUsers(obj) {
+            var UserType = $("#UserType").find("option:selected").val();
+            var data = GetDropDownData(0, UserType);
+            if (data) {
+                $("#ddCandidiate").empty();
+                $("#ddCandidiate").append($("<option  />").val("").text("Select"));
+                $(data).each(function () {
+                    $("#ddCandidiate").append($("<option />").val(this.ExtraValue).text(this.Name));
+                    $("#ddCandidiate").select2();
+                });
+            } else {
+                $("#ddCandidiate").empty();
+                $("#ddCandidiate").append($("<option />").val("").text("Select"));
+            }
+            if ($("#user_name").val() != "") {
+                $("#ddCandidiate").val($("#user_name").val()).trigger('change');
+            }
+        }
+
+
+        function MakeSelected(obj)
+        {
+                var a = $(obj).find("option:selected").val();
+                if (a) {
+                    $("#user_name").val(a);
+                }
+          }
+</script>
+

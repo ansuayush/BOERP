@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "OrderDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="/ManageOrder/Index?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Enter Orde    </h1>
+    <div class="align-self-center"></div>
+</div>
+<div class="row">
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Client Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Customer</label>
+                        <input type="text" class="form-control" placeholder="Walid Daniel Dib" readonly>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Currency</label>
+                        <input type="text" class="form-control" placeholder="INR" readonly>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Brand</label>
+                        <select class="form-control applyselect">
+                            <option value="" selected="">Lorem Ipsum</option>
+                            <option value="">Lorem Ipsum 1</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Basic Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label>Order For</label>
+                        <select class="form-control applyselect">
+                            <option value="" selected="">Aaryan Singh</option>
+                            <option value="">Aaryan Singh 1</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>Fragrance</label>
+                        <input type="text" class="form-control" placeholder="as per approved sample">
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Order For</label>
+
+                        <ul class="list-unstyled flex-wrap d-flex gap-10 mb-0">
+
+                            <li class="check-list-item">
+                                <input type="checkbox" id="domestic" name="type" value="">
+                                <label for="domestic">Domestic</label>
+                            </li>
+                            <li class="check-list-item">
+                                <input type="checkbox" id="international" class="checkselect" name="type" value="">
+                                <label for="international">International</label>
+                            </li>
+
+
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Items Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive">
+                    <table class="display rstable dgntable dataTable no-footer radius-0 " style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th width="100px">Action</th>
+                                <th width="200px">Item Name</th>
+                                <th width="100px">Size</th>
+                                <th width="100px">Qty</th>
+                                <th width="100px">Qty Unit</th>
+                                <th width="200px">Bottle/Cap/Pump</th>
+                                <th width="120px">RM Price (per kg)</th>
+                                <th width="120px">Label Price</th>
+                                <th width="120px">M. Carton Price</th>
+                                <th width="120px">L & C Price</th>
+                                <th width="120px">Margin</th>
+                                <th width="150px">Selling Price (per ₹)</th>
+                                <th width="120px">Unit</th>
+                                <th width="120px">Order Value</th>
+                                <th width="120px">MRP (₹)</th>
+                                <th width="120px">MRP/ml (₹)</th>
+                                <th width="120px">Shrink Price</th>
+                                <th width="120px">Shipper Price</th>
+                                <th width="150px">PM Wastage Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ingredientTable">
+                            <tr>
+                                <td class="text-center"><div onclick="addRow(this);" class="cursor-pointer"><img src="../../assets/images/icons/help/add.svg" alt="" /></div></td>
+                                <td>
+                                    <select class="form-control applyselect">
+                                        <option value="" selected>Material 1</option>
+                                        <option value="">Material 2</option>
+                                        <option value="">Material 3</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" placeholder="Enter"></td>
+                                <td><input type="number" class="form-control" placeholder="0"></td>
+                                <td>Pcs</td>
+                                <td><input type="text" class="form-control" placeholder="Enter"></td>
+                                <td><input type="number" class="form-control" placeholder="0"></td>
+                                <td><input type="number" class="form-control" placeholder="0"></td>
+                                <td><input type="number" class="form-control" placeholder="0"></td>
+                                <td><input type="number" class="form-control" placeholder="0"></td>
+                                <td><input type="number" class="form-control" placeholder="0"></td>
+                                <td class="text-right">₹ 350.00</td>
+                                <td class="text-right">100</td>
+                                <td class="text-right">₹ 35000.00</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0 h-100">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Packaging Image</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="section-container section-container-popup">
+                    <div class="fileuploadview drag-area">
+                        <div class="uploadicon_text file-input-button">
+                            <div class="uploadicon">
+                                <img src="../../assets/images/icons/help/fileupload-icon.svg" alt="">
+                            </div>
+                            <div class="uploadtext drag-file">
+                                <h4>Drop files here or click to upload</h4>
+                                <h6>This is a dropzone, drop files or click to browse</h6>
+                                <span class="error">The file size should be between 20KB and 2MB,<br> with a maximum of 10 attachments.</span>
+                            </div>
+                        </div>
+                        <input type="file" class="file-input hidden" multiple />
+                        <div class="document-images"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0 h-100">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Purchase Order Image</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="section-container section-container-popup">
+                    <div class="fileuploadview drag-area">
+                        <div class="uploadicon_text file-input-button">
+                            <div class="uploadicon">
+                                <img src="../../assets/images/icons/help/fileupload-icon.svg" alt="">
+                            </div>
+                            <div class="uploadtext drag-file">
+                                <h4>Drop files here or click to upload</h4>
+                                <h6>This is a dropzone, drop files or click to browse</h6>
+                                <span class="error">The file size should be between 20KB and 2MB,<br> with a maximum of 10 attachments.</span>
+                            </div>
+                        </div>
+                        <input type="file" class="file-input hidden" multiple />
+                        <div class="document-images"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Remarks</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label>Production Remarks</label>
+                        <textarea class="form-control" placeholder="Enter"></textarea>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>Packaging Remarks</label>
+                        <textarea class="form-control" placeholder="Enter"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 align-self-end d-flex gap-10 justify-content-end text-right  mb-5">
+    <button type="" class="btn btn-lg  cancelbtn">CANCEL</button>
+    <button type="" class="btn  btn-lg  actionbtn">Submit</button>
+
+</div>

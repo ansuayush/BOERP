@@ -1,0 +1,391 @@
+/* Import the brand-color.css file */
+@import "colorguide.css";
+
+
+
+body {
+    font-family: "Montserrat", serif;
+}
+
+.login_detail {
+    width: 400px;
+    margin: 0px auto
+}
+
+.w-full {
+    width: 100%;
+}
+
+.object-cover {
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.h-full {
+    height: var(--vh);
+}
+
+.left-side {
+    width: 50%;
+    height: 97vh;
+}
+
+.right-side {
+    width: 50%;
+    background: var(--neutral-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.loginlogo .logo-sm {
+    width: 50px;
+}
+
+
+.loginlogo, .logintext {
+    text-align: center;
+}
+
+    .loginlogo img {
+        margin-bottom: 10px;
+    }
+
+    .loginlogo h2 {
+        font-size: 18px;
+    }
+
+.logintext {
+    font-size: var(--font-size-20);
+    color: var(--black-medium);
+}
+
+    .loginlogo h2, .logintext h3 {
+        font-weight: var(--font-weight-700);
+    }
+
+
+.loginlogo {
+    margin-bottom: var(--gap-30);
+}
+
+.logintext, .login-from {
+    margin-bottom: var(--gap-30);
+}
+
+
+    .logintext h3 {
+        margin-bottom: var(--gap-5);
+        font-size: 14px;
+    }
+
+    .logintext p {
+        font-size: var(--font-size-12);
+        font-weight: normal;
+    }
+
+.login-from {
+    width: 100%;
+}
+
+    .login-from label {
+        font-size: var(--font-size-12);
+        font-weight: normal;
+    }
+
+.loginbtn {
+    text-align: center;
+}
+
+.actionbtn {
+    width: 100%
+}
+
+.loginbtn .btn-lg {
+    padding: var(--gap-15) var(--gap-80) !important;
+    height: 50px;
+}
+
+
+/*  */
+
+::placeholder {
+    color: #BDBDBD !important;
+    opacity: 1; /* Firefox */
+}
+
+::-ms-input-placeholder { /* Edge 12 -18 */
+    color: #BDBDBD !important;
+}
+
+.overlay {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
+.left-side {
+    position: relative;
+}
+
+.form-control.error {
+    border: 1px solid var(--accent-red) !important;
+}
+
+.custom-field.one input + .placeholder {
+    padding: 12px 5px
+}
+
+.form-control {
+    padding:10px
+}
+
+.field-validation-error {
+    font-size:var(--font-size-12)
+}
+
+.select2-container--default .select2-selection--single, .multiselect.dropdown-toggle {
+    height: 50px !important;
+    padding:13px !important
+ 
+}
+
+.select2-selection__arrow {
+    top: 13px !important;
+}
+.input-group .form-control, .input-group-text {height: 50px;}
+
+
+    @media screen and (max-width: 8000px) and (min-width: 6001px) {
+        .input-group .form-control, .input-group-text {
+            height: 89px !important;
+            margin:0px;
+            
+            
+        }
+            .login_detail, .login-from, .loginbtn {
+            width: 80%
+        }
+
+        .logintext p {
+            width: 100%
+        }
+
+        .logo-sm {
+            width: 240px;
+        }
+
+        .loginlogo h2 {
+            font-size: 80px;
+            margin: 30px 0px 100px
+        }
+
+        .logintext h3 {
+            margin-bottom: var(--gap-15);
+            font-size: 50px;
+        }
+
+        .logintext p {
+            width: 100%;
+            font-size: 50px;
+        }
+
+        .login-from, .loginbtn {
+            margin: 0px auto;
+        }
+
+            .login-from label {
+                font-size: 45px;
+                font-weight: normal;
+                margin-bottom: 30px;
+            }
+
+            .login-from .form-control {
+                border: 1px solid var(--form-control-border);
+                border-radius: var(--radius-8) !important;
+                padding: 30px;
+                height: 180px;
+                color: var(--neutral-black) !important;
+                line-height: 18px;
+                font-weight: 400;
+                line-height: 25px;
+                text-align: left;
+                font-size: 25px !important;
+            }
+
+        .loginbtn {
+            padding-top: 40px
+        }
+
+            .loginbtn .btn-lg {
+                padding: 100px !important;
+                width: 100%;
+                font-size: 50px;
+            }
+    }
+
+    @media screen and (max-width: 8000px) and (min-width: 3001px) {
+
+        .login_detail {
+            width: 1000px;
+            margin: 0px auto;
+        }
+
+        .loginlogo .logo-sm {
+            width: 170px;
+        }
+
+
+        .loginlogo h2 {
+            font-size: 50px;
+            margin-top: 30px;
+        }
+
+        .logintext h3 {
+            font-size: var(--font-size-35);
+        }
+
+        .logintext p, .login-from label, .login-from .form-control, .login-from .input-group-text, .login-from small {
+            font-size: var(--font-size-25);
+        }
+
+        .form-control {
+            padding: var(--gap-30);
+            margin-top: 20px;
+        }
+
+        .loginbtn .btn-lg {
+            padding: var(--gap-45) var(--gap-80) !important;
+        }
+
+        .actionbtn {
+            font-size: var(--font-size-25);
+        }
+
+        .login_detail .select2-container--default .select2-selection--single, .multiselect.dropdown-toggle {
+            height: 85px !important;
+            padding: 30px 21px !important;
+        }
+
+            .login_detail .select2-container--default .select2-selection--single .select2-selection__rendered {
+                font-size: 25px !important;
+            }
+    }
+
+    @media screen and (max-width: 3000px) and (min-width: 2501px) {
+
+        .loginlogo .logo-sm {
+            width: 120px;
+        }
+
+
+        .loginlogo h2 {
+            font-size: 30px;
+        }
+
+        .logintext h3 {
+            font-size: var(--font-size-25);
+        }
+
+        .logintext p, .login-from label, .login-from .form-control, .login-from .input-group-text, .login-from small {
+            font-size: var(--font-size-16);
+        }
+
+        .form-control {
+            padding: var(--gap-20);
+        }
+
+        .loginbtn .btn-lg {
+            padding: var(--gap-35) var(--gap-80) !important;
+        }
+
+        .actionbtn {
+            font-size: var(--font-size-20);
+        }
+
+
+        .login_detail .select2-container--default .select2-selection--single, .multiselect.dropdown-toggle {
+            height: 65px !important;
+            padding: 20px 21px !important;
+        }
+    }
+
+    @media screen and (max-width: 2500px) and (min-width: 1921px) {
+
+        .logintext h3 {
+            font-size: var(--font-size-25);
+        }
+
+        .logintext p, .login-from label, .login-from .form-control, .login-from .input-group-text, .login-from small {
+            font-size: var(--font-size-16);
+        }
+
+        .form-control {
+            padding: var(--gap-15);
+        }
+
+        .loginbtn .btn-lg {
+            padding: var(--gap-30) var(--gap-80) !important;
+        }
+
+        .actionbtn {
+            font-size: var(--font-size-18);
+        }
+    }
+
+    @media(max-width: 1100px) {
+        .login_detail, .opt_details {
+            width: 400px;
+        }
+    }
+
+    @media(max-width: 850px) {
+        .login_detail, .opt_details {
+            width: 350px;
+        }
+    }
+
+    @media(max-width: 799px) {
+        .left-side {
+            width: 100%;
+        }
+
+        .login-from-detail {
+            display: block !important;
+        }
+
+        .right-side {
+            width: 95%;
+            bottom: 0px;
+            z-index: 9999;
+            position: absolute;
+            padding: 0px 50px;
+            background: #fff;
+            border-radius: 40px 40px 0px 0px;
+            margin: 0px auto;
+            right: 0px;
+            left: 0px;
+            height: 570px;
+        }
+
+        .loginlogo .logo-sm {
+            width: 60px;
+        }
+
+        .loginlogo h2 {
+            font-size: 18px;
+        }
+
+        .opt_details {
+            width: 100%;
+        }
+
+        .login_detail {
+            width: 100%;
+        }
+    }
+

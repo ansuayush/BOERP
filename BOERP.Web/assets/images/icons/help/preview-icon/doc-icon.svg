@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="357.16px" height="454.04px" viewBox="0 0 357.16 454.04"
+	 style="enable-background:new 0 0 357.16 454.04;" xml:space="preserve">
+<font horiz-adv-x="2048">
+<!-- Roboto is a trademark of Google. -->
+<!-- Copyright: Copyright 2025 Adobe System Incorporated. All rights reserved. -->
+<font-face font-family="Roboto-Black" units-per-em="2048" underline-position="-150" underline-thickness="100"/>
+<missing-glyph horiz-adv-x="510"/>
+<glyph unicode="." horiz-adv-x="619" d="M473,0l-337,0l0,284l337,0z"/>
+<glyph unicode="D" horiz-adv-x="1338" d="M114,0l0,1456l526,0C811,1456 955,1400 1070,1289C1185,1177 1243,1034 1243,859l0,-262C1243,422 1185,278 1070,167C955,56 811,0 640,0M453,1196l0,-936l164,0C707,260 777,291 828,353C879,414 904,496 904,597l0,264C904,962 879,1043 828,1104C777,1165 707,1196 617,1196z"/>
+<glyph unicode="c" horiz-adv-x="1046" d="M558,239C603,239 637,251 659,276C681,301 692,337 692,385l309,0l2,-6C1006,261 965,165 881,91C796,16 689,-21 558,-21C394,-21 268,30 179,132C90,234 45,366 45,529l0,23C45,714 89,846 178,949C267,1051 392,1102 555,1102C692,1102 802,1064 884,987C966,910 1006,806 1003,674l-2,-6l-309,0C692,719 681,761 658,794C635,826 601,842 555,842C491,842 446,816 421,763C395,710 382,640 382,552l0,-23C382,438 395,367 421,316C446,265 492,239 558,239z"/>
+<glyph unicode="o" horiz-adv-x="1151" d="M51,551C51,714 97,846 189,949C281,1051 409,1102 574,1102C739,1102 868,1051 960,949C1052,846 1098,714 1098,551l0,-21C1098,367 1052,234 960,132C868,30 740,-21 576,-21C410,-21 281,30 189,132C97,234 51,367 51,530M389,530C389,439 403,368 432,317C460,265 508,239 576,239C642,239 689,265 718,317C747,369 761,440 761,530l0,21C761,639 747,710 718,763C689,816 641,842 574,842C507,842 460,815 432,762C403,709 389,638 389,551z"/>
+</font>
+
+	<path style="fill:#2F60AD;" d="M357.16,132.734V437.34c0,9.503-7.706,17.216-17.217,17.216H17.213
+	c-9.51,0-17.216-7.713-17.216-17.216V17.729c0-9.51,7.706-17.216,17.216-17.216h227.842L357.16,132.734z"/>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="244.9219" y1="66.6235" x2="356.9795" y2="66.6235">
+	<stop  offset="0" style="stop-color:#BAE0F7"/>
+	<stop  offset="1" style="stop-color:#97CDEF"/>
+	<a:midPointStop  offset="0" style="stop-color:#BAE0F7"/>
+	<a:midPointStop  offset="0.5" style="stop-color:#BAE0F7"/>
+	<a:midPointStop  offset="1" style="stop-color:#97CDEF"/>
+</linearGradient>
+<path style="fill:url(#SVGID_1_);" d="M244.922,115.365L245.235,0.36l111.744,132.527l-94.889-0.259
+	C252.58,132.602,244.896,124.875,244.922,115.365z"/>
+<text transform="matrix(1 0 0 1 46.7793 301.7578)" style="fill:#FFFFFF; font-family:'Roboto-Black'; font-size:136.4231;">.Doc</text>
+</svg>

@@ -1,0 +1,359 @@
+﻿
+@{
+	ViewBag.Title = "Item Master";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<a href="/MaterialManagement/Material/BindItemMasterList?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>@ViewBag.PH<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center">
+		<div class="d-flex justify-content-between align-items-center gap-10">
+
+		</div>
+	</div>
+</div>
+
+<div class="row">
+
+	<div class="col-sm-12">
+		<input type="hidden" id="hdnItemMasterId" />
+		<div class="card br-none p-0 col-default-bottom ">
+
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Item Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-md-3 form-group">
+						<label for="" class="readonlay">Item Code</label>
+						<input type="text" readonly class="form-control placeholder" value="SKU00021" name="itemcode" id="txtItemCode">
+					</div>
+
+					<div class="col-md-3 form-group">
+						<label for="">Item Name<sup>*</sup></label>
+						<input type="text" class="form-control" value="" name="itemname" id="txtItemName">
+					</div>
+
+					<div class="col-md-3 form-group ">
+						<label for="">HSN Code<sup>*</sup></label>
+						@*<select class="form-control applyselect"><option>Select</option></select>*@
+						<select class="form-control applyselect" id="ddlHSN" name="hsncode"></select>
+					</div>
+					<div class="col-md-3 form-group ">
+						<label for="">Status</label>
+						<div class="d-flex flex-wrap gap-10 mt-3">
+							<input type="radio" id="active" class="radio" name="status" value="Active">
+							<label for="active">Active</label>
+
+							<input type="radio" id="inactive" class="radio" name="status" value="Inactive">
+							<label for="inactive">Inactive</label>
+
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="">Item Description</label>
+						<textarea class="form-control " placeholder="Enter" id="txtDescription"> </textarea>
+					</div>
+					<div class="col-md-3 form-group ">
+						<label for="">Default Warehouse</label>
+						<select class="form-control applyselect">
+							<option>Default Warehouse 1</option>
+							<option>Default Warehouse 2</option>
+							<option>Default Warehouse 3</option>
+							<option>Default Warehouse 4</option>
+						</select>
+					</div>
+					<div class="col-md-3">
+
+						<label for="">Batch Applicable</label>
+						<div class="d-flex flex-wrap gap-10 mt-3">
+							<input type="radio" id="yes" class="radio" name="batchapplicable" value="Yes">
+							<label for="yes">Yes</label>
+
+							<input type="radio" id="no" class="radio" name="batchapplicable" value="No">
+							<label for="no">No</label>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 form-group">
+		<div class="card br-none p-0 col-default-bottom ">
+
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Categorization</h2>
+				<div class="align-self-center"></div>
+			</div>
+
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-md-6 form-group">
+						<label for="">Category*</label>
+						<select class="form-control applyselect" id="ddlCategory" name="Category" onclick="GetItemSubCategoryListById(this)"></select>
+					</div>
+					<div class="col-md-6 form-group">
+
+						<label for="">Sub Category*</label>
+						<select class="form-control applyselect" id="ddlSubCategory" name="SubCategory"></select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 form-group">
+		<div class="card br-none p-0 col-default-bottom ">
+
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Unit of Measure</h2>
+				<div class="align-self-center"></div>
+			</div>
+
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label for="">Base Unit<sup>*</sup></label>
+						<select class="form-control applyselect" id="ddlUnit" name="Unit"></select>
+					</div>
+
+					<div class="col-md-4 form-group">
+						<label for="">Alternate Unit</label>
+						<div class="input-group ">
+							<input type="text" class="form-control" value="" placeholder="0" id="txtAlternateUnit">
+							<div class="input-group-prepend">
+								<select class="form-control applyselect" id="ddlAlternateUnit" name="AlternateUnit"></select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 form-group">
+
+						<label for="">Conversion Factor<sup>*</sup></label>
+						<input type="text" class="form-control" placeholder="Enter" id="txtConversionFactor" name="conversionfactor">
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="col-md-6 form-group">
+		<div class="card br-none p-0 col-default-bottom ">
+
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Pricing</h2>
+				<div class="align-self-center"></div>
+			</div>
+
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-md-6 form-group">
+						<label for="">Tax Code</label>
+						<select class="form-control applyselect" id="ddlCharge" name="Charge"></select>
+					</div>
+
+					<div class="col-md-6 form-group">
+						<label for="">Tolerance %<sup>*</sup></label>
+						<input type="text" class="form-control" placeholder="Enter" id="txtTolerance" name="tolerance">
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-md-6 form-group">
+		<div class="card br-none p-0 col-default-bottom ">
+
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Inventory Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label for="">Min.Stock Level</label>
+						<input type="text" class="form-control" placeholder="Enter" id="txtMinStockLevel" name="minStockLevel">
+					</div>
+					<div class="col-md-4 form-group">
+						<label for="">Max.Stock Level</label>
+						<input type="text" class="form-control" placeholder="Enter" id="txtMaxStockLevel" name="maxStockLevel">
+					</div>
+					<div class="col-md-4 form-group">
+						<label for="">Safety Stock Level</label>
+						<input type="text" class="form-control" placeholder="Enter" id="txtSafetyStockLevel" name="safetyStockLevel">
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="col-md-12 form-group">
+		<div class="card br-none p-0 col-default-bottom ">
+
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Procurement Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-md-3 form-group ">
+						<label for="">Preferred Supplier</label>
+						<select class="form-control applyselect" id="ddlPreferredSupplier" name="hsncode"></select>
+					</div>
+					<div class="col-md-3 form-group">
+						<label for="">Lead Time</label>
+						<div class="input-group slctDrodown">
+							<input type="text" class="form-control" value="" placeholder="Enter" id="txtLeadTime">
+							<div class="input-group-prepend">
+								<select class="form-control applyselect" id="ddlLoadTime">
+									<option>D 1</option>
+									<option>D 2</option>
+									<option>D 3</option>
+									<option>D 4</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 form-group">
+						<label for="">Pack Size</label>
+						<input type="text" class="form-control" value="" name="" placeholder="Enter" id="txtPackSize">
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0  ">
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Upload</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-sm-4">
+						<label>Material Photo Upload</label>
+						<div class="section-container">
+							<div class="fileuploadview drag-area">
+								<div class="uploadicon_text file-input-button">
+									<div class="uploadicon">
+										<img src="../assets/images/icons/help/fileupload-icon.svg" alt="">
+									</div>
+									<div class="uploadtext drag-file">
+										<h4>Drop files here or click to upload</h4>
+										<h6>This is a dropzone, drop files or click to browse</h6>
+									</div>
+								</div>
+								<input type="file" id="fileupload" class="file-input hidden" />
+							</div>
+							<!-- Images groups - All the selected images will be shown here -->
+							<p class="hidden" id="filesize-error">
+								The file size should be less than 5mb
+							</p>
+							<p class="hidden" id="filetype-error">
+								The file should be an JPG, PDF, SVG, CSV
+							</p>
+							<!-- No document selected -->
+							<p class="hidden" id="input-empty-error"></p>
+							<!-- Showing all the files inside this list -->
+							<ul id="document-images"></ul>
+							<!-- <button class="document-prev-button hidden">BACK</button>
+							<button class="document-next-button hidden">Save</button> -->
+						</div>
+						<div class="text-center hidden">
+							<p>Files uploaded successfully</p>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<label>Material COA Upload</label>
+						<div class="section-container">
+							<div class="fileuploadview drag-area">
+								<div class="uploadicon_text file-input-button">
+									<div class="uploadicon">
+										<img src="../assets/images/icons/help/fileupload-icon.svg" alt="">
+									</div>
+									<div class="uploadtext drag-file">
+										<h4>Drop files here or click to upload</h4>
+										<h6>This is a dropzone, drop files or click to browse</h6>
+									</div>
+								</div>
+								<input type="file" id="fileupload" class="file-input hidden" />
+							</div>
+							<!-- Images groups - All the selected images will be shown here -->
+							<p class="hidden" id="filesize-error">
+								The file size should be less than 5mb
+							</p>
+							<p class="hidden" id="filetype-error">
+								The file should be an JPG, PDF, SVG, CSV
+							</p>
+							<!-- No document selected -->
+							<p class="hidden" id="input-empty-error"></p>
+							<!-- Showing all the files inside this list -->
+							<ul id="document-images"></ul>
+							<!-- <button class="document-prev-button hidden">BACK</button>
+							<button class="document-next-button hidden">Save</button> -->
+						</div>
+						<div class="text-center hidden">
+							<p>Files uploaded successfully</p>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<label>Attachment</label>
+						<div class="section-container">
+							<div class="fileuploadview drag-area">
+								<div class="uploadicon_text file-input-button">
+									<div class="uploadicon">
+										<img src="../assets/images/icons/help/fileupload-icon.svg" alt="">
+									</div>
+									<div class="uploadtext drag-file">
+										<h4>Drop files here or click to upload</h4>
+										<h6>This is a dropzone, drop files or click to browse</h6>
+									</div>
+								</div>
+								<input type="file" id="fileupload" class="file-input hidden" />
+							</div>
+							<!-- Images groups - All the selected images will be shown here -->
+							<p class="hidden" id="filesize-error">
+								The file size should be less than 5mb
+							</p>
+							<p class="hidden" id="filetype-error">
+								The file should be an JPG, PDF, SVG, CSV
+							</p>
+							<!-- No document selected -->
+							<p class="hidden" id="input-empty-error"></p>
+							<!-- Showing all the files inside this list -->
+							<ul id="document-images"></ul>
+							<!-- <button class="document-prev-button hidden">BACK</button>
+							<button class="document-next-button hidden">Save</button> -->
+						</div>
+						<div class="text-center hidden">
+							<p>Files uploaded successfully</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="col-md-12 align-self-end justify-content-right mb-5 text-right buttongroup mt-0">
+		<button type="button" class="btn btn-lg  cancelbtn" onclick="RedirectItemMasterList()">Cancel</button>
+		<button type="button" class="btn  btn-lg  actionbtn" onclick="SaveItemMaster()">@ViewBag.BT</button>
+
+	</div>
+</div>
+
+<script src="~/Areas/MaterialManagement/DevScript/ItemMaster.js"></script>

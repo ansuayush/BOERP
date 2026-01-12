@@ -1,0 +1,499 @@
+﻿
+@{
+	ViewBag.Title = "AddSample";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string loginIDs = clsApplicationSetting.GetSessionValue("LoginID");
+
+	string SampleText = "Add New Sample";
+
+	if (Convert.ToInt32(ViewBag.Edit_ID) > 0)
+	{
+		SampleText = "Edit Sample";
+	}
+	if (Convert.ToInt32(ViewBag.isDuplicate) > 0)
+	{
+		SampleText = "Modify Sample";
+	}
+}
+
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+
+		<a href="SampleIndex?auth=@ViewBag.Auth"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a>@SampleText<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center"></div>
+</div>
+<div class="row">
+	<div class="col-lg-12 form-group">
+
+		<div class="card br-none p-0">
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Sample Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-md-3 col-sm-6 form-group ">
+
+						<label for="" class="readonly">Sample Id<sup>*</sup></label>
+						<input type="text" id="sampledocseries" class="form-control readonlyfield" readonly="" value="" name="itemcode">
+					</div>
+
+					@if (ViewBag.isDuplicate == 1)
+					{
+						<div class="col-md-3 col-sm-6 form-group ">
+
+							<label for="" class="readonly">Previous Sample Id<sup>*</sup></label>
+							<input type="text" id="prev_sampledocseries" class="form-control readonlyfield" readonly="" value="@ViewBag.prev_sampId" name="itemcode">
+						</div>
+					}
+					else if (ViewBag.isDuplicate != 1 && ViewBag.Edit_ID > 0)
+					{
+						<div class="col-md-3 col-sm-6 form-group" id="view_prev_id" style="display: none;">
+
+							<label for="" class="readonly">Previous Sample Id<sup>*</sup></label>
+							<input type="text" id="prev_sampledocseries" class="form-control readonlyfield" readonly="" name="itemcode">
+						</div>
+					}
+
+					<div class="col-md-6 col-sm-4 form-group">
+						<label>Customer Name<sup>*</sup></label>
+						<select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlCustomer">
+						</select>
+						<span id="spddlCustomer" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+
+						@*<label>Customer Name <sup>*</sup></label>
+							<div class="autocomplete-wrapper pr">
+								<label for="ddlCustomer" class="search-label right">
+									<img src="../assets/images/icons/help/search-icon.png" class="icon-sm">
+								</label>
+								<input type="text" class="form-control searchlist pl-10 MandateStep5" id="ddlCustomer" placeholder="Enter" autocomplete="off" oninput="HideErrorMessage(this)">
+								<ul class="suggestions pa w-100" id="ddlCustomerList"></ul>
+								<span id="spddlCustomer" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+							</div>*@
+
+					</div>
+					<div class="col-md-3 col-sm-4 form-group">
+						<label>Brand Type</label>
+						<select class="form-control applyselect" disabled id="ddlBrand">
+						</select>
+					</div>
+					<div class="col-md-3 col-sm-4 form-group">
+						<label>Sample Type<sup>*</sup></label>
+						<select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlsampletype">
+						</select>
+						<span id="spddlsampletype" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-md-3 col-sm-4 form-group">
+						<label>Order Size<sup>*</sup></label>
+						<select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlOrderSize">
+						</select>
+						<span id="spddlOrderSize" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+
+					<div class="col-md-3 col-sm-4 form-group" style="display: none;">
+						<label>NBD/CRR<sup>*</sup></label>
+						<select class="form-control applyselect" id="isNBD" onchange="HideErrorMessage(this)">
+							<option value="Select">Select</option>
+							<option value="1">NBD</option>
+							<option value="0">CRR</option>
+						</select>
+						@*<span id="spisNBD" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>*@
+					</div>
+
+					<input type="hidden" id="hdnSampleId" value="0" />
+					<input type="hidden" id="hdnActualFileName" value="0" />
+					<input type="hidden" id="hdnNewFileName" value="0" />
+					<input type="hidden" id="hdnFileURL" value="0" />
+
+					<div class="col-md-3 col-sm-6 form-group ">
+
+						<label for="" class="readonly">Upload Payment Screenshot</label>
+						<input type="file" id="updFile" onchange="UploadocumentSampleReport(this.id)" class="form-control file-upload" readonly="" value="" name="">
+						<!-- Preview container -->
+						<div class="file-preview d-none"></div>
+
+					</div>
+					<div class="col-md-12"></div>
+
+					<div class="col-md-3 col-sm-6 form-group">
+						<input type="checkbox" id="internationalsample" name="type" value="">
+						<label for="internationalsample">International Sample</label>
+					</div>
+
+					<div class="col-md-3 col-sm-6 form-group">
+						<input type="checkbox" id="handover" onchange="SetAddressDefault()" class="checkselect" name="type" value="">
+						<label for="handover">Handover/Self Pickup</label>
+					</div>
+
+
+					<div class="col-md-3 col-sm-6 form-group">
+						<input type="checkbox" id="paidsample" class="checkselect" name="type" value="">
+						<label for="paidsample">Free Sample</label>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0">
+			<div class="card-header d-flex flex-wrap gap-10 justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Address Information</h2>
+				<div class="align-self-center">
+					<input type="checkbox" disabled checked id="sameas" name="type" value="">
+					<label for="sameas" class="m-0">Same as Customer's Profile</label>
+
+				</div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-md-3 col-sm-4 form-group">
+						<label>Select Address<sup>*</sup></label>
+						<select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlAddress">
+						</select>
+						<span id="spddlAddress" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3 col-ms-3 form-group" style="display: none;" id="viewAddress">
+						<label for="">Address</label>
+						<p id="txtAddressDet">
+
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12 form-group ">
+		<div class="card br-none p-0" id="viewListed">
+			<div class="card-header d-flex justify-content-between bg-none " id="checkUnlisted123">
+				<h2 class="title-two align-self-center" id="listedLabel">Enter Item Information</h2>
+				@if (ViewBag.Edit_ID > 0)
+				{
+					<div></div>
+
+				}
+				else
+				{
+
+					<div class="w-220" id="div_oiltype" style="display: none;">
+						<div class="d-flex align-items-center gap-10">
+							<label class="w-100">Item Type</label>
+							<select class="form-control applyselect" id="oil_type">
+
+								<option value="ul" selected>Add Unlisted Item</option>
+								<option value="l">Add Listed Item</option>
+								<option value="both">Add Both Item</option>
+
+							</select>
+						</div>
+					</div>
+
+
+				}
+			</div>
+			<div class="card-body view-form-group">
+				<div class="table-responsive sticky-responsive oilhide">
+					<table class="display stickyth  dgntable dataTable no-footer radius-0 itemsinformation">
+						<thead>
+							<tr>
+								<th width="50" class="text-center">Action</th>
+								<th width="150">Item Name</th>
+								<th width="150">Formulation Category</th>
+								<th width="100">Fragrance</th>
+								<th width="100">Colour</th>
+								<th width="120">Packaging Type</th>
+								<th width="120">Target Price/KG (₹)</th>
+								<th width="200">Requirement/Description</th>
+								<th width="200" class="text-left">Must have ingredients</th>
+								<th width="200" class="text-left">Must not have ingredients</th>
+								<th width="200" class="text-left">Upload PDF</th>
+
+							</tr>
+						</thead>
+						<tbody id="standardRows">
+							<tr class="standard_rows" id="S_0">
+								<td class="text-center"><div id="addrow" class="cursor-pointer"><img style="pointer-events: none;" src="../../assets/images/icons/help/add.svg" alt="" class="img-15" data-toggle="tooltip" title="Add" /></div></td>
+								<td>
+									<input type="text" id="itemname_0" oninput="HideErrorMessage(this)" class="form-control Mandate" value="" placeholder="Enter" />
+									<span id="spitemname_0" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+								</td>
+								<td>
+									<select class="form-control applyselect Mandate" onchange="HideErrorMessage(this)" id="ddlFormCate_0">
+									</select>
+									<span id="spddlFormCate_0" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+
+								</td>
+								<td>
+									<input type="text" id="fragrance_0" class="form-control Mandate" oninput="HideErrorMessage(this)" value="" placeholder="Enter" />
+									<span id="spfragrance_0" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+								</td>
+								<td>
+									<input type="text" id="colour_0" class="form-control Mandate" oninput="HideErrorMessage(this)" value="" placeholder="Enter" />
+									<span id="spcolour_0" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+								</td>
+								<td>
+									<select class="form-control applyselect Mandate" onchange="HideErrorMessage(this)" id="ddlPackagingType_0">
+									</select>
+									<span id="spddlPackagingType_0" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+								</td>
+								<td>
+									<input type="number" id="targetprice_0" maxlength="9" oninput="HideErrorMessage(this); SetZero(this)" class="form-control Mandate text-right" value="" placeholder="0.00" />
+									<span id="sptargetprice_0" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+								</td>
+								<td>
+									<input type="text" id="exactreq_0" maxlength="1000" class="form-control" value="" placeholder="Enter" />
+								</td>
+								<td>
+									<input type="text" id="mustingredients_0" maxlength="1000" class="form-control" value="" placeholder="Enter" />
+								</td>
+								<td>
+									<input type="text" id="mustnotingredients_0" maxlength="1000" class="form-control" value="" placeholder="Enter" />
+								</td>
+								<td>
+									<input type="hidden" id="hdnActualFileName_0" value="0" />
+									<input type="hidden" id="hdnNewFileName_0" value="0" />
+									<input type="hidden" id="hdnFileURL_0" value="0" />
+									<input type="file" id="uploadfile_0" onchange="UploadocumentSampleDetReport(this.id)" class="form-control file-upload" value="" placeholder="Enter" />
+
+									<div class="file-preview d-none"></div>
+
+								</td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<!--  OILS Sample  -->
+				<div class="table-responsive oil hide">
+					<table class="display rstable dgntable dataTable no-footer mt-2 radius-0 itemsinformation" id="toggleListed">
+						<thead>
+							<tr>
+								<th width="30" class="text-center">Action</th>
+								<th width="200">Item Name</th>
+								<th width="200">Formulation Category</th>
+								<th width="100">Target Price (₹)</th>
+								<th width="200">Requirement/Description</th>
+								<th width="200" class="text-left">Upload PDF</th>
+
+							</tr>
+						</thead>
+						<tbody id="oilRowsContainer">
+							<tr class="oil_listed" id="Ol_0">
+								<td class="text-center"><div id="addrowOL" class="cursor-pointer"><img style="pointer-events: none;" src="../../assets/images/icons/help/add.svg" alt="" class="img-15" data-toggle="tooltip" title="Add" /></div></td>
+								<td>
+
+									<div class="autocomplete-wrapper" style="position: relative;">
+										<label for="ddlI_0" class="search-label">
+											<img src="../../../assets/images/icons/help/search-icon.png" class="icon-sm" />
+										</label>
+										<input type="text" class="form-control searchlist MandateOL" id="ddlI_0" oninput="Getdata(this)" onchange=" HideErrorMessage(this)" onclick="Getdata(this)" placeholder="Type item..." autocomplete="off" />
+										<span id="spddlI_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										<ul id="globalSuggestionBox_0" class="suggestions"></ul>
+										<input type="hidden" id="ddlItem_0" />
+									</div>
+
+								</td>
+								<td>
+									<select class="form-control applyselect MandateOL" onchange="HideErrorMessage(this)" id="OLddlFormCate_0">
+									</select>
+									<span id="spOLddlFormCate_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+								</td>
+
+								<td>
+									<input type="number" maxlength="9" class="form-control text-right MandateOL" oninput="HideErrorMessage(this);SetZero(this)" id="OLtargetprice_0" value="" placeholder="0.00" />
+									<span id="spOLtargetprice_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+								</td>
+								<td>
+									<input type="text" id="exactreqOL_0" maxlength="1000" class="form-control" value="" placeholder="Enter" />
+								</td>
+								<td>
+									<input type="hidden" id="OLhdnActualFileName_0" value="0" />
+									<input type="hidden" id="OLhdnNewFileName_0" value="0" />
+									<input type="hidden" id="OLhdnFileURL_0" value="0" />
+									<input type="file" id="OLuploadfile_0" onchange="UploadocumentSampleDetReport(this.id)" class="form-control file-upload" value="" placeholder="Enter" />
+
+									<div class="file-preview d-none"></div>
+								</td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="col-lg-12 form-group " id="toggleDiv">
+		<div class="card br-none p-0">
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Unlisted Item Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="table-responsive ">
+					<!--  OILS Sample  -->
+					<div class="table-responsive" id="toggleDiv">
+						<table class="display rstable dgntable dataTable no-footer mt-2 radius-0 itemsinformation">
+							<thead>
+								<tr>
+									<th width="45" class="text-center">Action</th>
+									<th>Item Name</th>
+									<th width="200">Formulation Category</th>
+									<th width="120">Target Price (₹)</th>
+									<th width="200">Requirement/Description</th>
+									<th width="200" class="text-left">Upload PDF</th>
+
+								</tr>
+							</thead>
+							<tbody id="OilUnlistedRows">
+								<tr class="oil_unlisted" id="OUL_0">
+									<td class="text-center"><div id="addrowOUL" class="cursor-pointer"><img style="pointer-events: none;" src="../../assets/images/icons/help/add.svg" class="img-15" alt="" data-toggle="tooltip" title="Add" /></div></td>
+									<td>
+										<input type="text" oninput="HideErrorMessage(this)" id="OULitemname_0" class="form-control MandateOUL" value="" placeholder="Enter">
+										<span id="spOULitemname_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<select class="form-control applyselect MandateOUL" onchange="HideErrorMessage(this)" id="OULddlFormCate_0">
+										</select>
+										<span id="spOULddlFormCate_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+
+									<td>
+										<input type="number" min="-2147483648" max="2147483647" id="OULtargetprice_0" oninput="HideErrorMessage(this);SetZero(this)" class="form-control text-right MandateOUL" value="" placeholder="0.00" />
+										<span id="spOULtargetprice_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<input type="text" id="exactreqOUL_0" maxlength="1000" class="form-control" value="" placeholder="Enter" />
+									</td>
+									<td>
+										<input type="hidden" id="OULhdnActualFileName_0" value="0" />
+										<input type="hidden" id="OULhdnNewFileName_0" value="0" />
+										<input type="hidden" id="OULhdnFileURL_0" value="0" />
+										<input type="file" id="OULuploadfile_0" onchange="UploadocumentSampleDetReport(this.id)" class="form-control file-upload" value="" placeholder="Enter" />
+
+										<div class="file-preview d-none"></div>
+									</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0 ">
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Remarks</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group min-205">
+				<textarea id="txtRemarks" maxlength="1000" class="form-control h-cm" rows="5" placeholder="Enter"></textarea>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+<footer class="footer-action-btn ">
+
+	<button type="" onclick="RedirectToSamplePage()" class="btn btn-lg  cancelbtn">Cancel</button>
+	@*@if (ViewBag.Edit_ID == 0 || ViewBag.Edit_ID == null)
+		{
+		<button type="" class="btn  btn-lg  actionbtn">Modifacations</button>
+		}*@
+	<button type="button" id="btnSave" onclick="saveSampleDetails()" class="btn  btn-lg  actionbtn">Save</button>
+
+</footer>
+
+
+<script>
+
+        var Edit_ID = "@ViewBag.Edit_ID";
+
+        if (Edit_ID == 0) {
+            $('#viewListed').show();
+        }
+
+        var isDuplicate = "@ViewBag.isDuplicate";
+        var cust_id = "@ViewBag.customer_id";
+
+        var login_ID = "@loginIDs";
+
+        View_Id = 0;
+
+        $(document).ready(function () {
+
+
+            if (Edit_ID == 0 && isDuplicate == 0) {
+
+
+                $('#oil_type').change(function () {
+
+                    if ($(this).val() == 'ul') {
+                        $('#toggleDiv').show();
+                        $('#toggleListed').hide();
+                    }
+                    else if ($(this).val() == 'l') {
+                        $('#toggleDiv').hide();
+                        $('#toggleListed').show();
+                    }
+                    else {
+                        $('#toggleDiv').show();
+                        $('#toggleListed').show();
+                    }
+
+                });
+
+
+              $('#toggleDiv').hide();
+
+                $('#ddlsampletype').change(function () {
+
+                    var selectedText = $('#ddlsampletype').find("option:selected").text();
+
+                    if (selectedText == 'Oil') {
+
+                        $('#div_oiltype').show();
+
+                        $('#toggleDiv').show();
+                        $('#toggleListed').hide();
+                    }
+                    else {
+                        $('#div_oiltype').hide();
+
+                        $('#toggleDiv').hide();
+                        $('#toggleListed').hide();
+                    }
+                })
+            }
+            else {
+                $('#div_oiltype').hide();
+
+
+            }
+
+    });
+
+</script>
+
+<script src="~/Areas/ManageSample/DevScript/AddSample.js"></script>
+
+
+

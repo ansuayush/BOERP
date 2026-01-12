@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+
+
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Generic: Dashboard </title>
+	<meta name="title" content="Generic: Dashboard" />
+	<meta name="keywords" content="Generic: Dashboard" />
+	<meta name="description" content="Generic: Dashboard" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+	<link rel="shortcut icon" href="@Url.Content("~/assets/design/images/favicon.png")" type="image/x-icon">
+	<link rel="icon" href="@Url.Content("~/assets/design/images/favicon.png")" type="image/png" sizes="50x50">
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/stellarnav.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/icons.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/bootstrap.min.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/style.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/select2.min.css"))
+	@RenderSection("style", required: false)
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/custom.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/responsive.css"))
+
+</head>
+<body>
+
+	@*<div id="dvMaskFullpage" style="display: none;">
+		<div class="vertical-centered-box">
+			<div class="content">
+				<div class="loader-circle"></div>
+				<div class="loader-line-mask">
+					<div class="loader-line"></div>
+				</div>
+				@Html.CreateImage("favicon.png", "favicon", "")
+				<p>Loading ...</p>
+			</div>
+		</div>
+	</div>*@
+	<header class="fixed-top">
+		<div id="dvMaskFullpage" style="display: none;">
+			<div class="vertical-centered-box">
+				<div class="content">
+					<div class="loader-circle"></div>
+					<div class="loader-line-mask">
+						<div class="loader-line"></div>
+					</div>
+					@Html.CreateImage("favicon.png", "favicon", "")
+					<p>Loading ...</p>
+				</div>
+			</div>
+		</div>
+		<div class="l-header">
+			@*@Html.Partial("TopBar_Partial", TopMenuModal)*@
+			<div class="m-leftside"><strong><a onclick="ListDashAdd();"><i class="fas fa-arrow-left"></i> Back</strong></a></div>
+			<div class="stellarnav ">
+				<!-- Navigation Menu-->
+				<ul class="MenuListUl pl-2">
+					<li class="menu-list"><a onclick="ListDashAdd();" class="pt-2"><span>Dashboard</span></a></li>
+					<li class="menu-list"><a onclick="ListAddoffice();" class="pt-2"><span>Office Policy</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<div class="l-contents " style="left: 0px; width: 100%">
+		<div class="container-fluid">
+			@RenderBody()
+		</div>
+		<div id="toast">
+			<div id="toasticon"><i></i></div>
+			<div id="toastMsg"></div>
+		</div>
+		<div class="modal fade" id="modelReturnMessage">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div style="position: relative;">
+						<button type="button" class="close m-close" style="margin-right: 5px;" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body text-center ">
+						<h2 style="font-size:18px;" id="hReturnMessage"> </h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	@*@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery-3.4.1.min.js"))
+		@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/popper.min.js"))
+		@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/bootstrap.min.js"))
+		@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/stellarnav.min.js"))
+		@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/notify.js"))*@
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery-3.4.1.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/popper.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/bootstrap.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/stellarnav.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/notify.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/sweetalert.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/wow.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/select2.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.marquee.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/bootstrap-multiselect.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.bxslider.min.js"))
+
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/CustomValidate.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/moment.min.js"))
+
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/ToolTip.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/PagesJS/Layout.js"))
+
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/scripts/WorkingSetting.js"))
+
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.signalR-2.4.1.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.sidebar.js"))
+	@*@Html.IncludeVersionedJs(Url.Content("~/assets/design/scripts/ListSetting.js"))*@
+	@RenderSection("scripts", required: false)
+	@System.Web.Optimization.Scripts.Render("~/signalr/hubs")
+
+	@if (IsSectionDefined("PreScripts"))
+	{
+		@RenderSection("PreScripts", required: false)
+	}
+	@Html.EJS().ScriptManager()
+<script>
+
+	function ListAddoffice() {
+		debugger;
+		var ID = Number('@ViewBag.EmpId');
+		var UserId = Number('@ViewBag.UserId');
+	 var LocationId=  Number('@ViewBag.LocationId');
+		var MenuID = Number(0);
+		//var url = "/Account/RegistrationDetails?Empid=" + ID;
+		var url = "/Account/OfficePolicies?src=" + EncryptQueryStringJSON(0 + "*" + "/Account/OfficePolicies" + "*" + ID+"*" + "IOSMobile"+"*"+UserId+"*"+LocationId);
+		window.location.href = url;
+	}
+		function ListDashAdd() {
+		debugger;
+		//var ID = Number('@ViewBag.EmpId');
+		var UserId = Number('@ViewBag.UserId');
+		var MenuID = Number(0);
+		//var url = "/Account/RegistrationDetails?Empid=" + ID;
+		//var url = "/Account/MDashboard?src=" + EncryptQueryStringJSON(0 + "*" + "/Account/MIOSDashboard" + "*" + ID+"*" + "Mobile"+"*"+UserId);
+		var url = "/Account/MIOSDashboard?src=" + EncryptQueryStringJSON(0 + "*/Account/MIOSDashboard*" + "*" + UserId+"*" + "IOSMobile"+"*");
+		window.location = url;
+	}
+
+		$('.targetDivtwo').hide();
+		$('.targetDivtwo').first().show();
+		$('.showSingletwo').click(function () {
+			$('.targetDivtwo').hide();
+			$('.showSingletwo').removeClass('active');
+			$('#div' + $(this).attr('target')).show();
+			$(this).addClass('active');
+		});
+
+                  function SuccessToaster(Message) {
+	        debugger;
+            $("#toastMsg").html(Message);
+            $("#toasticon i").addClass("fas fa-check green-clr ");
+                  var x = document.getElementById("toast")
+                     x.className = "show";
+                  setTimeout(function () { x.className = x.className.replace("show", ""); }, 1000);
+              }
+
+              function FailToaster(Message) {
+            $("#toastMsg").html(Message);
+            $("#toasticon i").addClass("fas fa-exclamation-triangle red-clr" );
+                  var x = document.getElementById("toast")
+                  x.className = "show toaster-warning";
+                  setTimeout(function () { x.className = x.className.replace("show toaster-warning", ""); }, 5000);
+              }
+
+
+</script>
+	<script type="text/javascript">
+		jQuery(document).ready(function ($) {
+			jQuery('.stellarnav').stellarNav({
+				theme: 'dark',
+				breakpoint: 960,
+				position: 'right',
+
+			});
+			$('.notifyjs-corner').empty();
+		});
+
+		$('.mtable').each(
+			function () {
+				var titles;
+
+				titles = [];
+
+				$('thead th', this).each(
+					function () {
+						titles.push($(this).text());
+					});
+
+
+				$('tbody tr', this).each(
+					function () {
+
+						$('td', this).each(
+							function (index) {
+								$(this).attr('data-label', titles[index]);
+								$(this).wrapInner('<span></span>')
+							});
+					});
+			});
+	</script>
+
+
+
+	<noscript>
+		<p class="NojavaScript">Javascripts is disabled </p>
+	</noscript>
+
+</body>
+</html>

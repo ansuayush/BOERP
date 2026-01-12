@@ -1,0 +1,231 @@
+﻿
+@{
+    ViewBag.Title = "EnterDispatchSample";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string dispatch_h = ViewBag.isUn == 1 ? "Step 3 - Dispatch Sample" : ViewBag.isUn == 2 ? "Step 4 - Dispatch Sample" : "Step 6 - Dispatch Sample";
+}
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        @if (ViewBag.isDispatched == 1)
+        {
+
+            <div class="d-flex align-items-center">
+                <a href="#" onclick="RedirectToDispatchedItems()">
+                    <img src="~/assets/images/icons/help/back-icon.png" alt="" class="headingicon" />
+                </a>
+                <span id="step_no">@dispatch_h</span>
+            </div>
+
+
+        }
+        else
+        {
+            <div class="d-flex align-items-center">
+                <a href="#" onclick="RedirectToDispatch()">
+                    <img src="~/assets/images/icons/help/back-icon.png" alt="" class="headingicon" />
+                </a>
+                <span >@dispatch_h</span>
+            </div>
+        }
+
+    </h1>
+    @if (ViewBag.isDispatched == 1)
+    {
+        <div class="align-self-center">
+            <div class="d-flex justify-content-between align-items-center gap-10">
+                <button class="btn mr-2 actionbtn border-r-8" id="print_dispatch" onclick="printDispatchDetails(@ViewBag.Edit_ID)">
+                    <img src="~/assets/images/icons/help/print-white-icon.png" class="btn-icon m-0">
+                </button>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-lg-12 form-group">
+
+        <div class="card br-none p-0">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                <h2 class="title-two align-self-center">Customer’s Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group pb-0">
+                <div class="row">
+                    <div class="col-md-2 form-group">
+                        <label>Sample ID</label>
+                        <p class="m-0" id="sample_id"></p>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <label>Customer</label>
+                        <p class="m-0" id="txtCustomer"></p>
+                    </div>
+
+
+
+                    <div class="col-md-2 form-group">
+                        <label>Name</label>
+                        <p class="m-0" id="cp_name"></p>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                        <label>Phone Number</label>
+                        <p class="m-0" id="cp_phone"></p>
+                    </div>
+
+
+                    <div class="col-md-2 form-group">
+                        <label>Shipping Address</label>
+                        <p class="m-0" id="customer_add"></p>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive sticky-responsive">
+                            <table class="display  bg-thrid stickyth dgntable dataTable no-footer radius-0 itemsinformation">
+                                <thead>
+                                    <tr>
+
+                                        <th>Sample Id</th>
+                                        <th>Item Id</th>
+                                        <th>Item Name</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="sample_child_info">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <div class="col-lg-12 form-group">
+
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Dispatch Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-lg-3  col-md-4 col-sm-6 form-group ">
+
+                        <label for="" class="readonly">Courier Company* / Transporter Name</label>
+                        <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlTransporterName">
+                        </select>
+                        <span id="spddlTransporterName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-lg-3  col-md-4 col-sm-6 form-group">
+                        <label class="readonly">Tracking id<sup>*</sup></label>
+                        <input type="text" id="tracking_id" class="form-control Mandatory" oninput="HideErrorMessage(this)" placeholder="Enter Track id" value="">
+                        <span id="sptracking_id" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-lg-2  col-md-4 col-sm-6 form-group">
+                        <label class="readonly">Sent Date<sup>*</sup></label>
+
+                        <div class="input-group">
+                            <input type="text" id="sentDate" onchange="HideErrorMessage(this)" class=" Mandatory form-control" placeholder="DD/MM/YYYY" readonly="">
+                            <span class="clear-date">×</span>
+                            <div class="input-group-append ">
+                                <span class="input-group-text"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                            </div>
+                        </div>
+                        
+                        <span id="spsentDate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-lg-2  col-md-12 col-sm-6 form-group align-self-center">
+                        <input type="checkbox" onclick="handleDispatch(this)" id="selfpickup" class="checkselect" name="type" value="">
+                        <label for="selfpickup" class="mt-lg-3 mt-md-0  mb-0">Self pickup by Sales person/Customer</label>
+                    </div>
+                    @*<div class="col-md-3 col-sm-4 form-group">
+                            <label class="readonlay">Status<sup>*</sup></label>
+                            <select id="ddlStatus" onchange="HideErrorMessage(this)" class="form-control applyselect Mandatory">
+                                <option value="Select">Select</option>
+                                <option value="1">Pending</option>
+                                <option value="2">In Transit	</option>
+                                <option value="3">Delivered</option>
+                            </select>
+                            <span id="spddlStatus" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>*@
+
+                    <div class="col-md-12 form-group">
+                        <label>Remarks</label>
+                        <textarea id="remarks" oninput="HideErrorMessage(this)" placeholder="Enter" class="form-control"></textarea>
+                        <span id="spremarks" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+@*v--------- View image model-------------*@
+<div id="viewimage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Q1</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="imgprvw">
+
+                    <img id="myImage" src="img/login-img.jpg" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*--------model close-----------*@
+
+
+
+
+<footer class="footer-action-btn ">
+    @*<button type="submit" class="btn  btn-lg  actionbtn">Print dispatch Label</button>*@
+
+    @if (ViewBag.isDispatched == 1)
+    {
+
+        <button type="submit" class="btn btn-lg  cancelbtn" onclick="RedirectToDispatchedItems()">Cancel</button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-lg  cancelbtn" onclick="RedirectToDispatch()">Cancel</button>
+        <button type="submit" class="btn  btn-lg  actionbtn" onclick="saveDispatch()">Submit</button>
+    }
+</footer>
+
+
+<script>
+    var Edit_ID = "@ViewBag.Edit_ID";
+
+    var isUn = "@ViewBag.isUn";
+
+    var isDispatched = "@ViewBag.isDispatched";
+</script>
+<script src="~/Areas/ManageSample/DevScript/AddSample_7.js"></script>
+

@@ -1,0 +1,562 @@
+﻿
+@{
+    ViewBag.Title = "GRN Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--  -->
+<style>
+
+    .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+        background-color: #44488c !important;
+    }
+
+    #customLoader {
+        background: rgba(0, 0, 0, 0.7) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding: 0px 5px !important;
+    }
+
+    .ag-header-group-cell-label, .ag-cell-label-container {
+        padding: 0px 0px !important;
+    }
+
+    #customLoader img {
+        width: 40px;
+        height: 40px
+    }
+
+    .ag-text-field-input {
+        color: #000 !important;
+        font-size: 10px !important
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        display: none;
+        width: auto;
+        z-index: 1000;
+        overflow: inherit !important;
+    }
+
+        .custom-alert .modal-body {
+            padding-bottom: 0px;
+            overflow: scroll;
+            height: 400px;
+            overflow-x: hidden;
+        }
+
+    .custom-lg {
+        width: 630px;
+        background: #fff;
+        font-size: 10px;
+        border-radius: 8px
+    }
+
+    .custom-alert table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .custom-alert th {
+        background: #2f3261;
+        color: #fff;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 2px 5px !important;
+        text-align: left;
+        word-break: break-all;
+        vertical-align: top;
+        line-height: 25px;
+        font-size: 12px;
+        text-transform: lowercase;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+</style>
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        GRN Orders<div class="ml-2">
+            <svg data-toggle="tooltip" title="This page shows list of all the Purchase Orders" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+        </div>
+    </h1>
+    <div class="align-self-center">
+        <a href="" data-toggle="modal" data-target="#supplier" class="btn mr-2 actionbtn border-r-8"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Create GRN</a>
+    </div>
+</div>
+<!--  -->
+
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none">
+            <label for="role">Supplier </label>
+            <select class="form-control applyselect" id="ddlSupplier" onchange="onchangeSupplier();">
+            </select>
+        </div>
+        @*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+            <label for="role">Location</label>
+            <select class="form-control applyselect" id="ddlLoation" onchange="onchangeLoation();">
+            </select>
+        </div>*@
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group">
+            <label for="role">Status </label>
+            <select class="form-control applyselect" id="ddlStatus" onchange="bindItemMasterGridFilter();">
+            </select>
+        </div>
+
+
+        <div class="col-sm-2 ml-auto form-group align-self-end">
+            <div class="d-flex gap-5 justify-content-end">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox">
+
+                    <div class="search w-350">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!--  -->
+    <!--<div class="table-responsive">
+        <table id="tblPurchaseOrder" class="display rstable single-sort dgntable dataTable no-footer">
+            <thead>
+                <tr>-->
+    @*<th width="45">SR</th>*@
+    <!--<th width="150">Document No</th>
+        <th width="120">Document Date</th>
+        <th width="200">Supplier’s Name</th>
+        <th width="100">Invoice No</th>
+        <th width="100">Invoice Date</th>
+        <th width="150">Created By</th>
+        <th width="150">Comments</th>
+        <th width="100">Audit Trail</th>
+        <th width="100"> Status</th>
+        <th width="60">Actions</th>
+    </tr>
+    <tr class="searchfilter">-->
+    @*<th></th>*@
+    <!--<th>
+                        <div class="filterdgn">
+                            <input type="text" class="filter-input" id="txtDocNumber"
+                                   placeholder="Search"> <label for="search" class="m-0">
+                                <img src="~/assets/images/icons/help/search-icon.png"
+                                     class="filtersearchincon" />
+                            </label>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="filterdgn">
+                            <input type="text" class="filter-input" id="txtDocDate"
+                                   placeholder="Search"> <label for="search" class="m-0">
+                                <img src="~/assets/images/icons/help/search-icon.png"
+                                     class="filtersearchincon" />
+                            </label>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="filterdgn">
+                            <input type="text" class="filter-input" id="txtSuppName"
+                                   placeholder="Search"> <label for="search" class="m-0">
+                                <img src="~/assets/images/icons/help/search-icon.png"
+                                     class="filtersearchincon" />
+                            </label>
+                        </div>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>-->
+    <!--  -->
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+
+
+
+<!--  -->
+<!-- add Modal popup -->
+<div class="modal" id="supplier" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-left w-100">Select Supplier</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+
+
+                    <div class="col-sm-12 form-group">
+
+                        <label for="role">Supplier</label>
+
+
+                        <select class="applyselect form-control" id="ddlSupp" onchange="RedirectToPurchaseOrder(this)">
+                        </select>
+
+
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        @*<a href="" class="fn-bold" data-dismiss="modal" data-toggle="modal" data-target="#addcompany"><img src="~/assets/images/icons/help/add-icon.png" alt="" class="icon-xsm " /> Add Company</a>*@
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- createuser Modal popup -->
+<div class="modal" id="addcompany">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content ">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-left w-100">Add Business Partner</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <h2 class="title-two">Contact Person Information</h2>
+                    </div>
+                    <div class="col-sm-4 col-md-12 col-sm-12 form-group">
+                        <label for="Name">Name<sup>*</sup></label>
+                        <input type="text" placeholder="Enter Name" class="form-control ">
+                    </div>
+                    <div class="col-sm-4 col-md-12 col-sm-6  form-group">
+                        <label for="Name">Email<sup>*</sup></label>
+                        <input type="email" placeholder="Enter Email" class="form-control ">
+                    </div>
+                    <div class="col-sm-4 col-md-12 col-sm-6  form-group">
+                        <label for="Name">Phone Number<sup>*</sup></label>
+                        <input type="number" placeholder="Enter Phone Number" class="form-control ">
+                    </div>
+
+
+
+                    <div class="col-sm-12"><hr /></div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <h2 class="title-two">Company Information</h2>
+                    </div>
+
+                    <div class="col-sm-4 col-md-12 col-sm-12 form-group ">
+                        <label for="role">Company Name<sup>*</sup></label>
+                        <input type="text" placeholder="Enter Name" class="form-control ">
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-6 form-group ">
+                        <label for="role">Company Email<sup>*</sup></label>
+                        <input type="text" placeholder="Enter Name" class="form-control ">
+                    </div>
+                    <div class="col-sm-4 col-md-6 col-sm-6 form-group ">
+                        <label for="role">Payment Terms<sup>*</sup></label>
+                        <input type="text" placeholder="Enter Number" class="form-control ">
+
+                    </div>
+
+                    <div class="col-sm-4 col-md-12 col-sm-12">
+                        <label>Type</label>
+                        <div class="d-flex flex-wrap gap-10">
+
+                            <input type="checkbox" id="buyertype" name="type" value="">
+                            <label for="buyertype"> Buyer</label>
+
+                            <input type="checkbox" id="supplietype" name="type" value="">
+                            <label for="supplietype"> Supplier</label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-12 form-group ">
+                        <label for="role">GST Number<sup>*</sup></label>
+                        <input type="text" placeholder="Enter Number" class="form-control ">
+                        <span class="error"><img src="~/assets/images/icons/help/info-error-icon.png" alt="" class="icon-sm" /> Verify the GST number to capture all the details automatically</span>
+                    </div>
+
+
+
+                    <div class="col-sm-4 col-md-6 col-sm-12 form-group ">
+                        <label for="role">TAN Number<sup>*</sup></label>
+                        <input type="text" placeholder="Enter Name" class="form-control ">
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-12 form-group ">
+                        <label for="role">PAN Number<sup>*</sup></label>
+                        <input type="number" placeholder="Enter Name" class="form-control ">
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-12 form-group align-self-center">
+                        <button type="button" class="btn btn-lg actionbtn">Verify</button>
+                    </div>
+
+                    <div class="col-sm-12"><hr /></div>
+                    <div class="col-sm-12 form-group">
+                        <h2 class="title-two">Address</h2>
+                    </div>
+                    <div class="col-sm-4 col-md-6 col-sm-6 form-group">
+                        <label for="role">Address Line 1</label>
+                        <textarea class="form-control" placeholder="Address Line 1 "></textarea>
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-6 form-group">
+                        <label for="role">Address Line 2</label>
+                        <textarea class="form-control" placeholder="Address Line 2 "></textarea>
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-6 form-group">
+                        <label for="role">Pin code<sup>*</sup></label>
+                        <input type="text" placeholder="Enter Name" class="form-control " value="">
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-6 form-group">
+                        <label for="role">City<sup>*</sup></label>
+                        <select class="form-control applyselect" id="city" name="city">
+                            <option value="1">City 1</option>
+                            <option value="2">City 2</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-6 form-group">
+                        <label for="role">State<sup>*</sup></label>
+                        <select class="form-control applyselect" id="State" name="State">
+                            <option value="1">State 1</option>
+                            <option value="2">State 2</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-sm-4 col-md-6 col-sm-6 form-group">
+                        <label for="role">Country<sup>*</sup></label>
+                        <select class="form-control applyselect" id="State" name="State">
+                            <option value="1">Country 1</option>
+                            <option value="2">Country 2</option>
+                        </select>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg actionbtn">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- confirmation Modal popup -->
+<input type="hidden" id="hdnIndentId" />
+<a id="btnInactivePopup" style="display:none;" href="#" class="btn actionbtn border-r-8" data-toggle="modal" data-target="#deletepopup"><img src="~/assets/images/icons/help/edit-white-icon.png" alt="" class="btn-icon">Inactive</a>
+<!-- confirmation Modal popup -->
+<div class="modal" id="deletepopup">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="~/assets/images/icons/help/warning-icon.svg"
+                         class="warningicon">
+                    <h6 class="text-center">
+                        <span id="spIndentDocNumber"></span>
+                    </h6>
+                    <span class="d-block warning-dec">Are you sure want to Delete this PO?</span>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn"
+                        data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" onclick="InactiveAction()"
+                        class="btn btn-lg actionbtn "
+                        data-dismiss="modal">
+                    Yes
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    #globalSearch {
+        display: none
+    }
+
+    .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+        transition: opacity 0.2s;
+        opacity: 1;
+        color: #fff;
+    }
+
+    .ag-icon::before {
+        color: #fff;
+    }
+
+    .ag-theme-balham .ag-header-cell-label {
+        white-space: normal; /* Allow wrapping in header text */
+    }
+
+    .ag-theme-balham {
+        overflow-x: auto; /* Avoid extra whitespace */
+    }
+
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding-left: var(--ag-cell-horizontal-padding);
+        padding-right: var(--ag-cell-horizontal-padding);
+        background: #44488c;
+        color: #fff !important
+    }
+
+    .ag-icon-filter {
+        font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+        font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+        color: #ffffff !important;
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 1000;
+    }
+
+        .custom-alert table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-alert th {
+            background-color: #f2f2f2;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+
+    .ag-icon.ag-icon-previous::before {
+        content: "\f104"; /* Font Awesome: fa-angle-left */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .ag-icon.ag-icon-next::before {
+        content: "\f105"; /* Font Awesome: fa-angle-right */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+</style>
+
+
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+
+<script src="~/Areas/MaterialManagement/DevScript/GRN/GRNList.js"></script>
+
+

@@ -1,0 +1,52 @@
+﻿@model IList<Menu.ChildMenu>
+@{
+    long ParentMenuID = 0;
+    string ParentMenuName = "";
+    long.TryParse(Model.Select(x => x.ParentMenuID).FirstOrDefault().ToString(), out ParentMenuID);
+    ParentMenuName = Model.Select(x => x.ParentMenuName).FirstOrDefault();
+}
+<ul id="MenuTreeView'" class="menutreeview">
+    <li class="radio">
+        <span class="blue-clr">  @ParentMenuName</span>
+        <input type='radio'  id="chk_@ParentMenuID" name="menuradio" onclick="saveParentMenu('@ParentMenuID','@ParentMenuName')" />
+        <label for="chk_@ParentMenuID" class='radio-label'></label>
+        @if (Model.Count > 1)
+        {
+            foreach (Menu.ChildMenu item in Model)
+            {
+            <li class="radio">
+                @item.MenuName
+                <input type="radio" id="chk_@item.MenuID" name="menuradio" onclick="saveParentMenu('@item.MenuID','@item.ParentMenuMap')" />
+                <label for="chk_@item.MenuID" class='radio-label'></label>
+                @if (item.IsChild == "Y")
+                {
+                    @ShowChild(item.ChildList);
+                }
+            </li>
+
+        }
+    }
+
+    </ul>
+
+
+    @helper ShowChild(List<Menu.ChildMenu> ChildList)
+    {
+
+
+        <ul class='nested'>
+            @foreach (var item2 in ChildList)
+            {
+                <li class="radio">
+                    @item2.MenuName
+                    <input type="radio" id="@item2.MenuID" name="menuradio" onclick="saveParentMenu('@item2.MenuID','@item2.MenuName ','@item2.ParentMenuMap')" />
+                    <label for="@item2.MenuID" class='radio-label'></label>
+                    @if (item2.IsChild == "Y")
+                    {
+                        @ShowChild(item2.ChildList);
+                    }
+                </li>
+            }
+        </ul>
+
+    }

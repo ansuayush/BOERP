@@ -1,0 +1,601 @@
+﻿<!DOCTYPE html>
+
+@{
+	string PageName = ClsCommon.GetPageName();
+
+	List<AdminModule> Modules = new List<AdminModule>();
+
+	AdminModule SideMenuModal = new AdminModule();
+	AdminModule TopMenuModal = new AdminModule();
+	List<AdminModule> MainMenuModal = new List<AdminModule>();
+	Modules = SahajFramework.CommonClass.ClsCommon.GetRoleWiseModuleList("");
+	if (Modules.Where(x => x.Type == "Left").FirstOrDefault() != null)
+	{
+		SideMenuModal = Modules.Where(x => x.Type == "Left").FirstOrDefault();
+	}
+	if (Modules.Where(x => x.Type == "Top").FirstOrDefault() != null)
+	{
+		TopMenuModal = Modules.Where(x => x.Type == "Top").FirstOrDefault();
+	}
+	if (Modules.Where(x => x.Type == "Main").ToList() != null)
+	{
+		MainMenuModal = Modules.Where(x => x.Type == "Main").ToList();
+	}
+}
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>@PageName </title>
+	<meta name="title" content="@PageName" />
+	<meta name="keywords" content="@PageName" />
+	<meta name="description" content="@PageName" />
+
+	@*<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">*@
+
+	<link rel="shortcut icon" href="@Url.Content("~/assets/design/images/favicon.png")" type="image/x-icon">
+	<link rel="icon" href="@Url.Content("~/assets/design/images/favicon.png")" type="image/png" sizes="50x50">
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/stellarnav.css"))
+
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/icons.css"))
+
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/bootstrap.min.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/sidebar.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/style.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/select2.min.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/animate.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/bootstrap-multiselect.css"))
+
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/jquery-ui.css.css"))
+
+	@RenderSection("style", required: false)
+
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/custom.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/styledl.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/responsivedl.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/responsive.css"))
+
+
+
+
+
+
+
+</head>
+<body class="@(SideMenuModal.ModuleID==0?"disable-left":"") header">
+
+	<div id="dvMaskFullpage" style="display: none;">
+		<div class="vertical-centered-box">
+			<div class="content">
+				<div class="loader-circle"></div>
+				<div class="loader-line-mask">
+					<div class="loader-line"></div>
+				</div>
+				@Html.CreateImage("favicon.png", "favicon", "")
+				<p>Loading ...</p>
+			</div>
+		</div>
+	</div>
+
+	<header class="fixed-top no-print">
+		<div class="l-header">
+			@Html.Partial("TopBar_Partial", TopMenuModal)
+			@Html.Partial("Menu_Partial", MainMenuModal)
+		</div>
+	</header>
+	<div class="no-print">
+		@Html.Partial("Menusidebar_Partial", SideMenuModal)
+	</div>
+
+	<div class="l-contents">
+		<div class="container-fluid">
+
+			@RenderBody()
+		</div>
+
+
+	</div>
+
+	@Html.Partial("Footer_Partial")
+
+	<div class="LoginUserList">
+		<ul></ul>
+	</div>
+
+	<div class="onlinebox pbr pb w-250 " style="display:none">
+		<h1 class="onlineboxheader">Online (<span class="spnCountOnline"></span>) </h1>
+		<div class="OnlineuserList">
+
+		</div>
+	</div>
+	<div id="toast">
+		<div id="toasticon"><i></i></div>
+		<div id="toastMsg"></div>
+	</div>
+
+
+	<!-- CommmonLayoutModal-->
+	<div class="modal fade pop-dgn CommmonLayoutModal">
+		<div class="modal-dialog mdl-sm">
+			<div class="modal-content">
+				<div class="modal-header blk-gdn-btn">
+					<h4 class="modal-title"><span class="spnCommmonLayout"></span></h4>
+				</div>
+				<div class="modal-body">
+					<div class="CommmonLayoutModalDiv"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button type="button" id="btnShowModel" data-toggle="modal" data-target="#modelReturnMessage" name="Command" style="display:none;"><i class="fas fa-save"></i></button>
+
+	<div class="modal fade" id="modelReturnMessage">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div style="position: relative;">
+					<button type="button" class="close m-close" style="margin-right: 5px;" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body text-center ">
+					<h2 style="font-size:18px;" id="hReturnMessage"> </h2>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- The Modal upload image-->
+	<div class="modal" id="updateimage">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content ">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title"> <i class="fas fa-image"></i> Change Profile Image</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body p-0">
+					<div class="mtrprf">
+						<div class="proflieupd">
+							<div class="prfimg">
+								@*<img src="" id="blah">*@
+								@Html.ShowAttachmentWithid(clsApplicationSetting.GetSessionValue("AttachmentID"), "", "blah")
+								<button type="button" onclick="removeImg()" data-toggle="tooltip" title="Remove" class="rv count-nt"><i class="fas fa-trash-alt"></i></button>
+							</div>
+							@if (clsApplicationSetting.GetSessionValue("AttachmentID").ToString() == "0")
+							{
+								<div class="prftxt">NA</div>
+							}
+							else
+							{
+								<div class="prftxt"> @Html.ShowAttachment(clsApplicationSetting.GetSessionValue("AttachmentID"), "")</div>
+							}
+						</div>
+						<div class="uplinp">
+							<input type="file" name="file-input" id="inputFile" class="file-input__input" onchange="readUrl(this)" />
+							<label class="file-input__label" for="inputFile">
+								<span>Upload File</span>
+								<i class="fas fa-camera float-right lgt-clr m-0"></i>
+							</label>
+						</div>
+					</div>
+				</div>
+				<!-- Modal footer -->
+				<div class=" text-center pt-2 rv">
+					<button type="button" class="btn cnl-btn ripplelink" data-dismiss="modal"><i class="fas fa-times"></i>Close</button>
+					<button type="button" onclick="UploadProfileImage()" class="btn mtr-g-grn btn-l "><i class="fas fa-paper-plane"></i>Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery-3.4.1.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/popper.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/bootstrap.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/stellarnav.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/notify.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/sweetalert.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/wow.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/select2.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/bootstrap-multiselect.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.bxslider.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.marquee.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/CustomValidate.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/moment.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/ToolTip.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.signalR-2.4.1.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.sidebar.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery-ui.min.js"))
+
+	@*@Html.IncludeVersionedJs(Url.Content("~/assets/design/scripts/ListSetting.js"))*@
+	@RenderSection("scripts", required: false)
+	@*@System.Web.Optimization.Scripts.Render("~/signalr/hubs")*@
+
+	@if (IsSectionDefined("PreScripts"))
+	{
+		@RenderSection("PreScripts", required: false)
+	}
+	@Html.EJS().ScriptManager()
+
+	<script>
+         //signalr js code for start hub and send receive notification
+            //var notificationHub = $.connection.notificationHub;
+            //$.connection.hub.start().done(function () {
+            //   // console.log('Notification hub started');
+            //  getNotification();
+            //});
+
+            ////signalr method for push server message to client
+            //notificationHub.client.notify = function (message) {
+            //    if (message && message.toLowerCase() == "fire") {
+            //      //  console.log('fire Notification ');
+            //        getNotification();
+            //    }
+            //}
+        function UploadProfileImage() {
+
+            var fileUpload = $("#inputFile").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            //Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+
+                fileData.append("attachmentfile", files[i]);
+            }
+            $.ajax({
+                url: "/CommonAjax/UploadProfileImageJSON",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: fileData,
+                success: function (response) {
+                    $("#customLoader").hide();
+                    if (response != "0") {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+        function OnPostFailure() {
+            CloseLoadingDialog();
+            FailToaster('Something went wrong');
+        }
+
+        function getNotification() {
+			$.ajax({
+				url: "/Services/_Notification",
+				type: "Get",
+                success: function (data)
+                {
+
+					$(".NotificationDiv").empty();
+                    $(".NotificationDiv").html(data);
+                    var LastTRCount = Number($('.NotificationDiv').find("ul li").not('.no-data').length);
+                    $("#spnMainTotalCount").html(LastTRCount)
+				},
+				error: function (er) {
+					 console.log('error in getNotification');
+
+				}
+			});
+        }
+
+
+        function updateLoggedInUsers() {
+
+            getLoggedInUsers();
+        }
+
+
+    function getLoggedInUsers() {
+			$.ajax({
+                url: "/Account/GetOnlineUser",
+				type: "Get",
+                success: function (data)
+                {
+					$(".OnlineuserList").empty();
+                    $(".OnlineuserList").html(data);
+                    var LastTRCount = Number($('.tableUserLogged').find("tbody tr").length)
+                    $(".spnCountOnline").html(LastTRCount)
+
+				},
+				error: function (er) {
+					alert(er);
+
+				}
+			});
+        }
+
+//        window.onbeforeunload = function (e) {
+
+//    //This is called when we close the page
+//    $.connection.hub.stop();
+//    return "You killed me! :'(";
+//};
+
+$(document).ready(function () {
+    setInterval(function () {
+        SessionEnd();
+    }, 10000);
+
+    var TS = '@TempData["Success"]';
+    var TSM = '@TempData["SuccessMsg"]';
+    if (TS == "Y") {
+        SuccessToaster(TSM);
+    }
+    if (TS == "N") {
+        FailToaster(TSM);
+    }
+});
+
+
+
+		
+
+              var MenuID = Number(@ViewBag.MenuID);
+              wow = new WOW();
+              wow.init();
+
+
+                  function SuccessToaster(Message) {
+            $("#toastMsg").html(Message);
+            $("#toasticon i").addClass("fas fa-check green-clr ");
+                  var x = document.getElementById("toast")
+                     x.className = "show";
+                  setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+              }
+
+              function FailToaster(Message) {
+            $("#toastMsg").html(Message);
+            $("#toasticon i").addClass("fas fa-exclamation-triangle red-clr" );
+                  var x = document.getElementById("toast")
+                  x.className = "show toaster-warning";
+                  setTimeout(function () { x.className = x.className.replace("show toaster-warning", ""); }, 5000);
+              }
+
+
+      
+
+	</script>
+
+
+	<script>
+        // JavaScript Document
+        $(function () {
+            $('#js-nav-toggle').click(function (e) {
+                e.preventDefault();
+                $("html").toggleClass("is-sideopen");
+                $("#js-nav-toggle").toggleClass("is-active");
+            });
+
+            var $content = $('.l-contents');
+            var $header = $('.l-header');
+
+
+            $content.click(function () {
+                $("html").removeClass("is-sideopen");
+            });
+
+
+            $header.click(function () {
+                $("html").removeClass("is-sideopen");
+            });
+
+
+        });
+
+
+        $(function () {
+
+            var $dropdown = $('.js-dropdown');
+            var $content = $('.l-contents');
+            var $toggle = $('#js-nav-toggle');
+
+
+            $('.js-dropdown-menu').hide();
+            $dropdown.click(function () {
+                $('i').removeClass('is-rotate');
+                $('.js-dropdown-menu').slideUp(200);
+                if ($('+.js-dropdown-menu', this).css('display') == 'none') {
+                    $('i', this).addClass('is-rotate');
+                    $('+.js-dropdown-menu', this).slideDown(200);
+                }
+            });
+
+
+            $content.click(function () {
+                $('i').removeClass('is-rotate');
+                $('.js-dropdown-menu').slideUp(200);
+                if ($('+.js-dropdown-menu', this).css('display') == 'none') {
+                    $('i', this).addClass('is-rotate');
+                    $('+.js-dropdown-menu', this).slideDown(200);
+                }
+            });
+
+
+            $toggle.click(function () {
+                $('i').removeClass('is-rotate');
+                $('.js-dropdown-menu').slideUp(200);
+                if ($('+.js-dropdown-menu', this).css('display') == 'none') {
+                    $('i', this).addClass('is-rotate');
+                    $('+.js-dropdown-menu', this).slideDown(200);
+                }
+            });
+
+        });
+
+        $(function () {
+            $('.is-ac-close').hide();
+            $(".is-ac-click").on("click", function () {
+                if ($(this).children('i').is('.fa-angle-right')) {
+                    $(this).children('i')
+                        .removeClass('fa-angle-right')
+                        .addClass('fa-angle-down');
+                } else {
+                    $(this).children('i')
+                        .removeClass('fa-angle-down')
+                        .addClass('fa-angle-right');
+                }
+                $(this).next().slideToggle(200);
+            });
+
+            $('.is-ac-close').hide();
+            $(".is-ac-bar").on("click", function () {
+
+                if ($(this).find('i').is('.fa-caret-down')) {
+
+                    $(this).find('i')
+                        .removeClass()
+                        .addClass('fa fa-caret-up');
+                } else {
+                    $(this).find('i')
+                        .removeClass()
+                        .addClass('fa fa-caret-down');
+                }
+                $(this).next().slideToggle(200);
+            });
+        });
+
+
+
+
+        //---------------------------------------------------
+        // ▼　tab
+        //---------------------------------------------------
+        $(function () {
+            var rwdTab = $('.c-tab'),
+                switchPoint = 768,
+                fadeSpeed = 300,
+                slideSpeed = 300;
+
+            var tabBtn = rwdTab.children('.c-tab-panel').children('.c-tab-heading'),
+                contentsArea = rwdTab.children('.c-tab-panel').children('.c-tab-body');
+
+            tabBtn.on('click', function () {
+                if (!$(this).hasClass('c-tab-active')) {
+                    tabBtn.removeClass('c-tab-active');
+                    $(this).addClass('c-tab-active');
+
+                    if (window.innerWidth > switchPoint) {
+                        contentsArea.fadeOut(fadeSpeed);
+                        $(this).next().fadeIn(fadeSpeed);
+                    } else {
+                        contentsArea.slideUp(slideSpeed);
+                        $(this).next().slideDown(slideSpeed);
+                    }
+                }
+            });
+
+            tabBtn.first().click();
+        });
+
+
+
+	</script>
+	<!-- required -->
+	<script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            jQuery('.stellarnav').stellarNav({
+                theme: 'dark',
+                breakpoint: 960,
+                position: 'right',
+
+            });
+            $('.notifyjs-corner').empty();
+        });
+	</script>
+	<!-- required -->
+	<script>
+        $("document").ready(function () {
+
+            $('.dropdown-menu').on('click', function (e) {
+                if ($(this).hasClass('dropdown-menu-form')) {
+                    e.stopPropagation();
+                }
+            });
+
+            if ($(".MenuListUl").find("li").parent().length < 4) {
+                $(".MenuListUl").addClass("menulastchild");
+            }
+            else {
+                $(".MenuListUl").removeClass("menulastchild");
+            }
+
+        });
+
+
+	</script>
+	<script>
+
+        var links = document.querySelectorAll('.ripplelink');
+
+        for (var i = 0, len = links.length; i < len; i++) {
+            links[i].addEventListener('click', function (e) {
+                var targetEl = e.target;
+                var inkEl = targetEl.querySelector('.ink');
+
+                if (inkEl) {
+                    inkEl.classList.remove('animate');
+                }
+                else {
+                    inkEl = document.createElement('span');
+                    inkEl.classList.add('ink');
+                    inkEl.style.width = inkEl.style.height = Math.max(targetEl.offsetWidth, targetEl.offsetHeight) + 'px';
+                    targetEl.appendChild(inkEl);
+                }
+
+                inkEl.style.left = (e.offsetX - inkEl.offsetWidth / 2) + 'px';
+                inkEl.style.top = (e.offsetY - inkEl.offsetHeight / 2) + 'px';
+                inkEl.classList.add('animate');
+            }, false);
+        }
+	</script>
+
+
+	<script type="text/javascript">
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 250) {
+                $('.header').addClass("sticky");
+            }
+            else {
+                $('.header').removeClass("sticky");
+            }
+        });
+
+
+	</script>
+
+	<script>
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 200) {
+                $('.navsky').addClass('fixed');
+            } else {
+                $('.navsky').removeClass('fixed');
+            }
+        });
+	</script>
+
+
+
+
+
+	@*<script type="text/javascript">
+		  $('.rdaction').change(function(){
+		  $('tr').removeClass('checked');
+		  if($(this).is(':checked')){
+			$(this).closest('tr').addClass('checked');
+		  }
+		});
+		</script>*@
+	<noscript>
+		<p class="NojavaScript">Javascripts is disabled </p>
+	</noscript>
+
+
+</body>
+</html>

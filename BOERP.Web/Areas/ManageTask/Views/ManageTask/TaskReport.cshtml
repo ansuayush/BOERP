@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "TaskReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="m-content">
+
+    <div class="row">
+        <div class="col-xl-12">
+
+
+            <div class="m-portlet m-portlet--tab defult-height">
+                <div class="m-portlet__body pt-4 p-2">
+
+                    <div class="filterdgn">
+                        <div class="row">
+                            <div class="col-sm-2 form-group wh-799 fieldlable">
+                                <label for="">From</label>
+                                <input type="text" class="form-control datepicker" autocomplete="off" placeholder="dd-mm-yyyy" id="fromDate">
+                                @* <input type="date" id="fromDate" class="form-control">*@
+                            </div>
+                            <div class="col-sm-2 form-group wh-799 fieldlable">
+                                <label for="">To</label>
+                                <input type="text" class="form-control datepicker" autocomplete="off" placeholder="dd-mm-yyyy" id="toDate">
+                                @*<input type="date" id="toDate" class="form-control">*@
+                            </div>
+
+                            <div class="col-sm-4  wh-799 form-group fieldlable">
+                                <label for="">Employee Name</label>
+                                <select class="form-control applyselect" id="ddlDoer">
+                                </select>
+                            </div>
+                            <div class="col-sm-2 wh-799 form-group fieldlable">
+                                <label for="Lead Details" class="form-control-label">Frequency <sup class="red-clr">*</sup></label>
+                                <select class="form-control applyselect" id="ddlFrequency">
+                                </select>
+                            </div>
+                            <div class="col-sm-2 wh-799 wh-799 form-group fieldlable">
+                                <label for="">Status</label>
+                                <select class="form-control applyselect" id="ddlStatus">
+                                    <option value="All">All</option>
+                                    <option value="1">Pending	</option>
+                                    <option value="2">Pending for Audit</option>
+                                    <option value="4">Reattempt	</option>
+                                    <option value="5">Cancelled</option>
+                                    <option value="3">Completed</option>
+
+                                </select>
+                            </div>
+                            <div class="col-sm-2 wh-799 form-group fieldlable">
+                                <label for="">Branch</label>
+                                <select class="form-control applyselect" id="ddlBranch">
+                                </select>
+                            </div>
+                            <div class="col-sm-2 form-group wh-799 fieldlable">
+                                <label for="">Delay (Hr)</label>
+                                <select class="form-control applyselect" id="ddlDelay">
+                                    <option value="All">All</option>
+                                    <option value="1">0 - 20 Hr</option>
+                                    <option value="2">20 - 40 Hr</option>
+                                    <option value="3">40 - 60 Hr</option>
+                                    <option value="4">60 - 80 Hr</option>
+                                    <option value="5">80 - 100 Hr</option>
+                                    <option value="6">100 Hr Above </option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-sm-4 wf-799 form-group align-self-center">
+
+                                <button type="button" class="btn btn-primary mr-2" onclick="GetTaskReport()"><i class="fas fa-search" aria-hidden="true"></i> Search</button>
+                                <button type="button" class="btn btn-primary mr-2" onclick="exportToExcel()"><i class="fas fa-file-excel" aria-hidden="true"></i> Export Excel</button>
+                                <button type="button" class="btn btn-primary" onclick="ClearTaskReport()"><i class="fas fa-eraser" aria-hidden="true"></i> Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!---->
+                    <div class="table-responsive">
+                        <table class="table  rstable  tablepending table-bordered m-table m-table--border-brand m-table--head-bg-brand width_table-lg"  id="TaskReport">
+                            <thead>
+                                <tr>
+                                    <th>Task  ID</th>
+                                    <th>Task Name</th>
+                                    <th width="120">Doer</th>
+                                    <th>Frequency</th>
+                                    <th>Branch</th>
+                                    <th >Due Date/Time</th>
+                                    <th width="100">Delay (Hr)</th>
+                                    <th width="150">Doer's Completed Date/Time</th>
+                                    <th width="150">Process Controller</th>
+                                    <th width="170">Audit Required</th>
+                                    <th width="150">Audit Controller</th>
+                                    <th width="80">WND Planned Score</th>
+                                    <th width="130">WND Actual Score</th>
+                                    <th width="80">WNDOT Planned Score</th>
+                                    <th width="130">WNDOT Actual Score</th>
+                                    <th width="80">WNDWQ Planned Score</th>
+                                    <th width="130">WNDWQ Actual Score</th>
+                                    <th width="130">Doer Attendance</th>
+                                    <th width="150">Status</th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                    <!---->                   
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Areas/ManageTask/DevScript/TaskReport.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+

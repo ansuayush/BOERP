@@ -1,0 +1,224 @@
+﻿
+@model IList<SahajFramework.Models.Menu.List>
+@using Syncfusion.EJ2
+
+@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Modify = clsApplicationSetting.GetSessionValue("Modify");
+}
+
+<div class="inner-main">
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-sm-8">
+                <h4 class="heading-one m-0">Menu List</h4>
+
+            </div>
+            <div class="col-sm-4 text-right">
+                @using (Ajax.BeginForm("UpdateMenuJson", "Tools",
+           new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID + "*" + "/Tools/UpdateMenuJson*") },
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnUpdateJSONSuccess", OnBegin = "ShowLoadingDialog()" },
+               new { @id = "UpdateJSONForm" })
+       )
+                {
+                    <button type="submit" name="Command" value="JSON" class="btn mtr-o-grn btn-l ripplelink pull-right"><i class="fas fa-redo-alt"></i>Update Json</button>
+                }
+            </div>
+        </div>
+        <div class="control-section">
+            @Html.EJS().Grid("FlatGrid").DataSource((List<SahajFramework.Models.Menu.List>)Model).GridLines(Syncfusion.EJ2.Grids.GridLine.Both).Columns(col =>
+       {
+
+           col.Field("MenuID").Visible(false).Add();
+           col.Field("IsActive").Visible(false).Add();
+           col.Field("MenuPriority").Visible(false).Add();
+           col.Field("RowNum").HeaderText("SNo.").Width("30").Add();
+           col.HeaderText("Action").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Template("#tmpAction").Width("30").Add();
+           col.HeaderText("Priority").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Template("#tmpPriority").Width("30").Add();
+           col.Field("MenuName").HeaderText("Name").Width("50").Add();
+           col.Field("ModuleName").HeaderText("Module").Width("50").Add();
+           col.Field("MenuURL").HeaderText("URL").Width("80").Add();
+           col.Field("ParentMenuMap").HeaderText("Parent").Width("150").Add();
+
+           col.Field("modifiedat").HeaderText("Updated Date").Width("80").Add();
+           col.Field("modifiedby").HeaderText("Updated By").Width("80").Add();
+           col.Field("IPAddress").HeaderText("IP Address").Width("80").Add();
+
+
+
+
+       }).AllowPaging().PageSettings(page => page.PageCount(10)).Toolbar(new List<string>() { "Search" }).Render()
+
+        </div>
+
+    </div>
+</div>
+
+<script id="tmpPriority" type="text/x-template">
+    ${if('@Modify' === 'True')}
+    <input type="number" onblur="BindPriority(this)" list="mprsec" value="${MenuPriority}" />
+    ${else}
+    ${MenuPriority}
+    ${/if}
+</script>
+
+
+<script id="tmpAction" type="text/x-template">
+    ${if('@Modify' === 'True')}
+    <input type="hidden" name="I" value="${MenuID}" />
+    <input type="hidden" name="N" value="${MenuName}" />
+
+    <a onclick="BindEdit(this)"><i class="fas fa-edit checkgreen" aria-hidden="true"></i> </a>
+
+    ${if(IsActive)}
+    <a title='Click to DeActivate' onclick="BindIsActive(this)" list='mprsec' OP='0' class='AIsActive'> <i class='fa fa-check-circle checkgreen' aria-hidden='true'></i></a>
+    ${else}
+    <a title='Click to Activate' onclick="BindIsActive(this)" list='mprsec' OP='1' class='AIsActive'> <i class='fa fa-times-circle crossred' aria-hidden='true'></i></a>
+    ${/if}
+    ${/if}
+</script>
+
+
+
+<script src="~/assets/js/SyncScripts.js"></script>
+
+
+@(Html.EJS().ScriptManager())
+
+<div class="modal fade pop-dgn" id="ViewModal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header blk-gdn-btn">
+                <h4 class="modal-title"><i class="fas fa-print"></i>Menu Information </h4>
+                <div class="close" data-dismiss="modal">&times;</div>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="TagetDiv"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/assets/js/AddInit.js"></script>
+
+<script>
+        function ListAdd(CMSID) {
+        if (CMSID == undefined)
+        {
+            CMSID = 0;
+        }
+			$.ajax({
+                url: "/Tools/_AddMenu",
+				type: "Get",
+                data: { src: EncryptQueryStringJSON(@ViewBag.MenuID+"*" + "/Tools/_AddMenu" + "*" + CMSID) },
+                success: function (data)
+                {
+					$("#TagetDiv").empty();
+                    $("#TagetDiv").html(data);
+
+                    $('#ViewModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+
+                    $(".applyselect").select2();
+                     var form = $("form")
+                .removeData("validator")
+                .removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse(form);
+				},
+				error: function (er) {
+					alert(er);
+
+				}
+			});
+            }
+
+        function OnUpdateJSONSuccess(obj) {
+            if (obj.Status) {
+                SuccessToaster(obj.SuccessMessage);
+                window.location.reload()
+            }
+            else {
+                CloseLoadingDialog();
+                FailToaster(obj.SuccessMessage);
+
+            }
+        }
+
+        function OnSuccess(obj) {
+            if (obj.Status) {
+                SuccessToaster(obj.SuccessMessage);
+                window.location.href = obj.RedirectURL;
+            }
+            else {
+                CloseLoadingDialog();
+                FailToaster(obj.SuccessMessage);
+
+            }
+        }
+
+
+
+
+    function saveParentMenu(MenuID, ParentMenuMap) {
+        $("#ParentMenuID").val(MenuID);
+        $("#spnMenuMap").html(ParentMenuMap);
+
+    }
+
+    function ChangeParent(obj) {
+        var check = $(obj).is(":checked");
+        if (check)
+        {
+            $("#DivParnentSetting").show();
+            BindParentMenu();
+            GetChildList();
+        }
+        else {
+            $("#ParentMenuID").val(0);
+            $("#spnMenuMap").html('No Parent');
+            $("#DivParnentSetting").hide();
+        }
+        }
+
+        function BindParentMenu() {
+            var ModuleID = $("#ModuleID").find("option:selected").val();
+            var data = GetDropDownData(ModuleID, 'ParentMenu');
+            $("#ddParentMenu").empty();
+            $("#ddParentMenu").append($("<option />").val("").text("Select"));
+            if (data) {
+                $(data).each(function () {
+                    $("#ddParentMenu").append($("<option />").val(this.ID).text(this.Name));
+                    $("#ddParentMenu").select2();
+                    $("#ChildTargetDiv").empty();
+                });
+            }
+        }
+
+        function GetChildList() {
+        var SelectedParent = $("#ParentMenuID").val();
+        var ddParentID = $("#ddParentMenu").find("option:selected").val();
+        $("#ChildTargetDiv").empty();
+        if (ddParentID) {
+            $.ajax({
+                url: "/Tools/_ChildMenuList",
+                type: "Post",
+                data: { src: EncryptQueryStringJSON(@ViewBag.MenuID+"*" + "/Tools/_ChildMenuList" + "*" + ddParentID) },
+                success: function (data) {
+                    $("#ChildTargetDiv").html(data);
+                },
+                error: function (er) {
+                    alert(er);
+
+                }
+            });
+        }
+
+    }
+</script>

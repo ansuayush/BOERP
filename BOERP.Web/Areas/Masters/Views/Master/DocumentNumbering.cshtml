@@ -1,0 +1,473 @@
+﻿
+@{
+	ViewBag.Title = "DocumentNumbering";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script src="~/Areas/Masters/DevScript/DocumentNumbering.js"></script>
+
+<script>
+	var companyId = @ViewBag.CompanyID;
+	$(document).ready(function () {
+		$('.datepicker').daterangepicker({
+			opens: 'right',
+			singleDatePicker: true,
+			showDropdowns: true,
+			autoApply: true,
+			autoUpdateInput: false,
+			parentEl: 'body', // Ensures it is not constrained in table
+			locale: {
+				format: 'DD/MM/YYYY'
+			}
+		}).on('apply.daterangepicker', function (ev, picker) {
+			$(this).val(picker.startDate.format('DD/MM/YYYY'));
+		});
+
+		// Open datepicker when clicking the icon
+		$('.input-group-text').on('click', function () {
+			$(this).closest('.input-group').find('.datepicker').focus();
+		});
+	});
+</script>
+<script>
+
+	function toggleRows(group, element) {
+		// Toggle hidden rows
+		document.querySelectorAll(`.${group}`).forEach(row => {
+			row.classList.toggle('hidden');
+		});
+
+		// Toggle active class on the clicked header
+		element.classList.toggle('active');
+	}
+
+	// Automatically expand the first collapsible section
+	document.addEventListener("DOMContentLoaded", function () {
+		// Open Business Partner section by default
+		document.querySelectorAll('.businessPartnerRows').forEach(row => {
+			row.classList.remove('hidden');
+		});
+
+		// Add active class to the first collapsible header
+		const firstCollapsible = document.querySelector('.collapsible_click');
+		if (firstCollapsible) {
+			firstCollapsible.classList.add('active');
+		}
+	});
+
+
+
+
+
+</script>
+<script>
+	var menuData = [];
+	const groupedData = {};
+	var tableData = [];
+</script>
+<script>
+
+	function BuildTable() {
+		let groupedData = {};
+		var model = {
+			ID: 0,
+			TABLE_NAME: 'GETAllDocumentd'
+		}
+		const jsonString = JSON.stringify(model);
+		var ScreenID = "Menu_101";
+		var addRow = "";
+		CommonAjaxMethod(virtualPath + 'Generic/GetRecordsAsync', { modelData: jsonString, screenId: ScreenID }, 'GET', function (response) {
+			if (response.data.data.Table.length > 0) {
+				menuData = response.data.data.Table; debugger
+				menuData.forEach(item => {
+					if (!groupedData[item.ParentMenuID]) {
+						groupedData[item.ParentMenuID] = { module: item.ModuleName, menus: [] };
+					}
+					groupedData[item.ParentMenuID].menus.push(item);
+				});
+
+				let tbody = $("#tableBody tbody");
+				tbody.empty(); // Clear table before adding new rows
+
+				// Loop through grouped data and append to table
+				$.each(groupedData, function (parentID, group) {
+					let headerRow = `
+			<tr class="group-header" data-group="${parentID}">
+				<td colspan="6" class="cursor-pointer" ><strong> ${group.module} </strong> <span class="toggle-icon float-right"><img src="../../assets/images/icons/help/bottom-arrow-black-sm.png" alt="" class="btn-icon m-0 align-self-center"></span></td>
+			</tr>`;
+					tbody.append(headerRow);
+
+					// Add child menu items (initially hidden)
+					group.menus.forEach(menu => {
+						let childRow = `
+				<tr class="group-content ${parentID}" style="display:none;">
+					<td>${menu.MenuName}</td>
+					<td colspan="3">${menu.DefaultSeries || ""}</td>
+					<td class="text-right">${menu.FirstNo || ""}</td>
+					<td class="text-center"><div class="dropdown">
+				<span class="dropdown-toggle arrow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+								<img src="../../assets/images/icons/help/more-icon.png" class="icon-md">
+				</span>
+				<div class="dropdown-menu actionmenu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" onclick="DisplayNewNumbering(${menu.MenuID},${parentID},'${group.module}','${menu.MenuName}');">New</a>
+								<a class="dropdown-item" onclick="DisplayEditNumbering(${menu.MenuID},${parentID},'${group.module}','${menu.MenuName}');">Edit</a>
+				</div>
+				</div>
+</td>
+				</tr>`;
+						tbody.append(childRow);
+					});
+				});
+
+				// Expand/Collapse functionality
+				$(".group-header").click(function () {
+					let group = $(this).data("group");
+					$(".group-content." + group).slideToggle();
+				});
+			}
+		});
+		// Group data by ParentMenuID
+
+	}
+</script>
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex ">
+		<a href=""><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Document Numbering
+		<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center"></div>
+</div>
+@*<div class="secondmain bg-none p-0 main-br main-min-height-primary">*@
+<div class="secondmain bg-none p-0 main-br">
+	<!--  -->
+	<div class="row">
+		<div class="col-md-12 form-group">
+			<div class="card br-none p-0 col-default-bottom mb-0">
+				<div class="card-body view-form-group pl-0 pr-0">
+					<div class="projecttable">
+						<input type="hidden" id="hddMenuId" value="" />
+						<input type="hidden" id="hddModuleId" value="" />
+						<input type="hidden" id="hddModuleName" value="" />
+						<table id="tableBody" class="display rstable dgntable dataTable no-footer radius-0" style="table-layout:fixed">
+							<thead>
+								<tr>
+									<th>Document</th>
+									<th width="200" colspan="3">Default Series</th>
+									<th width="100">First No.</th>
+									@*<th width="100">Next No.</th>
+										<th width="100">Last No.</th>*@
+									<th width="60"></th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="newumbering" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xlg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header justify-content-center align-items-center">
+					<h5 class="modal-title text-center" id="exampleModalLabel"><span id="spDocumentName"></span></h5>
+					<button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+				</div>
+				<div class="modal-body p-0">
+					<div class="table-responsive">
+						<table class="display rstable dgntable dataTable no-footer radius-0 " style="table-layout:fixed">
+							<thead>
+								<tr>
+									<th width="60px">#</th>
+									<th width="150px">Series Name</th>
+									<th width="130px">First No.</th>
+									<th width="130px">Prefix</th>
+									<th width="130px">Period Ind.</th>
+									<th width="100px">Default Series</th>
+									<th width="130px">Branch</th>
+									<th width="130px">SA Posting</th>
+									<th width="130px">SA Increase</th>
+									<th width="130px">SA Decrease</th>
+									<th width="70px">Lock</th>
+									<th width="130px">Active/InActive</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										1
+									</td>
+									<td>
+										<input type="text" onchange="HideErrorMessage(this)" id="txtNewName" class="form-control MandatoryNewDoc" placeholder="Enter" value="">
+										<span id="sptxtNewName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<input type="text" onchange="HideErrorMessage(this); NewMaxNextNumber();" id="txtNewFirstNo" class="form-control text-right MandatoryNewDoc" placeholder="0" value="">
+										<span id="sptxtNewFirstNo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<input type="text" onchange="HideErrorMessage(this)" id="txtNewPrefix" class="form-control MandatoryNewDoc" value="" placeholder="Enter">
+										<span id="sptxtNewPrefix" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<select onchange="HideErrorMessage(this)" id="ddlNewPeriodInd" class="form-control applyselect MandatoryNewDoc">
+										</select>
+										<span id="spddlNewPeriodInd" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<input type="checkbox" id="checkIsDefault" name="type" class="singlecheck" value="" checked>
+										<label for="checkIsDefault"></label>
+									</td>
+									<td>
+										<select onchange="HideErrorMessage(this)" id="ddlNewBranch" class="form-control applyselect MandatoryNewDoc">
+										</select>
+										<span id="spddlNewBranch" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<select onchange="HideErrorMessage(this); EnableDocPopup(this);" id="ddlSAPosting" class="form-control applyselect ">
+
+											<option value="1">Yes</option>
+											<option selected value="2">No</option>
+										</select>
+										<span id="spddlSAPosting" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<select onchange="HideErrorMessage(this)" id="ddlSAIncrease" disabled class="form-control applyselect ">
+										</select>
+										<span id="spddlSAIncrease" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<select onchange="HideErrorMessage(this)" id="ddlSADecrease" disabled class="form-control applyselect ">
+										</select>
+										<span id="spddlSADecrease" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</td>
+									<td>
+										<input type="checkbox" id="checkNewLock" name="type" class="singlecheck" value="" checked>
+										<label for="checkNewLock"></label>
+									</td>
+									<td>
+										<input type="checkbox" id="checkActiveInActive" name="type" class="singlecheck" value="" checked>
+										<label for="checkActiveInActive"></label>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer  d-flex justify-content-center">
+					<button type="button" class="btn btn-lg actionbtn" onclick="SaveDocumentNumbering();">Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="editumbering" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xlg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header justify-content-center align-items-center">
+					<h5 class="modal-title text-center" id="exampleModalLabel"><span id="spEditDocumentName"></span></h5>
+					<button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+				</div>
+
+				<div class="modal-body p-0">
+					<div class="table-responsive">
+
+						<table id="tbleEditDocumentNumber" class="display rstable dgntable dataTable no-footer radius-0 " style="table-layout:fixed">
+							<thead>
+								<tr>
+									<th width="40px">#</th>
+									<th width="150px">Series Name</th>
+									<th width="130px">First No.</th>
+									<th width="130px">Prefix</th>
+									<th width="130px">Period Ind.</th>
+									<th width="150px">Default Series</th>
+									<th width="130px">Branch</th>
+									<th width="130px">SA Posting</th>
+									<th width="130px">SA Increase</th>
+									<th width="130px">SA Decrease</th>
+									<th width="70px">Lock</th>
+									<th width="130px">Active/InActive</th>
+									<th width="70px">Action</th>
+									<th width="70px" style="display:none">DOCID</th>
+								</tr>
+							</thead>
+							<tbody>
+								@*<tr>
+										<td>
+											1
+											<input type="hidden" id="hddEditDocument" value="" />
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this)" id="txtEditName" class="form-control MandatoryEditDoc" placeholder="Enter" value="">
+											<span id="sptxtEditName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this); EditMaxNextNumber();" id="txtEditFirstNo" class="form-control text-right MandatoryEditDoc" placeholder="0" value="">
+											<span id="sptxtEditFirstNo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this);" readonly id="txtEditNextNo" class="form-control text-right MandatoryEditDoc" placeholder="0" value="">
+											<span id="sptxtEditNextNo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this)" id="txtEditLastNo" class="form-control text-right MandatoryEditDoc" placeholder="0" value="">
+											<span id="sptxtEditlastNo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this)" id="txtEditPrefix" class="form-control MandatoryEditDoc" value="" placeholder="Enter">
+											<span id="sptxtEditPrefix" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<select onchange="HideErrorMessage(this)" id="ddlEditPeriodInd" class="form-control applyselect MandatoryEditDoc">
+											</select>
+											<span id="spddlEditPeriodInd" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<select onchange="HideErrorMessage(this)" id="ddlEditBranch" class="form-control applyselect MandatoryEditDoc">
+											</select>
+											<span id="spddlEditBranch" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="checkbox" id="checkEditlock" name="type" class="singlecheck" value="" checked>
+											<label for="checkEditlock"></label>
+										</td>
+									</tr>*@
+							</tbody>
+						</table>
+					</div>
+
+					<div class="text-right d-block p-2 pb-0"><button type="button" class="btn actionbtn d-flex-none" onclick="AddRowDocumentNumbering();">Add Row</button></div>
+				</div>
+				<div class="modal-footer  d-flex justify-content-center">
+					<button type="button" class="btn btn-lg actionbtn" onclick="UpdateDocumentNumbering();">Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@*Item Category Doc No*@
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex ">
+		<a href=""><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Item Category Numbering
+		<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center"></div>
+</div>
+<div class="secondmain bg-none p-0 main-br main-min-height-primary">
+	<!--  -->
+	<div class="row">
+		<div class="col-md-12 form-group">
+			<div class="card br-none p-0 col-default-bottom mb-0">
+				<div class="card-body view-form-group pl-0 pr-0">
+					<div class="projecttable">
+						<input type="hidden" id="hddMenuId" value="" />
+						<input type="hidden" id="hddModuleId" value="" />
+						<input type="hidden" id="hddModuleName" value="" />
+						<table id="tblDocNoByMenu" class="display rstable dgntable dataTable no-footer radius-0" style="table-layout:fixed">
+							<thead>
+								<tr>
+									<th colspan="5">Document</th>
+									@*<th width="200" colspan="3">Default Series</th>
+										<th width="100">First No.</th>
+										<th width="100">Next No.</th>
+										<th width="100">Last No.</th>*@
+									<th width="60"></th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="editDocNoByMenu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xlg modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header justify-content-center align-items-center">
+					<h5 class="modal-title text-center" id="exampleModalLabel"><span id="spEditDocumentName"></span></h5>
+					<button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+				</div>
+
+				<div class="modal-body p-0">
+					<div class="table-responsive">
+
+						<table id="tbleEditDocNoByMenu" class="display rstable dgntable dataTable no-footer radius-0 " style="table-layout:fixed">
+							<thead>
+								<tr>
+									<th width="40px">#</th>
+									<th width="150px">Series Name</th>
+									<th width="130px">First No.</th>
+									<th width="130px">ARN First No.</th>
+									<th width="130px">Prefix</th>
+									<th width="130px">Period Ind.</th>
+									<th width="150px">Default Series</th>
+									<th width="130px">Branch</th>
+									<th width="70px">Lock</th>
+									<th width="130px">Active/InActive</th>
+									<th width="70px">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								@*<tr>
+										<td>
+											1
+											<input type="hidden" id="hddEditDocument" value="" />
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this)" id="txtEditName" class="form-control MandatoryEditDoc" placeholder="Enter" value="">
+											<span id="sptxtEditName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this); EditMaxNextNumber();" id="txtEditFirstNo" class="form-control text-right MandatoryEditDoc" placeholder="0" value="">
+											<span id="sptxtEditFirstNo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this);" readonly id="txtEditNextNo" class="form-control text-right MandatoryEditDoc" placeholder="0" value="">
+											<span id="sptxtEditNextNo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this)" id="txtEditLastNo" class="form-control text-right MandatoryEditDoc" placeholder="0" value="">
+											<span id="sptxtEditlastNo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="text" onchange="HideErrorMessage(this)" id="txtEditPrefix" class="form-control MandatoryEditDoc" value="" placeholder="Enter">
+											<span id="sptxtEditPrefix" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<select onchange="HideErrorMessage(this)" id="ddlEditPeriodInd" class="form-control applyselect MandatoryEditDoc">
+											</select>
+											<span id="spddlEditPeriodInd" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<select onchange="HideErrorMessage(this)" id="ddlEditBranch" class="form-control applyselect MandatoryEditDoc">
+											</select>
+											<span id="spddlEditBranch" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+										</td>
+										<td>
+											<input type="checkbox" id="checkEditlock" name="type" class="singlecheck" value="" checked>
+											<label for="checkEditlock"></label>
+										</td>
+									</tr>*@
+							</tbody>
+						</table>
+					</div>
+
+					<div class="text-right d-block p-2 pb-0"><button type="button" class="btn actionbtn d-flex-none" onclick="AddRowDocNoByMenu();">Add Row</button></div>
+				</div>
+				<div class="modal-footer  d-flex justify-content-center">
+					<button type="button" class="btn btn-lg actionbtn" onclick="SetDocNoByMenu();">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@*Item Category Doc No End *@

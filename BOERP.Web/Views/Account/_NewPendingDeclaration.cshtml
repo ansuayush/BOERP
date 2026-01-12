@@ -1,0 +1,115 @@
+﻿
+@model Employee.Declaration
+@using (Ajax.BeginForm("Declaration", "Account", new { src = ViewBag.src }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnBegin = "ShowLoadingDialog()" }, new { @id = "Declaration", enctype = "multipart/form-data" }))
+{
+	<div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
+		<div class="card-body p-0">
+			<!--- -->
+			<div class="table-responsive">
+				<table class="table mt-4">
+					<thead>
+						<tr>
+							<th width="10">S.No</th>
+							<th>Declaration Name</th>
+							<th width="100">Frequency</th>
+							<th width="150">Due Date</th>
+							<th width="150"> Remarks</th>
+							<th width="100">Attachment	</th>
+							<th width="200">Upload</th>
+							<th width="90">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (Model.declarationslist != null)
+						{
+							int count = 0;
+
+							//foreach (var item in Model.declarationslist.Where(x => x.Accept == 0).ToList())
+							//{
+							for (int i = 0; i < Model.declarationslist.Where(x => x.DEId == 0 && x.Accept != 1).ToList().Count; i++)
+							{
+								count++;
+								@*@Html.HiddenFor(model => model.declarationslist[i].Id)*@
+								<tr>
+
+									<td class="hdftableid">
+										@count
+
+										@Html.HiddenFor(model => model.declarationslist[i].Id)
+
+									</td>
+
+									<td class="hdftableName">
+										@Model.declarationslist[i].Declarationname
+										@Html.HiddenFor(model => model.declarationslist[i].Declarationname)
+									</td>
+
+									<td class="hdftableReqRemark">
+										@Model.declarationslist[i].Frequency
+										@Html.HiddenFor(model => model.declarationslist[i].Requiredremarksfield)
+									</td>
+
+									<td class="hdftableDueDate">
+										@Model.declarationslist[i].DueDate
+										@Html.HiddenFor(model => model.declarationslist[i].DueDate)
+									</td>
+
+									<td><p class="ellipsis  m-0">@Model.declarationslist[i].Remark</p></td>
+									<td><a href="@Model.declarationslist[i].Attachement">@Model.declarationslist[i].file_Name</a></td>
+
+									@if (@Model.declarationslist[i].RequiredinhardCopy == 1)
+									{
+										<td>@Html.TextBoxFor(model => model.declarationslist[i].UploadAttachment, new { @class = "form-control", @type = "file" })</td>
+									}
+									else
+									{
+										<td></td>
+									}
+									@if (@Model.declarationslist[i].Content != null && @Model.declarationslist[i].Content != "")
+									{
+										<td><a href="" onclick="ShowData(this)" data-toggle="modal" data-target="#adview" class="green-clr "><i class="fas fa-folder"></i>Open</a></td>
+									}
+									else
+									{
+										<td><a href="" data-toggle="modal" data-target="#adview" class="green-clr isDisabled "><i class="fas fa-folder"></i>Open</a></td>
+									}
+									@*@if (@Model.declarationslist[i].Requiredremarksfield == 1)
+										{
+											<td></td>
+										}
+										else
+										{
+											<td>@Html.TextBoxFor(model => model.declarationslist[i].UploadAttachment, new { @class = "form-control", @type = "file" })</td>
+										}
+
+										@if (@Model.declarationslist[i].Requiredremarksfield == 1)
+										{
+											<td><a href="" onclick="ShowData(this)" data-toggle="modal" data-target="#adview" class="green-clr "><i class="fas fa-folder"></i>Open</a></td>
+										}
+										else
+										{
+											<td><a href="" data-toggle="modal" data-target="#adview" class="green-clr isDisabled "><i class="fas fa-folder"></i>Open</a></td>
+										}*@
+								</tr>
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+
+
+		</div>
+
+	</div>
+	<div class="ftr-btn">
+
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="col-sm-12 text-right mb-0">
+					<button type="submit" class="btn mtr-o-grn " name="Command" value="Add"><i class="fas fa-paper-plane"></i>Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}

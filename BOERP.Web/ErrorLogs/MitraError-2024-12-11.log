@@ -1,0 +1,169 @@
+                   --------------------- Error(2024-12-11 11:47:03.4057)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.   at Mitr.BLL.DigitalLibraryBAL.GetRecords(String globalXml, String screenId, Int32 roleId, Int32 userid, String operation, String& errorMessage) in C:\MitrAzure\Mitr.BLL\DigitalLibraryBAL.cs:line 218
+   at Mitr.Areas.DigitalLibrary.Controllers.DigitalLibraryController.GetMyContent() in C:\MitrAzure\Mitr.Web\Areas\DigitalLibrary\Controllers\DigitalLibraryController.cs:line 1116
+                   
+                   --------------------- Error(2024-12-11 11:47:03.5450)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+
+                   
+                   --------------------- Error(2024-12-11 11:47:57.7105)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.   at Mitr.BLL.DigitalLibraryBAL.GetRecords(String globalXml, String screenId, Int32 roleId, Int32 userid, String operation, String& errorMessage) in C:\MitrAzure\Mitr.BLL\DigitalLibraryBAL.cs:line 218
+   at Mitr.Areas.DigitalLibrary.Controllers.DigitalLibraryController.GetMyTeamContent() in C:\MitrAzure\Mitr.Web\Areas\DigitalLibrary\Controllers\DigitalLibraryController.cs:line 1272
+                   
+                   --------------------- Error(2024-12-11 11:47:57.7105)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+
+                   
+                   --------------------- Error(2024-12-11 11:50:15.2513)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.)   at Mitr.BLL.DigitalLibraryBAL.GetRecords(String globalXml, String screenId, Int32 roleId, Int32 userid, String operation, String& errorMessage) in C:\MitrAzure\Mitr.BLL\DigitalLibraryBAL.cs:line 218
+   at Mitr.Areas.DigitalLibrary.Controllers.DigitalLibraryController.GetMyTeamContent() in C:\MitrAzure\Mitr.Web\Areas\DigitalLibrary\Controllers\DigitalLibraryController.cs:line 1272
+                   
+                   --------------------- Error(2024-12-11 11:50:15.2513)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.)
+The specified network name is no longer available
+
+                   
+                   --------------------- Error(2024-12-11 11:51:21.2812)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.   at Mitr.BLL.DigitalLibraryBAL.GetRecords(String globalXml, String screenId, Int32 roleId, Int32 userid, String operation, String& errorMessage) in C:\MitrAzure\Mitr.BLL\DigitalLibraryBAL.cs:line 218
+   at Mitr.Areas.DigitalLibrary.Controllers.DigitalLibraryController.GetMyTeamContent() in C:\MitrAzure\Mitr.Web\Areas\DigitalLibrary\Controllers\DigitalLibraryController.cs:line 1272
+                   
+                   --------------------- Error(2024-12-11 11:51:21.2812)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+
+                   
+                   --------------------- Error(2024-12-11 11:52:35.9631)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.   at Mitr.BLL.DigitalLibraryBAL.GetRecords(String globalXml, String screenId, Int32 roleId, Int32 userid, String operation, String& errorMessage) in C:\MitrAzure\Mitr.BLL\DigitalLibraryBAL.cs:line 218
+   at Mitr.Areas.DigitalLibrary.Controllers.DigitalLibraryController.GetMyTeamContent() in C:\MitrAzure\Mitr.Web\Areas\DigitalLibrary\Controllers\DigitalLibraryController.cs:line 1272
+                   
+                   --------------------- Error(2024-12-11 11:52:35.9631)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+
+                   
+                   --------------------- Error(2024-12-11 11:55:30.0460)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.   at Mitr.BLL.DigitalLibraryBAL.GetRecords(String globalXml, String screenId, Int32 roleId, Int32 userid, String operation, String& errorMessage) in C:\MitrAzure\Mitr.BLL\DigitalLibraryBAL.cs:line 218
+   at Mitr.Areas.DigitalLibrary.Controllers.DigitalLibraryController.GetMyTeamContent() in C:\MitrAzure\Mitr.Web\Areas\DigitalLibrary\Controllers\DigitalLibraryController.cs:line 1272
+                   
+                   --------------------- Error(2024-12-11 11:55:30.0460)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+Ambiguous column name 'Remark'.
+
+                   
+                   --------------------- Error(2024-12-11 12:29:44.5885)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.)   at Mitr.BLL.ProcurementBAL.GetRecords(String globalXml, String screenId, Int32 roleId, Int32 userid, String operation, String& errorMessage) in C:\MitrAzure\Mitr.BLL\ProcurementBAL.cs:line 218
+   at Mitr.Areas.Procurement.Controllers.ProcurementRequestController.BindProcureRequest() in C:\MitrAzure\Mitr.Web\Areas\Procurement\Controllers\ProcurementRequestController.cs:line 226
+                   
+                   --------------------- Error(2024-12-11 12:29:44.7323)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.)
+The specified network name is no longer available
+
+                   
+                   --------------------- Error(2024-12-11 12:30:13.3697)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.)   at Mitr.BLL.CommonBussinessBLL.GetDropDown(Int32 masterTableTypeId, Nullable`1 parentId, Boolean isMasterTableType, Boolean isManualTable, Int32 manualTable, Int32 manualTableId) in C:\MitrAzure\Mitr.BLL\CommonBussinessBLL.cs:line 283
+   at Mitr.Areas.DigitalLibrary.Controllers.CommonMethodController.GetDropdown(Nullable`1 ParentId, Int32 masterTableType, Boolean isMasterTableType, Boolean isManualTable, Int32 manualTable, Int32 manualTableId) in C:\MitrAzure\Mitr.Web\Areas\DigitalLibrary\Controllers\CommonMethodController.cs:line 142
+                   
+                   --------------------- Error(2024-12-11 12:30:13.3697)DESKTOP-GC6ULAU-------------------- 
+                   
+                   Exception Type:
+                   Exception Message:
+                   Stack Trace:
+                   Additional Info:A transport-level error has occurred when receiving results from the server. (provider: TCP Provider, error: 0 - The specified network name is no longer available.)
+The specified network name is no longer available
+
+                   

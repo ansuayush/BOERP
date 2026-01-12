@@ -1,0 +1,325 @@
+﻿
+@{
+	ViewBag.Title = "PurchaseOrderPrint";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/PurchasOrder/PurchaseOrderPrint.js"></script>
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<a href="/MaterialManagement/Material/PurchaseOrderIndex?auth=@ViewBag.Auth"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a>Purchase Order<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center">
+		<div class="d-flex justify-content-between align-items-center gap-10">
+			<button onclick="printPurchaseOrder();" type="button" class="btn actionbtn border-r-8">
+				<img src="../../assets/images/icons/help/download-white-icon.svg" class="btn-icon  m-0">
+				</buton>
+				<button type="button" onclick="printPurchaseOrder();" class="btn actionbtn border-r-8">
+					<img src="../../assets/images/icons/help/print-white-icon.svg" class="btn-icon  m-0">
+					</buton>
+		</div>
+	</div>
+</div>
+<div id="divPurchaseOrder" class="print-main border-r-8 p-3 third-light-bg">
+    <div class="white-bg ">
+        <div class="print-header d-flex align-center align-items-center pb-0">
+            <div class="half-column">
+                <img src="../../assets/images/print/bo-international-logo.png" alt="bo-international-logo" class="logoprint" />
+            </div>
+            <div class="half-column text-right printadr ">
+                <span class="d-block">Plot No. 884, Udyog Vihar Phase 5, </span>
+                <span class="d-block">Gurgaon, Haryana - 122016, India </span>
+                <span class="d-block">62606-11557, 9717206370</span>
+            </div>
+        </div>
+        <h1 class="text-center line-bottom">Purchase Order</h1>
+        <div class="print-container">
+            <div class="row">
+                <!-- Start -->
+                <div class="col-md-6 form-group">
+                    <div class="card card-border h-100 dark-b radius-0 p-0  col-default-bottom">
+                        <div class="card-header card-header-sm  header-active  bg-secondary">
+                            <h2 class="title-two align-self-center text-center text-white">Vendor Information</h2>
+
+                        </div>
+                        <div class="card-body view-form-group">
+                            <ul class="m-0 list-group-field">
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">Vendor</div>
+                                    <div class="half-column text-right">
+                                        <strong class="d-block" id="pVendorName"></strong>
+                                        <span id="sVendorAddress1"></span>,
+                                        <span id="sVendorAddress2"></span>
+
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">GST Number</div>
+                                    <div class="half-column text-right">
+                                        <p id="pGSTNumber"></p>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">PAN Number</div>
+                                    <div class="half-column text-right">
+                                        <p id="pPANNumber"></p>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">Phone</div>
+                                    <div class="half-column text-right">
+                                        <p id="pPHONENumber"></p>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">Attn.</div>
+                                    <div class="half-column text-right">
+                                        <p id="pSalesPerson"></p>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">Ref. Number</div>
+                                    <div class="half-column text-right">
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End -->
+                <!-- Start -->
+                <div class="col-md-6 form-group">
+                    <div class="card card-border dark-b radius-0 p-0 h-100 col-default-bottom">
+                        <div class="card-header card-header-sm  header-active  bg-secondary">
+                            <h2 class="title-two align-self-center text-center text-white">Order Information</h2>
+
+                        </div>
+                        <div class="card-body view-form-group">
+                            <ul class="m-0 list-group-field">
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">Order Number</div>
+                                    <div class="half-column text-right">
+                                        <p id="pOrderNumber"></p>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">Order Date</div>
+                                    <div class="half-column text-right">
+                                        <p id="pOrderDate"></p>
+                                    </div>
+                                </li>
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">Payment Terms</div>
+                                    <div class="half-column text-right">
+                                        <p id="pPaymentTerms"></p>
+                                    </div>
+                                </li>
+                                <li class="d-flex flew-wrp">
+                                    <div class="half-column">State Code</div>
+                                    <div class="half-column text-right">
+                                        <p id="pStateCode"></p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End -->
+                <!-- Start -->
+                <div class="col-lg-4 col-md-5 form-group">
+                    <div class="card card-border h-100 dark-b radius-0 p-0  col-default-bottom">
+                        <div class="card-header card-header-sm  header-active  bg-secondary">
+                            <h2 class="title-two align-self-center text-left text-white">Ship to</h2>
+
+                        </div>
+                        <div class="card-body view-form-group">
+                            <ul class="m-0 list-group-field list-sm">
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">Name</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pShiptoName"></span>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">Address</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pShiptoAddress"></span>
+                                        <span id="pShiptoCityState"></span>
+                                        <span id="pShiptoPinCountry"></span>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">GST No.</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pShiptoGSTNo"></span>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">Email Id</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pShiptoEmailId"></span>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">Phone</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pShiptoPhone"></span>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">Attn.</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pShiptoAttn"></span>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End -->
+                <!-- Start -->
+                <div class="col-lg-5 col-md-5 form-group">
+                    <div class="card card-border h-100 dark-b radius-0 p-0  col-default-bottom">
+                        <div class="card-header card-header-sm  header-active  bg-secondary">
+                            <h2 class="title-two align-self-center text-left text-white">Invoice to</h2>
+
+                        </div>
+                        <div class="card-body view-form-group">
+                            <ul class="m-0 list-group-field list-sm">
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">Name</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pBilltoName"></span>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">Address</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pBilltoAddress"></span>,  <span id="pBilltoCityState"></span>, <span id="pBilltoPinCountry"></span>
+                                    </div>
+                                </li>
+
+
+                                <li class="d-flex flew-wrp">
+                                    <div class="column-3">Email Id</div>
+                                    <div class="column-7 text-left">
+                                        <span id="pBilltoEmailId"></span>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End -->
+                <!-- Start -->
+                <div class="col-lg-3 col-md-2 form-group">
+                    <div class="card card-border h-100 dark-b radius-0 p-0  col-default-bottom">
+                        <div class="card-header card-header-sm  header-active  bg-secondary">
+                            <h2 class="title-two align-self-center text-left text-white">QR Code</h2>
+
+                        </div>
+                        <div class="card-body view-form-group d-flex align-self-center align-items-center">
+                            <img src="~/assets/images/qr-code/qr-code-image.png" alt="qr-code" class="qr-code">
+                        </div>
+                    </div>
+                </div>
+                <!-- End -->
+
+                <div class="col-sm-12 form-group">
+                    <table id="tblItemInformation" class="display inovicetbledgn no-footer radius-0 mt-0 ">
+                        <thead>
+                            <tr>
+                                <th width="50" class="text-center  ">S.No.</th>
+                                <th width="200" class="">
+                                    Item Code
+                                </th>
+                                <th width="200" class="">
+                                    Description
+                                </th>
+                                <th width="110">HSN/SAC<span class="d-block">Code</th>
+                                <th width="100">Qty</th>
+                                <th width="100">UoM</th>
+                                <th width="100">Unit Price<span class="d-block">(₹)</span></th>
+                                <th width="100">Discount<span class="d-block">(₹)</span></th>
+                                <th width="100" class="text-right">Total<span class="d-block">(₹)</span></th>
+                                <th width="100" class="text-right">CGST (₹)<span class="d-block">Amount (Rate)</span></th>
+                                <th width="100" class="text-right">SGST (₹)<span class="d-block">Amount (Rate)</span></th>
+                                <th width="100" class="text-right">IGST (₹)<span class="d-block">Amount (Rate)</span></th>
+                                <th width="100" class="text-right">Line Total<span class="d-block">(₹)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+
+                    </table>
+                </div>
+
+                <div class="col-sm-6 form-group">
+                    <div class="note-imp">
+                        <p class="fn-bold">Total Amount in words (₹)</p>
+                        <p id="pInvoiceAmountToWord"></p>
+                    </div>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <div class="note-imp">
+                        <p class="fn-bold">Invoice Total (₹)</p>
+                        <p id="pInvoiceAmount"></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="print-foooter pt-0">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong class="text-black-light">Purchase Order Comments:</strong>
+                    <p class="text-black-light">Kindly dispatch the materials as per our requirement telephonically confirmation. Please dispatch the quantity as per packing std if any addition deduction is acceptable.</p>
+                    <p class="fn-bold text-black-light">Note : Kindly attach the COA of Material with Bill Invoice</p>
+                    Prepared By : Prepared By :<span id="pPreparedBy"></span>
+                </div>
+                <div class="col-sm-6">
+                    <strong class="text-black-light">Terms &amp; Conditions</strong>
+                    <ol class="pb-5 mt-2 ul-pl-15">
+                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                        <li>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                        <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo conseq</li>
+                        <li>uat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </li>
+
+                    </ol>
+                    <div class="text-right mt-5  ">
+                        <strong class="text-black-light">
+                            <strong class="text-black-light">Authorized Signature
+                        </strong>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+      
+    </div>
+</div>
+<script>
+    var Edit_ID = "@ViewBag.id";
+</script>

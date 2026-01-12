@@ -1,0 +1,902 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&amp;display=swap" rel="stylesheet">
+	<link rel="shortcut icon" href="@Url.Content("~/assets/design/images/favicon.png")" type="image/x-icon">
+	<link rel="icon" href="@Url.Content("~/assets/design/images/favicon.png")" type="image/png" sizes="50x50">
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/stellarnav.css"))
+
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/icons.css"))
+
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/bootstrap.min.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/sidebar.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/style.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/select2.min.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/animate.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/bootstrap-multiselect.css"))
+
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/jquery-ui.css.css"))
+
+	@RenderSection("style", required: false)
+
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/custom.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/styledl.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/responsivedl.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/responsive.css"))
+
+
+
+	@Styles.Render("~/Content/ej2/material.css")
+	@Scripts.Render("~/Scripts/ej2/ej2.min.js")
+	@*@System.Web.Optimization.Scripts.Render("~/bundle/unobtrusivejs")
+		@System.Web.Optimization.Scripts.Render("~/bundle/dataTablesjs")
+		<script src="~/assets/design/Scripts/AddInit.js?v=@clsApplicationSetting.GetWebConfigValue("Version")"></script>*@
+	<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+	<script src="~/Areas/DigitalLibrary/DevScript/Common.js"></script>
+	<script src="~/Areas/DigitalLibrary/DevScript/ComboFill.js"></script>
+	<script src="~/assets/design/js/wow.min.js"></script>
+	<script>
+        var virtualPath = "@System.Configuration.ConfigurationManager.AppSettings["VirtualPath"]";
+             var baseURL= "@System.Configuration.ConfigurationManager.AppSettings["BaseURL"]";
+	</script>
+
+	<style>
+		.welcome-body {
+			background: #b7d41b url('../../assets/images/welcom-bg.jpg') no-repeat;
+			position: relative;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
+			justify-content: center;
+			background-attachment: fixed;
+			background-size: cover;
+		}
+	</style>
+</head>
+<body class="disable-left header">
+	<div id="dvMaskFullpage" style="display: none;">
+		<div class="vertical-centered-box">
+			<div class="content">
+				<div class="loader-circle"></div>
+				<div class="loader-line-mask">
+					<div class="loader-line"></div>
+				</div>
+				<img src="../images/favicon.png" alt="">
+				<p>Loading ...</p>
+			</div>
+		</div>
+	</div>
+	<header class="fixed-top">
+		<div class="l-header">
+			<div class="l-header-inner u-cf">
+				<div class="l-header-item u-pull-left"> <span class="l-header-item-logo"> <a href="/Dashboard"><img class="l-header-logo-link-img snd-lgo" src="~/assets/design/images/logo.jpg" alt=""></a> </span> </div>
+				<div class="l-header-item-contact u-pull-right">
+					<ul class="list-unstyled top-menu-list">
+						<li>
+							<a class="top-prf-pic tp-arw" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="~/assets/design/images/NoImage.png" alt="Profile"> </a>
+							<div class="dropdown-menu profile-list">
+								<ul>
+									<li>
+										<div class="media emp-info">
+											<div class="media-left">
+												<div class="prf-img" data-toggle="modal" data-target="#updateimage">
+													<div class="profile-img">
+														@Html.ShowAttachment(clsApplicationSetting.GetSessionValue("AttachmentID"), "media-object")
+													</div>
+													<span class="emp-info-txt">Change Image</span>
+												</div>
+											</div>
+											<div class="media-body align-self-center">
+												<h4 class="media-heading">
+													@Html.CreateAnchor("", "", clsApplicationSetting.GetSessionValue("UserName"))
+
+												</h4>
+												<p>@clsApplicationSetting.GetSessionValue("Designation")</p>
+											</div>
+										</div>
+									</li>
+									<li>
+										@Html.CreateAnchor("", "", "ESS Payroll", "", "", "fa fa-users", "")
+										@*<a href=""><i class="fa fa-users" aria-hidden="true"></i> ESS Payroll</a>*@
+									</li>
+									<li>
+										<a onclick="ListAdd();"><i class="fa fa-user" aria-hidden="true"></i> My Profile</a>
+									</li>
+									<li>
+										@Html.CreateAnchor("", "", "My Setting", "", "", "fa fa-users", "")
+
+									</li>
+									<li>
+										@Html.CreateAnchor("", "/ChangePassword", "Change Password", "", "", "fa fa-users", "")
+									</li>
+									<li>
+										@Html.CreateAnchor("", "/Logout", "Logout", "", "", "fa fa-users", "")
+										@*<a href="/Logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>*@
+									</li>
+							</div>
+						</li>
+						<li><a href="http://www.c3india.org/" target="_blank"> <img class="right-logo" src="../images/c3.png" alt=""></a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- MENU Start -->
+			<div class="stellarnav mtr-o-grn dark right desktop">
+				<a href="#" class="menu-toggle"><span class="bars"><span></span><span></span><span></span></span> </a>
+				<!-- Navigation Menu-->
+				<ul>
+					<a href="#" class="close-menu full"><span class="icon-close"></span> </a>
+					<li class="menu-list"> <a onclick="RedirectToCompleteProfile();" href="#" name="Command" value="Add"><img src="../images/icon/project-icon.svg" alt="Master" width="20px" height="20px"><span>Complete Your Profile</span></a></li>
+					<li class="menu-list"> <a onclick="RedirectToOrientationDetails();" href="#" name="Command" value="Add"><img src="../images/icon/project-icon.svg" alt="Master" width="20px" height="20px"><span>Meeting Details</span></a></li>
+					<li class="menu-list"> <a onclick="RedirectToDeclaration();" href="#" name="Command" value="Add"><img src="../images/icon/project-icon.svg" alt="Master" width="20px" height="20px"><span>Declaration</span></a></li>
+				</ul>
+				<!-- End navigation menu -->
+			</div>
+			<!-- end navigation -->
+		</div>
+	</header>
+	<div class="overlay-bg l-contents"></div>
+
+	<div class="l-contents">
+		<div class="container-fluid">
+			<!-- Start -->
+			<div>
+				@RenderBody()
+			</div>
+		</div>
+	</div>
+	<div id="toast">
+		<div id="toasticon"><i></i></div>
+		<div id="toastMsg"></div>
+	</div>
+	<div class="modal" id="updateimage">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content ">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title"> <i class="fas fa-image"></i> Change Profile Image</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body p-0">
+					<div class="mtrprf">
+						<div class="proflieupd">
+							<div class="prfimg">
+								@*<img src="" id="blah">*@
+								@Html.ShowAttachmentWithid(clsApplicationSetting.GetSessionValue("AttachmentID"), "", "blah")
+								<button type="button" onclick="removeImg()" data-toggle="tooltip" title="Remove" class="rv count-nt"><i class="fas fa-trash-alt"></i></button>
+							</div>
+							@if (clsApplicationSetting.GetSessionValue("AttachmentID").ToString() == "0")
+							{
+								<div class="prftxt">NA</div>
+							}
+							else
+							{
+								<div class="prftxt"> @Html.ShowAttachment(clsApplicationSetting.GetSessionValue("AttachmentID"), "")</div>
+							}
+						</div>
+						<div class="uplinp">
+							<input type="file" name="file-input" id="inputFile" class="file-input__input" onchange="readUrl(this)" />
+							<label class="file-input__label" for="inputFile">
+								<span>Upload File</span>
+								<i class="fas fa-camera float-right lgt-clr m-0"></i>
+							</label>
+						</div>
+					</div>
+				</div>
+				<!-- Modal footer -->
+				<div class=" text-center pt-2 rv">
+					<button type="button" class="btn cnl-btn ripplelink" data-dismiss="modal"><i class="fas fa-times"></i>Close</button>
+					<button type="button" onclick="UploadProfileImage()" class="btn mtr-g-grn btn-l "><i class="fas fa-paper-plane"></i>Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- The Modal -->
+	<div class="modal" id="vf">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content ">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title"><i class="fas fa-user-tie"></i>Ashok</h4>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-12 form-group">
+							<label>Feedback</label>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer porttitor arcu augue, in venenatis nunc feugiat ut. Quisque ut condimentum tortor. Ut feugiat mi non lorem tincidunt efficitur. Phasellus eget arcu sed enim mollis placerat quis at leo. Nunc consequat mi ac lorem ullamcorper aliquam. </p>
+						</div>
+					</div>
+					<!-- Modal footer -->
+					<div class="p-0 text-center mt-3 ">
+						<button type="button" class="btn cnl-btn ripplelink" data-dismiss="modal"><i class="fas fa-times"></i>Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- The Modal -->
+	<div class="modal" id="cf">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content ">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title"><i class="fas fa-user-tie"></i>Amit Kumar</h4>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-12 form-group">
+							<label>Feedback</label>
+							<textarea class="form-control h-100" placeholder="Enter Feedback"></textarea>
+						</div>
+					</div>
+					<!-- Modal footer -->
+					<div class="p-0 text-center mt-3 ">
+						<button type="button" class="btn cnl-btn ripplelink" data-dismiss="modal"><i class="fas fa-times"></i>Close</button>
+						<button type="button" class="btn mtr-o-grn btn-l "><i class="fas fa-paper-plane"></i>Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery-3.4.1.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/popper.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/bootstrap.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/stellarnav.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/notify.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/sweetalert.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/wow.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/select2.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/bootstrap-multiselect.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.bxslider.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.marquee.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/CustomValidate.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/moment.min.js"))
+
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/ToolTip.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/PagesJS/Layout.js"))
+
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/scripts/WorkingSetting.js"))
+
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.signalR-2.4.1.min.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery.sidebar.js"))
+	@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery-ui.min.js"))
+
+	@*@Html.IncludeVersionedJs(Url.Content("~/assets/design/scripts/ListSetting.js"))*@
+	@RenderSection("scripts", required: false)
+	@System.Web.Optimization.Scripts.Render("~/signalr/hubs")
+
+	@if (IsSectionDefined("PreScripts"))
+	{
+		@RenderSection("PreScripts", required: false)
+	}
+	@Html.EJS().ScriptManager()
+	<script type="text/javascript">
+		$(function () {
+			$('#marquee-vertical').marquee({ delay: 0, timing: 50 });
+			$('#marquee-verticaltr').marquee({ delay: 0, timing: 50 });
+			$('#marquee-verticaljn').marquee({ delay: 0, timing: 50 });
+			$('#marquee-verticalbd').marquee({ delay: 0, timing: 50 });
+			$('#marquee-verticalwa').marquee({ delay: 0, timing: 50 });
+		});
+	</script>
+	<script>
+		function ListAdd() {
+			ShowLoadingDialog();
+			var ID = Number('0');
+			var MenuID = Number('298');
+			ShowLoadingDialog();
+			var url = "/Account/RegistrationDetails?Empid=" + ID;
+			var url = "/Account/RegistrationDetails?src=" + EncryptQueryStringJSON(0 + "*" + "/Account/RegistrationDetails" + "*" + ID);
+			window.location.href = url;
+		}
+	</script>
+	<script>
+		$('.targetDiv').hide();
+		$('.targetDiv').first().show();
+		$('.showSingle').click(function () {
+			$('.targetDiv').hide();
+			$('.showSingle').removeClass('active');
+			$('#div' + $(this).attr('target')).show();
+			$(this).addClass('active');
+		});
+	</script>
+	<script>
+		$('.targetDivtwo').hide();
+		$('.targetDivtwo').first().show();
+		$('.showSingletwo').click(function () {
+			$('.targetDivtwo').hide();
+			$('.showSingletwo').removeClass('active');
+			$('#div' + $(this).attr('target')).show();
+			$(this).addClass('active');
+		});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.selectmtr').multiselect({
+				enableFiltering: true,
+				includeSelectAllOption: true,
+				maxHeight: 400,
+				dropUp: true,
+				enableCaseInsensitiveFiltering: true
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		$("textarea").keyup(function (e) {
+
+			var $this = $(this),
+				charLength = $this.val().length,
+				charLimit = parseInt($this.attr('class').match(/maxSize\[(\d+)\]/)[1]);
+			// Displays count
+
+			$this.next(".countshow").html(charLength + " of " + charLimit + " characters used");
+			// Alert when max is reached
+
+			if ($this.val().length >= charLimit) {
+				$this.next(".countshow").html("<strong>You may only have up to " + charLimit + " characters.</strong>");
+				$this.next(".countshow").html("<strong>You may only have up to " + charLimit + " characters.</strong>");
+				$this.next(".countshow").addClass("red-clr");
+			}
+		});
+
+		$("textarea").keydown(function (e) {
+
+			var $this = $(this),
+				charLength = $this.val().length,
+				charLimit = parseInt($this.attr('class').match(/maxSize\[(\d+)\]/)[1]);
+
+
+		});
+	</script>
+	<script>
+         //signalr js code for start hub and send receive notification
+            //var notificationHub = $.connection.notificationHub;
+            //$.connection.hub.start().done(function () {
+            //   // console.log('Notification hub started');
+            //  getNotification();
+            //});
+
+            ////signalr method for push server message to client
+            //notificationHub.client.notify = function (message) {
+            //    if (message && message.toLowerCase() == "fire") {
+            //      //  console.log('fire Notification ');
+            //        getNotification();
+            //    }
+            //}
+        function UploadProfileImage() {
+
+            var fileUpload = $("#inputFile").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            //Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+
+                fileData.append("attachmentfile", files[i]);
+            }
+            $.ajax({
+                url: "/CommonAjax/UploadProfileImageJSON",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: fileData,
+                success: function (response) {
+                    $("#customLoader").hide();
+                    if (response != "0") {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+        function OnPostFailure() {
+            CloseLoadingDialog();
+            FailToaster('Something went wrong');
+        }
+
+        function getNotification() {
+			$.ajax({
+				url: "/Services/_Notification",
+				type: "Get",
+                success: function (data)
+                {
+
+					$(".NotificationDiv").empty();
+                    $(".NotificationDiv").html(data);
+                    var LastTRCount = Number($('.NotificationDiv').find("ul li").not('.no-data').length);
+                    $("#spnMainTotalCount").html(LastTRCount)
+				},
+				error: function (er) {
+					 console.log('error in getNotification');
+
+				}
+			});
+        }
+
+
+        function updateLoggedInUsers() {
+
+            getLoggedInUsers();
+        }
+
+
+    function getLoggedInUsers() {
+			$.ajax({
+                url: "/Account/GetOnlineUser",
+				type: "Get",
+                success: function (data)
+                {
+					$(".OnlineuserList").empty();
+                    $(".OnlineuserList").html(data);
+                    var LastTRCount = Number($('.tableUserLogged').find("tbody tr").length)
+                    $(".spnCountOnline").html(LastTRCount)
+
+				},
+				error: function (er) {
+					alert(er);
+
+				}
+			});
+        }
+
+//        window.onbeforeunload = function (e) {
+
+//    //This is called when we close the page
+//    $.connection.hub.stop();
+//    return "You killed me! :'(";
+//};
+
+$(document).ready(function () {
+    setInterval(function () {
+        SessionEnd();
+    }, 10000);
+
+    var TS = '@TempData["Success"]';
+    var TSM = '@TempData["SuccessMsg"]';
+    if (TS == "Y") {
+        SuccessToaster(TSM);
+    }
+    if (TS == "N") {
+        FailToaster(TSM);
+    }
+});
+
+
+
+		function SessionEnd() {
+			var ReturnURL = window.location.href;
+			$.ajax({
+                      url: "/CommonAjax/IsSessionEndJSON",
+				type: "Get",
+				data: { ReturnURL: ReturnURL},
+				success: function (obj)
+                {
+					if (obj.Status) {
+						if (obj.RedirectURL != "") {
+							window.location.href = obj.RedirectURL;
+						} else {
+							window.location = "/Logout";
+						}
+					}
+
+                          },
+                error: function (er) {
+                              window.location = "/Logout";
+                          }
+                      });
+              }
+
+              var MenuID = Number(@ViewBag.MenuID);
+              wow = new WOW();
+              wow.init();
+
+
+                  function SuccessToaster(Message) {
+            $("#toastMsg").html(Message);
+            $("#toasticon i").addClass("fas fa-check green-clr ");
+                  var x = document.getElementById("toast")
+                     x.className = "show";
+                  setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+              }
+
+              function FailToaster(Message) {
+            $("#toastMsg").html(Message);
+            $("#toasticon i").addClass("fas fa-exclamation-triangle red-clr" );
+                  var x = document.getElementById("toast")
+                  x.className = "show toaster-warning";
+                  setTimeout(function () { x.className = x.className.replace("show toaster-warning", ""); }, 5000);
+              }
+
+
+              function ValidateFile(FileName) {
+
+                  var result = false;
+                  if (document.getElementById(FileName).files[0].name.toUpperCase().match(/\.(@clsApplicationSetting.GetWebConfigValue("AllowedFileUploadExtension").ToUpper())$/))
+                  {
+
+                      var filesize=@clsApplicationSetting.GetWebConfigValue("AllowedFileUploadSize");
+                      var sizeinbytes = document.getElementById(FileName).files[0].size;
+                      if (filesize >= sizeinbytes) {
+                          result = true;
+                      }
+                      else {
+                          FailToaster("File size should be less than @clsApplicationSetting.AllowedFileSize("File")");
+                          document.getElementById(FileName).value = '';
+                          result = false;
+
+                      }
+                      return result;
+                  }
+                  else {
+                      FailToaster("Invalid file type , please select valid file again");
+                      document.getElementById(FileName).value = '';
+                      return result;
+                  }
+
+              }
+
+              function ValidateImage(FileName) {
+
+                  var result = false;
+                  if (document.getElementById(FileName).files[0].name.toUpperCase().match(/\.(@clsApplicationSetting.GetWebConfigValue("AllowedImageUploadExtension").ToUpper())$/))
+                  {
+
+                      var filesize=@clsApplicationSetting.GetWebConfigValue("AllowedImageUploadSize");
+                      var sizeinbytes = document.getElementById(FileName).files[0].size;
+                      if (filesize >= sizeinbytes) {
+                          result = true;
+                      }
+                      else {
+                          FailToaster("Image should be less than @clsApplicationSetting.AllowedFileSize("Image")");
+
+                          document.getElementById(FileName).value = '';
+                          result = false;
+
+                      }
+                      return result;
+                  }
+                  else {
+                      FailToaster("Invalid Image type , please select valid Image");
+                      document.getElementById(FileName).value = '';
+                      return result;
+                  }
+
+              }
+	</script>
+
+
+	<script>
+		// JavaScript Document
+		$(function () {
+			$('#js-nav-toggle').click(function (e) {
+				e.preventDefault();
+				$("html").toggleClass("is-sideopen");
+				$("#js-nav-toggle").toggleClass("is-active");
+			});
+
+			var $content = $('.l-contents');
+			var $header = $('.l-header');
+
+
+			$content.click(function () {
+				$("html").removeClass("is-sideopen");
+			});
+
+
+			$header.click(function () {
+				$("html").removeClass("is-sideopen");
+			});
+
+
+		});
+
+
+		$(function () {
+
+			var $dropdown = $('.js-dropdown');
+			var $content = $('.l-contents');
+			var $toggle = $('#js-nav-toggle');
+
+
+			$('.js-dropdown-menu').hide();
+			$dropdown.click(function () {
+				$('i').removeClass('is-rotate');
+				$('.js-dropdown-menu').slideUp(200);
+				if ($('+.js-dropdown-menu', this).css('display') == 'none') {
+					$('i', this).addClass('is-rotate');
+					$('+.js-dropdown-menu', this).slideDown(200);
+				}
+			});
+
+
+			$content.click(function () {
+				$('i').removeClass('is-rotate');
+				$('.js-dropdown-menu').slideUp(200);
+				if ($('+.js-dropdown-menu', this).css('display') == 'none') {
+					$('i', this).addClass('is-rotate');
+					$('+.js-dropdown-menu', this).slideDown(200);
+				}
+			});
+
+
+			$toggle.click(function () {
+				$('i').removeClass('is-rotate');
+				$('.js-dropdown-menu').slideUp(200);
+				if ($('+.js-dropdown-menu', this).css('display') == 'none') {
+					$('i', this).addClass('is-rotate');
+					$('+.js-dropdown-menu', this).slideDown(200);
+				}
+			});
+
+		});
+
+		$(function () {
+			$('.is-ac-close').hide();
+			$(".is-ac-click").on("click", function () {
+				if ($(this).children('i').is('.fa-angle-right')) {
+					$(this).children('i')
+						.removeClass('fa-angle-right')
+						.addClass('fa-angle-down');
+				} else {
+					$(this).children('i')
+						.removeClass('fa-angle-down')
+						.addClass('fa-angle-right');
+				}
+				$(this).next().slideToggle(200);
+			});
+
+			$('.is-ac-close').hide();
+			$(".is-ac-bar").on("click", function () {
+
+				if ($(this).find('i').is('.fa-caret-down')) {
+
+					$(this).find('i')
+						.removeClass()
+						.addClass('fa fa-caret-up');
+				} else {
+					$(this).find('i')
+						.removeClass()
+						.addClass('fa fa-caret-down');
+				}
+				$(this).next().slideToggle(200);
+			});
+		});
+
+
+
+
+		//---------------------------------------------------
+		// ▼　tab
+		//---------------------------------------------------
+		$(function () {
+			var rwdTab = $('.c-tab'),
+				switchPoint = 768,
+				fadeSpeed = 300,
+				slideSpeed = 300;
+
+			var tabBtn = rwdTab.children('.c-tab-panel').children('.c-tab-heading'),
+				contentsArea = rwdTab.children('.c-tab-panel').children('.c-tab-body');
+
+			tabBtn.on('click', function () {
+				if (!$(this).hasClass('c-tab-active')) {
+					tabBtn.removeClass('c-tab-active');
+					$(this).addClass('c-tab-active');
+
+					if (window.innerWidth > switchPoint) {
+						contentsArea.fadeOut(fadeSpeed);
+						$(this).next().fadeIn(fadeSpeed);
+					} else {
+						contentsArea.slideUp(slideSpeed);
+						$(this).next().slideDown(slideSpeed);
+					}
+				}
+			});
+
+			tabBtn.first().click();
+		});
+
+
+
+	</script>
+	<!-- required -->
+	<script type="text/javascript">
+		jQuery(document).ready(function ($) {
+			jQuery('.stellarnav').stellarNav({
+				theme: 'dark',
+				breakpoint: 960,
+				position: 'right',
+
+			});
+			$('.notifyjs-corner').empty();
+		});
+	</script>
+	<!-- required -->
+	<script>
+		$("document").ready(function () {
+
+			$('.dropdown-menu').on('click', function (e) {
+				if ($(this).hasClass('dropdown-menu-form')) {
+					e.stopPropagation();
+				}
+			});
+
+			if ($(".MenuListUl").find("li").parent().length < 4) {
+				$(".MenuListUl").addClass("menulastchild");
+			}
+			else {
+				$(".MenuListUl").removeClass("menulastchild");
+			}
+
+		});
+
+
+	</script>
+	<script>
+
+		var links = document.querySelectorAll('.ripplelink');
+
+		for (var i = 0, len = links.length; i < len; i++) {
+			links[i].addEventListener('click', function (e) {
+				var targetEl = e.target;
+				var inkEl = targetEl.querySelector('.ink');
+
+				if (inkEl) {
+					inkEl.classList.remove('animate');
+				}
+				else {
+					inkEl = document.createElement('span');
+					inkEl.classList.add('ink');
+					inkEl.style.width = inkEl.style.height = Math.max(targetEl.offsetWidth, targetEl.offsetHeight) + 'px';
+					targetEl.appendChild(inkEl);
+				}
+
+				inkEl.style.left = (e.offsetX - inkEl.offsetWidth / 2) + 'px';
+				inkEl.style.top = (e.offsetY - inkEl.offsetHeight / 2) + 'px';
+				inkEl.classList.add('animate');
+			}, false);
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 250) {
+				$('.header').addClass("sticky");
+			}
+			else {
+				$('.header').removeClass("sticky");
+			}
+		});
+
+
+	</script>
+
+	<script>
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 200) {
+				$('.navsky').addClass('fixed');
+			} else {
+				$('.navsky').removeClass('fixed');
+			}
+		});
+	</script>
+
+	<script type="text/javascript">
+		var a = document.getElementById("blah");
+		function readUrl(input) {
+			if (input.files) {
+				var reader = new FileReader();
+				reader.readAsDataURL(input.files[0]);
+				reader.onload = (e) => {
+					a.src = e.target.result;
+				}
+
+			}
+		}
+
+		$('#inputFile').on("change", function () {
+			$('.rv').addClass("rvbtn");
+		});
+		$('.count-nt').on("click", function () {
+			$('.text-center').removeClass("rvbtn");
+		});
+
+		$('.rv').on("click", function () {
+			$(this).removeClass("rvbtn");
+			$('.prfimg').removeClass("imgshow");
+			$('.prftxt').removeClass("prftxtshow");
+
+		});
+		$('#inputFile').on("change", function () {
+			$('.prfimg').addClass("imgshow");
+			$('.prftxt').addClass("prftxtshow");
+		});
+
+
+
+
+		var inputFile = document.getElementById("inputFile");
+		removeImg = () => {
+			a.src = "";
+			inputFile.value = "";
+		}
+	</script>
+
+	<script type="text/javascript">
+		$('#product-slider').bxSlider({
+			nextText: "",
+			auto: true,
+
+			prevText: "",
+			pager: false,
+			minSlides: 1,
+			maxSlides: 5,
+			startSlide: 0,
+			slideMargin: 10,
+			slideWidth: 200,
+			infiniteLoop: true,
+			hideControlOnEnd: false,
+		});
+	</script>
+	@*<script type="text/javascript">
+		  $('.rdaction').change(function(){
+		  $('tr').removeClass('checked');
+		  if($(this).is(':checked')){
+			$(this).closest('tr').addClass('checked');
+		  }
+		});
+		</script>*@
+	<noscript>
+		<p class="NojavaScript">Javascripts is disabled </p>
+	</noscript>
+	<script>
+		$(document).ready(function () {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+
+		function RedirectToCompleteProfile() {
+			CommonAjaxMethod(virtualPath + 'UserProcess/UpdateVideoReview', { CandidateId: CandidateId, VideoReviewed: "CompleteProfileDetails" }, 'POST', function (response) {
+				SuccessToaster(response.SuccessMessage);
+				window.location.href = virtualPath + 'UserProcess/CompleteProfileDetails';
+			});
+		}
+		function RedirectToOrientationDetails() {
+			CommonAjaxMethod(virtualPath + 'UserProcess/UpdateVideoReview', { CandidateId: CandidateId, VideoReviewed: "MeetingDetails" }, 'POST', function (response) {
+				SuccessToaster(response.SuccessMessage);
+				window.location.href = virtualPath + 'UserProcess/MeetingDetails';
+			});
+		}
+		function RedirectToDeclaration() {
+			CommonAjaxMethod(virtualPath + 'UserProcess/UpdateVideoReview', { CandidateId: CandidateId, VideoReviewed: "DeclarationDetails" }, 'POST', function (response) {
+				SuccessToaster(response.SuccessMessage);
+				window.location.href = virtualPath + 'UserProcess/DeclarationDetails';
+			});	
+		}
+		function RedirectToLogout() {
+			window.location.href = virtualPath + 'UserProcess/Logout';
+		}
+
+	</script>
+</body>
+</html>

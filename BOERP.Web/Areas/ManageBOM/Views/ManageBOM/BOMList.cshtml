@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "BOM List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- page title -->
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h5 class="title-two m-0 align-self-center">
+        Bill of Materials <img src="../../assets/images/icons/help/info-icon.png"
+                               alt="info icon" class="icon-sm" data-toggle="tooltip"
+                               title="This page shows list of all the products">
+    </h5>
+    <div class="align-self-center gap-10 d-flex heading-action-btn">
+
+        <a href="/ManageBOM/CreateBOM?auth=@ViewBag.Auth&bomId=0"
+           class="btn mr-2 actionbtn border-r-8">
+            <img src="../../assets/images/icons/help/add-white-icon.png"
+                 class="btn-icon">Create BOM
+        </a>
+
+    </div>
+
+    @*<div class="col-sm-2 ml-auto form-group ml-auto form-group align-self-end">
+        <div class="d-flex gap-5 justify-content-end">
+            <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+            <div class="searchbox">
+
+                <div class="search  w-350">
+                    <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                    <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                </div>
+
+            </div>
+
+        </div>
+    </div>*@
+
+</div>
+
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none">
+            <label for="role">Supplier </label>
+            <select class="form-control applyselect" id="ddlSupplier" onchange="onchangeSupplier();">
+            </select>
+        </div>
+        @*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+                <label for="role">Location</label>
+                <select class="form-control applyselect" id="ddlLoation" onchange="onchangeLoation();">
+                </select>
+            </div>*@
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none">
+            <label for="role">Status </label>
+            <select class="form-control applyselect" id="ddlStatus" onchange="bindItemMasterGridFilter();">
+            </select>
+        </div>
+
+
+        <div class="col-sm-2 ml-auto form-group align-self-end">
+            <div class="d-flex gap-5 justify-content-end">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox">
+
+                    <div class="search w-350">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!--  -->
+    <!--<div class="table-responsive">
+        <table id="tblPurchaseOrder" class="display rstable single-sort dgntable dataTable no-footer">
+            <thead>
+                <tr>-->
+    @*<th width="45">SR</th>*@
+    <!--<th width="150">Document No</th>
+        <th width="120">Document Date</th>
+        <th width="200">Supplier’s Name</th>
+        <th width="100">Invoice No</th>
+        <th width="100">Invoice Date</th>
+        <th width="150">Created By</th>
+        <th width="150">Comments</th>
+        <th width="100">Audit Trail</th>
+        <th width="100"> Status</th>
+        <th width="60">Actions</th>
+    </tr>
+    <tr class="searchfilter">-->
+    @*<th></th>*@
+    <!--<th>
+                        <div class="filterdgn">
+                            <input type="text" class="filter-input" id="txtDocNumber"
+                                   placeholder="Search"> <label for="search" class="m-0">
+                                <img src="~/assets/images/icons/help/search-icon.png"
+                                     class="filtersearchincon" />
+                            </label>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="filterdgn">
+                            <input type="text" class="filter-input" id="txtDocDate"
+                                   placeholder="Search"> <label for="search" class="m-0">
+                                <img src="~/assets/images/icons/help/search-icon.png"
+                                     class="filtersearchincon" />
+                            </label>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="filterdgn">
+                            <input type="text" class="filter-input" id="txtSuppName"
+                                   placeholder="Search"> <label for="search" class="m-0">
+                                <img src="~/assets/images/icons/help/search-icon.png"
+                                     class="filtersearchincon" />
+                            </label>
+                        </div>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>-->
+    <!--  -->
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+
+
+<!-- close  agrid -->
+@*</div>*@
+
+<!-- CLose -->
+<!--  -->
+@*</main>*@
+
+@*Ag Grid Scripts Start*@
+
+<script src="~/Areas/ManageBOM/DevScript/BomList.js"></script>
+
+
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+

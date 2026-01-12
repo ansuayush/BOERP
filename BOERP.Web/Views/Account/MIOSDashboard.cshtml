@@ -1,0 +1,130 @@
+﻿@using SahajFramework.CommonClass;
+@{
+	Layout = null;
+	string img = ViewBag.img;
+	string userid = ViewBag.UserId;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Generic</title>
+	<meta name="title" content="Generic: MyTicket" />
+	<meta name="keywords" content="Generic: MyTicket" />
+	<meta name="description" content="Generic: MyTicket" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+	<link rel="shortcut icon" href="@Url.Content("~/assets/design/images/favicon.png")" type="image/x-icon">
+	<link rel="icon" href="@Url.Content("~/assets/design/images/favicon.png")" type="image/png" sizes="50x50">
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/icons.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/bootstrap.min.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/style.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/custom.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/m-style.css"))
+	@Html.IncludeVersionedCss(Url.Content("~/assets/design/css/m-responsive.css"))
+
+</head>
+<body>
+	<div class="m-container iso-container">
+		<header class="m-header">
+			<div class="container">
+				<nav class="navbar m_navbar">
+					<!-- Brand -->
+					<a class="navbar-brand" href="#"><img src="~/assets/design/images/mitr-logo.png" class="mlogosz" /></a>
+
+
+					<!-- Links -->
+					<!--<ul class="list-unstyled m-rightside">-->
+					@*<li><a href=""><img src="~/assets/design/images/c3-logo.png" class="m-c3logo" /></a> </li>*@
+					<!--<li><a href="/logout"><span class="lgoutdgn"><i class="fas fa-sign-out-alt m-0"></i></span></a></li>
+	</ul>-->
+					<ul class="list-unstyled m-rightside">
+						<li>
+
+							<div class="dropdown menudrop ">
+								<span class="lgoutdgn">
+									<button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="fas fa-ellipsis-v m-0"></i>
+									</button>
+								</span>
+								<div class="dropdown-menu munudropdowndgn" aria-labelledby="dropdownMenuButton">
+									<ul class="list-unstyled">
+										<li><a href="/DeletedAc" class="dropdown-item"><i class="fas fa-trash-alt menuicon"></i>Deleted account</a></li>
+										<li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt menuicon"></i>Logout</a></li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="prfcardgn">
+				<div class="dateprfdgn">
+					@System.DateTime.Now.ToString("dd/MM/yyyy")
+
+					<span class="spc-lne">|</span>
+					@System.DateTime.Now.ToShortTimeString()
+
+				</div>
+				<div class="prfcardinfo">
+					<div class="d-flex align-items-center">
+						<div class="image">
+							@Html.ShowAttachmentforMobile(img, userid, "")
+							@*<img src="~/assets/design/images/mobile/profile-pic.png">*@
+						</div>
+						<div class="ml-3 w-200 righsidetxt">
+							<h2>Welcome</h2>
+							<h4>@ViewBag.FullName  </h4>
+							<span>@ViewBag.Desgination</span>
+						</div>
+					</div>
+				</div>
+				<img src="~/assets/design/images/mobile/left-halfcircle.png" class="lefthalfcircle" /> <img src="~/assets/design/images/mobile/right-halfcircle.png" class="righthalfcircle" />
+			</div>
+		</header>
+		<div class="container mt-3  ">
+			<div class="row">
+
+				<div class="col-sm-6 wf-575">
+					<a onclick="ListAdd();" class="boxicon ">
+						<div class="image"> <img src="~/assets/design/images/mobile/homeicon/Personnel-icon.png" alt="Profile icon"> </div>
+						<div class="title">Profile</div>
+					</a>
+				</div>
+				<div class="col-sm-6  wf-575">
+					@*<a href="http://demo.sahajapps.com/mitr/office-policies.html?src=F58C01C57DF8A29622CF7FAFD09D41902F14DD3457DB8AA1AE9967AB23C9ED6FCB3A9B04105691E57DE810A23CA66135B751EBE60516" class="boxicon">*@
+					<a onclick="ListAddoffice();" class="boxicon">
+						<div class="image"> <img src="~/assets/design/images/mobile/homeicon/Office-Policy-icon.png" alt="Office Policy icon"> </div>
+						<div class="title">Office Policies</div>
+					</a>
+				</div>
+				
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+@Html.IncludeVersionedJs(Url.Content("~/assets/design/Scripts/CustomValidate.js"))
+@Html.IncludeVersionedJs(Url.Content("~/assets/design/js/jquery-3.4.1.min.js"))
+<script>
+
+	function ListAdd() {
+		debugger;
+		var UserId = Number('@ViewBag.UserId');
+		var MenuID = Number(0);
+		//var url = "/Account/RegistrationDetails?Empid=" + ID;
+		var url = "/Account/RegistrationDetailsIOS?src=" + EncryptQueryStringJSON(0 + "*" + "/Account/RegistrationDetailsIOS" + "*" + UserId+"*" + "IOSMobile"+"*");
+		window.location.href = url;
+	}
+	function ListAddoffice() {
+		debugger;
+		var UserId = Number('@ViewBag.UserId');
+		var MenuID = Number(0);
+		//var url = "/Account/RegistrationDetails?Empid=" + ID;
+		var url = "/Account/OfficePolicies?src=" + EncryptQueryStringJSON(0 + "*/Account/OfficePolicies*" + "*" + UserId+"*" + "IOSMobile"+"*");
+		window.location.href = url;
+	}
+</script>

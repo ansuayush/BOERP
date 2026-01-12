@@ -1,0 +1,42 @@
+﻿
+@model Mitr.Models.UserRole
+
+
+
+@using (Ajax.BeginForm("_AddRole", "Tools",
+        new { src = ViewBag.src },
+        new AjaxOptions { HttpMethod = "POST", OnSuccess="OnSuccess" },
+    new { @id = "_AddRoleFrom" })
+    )
+{
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => Model.RoleID)
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+            <label>Role Name<sup>*</sup></label>
+            @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+            <label>Description</label>
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control h-200" })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        @if (Model.RoleID > 0)
+        {
+            <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Update</button>
+        }
+        else
+        {
+            <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+        }
+    </div>
+
+}

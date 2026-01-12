@@ -1,0 +1,187 @@
+﻿﻿
+@{
+    ViewBag.Title = "AddTaskMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="m-content">
+    <div class="m-portlet p-3">
+        <input type="hidden" id="hdnEmployeeMasterId" />
+        <input type="hidden" id="hdnUploadActualFileName" />
+        <input type="hidden" id="hdnUploadNewFileName" />
+        <input type="hidden" id="hdnUploadFileUrl" />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="m-widget3 mb-3">
+                    <div class="m-widget44 lddng">
+                        <div class="panel-heading">Employee Master</div>
+
+                        <div class="row">
+                            <div class="col-lg-8 form-group">
+
+                                <div class="row">
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Employee Code  <sup class="red-clr">*</sup></label>
+                                        <input type="text" class="form-control Mandatory" name="Employee Code" onchange="HideErrorMessage(this)" id="EmpCode" placeholder="Employee Code">
+                                        <span id="spEmpCode" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Name  <sup class="red-clr">*</sup></label>
+                                        <input type="text" class="form-control Mandatory" name="Name" onchange="HideErrorMessage(this)" id="EmpName" placeholder="Name">
+                                        <span id="spEmpName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Email<sup class="red-clr">*</sup></label>
+                                        <input type="text" class="form-control Mandatory" name="Email" onchange="HideErrorMessage(this)" id="email" placeholder="Email" onchange="validateEmailInput(this)">
+                                        <span id="spemail" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Phone</label>
+                                        <input type="text" class="form-control" name="Phone" maxlength="10" id="phoneno" placeholder="Phone" onchange="validatePhoneInput(this)">
+                                        <span id="spphoneno" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Password<sup class="red-clr">*</sup></label>
+                                        <input type="password" id="password" onchange="HideErrorMessage(this)" class="form-control Mandatory">
+                                        <span id="sppassword" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                        <i class="toggle-password fa fa-fw fa-eye-slash"></i>
+                                    </div>
+
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Roles<sup class="red-clr">*</sup></label>
+                                        <select id="result" class="form-control dpselect Mandatory" onchange="HideErrorMessage(this)" multiple>
+                                        </select>
+                                        <span id="spresult" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Reporting Manager <sup class="red-clr">*</sup></label>
+                                        <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="dldManager">
+                                            <option value="Select">Select</option>
+                                        </select>
+                                        <span id="spdldManager" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Designation<sup class="red-clr">*</sup></label>
+                                        <select id="dldDesignation" onchange="HideErrorMessage(this)" class="form-control applyselect Mandatory">
+                                            <option value="Select">Select</option>
+                                        </select>
+                                        <span id="spdldDesignation" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">State</label>
+                                        <select class="form-control applyselect" onchange="HideErrorMessage(this)" id="dldState">
+                                        </select>
+                                    </div>
+
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">Department <sup class="red-clr">*</sup></label>
+                                        <select id="dldDepartment" onchange="HideErrorMessage(this)" class="form-control applyselect Mandatory">
+                                            <option value="Select">Select</option>
+                                        </select>
+                                        <span id="spdldDepartment" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+                                    <div class=" form-group col-lg-4">
+                                        <label for="Lead Details" class="form-control-label">OTP Email Id <sup class="red-clr">*</sup></label>
+                                        <input type="email" id="otpEmail" class="form-control Mandatory" onchange="HideErrorMessage(this)" placeholder="Enter Email" />
+                                        <span id="spotpEmail" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </div>
+
+                                    <div class="col-lg-3 align-self-center mt-3" id="forward">
+                                        <div class="form-group">
+                                            <div class="checkdgn checkdgnlsit  ">
+                                                <input id="isEA" name="checkbox" class="checkbox" type="checkbox" >
+                                                <label for="carry">Is User EA?</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-lg-3 align-self-center mt-3" id="forward">
+                                        <div class="form-group">
+                                            <div class="checkdgn checkdgnlsit  ">
+                                                <input id="isDirector" name="checkbox" class="checkbox" type="checkbox" >
+                                                <label for="carry">Is User Director?</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+
+
+                            </div>
+                           
+                            
+                            <div class="col-lg-3 form-group">
+                                <div class="uplemp">
+                                    <img src="img/sahaj-logo-icon.png" id="image" alt="">
+                                    <label>Photo</label>
+                                    <input type="file" class="form-control" name="" id="resultImage">
+                                    <a  id="addmoreItem" class="btn m-btn--pill mt-2 btn-outline-info addbtn btn-sm m-btn m-btn--custom" style="color: white">Upload</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="m-grid__item m-footer">
+    <div class="m-container m-container--fluid m-container--full-height m-page__container">
+        <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+            <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                <button type="button" class="btn btn-primary" onclick="SaveEmpCategory()">
+                    <i class="fa fa-save	" aria-hidden="true"></i> Save
+                </button>
+                <!--  <button type="submit" class="btn btn-primary"><i class="fa fa-save	" aria-hidden="true"></i> Submit</button> -->
+                <a href="~/ManageEmployee/EmployeeMaster?auth=@ViewBag.Auth">
+                    <button type="button" class="btn btn-secondary">
+                        <i class="fa fa-times" aria-hidden="true"></i> Close
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="~/Areas/ManageEmployee/DevScript/AddEmployee.js"></script>
+
+<script type="text/javascript">
+    var Edit_ID = "@ViewBag.EditId";
+    console.log("Edit Id" + Edit_ID);
+</script>
+    <script type="text/javascript">
+        $('#result').on('change', function () {
+            $('.sc').css('display', 'none');
+            if ($(this).val() === 'sc') {
+                $('.sc').css('display', 'block');
+            }
+
+            $('.se').css('display', 'none');
+            if ($(this).val() === 'se') {
+                $('.se').css('display', 'block');
+            }
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(".toggle-password").click(function () {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            input = $(this).parent().find("input");
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>

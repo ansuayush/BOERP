@@ -1,0 +1,240 @@
+﻿
+@{
+    ViewBag.Title = "GrnDocument";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="/MaterialManagement/Material/GRNList?Auth=@ViewBag.AuthToken"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a>PO0021 <span class="badge badge-success ml-2" href="#">Approved</span>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+            <button class="btn actionbtn border-r-8">
+                <img src="../../assets/images/icons/help/share-white-icon.svg" class="btn-icon">
+            </button>
+            <button type="" class="btn actionbtn border-r-8"><img src="../../assets/images/icons/help/download-white-icon.svg" alt="" class="btn-icon"></button>
+            <button type="" class="btn mr-2 actionbtn border-r-8"><img src="../../assets/images/icons/help/print-white-icon.svg" alt="" class="btn-icon"></button>
+        </div>
+    </div>
+</div>
+
+<div class="card br-none p-0">
+    <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+        <h2 class="title-two align-self-center">Purchase Order</h2>
+        <div class="align-self-center"></div>
+    </div>
+    <div class="card-body view-form-group">
+        <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 form-group">
+                <label class="readonlay">Name &amp; Address of Supplier</label>
+                <p>Acme Co. <br> 26/3, 30, Nanik Niwas, Dr.D.D Sathe Marg, <br> Near Girgaon Church, Opera House, <br> Mumbai (Maharashtra), India - 400004</p>
+
+
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label class="readonlay">GSTIN</label>
+                <p class="m-0">
+                    27AACCF7457K1Z7
+
+                </p>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label class="readonlay">Sales Person</label>
+                <p class="m-0">
+                    Srikant Verma
+
+                </p>
+            </div>
+
+
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label class="readonlay">Name of Raised</label>
+                <p class="m-0">
+                    Arjun Mehra
+
+                </p>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label class="readonlay">Department</label>
+                <p class="m-0">Finance</p>
+            </div>
+
+            <div class="col-sm-12"><hr></div>
+
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-lg-4 col-md-3  d-flex justify-content-between">
+                        <label class="m-0">Series</label>
+                        <p class="m-0  w-350 text-right">PO/2425</p>
+                    </div>
+                    <div class="col-lg-4 col-md-3  d-flex justify-content-between">
+                        <label class="m-0">Purchase Order</label>
+                        <p class="m-0  w-350 text-right">10017</p>
+                    </div>
+
+                    <div class="col-lg-4 col-md-3  d-flex justify-content-between">
+                        <label class="m-0">Purchase Order Date</label>
+                        <p class="m-0  w-350 text-right">11/04/2025</p>
+                    </div>
+                    <div class="col-lg-4 col-md-3  d-flex justify-content-between">
+                        <label class="m-0">Ship To</label>
+                        <p class="m-0 w-350  text-right">Head Office</p>
+                    </div>
+                    <div class="col-lg-4 col-md-3  d-flex justify-content-between">
+                        <label class="m-0">Bill To</label>
+                        <p class="m-0 w-350  text-right">Head Office</p>
+                    </div>
+
+                    <div class="col-lg-4 col-md-3  d-flex justify-content-between">
+                        <label class="m-0">
+                            Indent No.
+                        </label>
+                        <p class="m-0 w-350 text-right ">Indent1/IND_1-4000, INDENT/IND-4002 </p>
+                    </div>
+
+                    <div class="col-lg-4 col-md-3  d-flex justify-content-between">
+                        <label class="m-0">
+                            Payment Terms
+                        </label>
+                        <p class="m-0 w-350 text-right">Dispatch Term</p>
+                    </div>
+
+                    <div class="col-lg-4 col-md-3  d-flex justify-content-between">
+                        <label class="m-0">
+                            Number of Items
+                        </label>
+                        <p class="m-0 w-350 text-right">1</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-12 ">
+                <div class="table-responsive">
+                    <table class="table  table-custom">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th width="150" class="text-center">Indent No	</th>
+                                <th width="300">Item Details</th>
+                                <th width="150" class="text-center">HSN</th>
+                                <th width="150" class="text-center">Quantity</th>
+                                <th width="150" class="text-center">UoM</th>
+                                <th width="150" class="text-center">Unit <span class="d-block">Price</span></th>
+                                <th width="150" class="text-center">Amount Before<sapn class="d-block">Discount</sapn></th>
+                                <th width="150" class="text-center">Discount %</th>
+                                <th width="150" class="text-center">Amount After <sapn class="d-block">Discount</sapn></th>
+                                <th width="150" class="text-center">IGST%</th>
+                                <th width="150" class="text-center">IGST <span class="d-block">Amount (₹)</span> </th>
+                                <th width="150" class="text-center">CGST%</th>
+                                <th width="150" class="text-center">CGST <span class="d-block">Amount (₹)</span> </th>
+                                <th width="150" class="text-center">SGST%</th>
+                                <th width="210" class="text-center">SGST <span class="d-block">Amount (₹)</span> </th>
+                                <th width="150">Total Cost</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>IND0001</td>
+                                <td>
+                                    Item Code : SKU001<br>
+                                    Item Name : Material 4<br>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+
+
+                                </td>
+                                <td>#12345	</td>
+                                <td class="text-right">100</td>
+                                <td class="text-center">Kg</td>
+                                <td class="text-right">100</td>
+                                <td class="text-right">10</td>
+                                <td class="text-right">500</td>
+                                <td class="text-right">18</td>
+                                <td class="text-right">18</td>
+                                <td class="text-right">200</td>
+                                <td class="text-right">6</td>
+                                <td class="text-right">300</td>
+                                <td class="text-right">5</td>
+                                <td class="text-right">400</td>
+                                <td class="text-right">₹ 4000.00</td>
+
+                            </tr>
+                        </tbody>
+                        <tfoot class="tdfooter">
+                            <tr>
+                                <td colspan="15" rowspan="10">
+                                    <ul class="list-unstyled table-imp">
+                                        <li class="d-flex flex-wrap"><span class="w-150">PO Amount</span> <span>Ten Thousand, Ten Rupees and Zero Paise Only</span></li>
+                                        <li class="d-flex flex-wrap"><span class="w-150">IGST</span> <span>Four Hundred Rupees and Zero Paise Only</span></li>
+                                        <li class="d-flex flex-wrap"><span class="w-150">CGST</span> <span>Five Rupees and Zero Paise Only</span></li>
+                                        <li class="d-flex flex-wrap"><span class="w-150">SGST</span>	<span>Five Rupees and Zero Paise Only</span></li>
+                                    </ul>
+
+
+
+                                </td>
+                                <td width="200">Total (before tax) :</td>
+                                <td class="text-right" width="100">₹ 40,000.00</td>
+                            </tr>
+
+                            <tr>
+                                <td>Other Charges :</td>
+                                <td class="text-right">₹ 500.00 </td>
+                            </tr>
+                            <tr>
+                                <td class="fn-sm">IGST :</td>
+                                <td class="text-right fn-sm">₹ 810.00</td>
+                            </tr>
+
+                            <tr>
+                                <td class="fn-sm">CGST :</td>
+                                <td class="text-right fn-sm">₹ 810.00</td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="fn-sm">SGST :</td>
+                                <td class="text-right fn-sm">₹ 0.00</td>
+
+                            </tr>
+
+                            <tr>
+                                <td>Total Tax :</td>
+                                <td class="text-right">₹ 1620.00</td>
+
+                            </tr>
+
+                            <tr>
+                                <td>Total (After Tax) :</td>
+                                <td class="text-right">₹ 41,620.00</td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>Rounding Amount :</td>
+                                <td class="text-right">₹ 00.00</td>
+
+                            </tr>
+                            <tr>
+                                <td>Total Amount :</td>
+                                <td class="text-right">₹ 42,120.00 </td>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

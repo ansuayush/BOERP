@@ -1,0 +1,29 @@
+
+.counter-number{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:5px
+}
+.minus, .plus {
+  background: #F3F4F6;
+  border-radius: 8px;
+  display: table;
+  vertical-align: middle;
+  text-align: center;
+  text-align: center;
+  padding: 4px 8px ;
+  cursor: pointer;
+}
+
+.minus:hover, .plus:hover {background: #34C759;}
+
+.minus{
+  border-radius: 0px 8px 8px 0px;
+}
+.plus {
+  border-radius: 8px 0px 0px 8px;
+}
+.minus img, .plus img{
+  width: 18px;
+}

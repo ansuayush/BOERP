@@ -1,0 +1,352 @@
+﻿
+@{
+    ViewBag.Title = "Aggrid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- AG Grid CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
+
+<style>
+    #globalSearch{
+        display:none
+    }
+
+    .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+        transition: opacity 0.2s;
+        opacity: 1;
+        color: #fff;
+    }
+
+    .ag-icon::before {
+        color: #fff;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding-left: var(--ag-cell-horizontal-padding);
+        padding-right: var(--ag-cell-horizontal-padding);
+        background: #44488c;
+        color: #fff !important
+    }
+
+    .ag-icon-filter {
+        font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+        font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+        color: #ffffff !important;
+    }
+        /* Styles for the alert box */
+        .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 1000;
+    }
+
+        .custom-alert table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-alert th {
+            background-color: #f2f2f2;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<ul class="tablink">
+    <li><a href="../inventory/index.html" class="nav-link  ">Inventory Report</a></li>
+    <li><a href="../stock-ledger/index.html" class="nav-link">Stock Ledger</a></li>
+    <li><a href="../item-master/" class="nav-link active">Item Master</a></li>
+
+</ul>
+
+<!--  -->
+<!-- Open -->
+
+<fourbox-widgets></fourbox-widgets>
+<div class="overlay" id="overlay"></div>
+<div class="custom-alert" id="customAlert">
+    <h3>Empty Columns</h3>
+    <div id="alertContent"></div>
+    <button onclick="closeAlert()">Close</button>
+</div>
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h5 class="title-two m-0 align-self-center">Item Master <img src="~/assets/images/icons/help/info-icon.png" alt="info icon" class="icon-sm" data-toggle="tooltip" title="This page shows list of all items"></h5>
+    <div class="align-self-center gap-10 d-flex">
+        <a href="" class="btn border-r-8" data-toggle="tooltip" title="Download"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+        <a href="#" data-toggle="tooltip" onclick="SelectUploadDocument();" title="Import" class="btn border-r-8"><img src="~/assets/images/icons/help/filter/import-icon.svg" class="btn-icon m-0"></a>
+        <a href="#" data-toggle="tooltip" title="Export" onclick="ExportItemsData();" class="btn border-r-8"><img src="~/assets/images/icons/help/filter/export-icon.svg" class="btn-icon m-0"></a>
+
+        <a href="/MaterialManagement/Material/ItemMaster?auth=@ViewBag.Auth&itemId=0" class="btn mr-2 actionbtn border-r-8"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Add Item</a>
+    </div>
+</div>
+
+
+
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        <div class="col-sm-2 form-group">
+            <label for="role">Category </label>
+            <select class="form-control applyselect">
+                <option>All</option>
+                <option>Abstergo Ltd. </option>
+                <option>Biffco Enterprises Ltd. </option>
+                <option>Binford Ltd.</option>
+                <option>Barone LLC.</option>
+            </select>
+        </div>
+        <div class="col-sm-2 form-group">
+            <label for="role">Status </label>
+            <select class="form-control applyselect">
+
+                <option>All</option>
+                <option>WH 1</option>
+                <option>WH 2</option>
+                <option>WH 3</option>
+            </select>
+        </div>
+
+        <div class="col-sm-2 form-group" style="display:none">
+            <label for="role">Show/Hide Columns 1</label>
+            <select class="form-control border-r-8 multiple-checkboxes" multiple="multiple">
+                <option value="itemcode">Item Code</option>
+                <option value="itemname">Item Name	</option>
+                <option value="category">Category	</option>
+                <option value="currentstklevel">Current Stk. Level	</option>
+                <option value="currentstklevel">Current Stk. Level	</option>
+                <option value="safetystock">Safety Stock	</option>
+            </select>
+        </div>
+
+
+
+
+    </div>
+    <!--  -->
+    <!-- Export Buttons and Controls -->
+    <div class="mb-2 d-flex justify-content-between">
+        <div class="row">
+            <button class="btn btn-success" id="exportExcel">Download Excel</button>
+            <button class="btn btn-danger" id="exportPDF">Download PDF</button>
+            
+        </div>
+        <div class="row">
+            <label for="pageSize">Show</label>
+            <select id="pageSize" class="form-control d-inline-block w-auto">
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="75">75</option>
+                <option value="100">100</option>
+            </select>
+            <label for="pageNumber">Go to Page:</label>
+            <input type="number" id="pageNumber" class="form-control d-inline-block w-auto" style="width: 80px;" min="1">
+            <button class="btn btn-secondary" id="goToPage">Go</button>
+        </div>
+    </div>
+
+    <!-- Global Search -->
+    <input type="text" id="globalSearch" class="form-control mb-2" placeholder="Global Search...">
+
+    <!-- Grid with Scrollable Area -->
+    <div id="myGrid" class="ag-theme-alpine" style="height: 500px; width: 100%;"></div>
+    <!--  -->
+
+</div>
+
+<div class="modal uploaddgn" id="uploadExcelDocument" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-center w-100">Upload</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="CloseUploadDocument();"><img src="../../assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="section-container section-container-popup">
+                    <div class="fileuploadview drag-area">
+                        <div class="uploadicon_text file-input-button">
+                            <div class="uploadtext drag-file ">
+                                <h4>
+                                    Drag &amp; Drop the Excel File
+                                    <span class="d-block">OR</span>
+                                    Click here to Select File
+                                </h4>
+                                <span class="error error-center">The file size should be between 80KB and 5MB,</span>
+                            </div>
+                        </div>
+                        @*<input type="file" id="fileUpload" onchange="UploadExcel();" class="form-control" accept=".xls,.xlsx">*@
+                        <input type="file" onchange="UploadExcel();" id="fileUpload" class="file-input hidden" accept=".xls,.xlsx">
+                        @*<div class="document-images single-attach"></div>*@
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn" onclick="CloseUploadDocument();">CANCEL</button>
+                <button class="btn btn-lg actionbtn" onclick="SaveUploadDocument();">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Areas/MaterialManagement/DevScript/ItemMaster.js"></script>
+
+<!-- AG Grid JS -->
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.2/dist/ag-grid-community.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.10/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const columnDefs = [
+            { headerName: "Item Code", field: "ITEM_CODE", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            {
+                headerName: "Item Name",
+                field: "ITEM_NAME",
+                sortable: true,
+                filter: 'agTextColumnFilter',
+                floatingFilter: true,
+                cellRenderer: itemNameRenderer
+            },
+            { headerName: "Description", field: "DESCRIPTION", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "Category/Sub Category", field: "CATEGORY", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "HSN Code", field: "HSN_CODE", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "UoM", field: "UNIT", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "Tax Code", field: "ItemCharges", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "Min. Stock Level", field: "MIN_QTY", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "Max. Stock Level", field: "MAX_STOCK_LEVEL", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "Preferred Supplier", field: "PA_NAME", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "Lead Time", field: "LEAD_TIME", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "Pack Size", field: "PACK_SIZE", sortable: true, filter: 'agTextColumnFilter', floatingFilter: true },
+            { headerName: "Uploads", field: "ITEM_ID", cellRenderer: actionButtonsRenderer }
+        ];
+
+        const gridOptions = {
+            columnDefs,
+            rowData: [], // initially empty
+            pagination: true,
+            paginationPageSize: 25,
+            domLayout: 'normal',
+            defaultColDef: {
+                filter: true,
+                floatingFilter: true,
+                resizable: true
+            },
+            enableSorting: true,
+            enableFilter: true,
+            suppressRowClickSelection: true,
+            suppressHorizontalScroll: false,
+            suppressColumnVirtualization: false,
+            onGridReady: params => params.api.sizeColumnsToFit(),
+        };
+
+        // Initialize Grid
+        const gridDiv = document.querySelector("#myGrid");
+        new agGrid.Grid(gridDiv, gridOptions);
+
+        // Fetch Data Function
+        function fetchItemMasterList() {
+            var model = { ID: "0" };
+            var ScreenID = "ItemMaster_101";
+            const jsonString = JSON.stringify(model);
+
+            CommonAjaxMethod(virtualPath + 'Generic/GetRecordsAsync', { modelData: jsonString, screenId: ScreenID }, 'GET', function (response) {
+                var tableData = response.data.data.Table;
+                if (tableData.length > 0) {
+                    // Map CATEGORY/SUB CATEGORY
+                    tableData = tableData.map(item => ({
+                        ...item,
+                        CATEGORY: `${item.ITEM_CATEGORY} / ${item.ITEM_SUB_CATEGORY}`
+                    }));
+                    gridOptions.api.setRowData(tableData);
+                } else {
+                    gridOptions.api.setRowData([]);
+                }
+            });
+        }
+
+        // Call fetch function
+        fetchItemMasterList();
+
+        // Cell Renderers
+        function actionButtonsRenderer(params) {
+            return `<a href="/MaterialManagement/Material/ItemMasterDetById?auth=@ViewBag.Auth&itemId=${params.value}" class="fn-bold">View</a>`;
+        }
+
+        function itemNameRenderer(params) {
+            return `<a href="/MaterialManagement/Material/ItemMasterDetById?auth=@ViewBag.Auth&itemId=${params.data.ITEM_ID}" class="text-primary">${params.value}</a>`;
+        }
+
+        // Export to CSV
+        document.getElementById("exportExcel").addEventListener("click", function () {
+            gridOptions.api.exportDataAsCsv({ fileName: "AG_Grid_Data.csv" });
+        });
+
+        // Export to PDF
+        document.getElementById("exportPDF").addEventListener("click", function () {
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            doc.text("AG Grid Data Export", 10, 10);
+            doc.autoTable({
+                head: [gridOptions.columnDefs.map(col => col.headerName)],
+                body: gridOptions.rowData.map(row => gridOptions.columnDefs.map(col => row[col.field] || ''))
+            });
+            doc.save("AG_Grid_Data.pdf");
+        });
+
+        // Global Search
+        document.getElementById("globalSearch").addEventListener("input", function () {
+            gridOptions.api.setQuickFilter(this.value);
+        });
+
+        // Page Size Change
+        document.getElementById("pageSize").addEventListener("change", function () {
+            gridOptions.api.paginationSetPageSize(Number(this.value));
+        });
+
+        // Go To Page
+        document.getElementById("goToPage").addEventListener("click", function () {
+            let pageNumber = Number(document.getElementById("pageNumber").value) - 1;
+            let totalPages = gridOptions.api.paginationGetTotalPages();
+            if (pageNumber >= 0 && pageNumber < totalPages) {
+                gridOptions.api.paginationGoToPage(pageNumber);
+            } else {
+                alert("Invalid page number");
+            }
+        });
+
+        // Toggle Columns
+        document.getElementById("toggleColumns").addEventListener("click", function () {
+            gridOptions.columnDefs.forEach(col => {
+                let isVisible = gridOptions.columnApi.getColumnState().find(c => c.colId === col.field).hide;
+                gridOptions.columnApi.setColumnVisible(col.field, isVisible);
+            });
+        });
+
+    });
+</script>

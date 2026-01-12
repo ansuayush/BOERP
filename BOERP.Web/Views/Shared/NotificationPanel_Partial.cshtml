@@ -1,0 +1,134 @@
+﻿@using SahajFramework.CommonClass;
+@using SahajFramework.Models;
+@{
+    Singleton Obj = Singleton.Instance;
+    List<PushNotification> PushNotificationList = new List<PushNotification>();
+    PushNotificationList = Obj.GetPushNotificationList("");
+}
+
+<a href="#" class="top-prf-pic tp-arw" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+    <i class="fas fa-bell"></i>
+    <span id="spnMainTotalCount" class="count-nt">@PushNotificationList.Count</span></i>
+</a>
+<div class="dropdown-menu dropdown-menu-form ">
+    <div id="tabs">
+        <input type="radio" name="tabs" id="toggle-Approvaltab" checked="checked" />
+        <label for="toggle-Approvaltab" class="ripplelink">Approval <span class="count-nt">@PushNotificationList.Where(x => x.Status == "Pending").Count()</span></label>
+        <input type="radio" name="tabs" id="toggle-Confirmationtab" />
+        <label for="toggle-Confirmationtab" class="ripplelink">Confirmation <span class="count-nt mtr-o-bg">@PushNotificationList.Where(x => x.Status == "Rejected" || x.Status == "Approved").Count()</span></label>
+        <input type="radio" name="tabs" id="toggle-Infotab" />
+        <label for="toggle-Infotab" class="ripplelink">Info <span class="count-nt mtr-g-bg">@PushNotificationList.Where(x => x.Status != "Pending" && x.Status == "Approved" && x.Status == "Rejected").Count()</span></label>
+        <ul id="tabiss"></ul>
+        <div id="Approvaltab" class="tab-contain art-cntr">
+            <div class="tab-contain-txt p-0 ">
+                @if (PushNotificationList.Where(x => x.Status == "Pending").Count() > 0)
+                {
+                    <div class="scroll">
+                        <ul id="Approvaltabul" class="list-group ntf-list ">
+                            @foreach (var item in PushNotificationList.Where(x => x.Status == "Pending"))
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="#" class="ripplelink">
+                                        <div class="c-media align-items-center">
+                                            <div class="c-media__avatar "><span><i class="fas fa-suitcase"></i></span></div>
+                                            <div class="c-media__content sz-sm">
+                                                @item.CreatedDate
+                                                <h5 class="sz-sm"><strong> @item.Subject</strong></h5>
+                                                <p> <strong>Status:</strong> <i class="far fa-clock red-clr"></i>@item.Status</p>
+                                                <span class="red-clr-bg count-nt"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="scroll ripplelink">
+                        <div class="no-data">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            <p>No Messages, Yet.<span>No Messages in your Confirmation</span></p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="Confirmationtab" class="tab-contain art-cntr">
+            <div class="tab-contain-txt p-0 ">
+                @if (PushNotificationList.Where(x => x.Status == "Rejected" || x.Status == "Approved").Count() > 0)
+                {
+                    <div class="scroll">
+                        <ul id="Confirmationtabul" class="list-group ntf-list ">
+                            @foreach (var item in PushNotificationList.Where(x => x.Status == "Rejected" || x.Status == "Approved"))
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="#" class="ripplelink">
+                                        <div class="c-media align-items-center">
+                                            <div class="c-media__avatar "><span><i class="fas fa-suitcase"></i></span></div>
+                                            <div class="c-media__content sz-sm">
+                                                @item.CreatedDate
+                                                <h5 class="sz-sm"><strong> @item.Subject</strong></h5>
+                                                <p> <strong>Status:</strong> <i class="@(@item.Status=="Approved"?"fas fa-check green-clr":"far fa-clock red-clr")"></i>@item.Status</p>
+                                                <span class="red-clr-bg count-nt"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="scroll ripplelink">
+                        <div class="no-data">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            <p>No Messages, Yet.<span>No Messages in your Confirmation</span></p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="Infotab" class="tab-contain art-cntr">
+            <div class="tab-contain-txt p-0 ">
+                @if (PushNotificationList.Where(x => x.Status != "Rejected" && x.Status != "Approved" && x.Status != "Pending").Count() > 0)
+                {
+                    <div class="scroll">
+                        <ul id="Infotabul" class="list-group ntf-list ">
+                            @foreach (var item in PushNotificationList.Where(x => x.Status != "Rejected" && x.Status != "Approved" && x.Status != "Pending"))
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="#" class="ripplelink">
+                                        <div class="c-media align-items-center">
+                                            <div class="c-media__avatar "><span><i class="fas fa-suitcase"></i></span></div>
+                                            <div class="c-media__content sz-sm">
+                                                @item.CreatedDate
+                                                <h5 class="sz-sm"><strong> @item.Subject</strong></h5>
+                                                <p> <strong>Status:</strong> <i class="far fa-clock red-clr"></i>@item.Status</p>
+                                                <span class="red-clr-bg count-nt"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="scroll ripplelink">
+                        <div class="no-data">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            <p>No Messages, Yet.<span>No Messages in your Confirmation</span></p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

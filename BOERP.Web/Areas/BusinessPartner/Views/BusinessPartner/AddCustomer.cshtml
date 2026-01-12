@@ -1,0 +1,774 @@
+﻿
+@{
+	ViewBag.Title = "Add Customer";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+<style>
+	input[type=checkbox]:checked + label:before {
+		content: "";
+		background: #6b54c8 url(../../assets/images/icons/help/check-white-icon-sm.png) no-repeat center center !important;
+		color: var(--neutral-white);
+	}
+
+	input[type=checkbox]:checked + label {
+		color: #6b54c8;
+	}
+</style>
+
+<input type="hidden" id="hdnCustId" value="@ViewBag.CustId" />
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<a href="/BusinessPartner/CustomerList?auth=@ViewBag.Auth"><img src="../assets/images/icons/help/back-icon.png" class="headingicon"></a>Add New Customer<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center"></div>
+</div>
+<div class="row">
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0">
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Contact Person’s Information</h2>
+				<div class="align-self-center">
+					<div class="form-check " id="divVerification">
+						<input type="checkbox" class="form-check-input" id="chkVerification" onchange="IsVerificationRequired(0);" />
+						<label class="form-check-label" for="chkVerification">I agree to the verify the details</label>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="card-body view-form-group">
+
+				<div id="Verified" class="addrowdgn">
+					<input type="hidden" id="hdnContPersonId_0" value="0" />
+					<input type="hidden" id="hdnContPersonVerified_0" value="0" />
+					<div class="form-group align-self-end w-auto">
+						<button type="button" id="addDivButton" class="btn m-0  actionbtn border-r-8" onclick="addDiv();"><img src="../assets/images/icons/help/addline.svg" alt=""></button>
+					</div>
+					<div class="form-group">
+						<label>Contact Person’s Name <sup>*</sup></label>
+						<input type="text" class="form-control Mandatory VerifyCust" oninput="HideErrorMessage(this); toTitleCase(this)" placeholder="Enter Name" id="txtCustName_0">
+						<span id="sptxtCustName_0" class="text-danger field-validation-error" style="display:none;">Oops! Looks like you missed this field.</span>
+					</div>
+
+					<div class=" form-group">
+						<label>Phone Number <sup>*</sup></label>
+
+						@*<div class="dropdown input-group-append p-0">
+								<button class="dropdown-toggle  d-flex align-items-center justify-content-between" type="button" id="countryDropdownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span id="selectedCountry">
+										<img src="../assets/images/countryflag/in.png" width="20"> +91
+									</span>
+								</button>
+								<div class="dropdown-menu wf-100 input-group-append-select scroll scroll-h-a max-h-d" aria-labelledby="countryDropdownBtn">
+									<input type="text" class="form-control mb-2" id="countrySearch" placeholder="Search country...">
+									<ul id="countryList" class="list-unstyled"></ul>
+									<div id="noDataMessage" class="text-danger text-center d-none">No data found</div>
+								</div>
+							</div>*@
+						<input onkeyup="this.value = this.value.replace(/[^0-9]/g, '')" type="tel" class="form-control flag_phone phone input-group-field Mandatory VerifyCust" oninput="HideErrorMessage(this)" placeholder="Enter Phone Number" id="txtCustPhoneNo_0" maxlength="20">
+						<span id="sptxtCustPhoneNo_0" class="text-danger field-validation-error" style="display:none;">Oops! Looks like you missed this field.</span>
+						@*<input id="phone" type="tel" />*@
+
+
+
+
+					</div>
+
+					<div class=" form-group">
+						<label>Email Id <sup>*</sup></label>
+						<input type="text" class="form-control Mandatory VerifyCust" oninput="HideErrorMessage(this); EmailCustomerValidation();" placeholder="Enter Email " id="txtCustEmailId_0">
+						<span id="spCustEmailError" class="text-danger field-validation-error" style="display: none;"></span>
+						<span id="sptxtCustEmailId_0" class="text-danger field-validation-error" style="display:none;">Oops! Looks like you missed this field.</span>
+					</div>
+					<div id="divVerifyButton" class=" form-group align-self-end">
+						<button type="button" id="verifyButton" class="btnnewview btnnewview_active btn btn-lg actionbtn" data-toggle="modal" onclick="VerifyCust()">Verify</button>
+					</div>
+				</div>
+				<!-- Container for dynamically added rows -->
+				<div id="dynamicDivContainer"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="CompInfo" style="display:none">
+	<div class="row">
+		<div class="col-lg-12 form-group">
+			<div class="card br-none p-0 disabled">
+				<div class="card-header d-flex justify-content-between bg-none ">
+					<h2 class="title-two align-self-center">Sales Team</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="row">
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label class="readonlay">NBD (New Business Dev)*</label>
+							<select id="ddlNBDUser" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)"></select>
+							<span id="spddlNBDUser" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+
+						</div>
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label>CRR (Client Retention & Reorder)*</label>
+							<select id="ddlCRRUser" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)"></select>
+							<span id="spddlCRRUser" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+						</div>
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label>Type</label>
+							<div class="d-flex flex-wrap gap-10 mt-3">
+								<input type="radio" id="buyer" class="radio radioselect" name="custType" value="Buyer" checked>
+								<label for="buyer">Buyer</label>
+								<input type="radio" id="supplier" class="radio radioselect" name="custType" value="Supplier">
+								<label for="supplier">Supplier</label>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12 form-group">
+			<div class="card br-none p-0 disabled">
+				<div class="card-header d-flex justify-content-between bg-none ">
+					<h2 class="title-two align-self-center"></h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="boxes">
+						<div class="card p-0">
+							<div class="card-header  br-top-rl d-flex justify-content-between bg-secondary ">
+								<h2 class="title-two align-self-center br-top-rl white-clr">Customer’s Information</h2>
+								<div class="align-self-center"></div>
+							</div>
+							<div class="card-body view-form-group">
+								<div class="row">
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label class="readonlay">Customer ID*</label>
+										@*<input type="text" class="form-control Mandatory" placeholder="CUST0024" id="txtCompCode" readonly onchange="HideErrorMessage(this)">*@
+										<input type="text" class="form-control Mandatory" placeholder="CUST00" id="txtCustCode" oninput="HideErrorMessage(this)" readonly>
+										<span id="sptxtCustCode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+									</div>
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>Company Name*</label>
+										<input type="text" class="form-control Mandatory" value="" placeholder="Enter" id="txtCompName" oninput="HideErrorMessage(this); toTitleCase(this)">
+										<span id="sptxtCompName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+									</div>
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>Email Id*</label>
+										<input type="email" class="form-control Mandatory" value="" placeholder="Enter" id="txtCompEmailId" oninput="HideErrorMessage(this); EmailValidation();">
+										<span id="spCompEmailError" class="text-danger field-validation-error" style="display: none;"></span>
+										<span id="sptxtCompEmailId" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+									</div>
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>Phone Number*</label>
+										<input onkeyup="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="20" type="tel" class="form-control Mandatory" value="" placeholder="Enter" id="txtCompPhoneNo" oninput="HideErrorMessage(this);">
+										@*<span id="sptxtCompPhoneNo" class="text-danger field-validation-error" style="display:none;"></span>*@
+										<span id="sptxtCompPhoneNo" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+									</div>
+									<div class="col-lg-3 col-md-4 form-group">
+										<label>TAN Number</label>
+										<input type="text" class="form-control" value="" maxlength="10" placeholder="AAAA99999A" id="txtTANNo" oninput="HideErrorMessage(this); TANNumberValidation();">
+										<span class="text-danger field-validation-error" id="spTANError"></span>
+										@*<span id="sptxtTANNo" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>*@
+									</div>
+									<div class="col-lg-3 col-md-4 form-group">
+										<label>PAN Number</label>
+										<input type="text" class="form-control" value="" maxlength="10" placeholder="AAAAA9999A" id="txtPANNo" oninput="HideErrorMessage(this); PanNumberValidation();">
+										<span class="text-danger field-validation-error" id="spPanError"></span>
+										@*<span id="sptxtPANNo" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>*@
+									</div>
+									<div class="col-lg-3 col-md-4 form-group">
+										<label>GST Number</label>
+										<input type="text" maxlength="15" placeholder="12ABCDE1234F5Z6" class="form-control" value="" id="txtCompGSTNo" oninput="HideErrorMessage(this);ValidateAddGSTNumber(this);">
+										@*<span id="sptxtCompGSTNo" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>*@
+										<div class="d-flex align-items-center  errror-info"><img src="~/assets/images/icons/help/info-error-icon.png" alt="" /> Verify the GST number to capture all the details automatically</div>
+										<span class="text-danger field-validation-error" id="spEditGTMNumberErrorMsg"></span>
+									</div>
+									<div class="col-lg-3 col-md-4 form-group align-self-center">
+										<button type="button" class="btn btn-lg actionbtn" id="btnGstVerify" onclick="fetchGstinDetails()" disabled>Verify</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-lg-12 form-group">
+			<div class="card br-none p-0 disabled">
+				<div class="card-header d-flex justify-content-between bg-none ">
+					<h2 class="title-two align-self-center">Billing Address</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="boxes">
+						<div class="card p-0">
+							<div class="card-header  br-top-rl d-flex justify-content-between bg-secondary ">
+								<h2 class="title-two align-self-center br-top-rl white-clr">Add Address</h2>
+								<div class="align-self-center"></div>
+							</div>
+							<div class="card-body view-form-group">
+								<div class="row">
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>Address Line 1*</label>
+										<input type="text" class="form-control Mandatory" value="" placeholder="Enter" id="txtBAddressLine1" oninput="HideErrorMessage(this); IsSameAddress(); toTitleCase(this)">
+										<span id="sptxtBAddressLine1" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+									</div>
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>Address Line 2</label>
+										<input type="text" class="form-control" value="" placeholder="Enter" id="txtBAddressLine2" oninput="IsSameAddress(); toTitleCase(this)">
+									</div>
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>Pincode*</label>
+										@*<input type="text" onkeyup="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')" class="form-control Mandatory" maxlength="12" placeholder="Enter" id="txtBPincode" oninput="HideErrorMessage(this); IsSameAddress()">*@
+										<input type="text" class="form-control Mandatory" maxlength="12" placeholder="Enter" id="txtBPincode" oninput="HideErrorMessage(this); IsSameAddress()">
+										<span id="sptxtBPincode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+									</div>
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>City</label>
+										<input type="text" class="form-control" placeholder="Enter" id="txtBCity" oninput="IsSameAddress(); toTitleCase(this)">
+									</div>
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>Country*</label>
+										<select class="form-control applyselect Mandatory" id="ddlBCountry" onchange="HideErrorMessage(this); IsSameAddress(), BindStateByCountryId('ddlBCountry', 'ddlBState')"></select>
+										<span id="spddlBCountry" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+									</div>
+									<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+										<label>State*</label>
+										@*<select class="form-control applyselect Mandatory" id="ddlBState" onchange="HideErrorMessage(this); IsSameAddress(); getCountryOfStateOnChangeB(this)"></select>*@
+										<select class="form-control applyselect Mandatory" id="ddlBState" onchange="HideErrorMessage(this); IsSameAddress();"></select>
+										<span id="spddlBState" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-flex justify-content-end w-100 mt-2 mb-2">
+						<button type="button" class="btn btn-sm actionbtn" onclick="addBillingAddress('','')">Add Billing Address</button>
+					</div>
+
+					<div id="accordion" class="boxes">
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12 form-group">
+			<div class="card br-none p-0 disabled">
+				<div class="card-header d-flex justify-content-between bg-none ">
+					<h2 class="title-two align-self-center">Shipping Address</h2>
+					<div class="align-self-center">
+						<div class="checkbox withlabeltext">
+							<input type="checkbox" id="chkSameAddress" name="" value="" onclick="IsSameAddress()">
+							<label for="chkSameAddress"> Same as Billing Address</label>
+						</div>
+					</div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="row">
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label>Address Line 1*</label>
+							<input type="text" class="form-control Mandatory" value="" placeholder="Enter" id="txtSAddressLine1" oninput="HideErrorMessage(this); toTitleCase(this)">
+							<span id="sptxtSAddressLine1" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+						</div>
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label>Address Line 2</label>
+							<input type="text" class="form-control" value="" placeholder="Enter" id="txtSAddressLine2" oninput="toTitleCase(this)">
+						</div>
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label>Pincode*</label>
+							<input maxlength="12" type="tel" class="form-control Mandatory" placeholder="Enter" id="txtSPincode" oninput="HideErrorMessage(this)">
+							<span id="sptxtSPincode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+						</div>
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label>City</label>
+							<input type="text" class="form-control" placeholder="Enter" id="txtSCity" oninput="toTitleCase(this)">
+						</div>
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label>Country*</label>
+							<select class="form-control applyselect Mandatory" id="ddlSCountry" onchange="HideErrorMessage(this), BindStateByCountryId('ddlSCountry', 'ddlSState')"></select>
+							<span id="spddlSCountry" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+						</div>
+						<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+							<label>State*</label>
+							@*<select class="form-control applyselect Mandatory" id="ddlSState" onchange="HideErrorMessage(this); getCountryOfStateOnChangeS(this)"></select>*@
+							<select class="form-control applyselect Mandatory" id="ddlSState" onchange="HideErrorMessage(this);"></select>
+							<span id="spddlSState" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+						</div>
+
+					</div>
+
+					<div class="d-flex justify-content-end w-100 mt-2 mb-2">
+						<button type="button" class="btn btn-sm actionbtn" onclick="addShippingAddress('','')">Add Shipping Address</button>
+					</div>
+
+					<div id="accordionshipping" class="boxes">
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12 form-group">
+			<div class="card br-none p-0 disabled">
+				<div class="card-header d-flex justify-content-between bg-none ">
+					<h2 class="title-two align-self-center">Business Information</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="row">
+						<div class="col-lg-2  col-md-4  col-sm-6 form-group">
+							<label>Payment Terms</label>
+							<select class="form-control applyselect" id="ddlPayTerms">
+								@*<option value="0">Select</option>
+									<option value="1">Credit</option>*@
+							</select>
+							@*<span id="spddlPayTerms" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>*@
+						</div>
+						<div class="col-lg-2  col-md-4  col-sm-6 form-group">
+							<label>Client Brand Type*</label>
+							<select class="form-control applyselect Mandatory" id="ddlClientBrandType" onchange="HideErrorMessage(this)"></select>
+							<span id="spddlClientBrandType" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+						</div>
+						<div class="col-lg-2  col-md-4  col-sm-6 form-group">
+							<label>Brand Name*</label>
+							<input type="text" class="form-control Mandatory" value="" placeholder="Enter" id="txtBrandName" oninput="HideErrorMessage(this); toTitleCase(this)">
+							<span id="sptxtBrandName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+						</div>
+						<div class="col-lg-2  col-md-4  col-sm-6 form-group">
+							<label>Default Currency</label>
+							<select class="form-control applyselect" id="ddlCurrency"></select>
+							@*<span id="spddlCurrency" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>*@
+						</div>
+						<div class="col-lg-2  col-md-4  col-sm-6 form-group">
+							<label>Lead Source</label>
+							<select class="form-control applyselect" id="ddlLeadSource"></select>
+							@*<span id="spddlLeadSource" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>*@
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="align-self-center" style="margin-bottom:25px;">
+		<div class="d-flex justify-content-end align-items-center gap-10">
+			<button type="button" class="btn btn-lg  cancelbtn" onclick="RedirectCustomerList()">Cancel</button>
+			<button type="button" class="btn  btn-lg  actionbtn" onclick="SaveCustomer()">@ViewBag.BT</button>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="Verifiedpopup" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-md modal-dialog-scrollable modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header justify-content-center align-items-center">
+				<h5 class="modal-title text-center" id="exampleModalLabel">Verify Information</h5>
+				<button type="button" class="close" style="position: absolute;right: 12px;" data-dismiss="modal" aria-label="Close" disabled id="closeVerifiedModal">
+					<img src="/assets/images/icons/help/close-icon.png" alt="" onclick="clearOTPModalField()">
+				</button>
+			</div>
+			<div class="modal-body" style=" padding: 20px 60px 60px;">
+				<h5 class="text-center">Code Verification</h5>
+				@*<p class="text-center">Please enter the 6 digit code sent to the registered email id (verma.arun@gmail.com) and Phone Number (9416023875)</p>*@
+				<p id="otpInfo" class="text-center"></p>
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<label for="modalEmail" class="form-label">Code Sent on email id*</label>
+						<input type="text" class="form-control validateModelField" id="txtModalEmailOTP" placeholder="Enter OTP No." oninput="HideErrorMessage(this);">
+						<span id="spModalCustEmailError" style="color: red; display: none;"></span>
+						<span id="sptxtModalEmailOTP" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-sm-12 form-group">
+						<label for="modalPhone" class="form-label">Code Sent on Phone Number*</label>
+						@*<input onkeyup="this.value = this.value.replace(/[^0-9]/g, '')" min="10" maxlength="10" type="tel" class="form-control validateModelField" id="txtModalPhoneNo" placeholder="Enter OTP No." onchange="HideErrorMessage(this);">*@
+						<input type="text" class="form-control" id="txtModalPhoneNoOTP" placeholder="Enter OTP No." oninput="HideErrorMessage(this);">
+						<span id="sptxtModalPhoneNoOTP" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+						@*<span id="sptxtModalPhoneNoOTP" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>*@
+					</div>
+				</div>
+				<div class="align-self-center" style="margin-top:15px;">
+					<div class="d-flex justify-content-around align-items-center gap-16">
+						<button type="button" class="btnnewview btnnewview_active btn btn-lg actionbtn" id="modalVerifyButton" onclick="finalizeVerification();">Verify</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="~/Areas/BusinessPartner/DevScript/AddCustomer.js"></script>
+@**@
+
+<script>
+
+	var stateArr = [];
+
+	let shippingAddressCount = 1;
+
+	function addShippingAddress(selectValueCont, selectValueState) {
+		shippingAddressCount++;
+		const cardId = `collapseBilling${shippingAddressCount}`;
+		const headingId = `headingBilling${shippingAddressCount}`;
+
+		$(".collapse").collapse("hide");
+
+		const newAddress = `
+	<div class="card shipping row-accordion p-0">
+		<div class="card-header fn-16 p-10 br-top-rl d-flex justify-content-between bg-secondary" id="${headingId}">
+			<h2 class="title-two align-self-center br-top-rl white-clr">Shipping Address ${shippingAddressCount}</h2>
+			<div class="align-self-center">
+				<button class="" onclick="closeitms(this)">
+					<img src="../assets/images/icons/help/close-two-white-icon.png" alt="" class="icon-sm" title="Remove">
+				</button>
+				<button class="" data-toggle="collapse" data-target="#${cardId}" aria-expanded="true" aria-controls="${cardId}">
+					<img src="../assets/images/icons/help/bottom-arrow-white-sm.png" alt="" title="Expand/Collapse">
+				</button>
+			</div>
+		</div>
+		<div id="${cardId}" class="collapse show" aria-labelledby="${headingId}" data-parent="#accordionshipping">
+			<div class="card-body view-form-group">
+					<input type="hidden" class="shippinginput" id="shippinginput_${shippingAddressCount}" value="0" />
+				<div class="row">
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>Address Line 1<sup>*</sup></label>
+						<input type="text" class="form-control Mandatory" value="" placeholder="Enter" id="txtSAddressLine1${shippingAddressCount}" oninput="HideErrorMessage(this); toTitleCase(this)">
+						<span id="sptxtSAddressLine1${shippingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>Address Line 2</label>
+						<input type="text" class="form-control" value="" placeholder="Enter" id="txtSAddressLine2${shippingAddressCount}" oninput="toTitleCase(this)">
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>Pincode<sup>*</sup></label>
+						<input type="tel" maxlength="12" class="form-control Mandatory" placeholder="Enter" id="txtSPincode${shippingAddressCount}" oninput="HideErrorMessage(this)">
+						<span id="sptxtSPincode${shippingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>City<sup>*</sup></label>
+						<input type="text" class="form-control Mandatory" placeholder="Enter" id="txtSCity${shippingAddressCount}" oninput="HideErrorMessage(this); toTitleCase(this)">
+						<span id="sptxtSCity${shippingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>Country<sup>*</sup></label>
+						<select class="form-control applyselect Mandatory" id="ddlSCountry${shippingAddressCount}" onchange="HideErrorMessage(this); BindStateByCountryId('ddlSCountry${shippingAddressCount}', 'ddlSState${shippingAddressCount}')"></select>
+						<span id="spddlSCountry${shippingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>State<sup>*</sup></label>
+						<!--<select class="form-control applyselect Mandatory" id="ddlSState${shippingAddressCount}" onchange="HideErrorMessage(this); getCountryOfStateOnChangeS(this)"></select>-->
+						<select class="form-control applyselect Mandatory" id="ddlSState${shippingAddressCount}" onchange="HideErrorMessage(this);"></select>
+						<span id="spddlSState${shippingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>`;
+
+		$("#accordionshipping").append(newAddress);
+		$(".applyselect").select2();
+
+
+
+		if (selectValueCont <= 0) {
+			selectValueCont = country_id
+		}
+
+
+
+		//var obj2 = {
+		//	parentId: 0,
+		//	masterTableTypeId: 0,
+		//	isMasterTableType: false,
+		//	isManualTable: true,
+		//	manualTable: 63,
+		//	manualTableId: 0,
+		//	ScreenId: 'DropdownList_101'
+		//}
+		//LoadMasterDropdown(`ddlSCountry${shippingAddressCount}`, obj2, 'Select', false, selectValueCont);
+
+        BindCountryStateDropdowns(`ddlSCountry${shippingAddressCount}`, selectValueCont, `ddlSState${shippingAddressCount}`, selectValueState)
+
+
+		//var obj3 = {
+		//	parentId: 0,
+		//	masterTableTypeId: 0,
+		//	isMasterTableType: false,
+		//	isManualTable: true,
+		//	manualTable: 64,
+		//	manualTableId: 0,
+		//	ScreenId: 'DropdownList_101'
+		//}
+		//LoadMasterDropdown(`ddlSState${shippingAddressCount}`, obj3, 'Select', false, selectValueState);
+
+
+	}
+
+
+
+
+	function closeitms(element) {
+		$(element).closest('.card').remove();
+
+		shippingAddressCount -= 1;
+
+
+		$('.shipping h2').each(function (index) {
+			$(this).text(`Shipping Address ${index + 2}`);
+
+		});
+	}
+
+</script>
+
+
+
+@**@
+
+<script>
+	let billingAddressCount = 1;
+
+	function addBillingAddress(selectValueCont, selectValueState) {
+		billingAddressCount++;
+		const cardId = `collapseShipping${billingAddressCount}`;
+		const headingId = `headingShipping${billingAddressCount}`;
+
+		$(".collapse").collapse("hide");
+
+		const newAddress = `
+	<div class="card billing row-accordion p-0">
+		<div class="card-header fn-16 p-10 br-top-rl d-flex justify-content-between bg-secondary" id="${headingId}">
+			<h2 class="title-two align-self-center br-top-rl white-clr">Billing Address ${billingAddressCount}</h2>
+			<div class="align-self-center">
+				<button type="button" class="" onclick="closeitm(this)">
+					<img src="../assets/images/icons/help/close-two-white-icon.png" alt="" class="icon-sm" title="Remove">
+				</button>
+				<button type="button" class="" data-toggle="collapse" data-target="#${cardId}" aria-expanded="true" aria-controls="${cardId}">
+					<img src="../assets/images/icons/help/bottom-arrow-white-sm.png" alt="" title="Expand/Collapse">
+				</button>
+			</div>
+		</div>
+		<div id="${cardId}" class="collapse show" aria-labelledby="${headingId}" data-parent="#accordion">
+			<div class="card-body view-form-group">
+						<input type="hidden" class="billinginput" id="billinginput_${billingAddressCount}" value="0" />
+				<div class="row">
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>Address Line 1<sup>*</sup></label>
+						<input type="text" class="form-control Mandatory" value="" placeholder="Enter" id="txtBAddressLine1${billingAddressCount}" oninput="HideErrorMessage(this); toTitleCase(this)">
+						<span id="sptxtBAddressLine1${billingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>Address Line 2</label>
+						<input type="text" class="form-control" value="" placeholder="Enter" id="txtBAddressLine2${billingAddressCount}" oninput="HideErrorMessage(this); toTitleCase(this)">
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>Pincode<sup>*</sup></label>
+						<input type="tel" maxlength="12" class="form-control Mandatory" placeholder="Enter" id="txtBPincode${billingAddressCount}" oninput="HideErrorMessage(this)">
+						<span id="sptxtBPincode${billingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>City<sup>*</sup></label>
+						<input type="text" class="form-control Mandatory" placeholder="Enter" id="txtBCity${billingAddressCount}" oninput="HideErrorMessage(this); toTitleCase(this)">
+						<span id="sptxtBCity${billingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>Country<sup>*</sup></label>
+						<select class="form-control applyselect Mandatory" id="ddlBCountry${billingAddressCount}" onchange="HideErrorMessage(this); BindStateByCountryId('ddlBCountry${billingAddressCount}', 'ddlBState${billingAddressCount}')"></select>
+						<span id="spddlBCountry${billingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3  col-md-4  col-sm-6 form-group">
+						<label>State<sup>*</sup></label>
+						<!--<select class="form-control applyselect Mandatory" id="ddlBState${billingAddressCount}" onchange="HideErrorMessage(this); getCountryOfStateOnChangeB(this)"></select>-->
+						<select class="form-control applyselect Mandatory" id="ddlBState${billingAddressCount}" onchange="HideErrorMessage(this);"></select>
+						<span id="spddlBState${billingAddressCount}" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>`;
+
+		$("#accordion").append(newAddress);
+		$(".applyselect").select2();
+
+		if (selectValueCont <= 0) {
+			selectValueCont = country_id
+		}
+
+		//var obj2 = {
+		//	parentId: 0,
+		//	masterTableTypeId: 0,
+		//	isMasterTableType: false,
+		//	isManualTable: true,
+		//	manualTable: 63,
+		//	manualTableId: 0,
+		//	ScreenId: 'DropdownList_101'
+		//}
+		//LoadMasterDropdown(`ddlBCountry${billingAddressCount}`, obj2, 'Select', false, selectValueCont);
+
+
+
+		//var obj3 = {
+		//	parentId: 0,
+		//	masterTableTypeId: 0,
+		//	isMasterTableType: false,
+		//	isManualTable: true,
+		//	manualTable: 64,
+		//	manualTableId: 0,
+		//	ScreenId: 'DropdownList_101'
+		//}
+			//LoadMasterDropdown(`ddlBState${billingAddressCount}`, obj3, 'Select', false, selectValueState);
+
+        BindCountryStateDropdowns(`ddlBCountry${billingAddressCount}`, selectValueCont, `ddlBState${billingAddressCount}`, selectValueState)
+
+	}
+
+	// ✅ Moved outside the function
+	function closeitm(element) {
+		$(element).closest('.card').remove();
+
+		billingAddressCount -= 1;
+
+
+		$('.billing h2').each(function (index) {
+			$(this).text(`Billing Address ${index + 2}`);
+		});
+	}
+
+</script>
+
+<script>
+    var tblDocNo;
+
+	var firstgst_no = ''
+
+	var cust_phone_no;
+
+	const itiMap = {};
+
+	var country_id = 0;
+
+	var maxPersonCount = 0; // Keep track of dynamic rows
+
+	if ($('#hdnCustId').val() <= 0) {
+
+
+		const input = document.querySelector("#txtCustPhoneNo_0");
+
+		const inputCust = document.querySelector("#txtCompPhoneNo");
+
+		const iti0 = window.intlTelInput(input, {
+			separateDialCode: true,
+			initialCountry: "in"
+		});
+
+
+		cust_phone_no = window.intlTelInput(inputCust, {
+			separateDialCode: true,
+			initialCountry: "in"
+		});
+
+
+
+
+
+		function logPhone() {
+			console.log("Full number with country code:", iti0.getNumber());
+			console.log("Only national number:", input.value);
+			console.log("Dial code only:", iti0.getSelectedCountryData().dialCode);
+			console.log("Country ISO2 code:", iti0.getSelectedCountryData().iso2);
+
+			itiMap[input.id] = iti0;
+		}
+		logPhone();
+	}
+
+</script>
+
+@*<script>
+		$(function () {
+			const countries = [
+				{ name: "India", code: "+91", flag: "../assets/images/countryflag/in.png" },
+				{ name: "United States", code: "+1", flag: "../assets/images/countryflag/us.png" },
+				{ name: "United Kingdom", code: "+44", flag: "../assets/images/countryflag/gb.png" },
+				{ name: "Australia", code: "+61", flag: "../assets/images/countryflag/au.png" },
+				{ name: "Canada", code: "+1", flag: "../assets/images/countryflag/ca.png" },
+				{ name: "Germany", code: "+49", flag: "../assets/images/countryflag/de.png" }
+			];
+
+			// Load dropdown from JSON
+			countries.forEach(c => {
+				$('#countryList').append(
+					`<li class="dropdown-item"  data-code="${c.code}" data-flag="${c.flag}"><img src="${c.flag}" width="20"> ${c.name} (${c.code})</li>`
+				);
+			});
+
+			// Search filter
+			$('#countrySearch').on('keyup', function () {
+				const value = $(this).val().toLowerCase();
+				let found = false;
+
+				$('#countryList .dropdown-item').each(function () {
+					const text = $(this).text().toLowerCase();
+					const isMatch = text.includes(value);
+					$(this).toggle(isMatch);
+					if (isMatch) found = true;
+				});
+
+				$('#noDataMessage').toggleClass('d-none', found);
+			});
+
+			// Reset on open
+			$('#countryDropdownBtn').on('click', function () {
+				$('#countrySearch').val('');
+				$('#countryList .dropdown-item').show();
+				$('#noDataMessage').addClass('d-none');
+			});
+
+			// Select country
+			$('#countryList').on('click', '.dropdown-item', function (e) {
+				e.preventDefault();
+				const flag = $(this).data('flag');
+				const code = $(this).data('code');
+				const text = $(this).text().trim();
+
+				$('#selectedCountry').html(`<img src="${flag}" width="20"> ${code}`);
+				$('#phoneCode').val(code);
+				$('#hiddenCountryName').val(text);
+				$('#hiddenCountryCode').val(code);
+			});
+
+			// Set default (US)
+			$('#phoneCode').val('+1');
+			$('#hiddenCountryName').val(' (+1)');
+			$('#hiddenCountryCode').val('+1');
+		});
+
+	</script>*@
+

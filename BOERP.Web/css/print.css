@@ -1,0 +1,34 @@
+@media print {
+    .body-header, .l-navbar, .pagetitle {
+        display: none !important
+    }
+
+    .space-gap-main, .body-pd {
+        padding: 0px;
+    }
+    .print-main.border-r-8.p-3.third-light-bg {
+        padding:0px !important
+    }
+    @page {
+        size: auto;
+        margin: 0px;
+        margin-top: 20mm;
+        margin-bottom: 20mm;
+        margin-left: 15mm;
+        margin-right: 15mm;
+    }
+    .qr-code {
+        width: 100% ;
+        height:auto
+    }
+
+    .pagebreak {
+        page-break-after: always;
+    }
+
+  
+
+    body {
+        margin: 0; /* reset body margin */
+    }
+}

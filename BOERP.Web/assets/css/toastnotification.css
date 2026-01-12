@@ -1,0 +1,120 @@
+﻿.error-popup {
+	position: fixed;
+	bottom: -300px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: var(--green-status) !important;
+	color: var(--neutral-white);
+	padding: 15px 30px;
+	border-radius: 5px;
+	font-size: 16px;
+	z-index: 9999;
+	display: none;
+	width: 26%;
+	opacity: 0;
+	transition: opacity 0.3s ease, bottom 0.3s ease;
+	border-radius: 100px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.checkmark {
+	display: none
+}
+
+#errorPopup .status-line {
+	height: 3px;
+	margin-top: 10px;
+	border-radius: 3px;
+	width: 100%; /* Initial width */
+	opacity: 1; /* Initial opacity */
+	transition: width 5s ease, opacity 0.3s ease; /* Transition for line animation */
+}
+
+	#errorPopup .status-line.success {
+		background-color: green;
+	}
+
+	#errorPopup .status-line.error {
+		background-color: red;
+	}
+
+@keyframes slideFromBelow {
+	from {
+		bottom: -70px;
+	}
+	/* Start from a higher position */
+	to {
+		bottom: 20px;
+	}
+}
+
+
+#toast {
+	visibility: hidden;
+	max-width: 26%;
+	margin: auto;
+	color: #fff;
+	text-align: center;
+	border-radius: 2px;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	bottom: 30px;
+	font-size: 16px;
+	white-space: nowrap;
+	-webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);
+	box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);
+	display: -webkit-box;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	flex-direction: row;
+	-webkit-box-align: center;
+	align-items: center;
+	padding: 10px;
+	font-size: 14px;
+	z-index: 99999
+}
+
+#toasticon {
+	color: #fff;
+	border-radius: 4px
+}
+
+#toast {
+	background-color: #2a2b3c;
+	border-radius: 4px
+}
+
+	#toast .red-clr {
+		color: #fff !important
+	}
+
+	#toast #toastMsg {
+		padding: 5px;
+		color: #ffffff;
+		font-weight: bold;
+		text-align: left;
+		white-space: normal;
+	}
+
+#toast {
+	opacity: 0;
+	transition: all 1s;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+	#toast.show {
+		visibility: visible;
+		opacity: 1;
+		transform: translateX(0%) translateY(-45%);
+	}
+
+.toaster-warning, .toaster-warning #toasticon {
+	background-color: none !important;
+}

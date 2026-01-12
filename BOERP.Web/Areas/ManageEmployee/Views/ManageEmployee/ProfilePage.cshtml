@@ -1,0 +1,175 @@
+﻿
+@{
+    ViewBag.Title = "ProfilePage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <!-- page title -->
+    <div class="pagetitle gap-bottom d-flex justify-content-between">
+        <h1 class="m-0 d-flex ">
+            <a href="/Dashboard?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon" /></a>My Profile<div class="ml-3"></div>
+        </h1>
+        <div class="align-self-center"></div>
+    </div>
+    <!--  -->
+    <div class="row">
+        <div class="col-lg-3 col-md-5 col-sm-bottom">
+            <div class=" card br-none h-100">
+                <div class="profile-cmd">
+                    <div class="profileimg">
+                        <img id="profile_img" src="~/assets/images/profileimg/profile-img.png" alt="">
+                    </div>
+                    @*<div class="profileinfo text-center">
+                        <button class="btn btn-lg actionbtn mx-auto"><img src="~/assets/images/profileimg/camera-icon.svg" /> Upload Image</button>
+                    </div>*@
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-lg-9 col-md-7">
+
+            <!-- Section 1 -->
+            <div class="card  br-none mb-3">
+
+                <div class="card-body p-0 view-form-group">
+
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label class="fn-bold gray-color">Name</label>
+                            <p id="emp_name"></p>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label class="fn-bold gray-color">Email</label>
+                            <p id="email"></p>
+                        </div>
+                        <div class="col-md-12"></div>
+                        <div class="col-md-4 form-group">
+                            <label class="fn-bold gray-color">Phone Number</label>
+                            <p id="phone"></p>
+                        </div>
+
+
+                        <div class="col-md-4 form-group">
+                            <label class="fn-bold gray-color">Employee Id</label>
+                            <p id="emp_code"></p>
+                        </div>
+                        <div class="col-md-12"></div>
+                        <div class="col-md-4 form-group  mb-0">
+                            <label class="fn-bold gray-color">Department</label>
+                            <p id="department"></p>
+                        </div>
+
+                        <div class="col-md-4 form-group  mb-0">
+                            <label class="fn-bold gray-color">User Type</label>
+                            <p id="user_type"></p>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="card  br-none ">
+
+                <div class="card-body p-0 view-form-group">
+
+                    <div class="row">
+                        <div class="col-md-4 form-group mb-0">
+                            <label class="fn-bold gray-color">User ID</label>
+                            <p id="username"></p>
+                        </div>
+
+
+                        <!--<div class="col-md-4 form-group mb-0">
+                            <label class="fn-bold gray-color">Password</label>
+                            <p class="d-flex flex-wrap gap-r-20"><span class="align-self-center">******************* </span> </p>--> @*<span class="align-self-center badge badge-primary cursor-pointer" data-toggle="modal" data-target="#addcountry">Change Password</span>*@
+                        <!--</div>-->
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+<!--  -->
+<!-- add country -->
+<div class="modal fade drawer right-align" id="addcountry" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2>Current Password</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <!-- Password Field -->
+                    <div class="col-sm-12 form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <div class="password-feild">
+                            <input type="password" placeholder="Enter Password" class="form-control password-input" id="currentPassword">
+                            <span class="passwordicon">
+                                <img src="~/assets/images/icons/help/eye-off-icon.png" class="toggle-password" data-target="#currentPassword" style="cursor: pointer;">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="newPassword">New Password</label>
+                        <div class="password-feild">
+                            <input type="password" placeholder="Enter Password" class="form-control password-input" id="newPassword">
+                            <span class="passwordicon">
+                                <img src="~/assets/images/icons/help/eye-off-icon.png" class="toggle-password" data-target="#newPassword" style="cursor: pointer;">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="password-feild">
+                            <input type="password" placeholder="Enter Password" class="form-control password-input" id="confirmPassword">
+                            <span class="passwordicon">
+                                <img src="~/assets/images/icons/help/eye-off-icon.png" class="toggle-password" data-target="#confirmPassword" style="cursor: pointer;">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg actionbtn">Save Password</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        $(document).on("click", ".toggle-password", function () {
+        var targetField = $(this).attr("data-target");
+        var passwordField = $(targetField);
+        var fieldType = passwordField.attr("type");
+
+        // Toggle input type
+        if (fieldType === "password") {
+            passwordField.attr("type", "text");
+        $(this).attr("src", "/assets/images/icons/help/eye-on-icon.png"); // Show password icon
+        } else {
+            passwordField.attr("type", "password");
+        $(this).attr("src", "/assets/images/icons/help/eye-off-icon.png"); // Hide password icon
+        }
+    });
+</script>
+<script src="~/Areas/ManageEmployee/DevScript/ProfilePage.js"></script>

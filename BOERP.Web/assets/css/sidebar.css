@@ -1,0 +1,134 @@
+/*------------------------------------*\
+  #SIDEBAR
+\*------------------------------------*/
+
+.navbar-side {
+    height: 100%;
+    max-width: 400px;
+    font-size: var(--font-size-14);
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--neutral-white);
+    /* overflow-y: scroll; */
+    z-index: 1000;
+  }
+
+  .side-header{
+    background: var(--secondary-two-color);
+     }
+
+
+  .side-header h2{
+    font-size: var(--font-size-14);
+    margin: 0px;
+    font-weight: var(--font-weight-700);
+    color: var(--neutral-white);
+  }
+
+  .side-header .close{
+    position: initial;
+  width: 20px;
+  height: 20px;
+  }
+
+  .side-header, .side-body, .side-footer{padding: var(--gap-10)}
+  
+    @media (min-width: 320px) {
+      .navbar-side {
+        width: 80%;
+      }
+    }
+  
+  
+    @media (min-width: 320px) and (max-width: 484px) {
+  
+      .navbar-side {
+        width: 85%;
+      }
+  
+      .navbar-side-item {
+        padding: 1.5rem 0 4rem 0;
+      }
+  
+  
+      .navbar-side-item a {
+        font-size: 1.4rem;
+      }
+  
+    }
+  
+  
+    .navbar-side-item:hover {
+      background-color: #64C6BD;
+    }
+  
+  .navbar-side-item a {
+    display: inline-block;
+  }
+  
+  .side-link {
+    padding-left: 1.7rem;
+    padding-right: 1.2rem;
+    color: #fff;
+  }
+  
+  .side-link:active,
+  .side-link:hover {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .navbar-side {
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+    -webkit-transition: 400ms ease;
+    transition: 400ms ease;
+  }
+  
+  .reveal {
+    -webkit-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    transform: translateX(0%);
+    -webkit-transition: 400ms ease;
+    transition: 400ms ease;
+  }
+  
+  .overlay {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+    background-color: #5f5f5f;
+    opacity: .6;
+    z-index: 990;
+  }
+  
+
+  .navbar-side .btn{
+    padding:var(--gap-10) !important ;
+  }
+
+  .left{width: 100%;}
+
+
+  .side-footer {
+    position: fixed;
+    bottom: var(--zero);
+    width: 100%;
+    left: var(--zero);
+    background: #fff;
+}
+
+.side-footer .btn{width: 100%;}
+
+.side-footer {
+    display: flex;
+    gap: 10px;
+}

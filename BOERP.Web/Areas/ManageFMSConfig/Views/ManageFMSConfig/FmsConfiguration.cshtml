@@ -1,0 +1,581 @@
+﻿
+@{
+	ViewBag.Title = "FmsConfiguration";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+	.ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+		background-color: #44488c !important;
+	}
+
+	#customLoader {
+		background: rgba(0, 0, 0, 0.7) !important;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.ag-header-cell, .ag-header-group-cell {
+		padding: 0px 5px !important;
+	}
+
+	.ag-header-group-cell-label, .ag-cell-label-container {
+		padding: 0px 0px !important;
+	}
+
+	#customLoader img {
+		width: 40px;
+		height: 40px
+	}
+
+	.ag-text-field-input {
+		color: #000 !important;
+		font-size: 10px !important
+	}
+	/* Styles for the alert box */
+	.custom-alert {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 10px;
+		display: none;
+		width: auto;
+		z-index: 1000;
+		overflow: inherit !important;
+	}
+
+		.custom-alert .modal-body {
+			padding-bottom: 0px;
+			overflow: scroll;
+			height: 400px;
+			overflow-x: hidden;
+		}
+
+	.custom-lg {
+		width: 630px;
+		background: #fff;
+		font-size: 10px;
+		border-radius: 8px
+	}
+
+	.custom-alert table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.custom-alert th, .custom-alert td {
+		border: 1px solid #ddd;
+		padding: 8px;
+		text-align: left;
+	}
+
+	.custom-alert th {
+		background: #2f3261;
+		color: #fff;
+	}
+
+	.custom-alert th, .custom-alert td {
+		border: 1px solid #ddd;
+		padding: 2px 5px !important;
+		text-align: left;
+		word-break: break-all;
+		vertical-align: top;
+		line-height: 25px;
+		font-size: 12px;
+		text-transform: lowercase;
+	}
+
+	.overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		display: none;
+		z-index: 999;
+	}
+</style>
+
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex ">
+		FMS Controller<div class="ml-2">
+			<svg data-toggle="tooltip" title="This page shows list of all the Purchase Orders" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+		</div>
+	</h1>
+	<div class="align-self-center heading-action-btn w-100-slt primary-color-slt">
+
+		<a href="" data-toggle="modal" onclick="RefreshModal()" data-target="#createfmscontroller" class="btn mr-2 actionbtn border-r-8"><img src="../assets/images/icons/help/add-white-icon.png" class="btn-icon"><span class="d-none-sm">Add FMS Controller</span></a>
+	</div>
+</div>
+<!--  -->
+
+<div class="secondary-light-bg third-container">
+	<div class="row table-filter">
+		<div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none;">
+			<label for="role">FMS Name </label>
+			<select class="form-control applyselect" id="fms_name">
+			</select>
+
+		</div>
+
+
+
+		<div class="col-lg-2 col-md-4 col-sm-4 ml-auto form-group align-self-end">
+			<div class="d-flex gap-5 justify-content-end ">
+				<a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+				<div class="searchbox  w-350">
+
+					<div class="search">
+						<label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+						<input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!--  -->
+	<!--<div class="table-responsive" id="viewTblFMS">
+		<table id="tblFMS" class="display  rstable single-sort dgntable dataTable no-footer">
+			<thead>
+				<tr>-->
+	@*<th width="80">Serial No.</th>*@
+	<!--<th width="380">FMS Name</th>
+		<th width="220">Create By</th>
+		<th width="90">No of step</th>
+		<th width="110">Inserted Date</th>
+		<th width="110">Update Date</th>
+		<th width="80" class="text-center">Action</th>
+
+	</tr>
+
+	<tr class="searchfilter">-->
+	@*<th>
+		</th>*@
+	<!--<th>
+						<div class="filterdgn">
+							<input type="text" class="filter-input" id="txtDocNumber"
+								   placeholder="Search"> <label for="search" class="m-0">
+								<img src="~/assets/images/icons/help/search-icon.png"
+									 class="filtersearchincon" />
+							</label>
+						</div>
+					</th>
+
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+
+
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr>
+
+					<td>FMS-001</td>
+					<td>Sample</td>
+					<td>Raj Kumar</td>
+					<td>8 Step</td>
+					<td>06/06/2025</td>
+					<td>06/06/2025</td>
+
+
+				</tr>
+			</tbody>
+		</table>
+	</div>-->
+
+	<div class="grid-wrapper" style="padding-top: 40px">
+		<div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+	</div>
+
+	<!--  -->
+</div>
+
+
+<!--  -->
+<!-- Create FMS COntroller -->
+<div class="modal fade" id="createfmscontroller" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-xl modal-dialog-centered">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h4 class="modal-title text-left w-100">Create FMS Controller</h4>
+				<button type="button" class="close" data-dismiss="modal"><img src="../assets/images/icons/help/close-icon.png" class="closeicon"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="form-group col-sm-3">
+						<label for="">FMS Name</label>
+						<select class="form-control Mandatory applyselect" onchange="HideErrorMessage(this)" id="ddl_fmsname">
+						</select>
+						<span id="spddl_fmsname" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+
+					<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+						<label for="role">Process Controller</label>
+						<select class="form-control Mandatory applyselect" onchange="HideErrorMessage(this)" id="ddlpc">
+						</select>
+						<span id="spddlpc" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+					</div>
+
+					<div class="form-group col-sm-2">
+						<label for="">FMS Prefix</label>
+						<input type="text" placeholder="Enter" id="fms_prefix" oninput="HideErrorMessage(this)" value="" class="form-control Mandatory" />
+						<span id="spfms_prefix" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+					</div>
+
+					<div class="form-group col-sm-2" id="viewSteps" style="display: none;">
+						<label for="">No of step</label>
+						<p class="text-p bg-white border-hlt"><enum id="fms_steps"></enum>  Steps</p>
+					</div>
+					<div class="form-group col-sm-12" id="viewTblFMS">
+						<div class="table-responsive sticky-responsive">
+							<table class="display  bg-thrid stickyth dgntable dataTable no-footer ">
+								<thead>
+									<tr>
+										<th width="50" class="white-clr">Step No.</th>
+										<th width="200" class="white-clr">Step Name</th>
+										<th width="200" class="white-clr">Doer Name</th>
+										<th width="200" class="white-clr">Secondary Doer Name</th>
+										<th width="150" class="white-clr">Type</th>
+										<th width="150" class="white-clr">Depend On</th>
+										<th width="170" class="white-clr">TAT</th>
+										<th width="420" class="white-clr">Video Link</th>
+										<th width="250" class="white-clr">Upload Document</th>
+									</tr>
+								</thead>
+								<tbody id="tblFMSBody">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-lg cancelbtn" data-dismiss="modal">Cancel</button>
+				<button class="btn btn-lg actionbtn" onclick="saveFMSControlForm()">Submit</button>
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+<input type="hidden" id="hdnUserListId" />
+<!-- status Active and Inactive Modal popup -->
+<div class="modal" id="confirmation" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-default">
+		<div class="modal-content">
+
+
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="warningmsg">
+					<img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+					<h6 class="text-center">Are you sure want to Deactivate <span class="d-block" id="role_name"></span></h6>
+
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-lg cancelbtn radius-24" onclick="closeUserlistDel()" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-lg actionbtn radius-24" onclick="DeleteRole()">OK</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<!--<div class="modal" id="confirmpopup" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-dialog-centered modal-default">
+		<div class="modal-content ">-->
+<!-- Modal body -->
+<!--<div class="modal-body">
+		<h2>FMS Controller Hacking!!!!!</h2>
+
+
+		<div class="form-group col-sm-3">
+			<label for="">FMS Name</label>
+			<select class="form-control MandateHack applyselect" onchange="HideErrorMessage(this)" id="ddl_fmshack">
+				<option value="Select">Select</option>
+				<option value="3">Delete A Step</option>
+				<option value="4">REstore Original FMS</option>
+			</select>
+			<span id="spddl_fmshack" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+		</div>
+
+		<div class="form-group col-sm-2">
+			<label for="">Answer</label>
+			<input type="text" onkeydown="blockInvalidKeys(e)"  placeholder="Enter" id="ans" oninput="HideErrorMessage(this)" value="" class="form-control MandateHack" />
+			<span id="spans" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+		</div>
+
+
+		<br />
+
+
+	</div>
+</div>-->
+<!-- Modal footer -->
+<!--<div class="modal-footer">
+				<button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-lg actionbtn radius-24" onclick="SaveDataRejected()">Confirm</button>
+			</div>
+
+		</div>
+	</div>
+</div>-->
+
+<div class="modal" id="confirmpopup1" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-default">
+		<div class="modal-content ">
+
+
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="warningmsg">
+					<img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+					<h6 class="text-center">FMS Hacking !!!!!<span class="d-block" id="role_name2"></span></h6>
+					<br />
+
+					<h6 class="text-center">3 FOR Delete Step<span class="d-block" id="role_name2"></span></h6>
+
+					<br />
+
+					<h6 class="text-center">4To Restore Original FMS<span class="d-block" id="role_name2"></span></h6>
+
+
+				</div>
+
+				<div class="row">
+					<div class="form-group col-sm-3">
+						<label for="">Type</label>
+						<input type="number" onkeydown="blockInvalidKeys(event)" placeholder="Enter" id="ddl_fmshack" oninput="HideErrorMessage(this)" value="" class="form-control MandateHack" />
+
+						<span id="spddl_fmshack" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+
+					<div class="form-group col-sm-2">
+						<label for="">Answer</label>
+						<input type="number" onkeydown="blockInvalidKeys(event)" placeholder="Enter" id="ans" oninput="HideErrorMessage(this)" value="" class="form-control MandateHack" />
+						<span id="spans" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-lg actionbtn radius-24" onclick="saveFMSControlFormHack()">Confirm</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal" id="confirmationdeactivate" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-default">
+		<div class="modal-content ">
+
+
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="warningmsg">
+					<img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+					<h6 class="text-center">Are you sure want to Activate <span class="d-block" id="role_name2"></span></h6>
+
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-lg cancelbtn radius-24" onclick="closeUserlistDel()" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-lg actionbtn radius-24" onclick="DeleteRole()">OK</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<style>
+	#globalSearch {
+		display: none
+	}
+
+	.ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+		transition: opacity 0.2s;
+		opacity: 1;
+		color: #fff;
+	}
+
+	.ag-icon::before {
+		color: #fff;
+	}
+
+	.ag-theme-balham .ag-header-cell-label {
+		white-space: normal; /* Allow wrapping in header text */
+	}
+
+	.ag-theme-balham {
+		overflow-x: auto; /* Avoid extra whitespace */
+	}
+
+
+	.ag-header-cell, .ag-header-group-cell {
+		padding-left: var(--ag-cell-horizontal-padding);
+		padding-right: var(--ag-cell-horizontal-padding);
+		background: #44488c;
+		color: #fff !important
+	}
+
+	.ag-icon-filter {
+		font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+		font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+		color: #ffffff !important;
+	}
+	/* Styles for the alert box */
+	.custom-alert {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: white;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+		display: none;
+		z-index: 1000;
+	}
+
+		.custom-alert table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.custom-alert th, .custom-alert td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+		}
+
+		.custom-alert th {
+			background-color: #f2f2f2;
+		}
+
+	.overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		display: none;
+		z-index: 999;
+	}
+
+	.ag-icon.ag-icon-previous::before {
+		content: "\f104"; /* Font Awesome: fa-angle-left */
+		font-family: "Font Awesome 6 Free";
+		font-weight: 900;
+		font-size: 14px;
+		color: #333;
+	}
+
+	.ag-icon.ag-icon-next::before {
+		content: "\f105"; /* Font Awesome: fa-angle-right */
+		font-family: "Font Awesome 6 Free";
+		font-weight: 900;
+		font-size: 14px;
+		color: #333;
+	}
+</style>
+<script>
+	var arrSamp = [];
+
+	$(function () {
+		// Initialize Select2 on the select element
+		$('#tatseleled').select2();
+
+		// When an option is selected
+		$('#tatseleled').on('select2:select', function (e) {
+			// Hide all elements with the 'hide' class
+			$('.hide').hide();
+
+			// Show the element matching the selected value's class
+			$('.' + $(this).val()).show();
+
+			// Get the selected value
+			let selectedValue = $(this).val();
+
+			// If "fixed" is selected
+			if (selectedValue === 'fixed') {
+				// Show the element with class 'fixed' (time input)
+				$('.fixed').show();
+
+				// Hide the element with class 'fiexhide' (div to hide when fixed is selected)
+				$('.fiexhide').hide();
+			} else {
+				// Show the element with class 'fiexhide' for other dropdown values
+				$('.fiexhide').show();
+			}
+
+			// Close the Select2 dropdown
+			$(this).select2('close');
+		});
+	});
+
+</script>
+<script>
+	var fms_steps = 0;
+	var Edit_ID = 0;
+
+	function blockInvalidKeys(e) {
+		if (["e", "E", "-", "."].includes(e.key)) {
+			e.preventDefault();
+		}
+	}
+
+</script>
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+
+@*Ag Grid Scripts End*@
+
+
+<script src="~/Areas/ManageFMSConfig/DevScript/MannageFMSConfig.js"></script>

@@ -1,0 +1,395 @@
+
+/*fileuploadview*/
+.section-container {
+    background: var(--backgroundwhite);
+    padding: var(--padding16);
+    border-radius: var(--borderradius8);
+    filter: drop-shadow(0px 0px 10px rgb(0 0 0 / 8%));
+}
+
+.uploadtext h6 button {
+    border: 0px;
+    background: transparent;
+    outline: 0;
+    color: #E0E0E0;
+    font-size: var(--fontsize14);
+    font-weight: var(--font-weight-regular);
+    padding: 0;
+}
+
+.fileuploadview:hover .uploadtext {
+    color: var(--textlcolor);
+}
+
+    .fileuploadview:hover .uploadtext h6 button {
+        color: var(--textlcolor);
+    }
+
+.uploadtext h6 button:hover {
+    color: var(--textlcolor);
+}
+
+.fileuploadview {
+    border: 2px dashed #E0E0E0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.uploadicon_text {
+    display: flex;
+    
+    grid-gap: 10px;
+    align-items: center;
+    padding: 21px 16px;
+}
+
+.uploadtext {
+    color: #BDBDBD;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    grid-gap: 4px;
+}
+
+.uploadicon img {
+    width: 50px;
+}
+
+.uploadicon svg path {
+    fill: var(--card-bluedark);
+}
+
+.fileuploadview p {
+    margin: 5px 0;
+    color: var(--textlcolor);
+    font-size: var(--fontsize16);
+    font-weight: var(--font-weight-regular);
+    text-align: center;
+    padding: 0px;
+    font-size: 10px;
+    line-height: 15px;
+}
+
+.fileuploador {
+    position: relative;
+    width: 100%;
+    max-width: 220px;
+    text-align: center;
+    margin-bottom: var(--margin24);
+}
+
+    .fileuploador:before {
+        content: '';
+        position: absolute;
+        top: 13px;
+        left: 0;
+        border-bottom: 1px solid var(--card-bluedark);
+        width: 100%;
+    }
+
+.fileuploadview p strong {
+    font-weight: var(--font-weight-medium);
+}
+
+.fileuploador span {
+    background: var(--orbgcolor);
+    position: relative;
+    padding: 0 10px;
+    font-size: var(--fontsize16);
+}
+
+#filetype-error {
+    color: red;
+    margin: 10px 0;
+}
+
+#filesize-error {
+    color: red;
+    margin: 10px 0;
+}
+
+ul.document-images-view {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 16px;
+    overflow: scroll;
+    width: 100%;
+    overflow-y: hidden;
+}
+
+
+
+.fileshort img {
+    width: 16px;
+}
+
+.fileshort {
+    display: flex;
+    align-items: center;
+    padding-left: var(--padding10);
+    width: 200px;
+}
+
+    .fileshort p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+#input-empty-error {
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-text);
+    color: var(--danger-status);
+    padding: var(--padding10);
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: var(--fontsize14);
+}
+
+.hidden {
+    display: none;
+}
+
+.smallareafileupload .fileuploadview {
+    padding: 16px;
+}
+
+.smallareafileupload .uploadicon svg, .smallareafileupload .uploadicon img {
+    width: 65px;
+    height: 65px;
+}
+
+.smallareafileupload .fileuploadview p {
+    margin: 12px 0;
+    font-size: var(--fontsize14);
+}
+
+.smallareafileupload .fileuploador {
+    margin-bottom: 12px;
+}
+
+.uploadtext h4 {
+    font-size: var(--font-size-14);
+    margin: 0px;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.uploadtext h6 {
+    font-size: 12px;
+    margin: 0px;
+    font-weight: 500;
+}
+
+/*  */
+
+.priview-file {
+    display: flex;
+    text-align: center;
+    overflow: auto;
+    width: 100%;
+    overflow-y: hidden;
+    margin: 10px 0px 0px;
+    text-align: center;
+    gap: 5px;
+}
+
+.document-file {
+    width: 100px;
+    border: 1px solid #f2f2f2;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    /* display: flex;
+    justify-content: center;
+
+    align-items: center; */
+}
+
+.document-file {
+    position: relative;
+    text-align: center;
+}
+/* .document-file p{
+    font-size: 10px;
+    line-height: 10px;
+    white-space: nowrap; 
+  width: 50px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+ } */
+.delete-document {
+    position: absolute;
+    top: 0px;
+    right: 3px;
+}
+
+.preview-image {
+    height: auto;
+    margin-bottom: 5px;
+    width: 43px;
+}
+
+
+.file-preview p {
+    font-size:11px !important; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+.delete-document img {
+    width: 15px !important;
+}
+
+
+.nofile {
+    height: 150px;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: var(--radius-10)
+}
+
+
+/*  */
+
+.popup-modal {
+    display: none; /* Hide by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999999;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 420px;
+    margin: auto;
+    position: relative;
+}
+
+    .popup-content p {
+        margin: 0;
+    }
+
+#close-popup {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    outline: 0;
+    position: absolute;
+    right: 0;
+    top: 0px;
+}
+
+
+.document-images {
+    display: flex;
+    overflow: auto;
+    width: 100%;
+    gap: 5px;
+    padding:0px 10px;
+}
+
+.document-file {
+    width: 120px;
+/*    height: 100%;*/
+}
+
+
+
+.section-container-sm {
+}
+
+    .section-container-sm .uploadicon_text {
+        padding: 5px;
+    }
+
+    .section-container-sm .uploadtext h4, .section-container-sm .uploadtext h6 {
+        font-size: 12px;
+        margin: 0px;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0px;
+        padding: 0px;
+        line-height: 13px;
+    }
+
+    .section-container-sm .error {
+        line-height: 13px;
+        margin-top: 0px;
+    }
+
+    .section-container-sm .document-images {
+        padding: 0px;
+    }
+
+    .section-container-sm .uploadicon img {
+        width: 32px;
+        margin: 0px auto;
+        display: table;
+    }
+
+.error-center {
+    display: block;
+    text-align: center;
+}
+
+/*Style for multiple upload ruby multiple files*/
+
+.document-file1 {
+    position: relative;
+    text-align: center;
+}
+
+.document-file1 {
+    width: 120px;
+    height: 100%;
+}
+
+.document-file2 {
+    position: relative;
+    text-align: center;
+}
+.document-file2 {
+    width: 120px;
+    height: 100%;
+}
+
+.document-file3 {
+    position: relative;
+    text-align: center;
+}
+.document-file3 {
+    width: 120px;
+    height: 100%;
+}
+
+/*End*/
+
+.hidden {
+    display: none;
+}
+
+
+#close-popup img {
+    width:15px
+}

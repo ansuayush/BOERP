@@ -1,0 +1,521 @@
+﻿﻿
+@{
+    ViewBag.Title = "EmployeeMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+	.ag-cell-value span {
+		display: inline-block !important;
+	}
+    .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+        background-color: #44488c !important;
+    }
+
+    #customLoader {
+        background: rgba(0, 0, 0, 0.7) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding: 0px 5px !important;
+    }
+
+    .ag-header-group-cell-label, .ag-cell-label-container {
+        padding: 0px 0px !important;
+    }
+
+    #customLoader img {
+        width: 40px;
+        height: 40px
+    }
+
+    .ag-text-field-input {
+        color: #000 !important;
+        font-size: 10px !important
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        display: none;
+        width: auto;
+        z-index: 1000;
+        overflow: inherit !important;
+    }
+
+        .custom-alert .modal-body {
+            padding-bottom: 0px;
+            overflow: scroll;
+            height: 400px;
+            overflow-x: hidden;
+        }
+
+    .custom-lg {
+        width: 630px;
+        background: #fff;
+        font-size: 10px;
+        border-radius: 8px
+    }
+
+    .custom-alert table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .custom-alert th {
+        background: #2f3261;
+        color: #fff;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 2px 5px !important;
+        text-align: left;
+        word-break: break-all;
+        vertical-align: top;
+        line-height: 25px;
+        font-size: 12px;
+        text-transform: lowercase;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+
+	.link-grid-ellipsis.ellipsis {
+		 width: 100% !important; 
+	}
+</style>
+
+<input type="hidden" id="hdnEmployeeMasterId" value="0" />
+<input type="hidden" id="hdnUploadActualFileName" />
+<input type="hidden" id="hdnUploadNewFileName" />
+<input type="hidden" id="hdnUploadFileUrl" />
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        Employee User
+    </h1>
+    <div class="align-self-center">
+        
+        <a href="" class="btn mr-2 actionbtn" onclick="ClearFormControl()" data-toggle="modal" data-target="#adduser"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Add User</a>
+    </div>
+</div>
+<!--  -->
+
+<div class="white-bg third-container">
+    <div class="row table-filter">
+        <div class="col-sm-3 form-group"  style="display: none;">
+            <label for="role">User Type</label>
+            <select class="form-control applyselect" id="user_type">
+            </select>
+        </div>
+
+        <div class="col-sm-3 form-group">
+            <label for="role">Status </label>
+            <select class="form-control applyselect" onchange="bindItemMasterGridFilter()" id="status">
+                <option value="All" selected>All</option>
+                <option value="1">Active</option>
+                <option value="0">InActive</option>
+            </select>
+        </div>
+        <div class="col-sm-2 form-group" style="display: none;">
+            <label for="role">Create Date </label>
+            <div class="input-group">
+                <input type="text" class="form-control datepicker" autocomplete="off" placeholder="DD/MM/YYYY" onblur="bindItemMasterGridFilter()" readonly id="creat">
+                <div class="input-group-append dateicon">
+                    <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-2 ml-auto form-group align-self-end">
+            <div class="d-flex gap-5 justify-content-end ">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox w-350">
+                    
+                    <div class="search">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+            </div>
+
+            </div>
+
+        </div>
+    <!--  -->
+    @*<div class="table-responsive">
+            <table id="emp_table" class="display rstable sorting dgntable dataTable no-footer">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th width="150">User Type</th>
+                        <th width="120">Create Date</th>
+                        <th width="140">Last Login <span class="d-block">Date & Time</span></th>
+                        <th width="80">Login <span class="d-block">Activity</span></th>
+                        <th width="80">Status</th>
+                        <th width="130">Actions</th>
+                    </tr>
+                    <tr class="searchfilter">
+                        <th></th>
+                        <th></th>
+                        <th class="searchhide"></th>
+                        <th></th>
+                        <th class="searchhide"></th>
+                        <th class="searchhide"></th>
+                        <th class="searchhide"></th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>*@
+    <!--  -->
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+
+<div class="modal" id="adduser" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-center w-100">Add New User</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="text-center note-popup">
+                            <h2>Email Verification</h2>
+                            <p>Please enter a valid email id</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="email">Email<sup>*</sup></label>
+                        <input type="email" id="otp_email" placeholder="Enter Email" oninput="HideErrorMessage(this); verifyEmployee()" class="form-control">
+                        <span id="spotp_email" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="email_verify" onclick="isValidEmail()" class="btn btn-lg actionbtn">Verify</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="verifyUser" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-center w-100">Verify Email ID</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="text-center note-popup">
+                            <h2>Email Verification</h2>
+                            <p>Please enter the OTP (4 characters) Send to your Email Id</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="email">OTP Details<sup>*</sup></label>
+                        <input type="text" id="otp" placeholder="Enter Email" onchange="HideErrorMessage(this);" class="numeric_only form-control">
+                        <span id="spotp" class="text-danger field-validation-error" style="display:none;">Invalid OTP!!</span>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" onclick="VerifyEmployee()" class="btn btn-lg actionbtn">Verify</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- createuser Modal popup -->
+<div class="modal" id="createuser" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-center w-100" id="emp_header">Add New User</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="text-center note-popup">
+                            <h2>Create Account</h2>
+                            <p>Please fill the following details</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="profile-cmd profile-sm">
+                            <div class="profileimg">
+                                <img src="~/assets/images/profileimg/profile-img.png" id="profile_image" alt="">
+                            </div>
+                            <div class="profileinfo">
+                                <input type="file" class="form-control" name="" id="resultImage">
+                                <button id="addmoreItem" class="btn btn-lg actionbtn"><img src="~/assets/images/profileimg/camera-icon.svg"> Upload Image</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label for="text">First Name<sup>*</sup></label>
+                        <input type="text" id="firstname" oninput="onlyAlpha(this);HideErrorMessage(this)" placeholder="Enter First Name" class="form-control Mandatory">
+                        <span id="spfirstname" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for="text">Last Name<sup>*</sup></label>
+                        <input type="text" id="lastname" oninput="onlyAlpha(this); HideErrorMessage(this)" placeholder="Enter Last Name" class="form-control Mandatory">
+                        <span id="splastname" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="text">Employee Code<sup>*</sup></label>
+                        <input type="text" id="emp_code" placeholder="Enter Employee Code" oninput="HideErrorMessage(this); alphanumeric(this)" class="form-control Mandatory">
+                        <span id="spemp_code" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="role">Email<sup>*</sup></label>
+                        <input type="text" id="email" placeholder="Enter Email" disabled class="form-control">
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="">Created Date</label>
+                        <input type="text" id="created_at" placeholder="Enter" disabled class="form-control ">
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <label for="">Phone Number<sup>*</sup></label>
+                        <input type="number" id="phone_no" onchange="verifyPhoneNumber()" oninput="HideErrorMessage(this)" placeholder="Enter" class="form-control Mandatory">
+                        <span id="spphone_no" class="text-danger field-validation-error" style="display:none;">Invalid Phone No. !!</span>
+                    </div>
+
+
+                    <div class="col-sm-6 form-group ">
+                        <label for="role">Department<sup>*</sup></label>
+                        <select class="form-control Mandatory applyselect" onchange="HideErrorMessage(this)" id="ddl_department">
+                        </select>
+                        <span id="spddl_department" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-6 form-group ">
+                        <label for="role">Reporting Manager</label>
+                        <select class="form-control applyselect" id="ddl_manager">
+                        </select>
+                    </div>
+                    <div class="col-sm-12 form-group ">
+                        <label for="role">User Type<sup>*</sup></label>
+                        <select class="form-control Mandatory applyselect" onchange="HideErrorMessage(this)" id="ddl_UserType">
+                        </select>
+                        <span id="spddl_UserType" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="btn_Save" onclick="SaveEmpCategory()" class="btn btn-lg actionbtn">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- confirmation Modal popup -->
+<div class="modal" id="deletepopup" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center"><enum id="del_user"></enum></h6>
+                    <span class="d-block">Are you sure you want to <enum id="del_command"></enum> this user?</span>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg  cancelbtn radius-24" onclick="closeEmpDel()" data-dismiss="modal">Cancel</button>
+                <button type="button" onclick="Del_EmpMaster()" class="btn btn-lg actionbtn radius-24">OK</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #globalSearch {
+        display: none
+    }
+
+    .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+        transition: opacity 0.2s;
+        opacity: 1;
+        color: #fff;
+    }
+
+    .ag-icon::before {
+        color: #fff;
+    }
+
+    .ag-theme-balham .ag-header-cell-label {
+        white-space: normal; /* Allow wrapping in header text */
+    }
+
+    .ag-theme-balham {
+        overflow-x: auto; /* Avoid extra whitespace */
+    }
+
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding-left: var(--ag-cell-horizontal-padding);
+        padding-right: var(--ag-cell-horizontal-padding);
+        background: #44488c;
+        color: #fff !important
+    }
+
+    .ag-icon-filter {
+        font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+        font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+        color: #ffffff !important;
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 1000;
+    }
+
+        .custom-alert table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-alert th {
+            background-color: #f2f2f2;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+
+    .ag-icon.ag-icon-previous::before {
+        content: "\f104"; /* Font Awesome: fa-angle-left */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .ag-icon.ag-icon-next::before {
+        content: "\f105"; /* Font Awesome: fa-angle-right */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+</style>
+
+<script>
+    function alphanumeric(ctrl) {
+        // Allow only alphanumeric, * and /
+        ctrl.value = ctrl.value.replace(/[^a-zA-Z0-9]/g, '');
+    }
+</script>
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+
+@*Ag Grid Scripts End*@
+
+<script src="~/Areas/ManageEmployee/DevScript/EmployeeMaster.js"></script>

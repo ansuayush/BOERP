@@ -1,0 +1,55 @@
+﻿.print-header {
+    padding-bottom: 40px;
+}
+
+.logoprint {
+    width: 250px;
+}
+
+.line-bottom {
+    border-bottom: 1px solid var(--grey-five-color);
+    padding-bottom: 10px
+}
+
+.print-header, .print-container, .print-foooter {
+    padding: 10px;
+    font-size:12px
+}
+
+.print-container {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-size:var(--font-size-12)
+}
+    .print-container .card-header-sm {
+        padding: 5px;
+    }
+.qr-code {
+    height: 100px;
+}
+
+.print-container .inovicetbledgn thead th, .print-container .inovicetbledgn tbody td, .print-container .inovicetbledgn tfoot td {
+    padding: 5px;
+    border: 1px solid #fff;
+    
+}
+
+.printadr {
+    font-size: var(--font-size-12);
+    line-height: 18px;
+}
+
+    .printadr .card-body {
+        padding: 5px;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+.print-container li:last-child {
+    border: 0px !important;
+    padding: 0px !important
+}
+
+.print-container .card-body {
+    padding:10px 10px 0px
+}

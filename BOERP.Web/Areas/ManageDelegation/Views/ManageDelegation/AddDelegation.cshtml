@@ -1,0 +1,556 @@
+﻿
+@{
+    ViewBag.Title = "Delegation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string username = clsApplicationSetting.GetSessionValue("FullName");
+
+    string roleIDs = clsApplicationSetting.GetSessionValue("RoleIDs");
+
+    string loginIDs = clsApplicationSetting.GetSessionValue("LoginID");
+
+    string userType = clsApplicationSetting.GetSessionValue("UserType");
+
+}
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="Delegation?auth=@ViewBag.Auth"><img src="/assets/images/icons/help/back-icon.png" class="headingicon"></a>Add New DS<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+
+
+    <div class="col-md-12 form-group">
+        <div class="card br-none p-0 h-100">
+
+
+
+            <div class="card-body view-form-group">
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-6  col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Delegation  Id</label>
+                            <input type="text" class="form-control" id="DelId" value="101" name="" placeholder="Enter" disabled="">
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="hdnDelegationMasterId" value="0" />
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Created On</label>
+                            <input type="text" class="form-control" id="Deldate" value="2024-06-15" name="" placeholder="Enter" disabled="">
+                        </div>
+                    </div>
+
+                    @if (loginIDs == "1")
+                    {
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">Created By</label>
+                                <input type="text" class="form-control" id="CreatedBy" value="Admin" name="" placeholder="Enter" disabled="">
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-3 col-md-6 col-sm-6 ">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">Created By</label>
+                                <input type="text" class="form-control" id="CreatedBy" value="@username" name="" placeholder="Enter" disabled="">
+                            </div>
+                        </div>
+                    }
+
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 ">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Delegated By<sup class="red-clr">*</sup></label>
+                            <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlAssignee">
+                            </select>
+                            <span id="spddlAssignee" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Task Description <sup class="red-clr">*</sup></label>
+                            <textarea rows='1' maxlength="500" class='auto-expand Mandatory form-control' id="Delname" onchange="HideErrorMessage(this)" placeholder="Enter "></textarea>
+                            <span id="spDelname" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 align-self-center mb-1 mt-1">
+                        <div class="form-group">
+                            <div class="checkdgn checkdgnlsit  ">
+                                <input id="backTask" name="checkbox" class="checkbox" type="checkbox">
+                                <label for="backTask">Is The Task Backdated?</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="plandate1" class="form-control-label">First Completion Date <sup class="red-clr">*</sup></label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control datepickersecond Mandatory" readonly onchange="validateDates(this)" autocomplete="off" placeholder="dd-mm-yyyy" id="plandate1">
+                                <span class="clear-date">×</span>
+                                <div class="input-group-append ">
+                                    <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                                </div>
+                            </div>
+
+                            <span id="spplandate1" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="plandate2" class="form-control-label">Second Completion Date</label>
+                            <input type="text" class="form-control" placeholder="dd-mm-yyyy" id="plandate2" onchange="validateDates(this)" readonly disabled name="plandate2" placeholder="Enter">
+                            <span id="spplandate2" class="text-danger field-validation-error" style="display:none;"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="plandate3" class="form-control-label">Third Completion Date</label>
+                            <input type="text" class="form-control" placeholder="dd-mm-yyyy" id="plandate3" onchange="validateDates(this)" readonly disabled name="plandate3" placeholder="Enter">
+                            <span id="spplandate3" class="text-danger field-validation-error" style="display:none;"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Doer <sup class="red-clr">*</sup></label>
+                            <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlDoer">
+                            </select>
+                            <span id="spddlDoer" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Department </label>
+                            <select class="form-control applyselect" id="ddlDepartment">
+                                <option>Select</option>
+
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Branch <sup class="red-clr">*</sup></label>
+                            <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlBranch">
+                            </select>
+                            <span id="spddlBranch" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Planned Score <sup class="red-clr">*</sup></label>
+                            <input type="number" class="form-control numeric-only Mandatory" onchange="HideErrorMessage(this)" name="" id="Weightage" placeholder="Enter">
+                            <span id="spWeightage" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Approval Authority <sup class="red-clr">*</sup></label>
+                            <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlPC">
+                            </select>
+                            <span id="spddlPC" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 align-self-end ">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Escalate To</label>
+                            <select class="form-control applyselect" id="EscalateTo" multiple>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 ">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">Escalation Time (Hrs) </label>
+                            <input type="number" class="form-control numeric-only" name="" id="EscalationTime" placeholder="Enter">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 ">
+                        <div class="form-group">
+                            <label for="" class="form-control-label">
+                                Reminder Escalation Time (Hrs)
+                            </label>
+                            <input type="number" id="ReminderTimes" class="form-control numeric-only " name="" placeholder="Enter">
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 ">
+                        <div class="form-group">
+                            <label for="" class="form-control-label ">Image Required To Be Uploaded <sup class="red-clr">*</sup></label>
+                            <select id="resultupload" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)">
+                                <option>Select</option>
+
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                                <option value="uploadreferenceimage">Only Upload Reference Image</option>
+
+                            </select>
+                            <span id="spresultupload" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-6 col-sm-6  ">
+                        <div class="form-group ">
+                            <label for="" class="form-control-label">Remarks Required <sup class="red-clr">*</sup></label>
+                            <select class="form-control Mandatory  applyselect" id="isRemark" onchange="HideErrorMessage(this)">
+                                <option>Select</option>
+
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+
+                            </select>
+                            <span id="spisRemark" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+                    @if (loginIDs == "1")
+                    {
+                        <div class="col-lg-3 ">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">EA <sup class="red-clr">*</sup></label>
+                                <select class="form-control Mandatory applyselect" onchange="HideErrorMessage(this)" id="ddlEA">
+                                </select>
+                                <span id="spddlEA" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">EA</label>
+                                <input type="text" class="form-control" id="EA" value="@username" name="" placeholder="Enter" disabled="">
+                            </div>
+                        </div>
+
+                    }
+
+                    <div class="col-lg-12" id="yesupload" style="display:none">
+                        <div class="form-group">
+                            <label for="Lead Details" class="form-control-label">Reference Upload Image <sup class="red-clr">*</sup> </label>
+                            <div class="table-responsive mt-2">
+                                <table class="display rstable dgntable dataTable no-footer radius-0 ">
+                                    <thead>
+                                        <tr>
+                                            <th width="80" class="text-center">Sr.No</th>
+                                            <th width="150">Reference Image</th>
+                                            <th>Image Upload</th>
+                                            <th width="33"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="imageUploadRows">
+                                        <tr class="imageRows" id="row_1">
+                                            <td class="text-center">1</td>
+                                            <td><p class="text-p mb-0 " id="view_1" onclick="showImage(this.id)"><img src="~/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm" /> View</p></td>
+                                            <td>
+                                                <input type="hidden" id="hdnUploadActualFileName_1" />
+                                                <input type="hidden" id="hdnUploadNewFileName_1" />
+                                                <input type="hidden" id="hdnUploadFileUrl_1" />
+                                                <input type="file" id="file_1" onchange="UploadocumentQuesReport(this.id)" class="form-control" name="attachment[]"><span id="spfile_1" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                            </td>
+                                            <td class="text-center"><span id="addRowBtn" data-toggle="tooltip" title="Add"  alt="add reff image" data-original-title="Add"><img src="../assets/images/icons/help/add.svg"></span></td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        </div>
+    </div>
+</div>
+    <footer class="footer-action-btn ">
+        <a href="Delegation?auth=@ViewBag.Auth">
+            <button type="button" class="btn btn-lg  cancelbtn"  data-dismiss="modal">Close</button>
+        </a>
+        <button type="button" class="btn  btn-lg  actionbtn" id="delSave" onclick="SaveDelegation()" data-dismiss="modal"> Save</button>
+        <!--  <button type="submit" class="btn  btn-lg  actionbtn"><i class="fa fa-floppy-o" aria-hidden="true"></i> Submit</button> -->
+
+
+    </footer>
+
+<!-- View Image Modal -->
+
+<div id="viewimage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Preview Image</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" aria-hidden="true"></i></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="imgprvw">
+                    <img id="viewMyImage" src="img/login-img.jpg" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg  cancelbtn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var Edit_ID = "@ViewBag.id";
+
+    var isDuplicate = "@ViewBag.isDuplicate";
+
+    var loginIDs = "@username";
+
+    console.log(loginIDs);
+</script>
+<script>
+    $(document).ready(function () {
+        $(".applyselect").select2();
+    });
+</script>
+<script>
+    $('.sltshow').on('change', function () {
+        $('#yes').css('display', 'none');
+        if ($(this).val() === 'yes') {
+            $('#yes').css('display', 'block');
+        }
+    });
+</script>
+<script>
+    $('#ynresult').on('change', function () {
+        $('#yesdiv').css('display', 'none');
+        if ($(this).val() === 'yes') {
+            $('#yesdiv').css('display', 'block');
+        }
+    });
+
+</script>
+<script>
+    $('#result').on('change', function () {
+        $('#pending').css('display', 'none');
+        if ($(this).val() === 'pending') {
+            $('#pending').css('display', 'block');
+        }
+    });
+
+    $('#backTask').change(function () {
+        $('#plandate1').val('');
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+<script>
+    const $autoExpandTextareas = document.querySelectorAll("textarea.auto-expand");
+
+    function addMultiEventListeners(el, s, fn) {
+        s.split(" ").forEach(e => el.addEventListener(e, fn, false));
+    }
+
+    $autoExpandTextareas.forEach(function (el) {
+        addMultiEventListeners(el, "change keydown paste", function () {
+            autoExpand(el);
+        });
+    });
+
+    function autoExpand(el) {
+        setTimeout(function () {
+            el.style.cssText = "height: auto";
+            el.style.cssText = `height: ${7 + el.scrollHeight}px`;
+        }, 0);
+    }
+
+    window.onresize = function () {
+        $autoExpandTextareas.forEach(function (el) {
+            autoExpand(el);
+        });
+    };
+
+</script>
+
+
+
+<script>
+
+    function validateDates(ctrl) {
+        HideErrorMessage(ctrl);
+        let plandate1 = document.getElementById("plandate1").value;
+        let plandate2 = document.getElementById("plandate2").value;
+        let plandate3 = document.getElementById("plandate3").value;
+
+        var plandate1Parts = plandate1.split('-');
+        var plandate2Parts = plandate2.split('-');
+        var plandate3Parts = plandate3.split('-');
+
+        // Convert parts to integers
+        plandate1 = new Date(parseInt(plandate1Parts[2], 10), parseInt(plandate1Parts[1], 10) - 1, parseInt(plandate1Parts[0], 10));
+        plandate2 = new Date(parseInt(plandate2Parts[2], 10), parseInt(plandate2Parts[1], 10) - 1, parseInt(plandate2Parts[0], 10));
+        plandate3 = new Date(parseInt(plandate3Parts[2], 10), parseInt(plandate3Parts[1], 10) - 1, parseInt(plandate3Parts[0], 10));
+
+        var currentDate = new Date();
+
+        var year = currentDate.getFullYear();
+        var month = currentDate.getMonth();
+        var day = currentDate.getDate();
+
+
+        var currentDateWithoutTime = new Date(year, month, day);
+        let errorMessage;
+
+
+
+        if (plandate1 && plandate1 < currentDateWithoutTime) {
+            if ($('#backTask').prop('checked') == false) {
+                errorMessage = "First Completion Date should be greater or equal than today's date.";
+                $('#plandate1').val('');
+                FailToaster(errorMessage);
+            }
+        }
+
+        if (plandate1 && plandate1 >= currentDateWithoutTime) {
+            if ($('#backTask').prop('checked') == true) {
+                errorMessage = "First Completion Date should be smaller than today's date when Back Date Task Column is checked!!.";
+                $('#plandate1').val('');
+                FailToaster(errorMessage);
+            }
+        }
+
+        // Validate plandate2
+        if (plandate1 && plandate2 && plandate2 <= plandate1) {
+            errorMessage = "Second Completion Date should be greater than First Completion Date.";
+            $('#plandate2').val('');
+            FailToaster(errorMessage);
+        }
+
+        // Validate plandate3
+        if (plandate1 && plandate3 && plandate3 <= plandate1) {
+            errorMessage = "Third Completion Date should be greater than First Completion Date.";
+            $('#plandate3').val('');
+            FailToaster(errorMessage);
+        }
+
+        if (plandate2 && plandate3 && plandate3 <= plandate2) {
+            errorMessage = "Third Completion Date should be greater than Second Completion Date.";
+            $('#plandate3').val('');
+            FailToaster(errorMessage);
+        }
+    }
+
+
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+
+        // Function to add a new row
+       
+
+        // Function to remove a row
+        window.removeRow = function (ctrl, rowId) {
+      
+            $("#row_" + rowId).remove();
+            // Update serial numbers after deletion
+            updateSerialNumbers();
+        };
+
+        // Function to update serial numbers
+        function updateSerialNumbers() {
+            var serialNumber = 1;
+            $(".imageRows").each(function () {
+                $(this).find("td:first").text(serialNumber);
+                serialNumber++;
+            });
+        }
+    });
+
+    function getAllInputValues() {
+        var inputData = [];
+        $(".imageRows").each(function () {
+            var rowId = $(this).attr('id');
+            if (rowId) {
+                rowId = rowId.split('_')[1];
+                var actualFileName = $("#hdnUploadActualFileName_" + rowId).val();
+                var newFileName = $("#hdnUploadNewFileName_" + rowId).val();
+                var fileUrl = $("#hdnUploadFileUrl_" + rowId).val();
+                var fileInput = $("#file_" + rowId).val();
+
+                inputData.push({
+                    actualFileName: actualFileName,
+                    newFileName: newFileName,
+                    fileUrl: fileUrl,
+                    fileInput: fileInput
+                });
+            }
+        });
+        return inputData;
+    }
+
+    // Function to remove all rows
+    window.removeAllRows = function () {
+        $("#imageUploadRows").empty();
+        debugger;
+        $("#imageUploadRows").html(` <tr id="row_1" class="imageRows">
+     <td class="text-center">1</td>
+     <td><p class="text-p mb-0 " id="view_1" onclick="showImage(this.id)"><img src="/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm"> View</p></td>
+     <td>
+         <input type="hidden" id="hdnUploadActualFileName_1" />
+         <input type="hidden" id="hdnUploadNewFileName_1" />
+         <input type="hidden" id="hdnUploadFileUrl_1"  />
+         <input type="file" id="file_1" onchange="UploadocumentQuesReport(this.id)"  class="form-control" name="attachment[]"><span id="spfile_1" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+     </td>
+     <td class="text-center"><span id="addRowBtn" data-toggle="tooltip" title="Add"  onclick="addRows()"   alt="add reff image"  data-original-title="Add"><img src="../assets/images/icons/help/add.svg"></span></td>
+ </tr>`);
+
+        rowCounter = 2; // Reset row counter
+    };
+
+
+
+</script>
+
+<script src="~/Areas/ManageDelegation/DevScript/AddDelegation.js"></script>

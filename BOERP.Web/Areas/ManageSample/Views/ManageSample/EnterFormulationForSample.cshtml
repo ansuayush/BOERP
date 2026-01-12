@@ -1,0 +1,677 @@
+﻿
+@{
+    ViewBag.Title = "EnterFormulationForSample";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a onclick="CancelBOM()"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Step 4 - Bill Of Material<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center"></div>
+</div>
+<div class="row">
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Formula Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-sm-3 form-group">
+                        <label class="readonlay">FM Code<sup>*</sup></label>
+                        <p class="text-p bg-white border-hlt" id="FMDocNo"></p>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label class="readonlay">Item Name<sup>*</sup></label>
+                        <p class="text-p bg-white border-hlt" id="Item_Name"></p>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label>Sample ID<sup>*</sup></label>
+                        <p class="text-p bg-white border-hlt" id="SampleDocvNo"></p>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label>Chemist Name</label>
+                        <p class="text-p bg-white border-hlt" id="Chemist"></p>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label>Sample Type</label>
+                        <p class="text-p bg-white border-hlt" id="Sample_Type"></p>
+                    </div>
+                    <div class="col-sm-12 form-group" id="Standard" style="display: none;">
+                        <div class="table-responsive sticky-responsive">
+                            <table class="display  bg-thrid stickyth dgntable dataTable no-footer radius-0 itemsinformation">
+                                <thead>
+                                    <tr>
+
+                                        <th width="150">Item Name</th>
+                                        <th width="200">Formulation Category</th>
+                                        <th width="100">Fragrance</th>
+                                        <th width="100">Colour</th>
+                                        <th width="150">Packaging Type</th>
+                                        <th width="100">Target Price (₹)</th>
+                                        <th width="200">Requirements/Description</th>
+                                        <th width="200">Must have ingredients</th>
+                                        <th width="200">Must not have ingredients</th>
+                                        <th width="100" class="text-left">Upload PDF</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="viewStandard">
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group" id="oil" style="display: none;">
+                        <div class="table-responsive sticky-responsive">
+                            <table class="display  bg-thrid stickyth dgntable dataTable no-footer radius-0 itemsinformation">
+                                <thead>
+                                    <tr>
+
+                                        <th width="150">Item Name</th>
+                                        <th width="200">Formulation Category</th>
+                                        <th width="100">Target Price (₹)</th>
+                                        <th width="100" class="text-left">Upload PDF</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="viewOil">
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="d-flex gap-20 align-items-center flex-wrap">
+                            <a href="" id="open_pdf">View Guidelines / S.O.P</a>
+                            <a href="" id="video4">View Guidelines Video</a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Ingredients Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive sticky-responsive">
+                    <table class="display rstable stickyth dgntable dataTable no-footer radius-0 " style="table-layout: fixed;">
+                        <thead id="ingTbleHead">
+                            <tr>
+                                <th width="50px">Add Rows</th>
+                                <th width="40px">SR.NO.</th>
+                                <th width="250px">Ingredient Name</th>
+                                <th width="140px">Quantity (gm)</th>
+                                <th width="120px">Selling Price (₹)</th>
+                                <th width="120px">Purchase Price (₹)</th>
+                                <th width="120px">Material <span class="d-block">Proportionate Ratio</span></th>
+                                <th width="120px">Total Selling Cost (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ingredientTable1">
+                            <tr class="ing" id="ing_0">
+                                <td class="text-center">
+                                    <div onclick="addRow1(this);" class="cursor-pointer">
+                                        <img src="../../assets/images/icons/help/add.svg" class="img-15" alt="">
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>
+
+                                    <div class="autocomplete-wrapper" style="position: relative;">
+                                        <label for="ddlI_0" class="search-label">
+                                            <img src="../../../assets/images/icons/help/search-icon.png" class="icon-sm" />
+                                        </label>
+                                        <input type="text" class="form-control searchlist MandateIng" id="ddlI_0" oninput="Getdata(this), HideErrorMessage(this)" onclick="Getdata(this)" placeholder="Type item..." autocomplete="off" />
+                                        <span id="spddlI_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                        <ul id="globalSuggestionBox_0" class="suggestions"></ul>
+                                        <input type="hidden" id="ddlItem_0" />
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <input type="number" id="quantity_0" oninput="CalculateRate(this), HideErrorMessage(this)" class="form-control MandateIng text-right" placeholder="0">
+                                    <span id="spquantity_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </td>
+                                <td>
+                                    <input type="number" id="sale_0" onchange="CalculateRate(this)" oninput="CalculateRate(this), HideErrorMessage(this)" class="form-control MandateIng text-right" placeholder="0">
+                                    <span id="spsale_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    <input type="hidden" id="purch_0" />
+                                </td>
+
+                                <td>
+                                    <input type="number" id="purchrate_0" oninput="HideErrorMessage(this); SetZero(this)" class="form-control MandateIng text-right" placeholder="0">
+                                    <span id="sppurchrate_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    <input type="hidden" id="purchrate1_0" />
+                                </td>
+
+                                <td>
+                                    <input type="number" id="mpr_0" disabled class="form-control  text-right" placeholder="0">
+                                </td>
+                                <td class="text-right">₹ <enum id="total_0">0</enum></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="tfoot-stickyth-two">
+                                <td colspan="3"></td>
+                                <td class="fn-bold text-right">Total Quantity : <enum id="total_quantity">0</enum> gm</td>
+                                <td colspan="3"></td>
+
+                                <td class="fn-bold text-right">Total Cost : ₹ <enum id="total_cost">0</enum></td>
+                            </tr>
+
+                            <tr>
+                                <td ></td>
+                                <td class="fn-bold text-right" colspan="3"></td>
+
+                                <td colspan="4" class="fn-bold text-right">Total Cost per kg : ₹ <enum id="cost_per_kg">0</enum></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Quality Parameters</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive sticky-responsive">
+                    <table class="display  stickyth  dgntable dataTable no-footer radius-0 " style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th width="300px">Test Name</th>
+                                <th width="80px">Result Type</th>
+                                <th width="70px">Measuring Unit</th>
+                                <th width="150px">Result Value</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="quality_check">
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Manufacturing Process</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive">
+                    <table class="display  dgntable dataTable no-footer radius-0 " style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th width="70px">Add Rows</th>
+                                <th width="50px">SR No.</th>
+                                <th>Process</th>
+                                <th width="80px">RPM</th>
+                                <th width="80px">Temp (°C)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ingredientTable2">
+                            <tr class="process" id="process_0">
+                                <td class="text-center">
+                                    <div onclick="addRow2(this);" class="cursor-pointer">
+                                        <img src="~/assets/images/icons/help/add.svg" class="img-15" alt="">
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <input type="text" id="txtprocess_0" oninput="HideErrorMessage(this)" class="form-control MandateP" placeholder="Enter">
+                                    <span id="sptxtprocess_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </td>
+                                <td>
+                                    <input type="number" id="txtRPM_0" oninput="SetZero(this), HideErrorMessage(this)" class="form-control MandateP text-right" placeholder="0">
+                                    <span id="sptxtRPM_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </td>
+                                <td>
+                                    <input type="number" id="txtTemp_0" oninput="SetZero(this), HideErrorMessage(this)" class="form-control MandateP text-right" placeholder="0">
+                                    <span id="sptxtTemp_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group" id="add_att">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Attachment</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body  view-form-group">
+                <div class="section-container section-container-popup">
+                    <div class="fileuploadview drag-area">
+                        <div class="uploadicon_text file-input-button">
+                            <div class="uploadicon">
+                                <img src="~/assets/images/icons/help/fileupload-icon.svg" alt="">
+                            </div>
+                            <div class="uploadtext drag-file">
+                                <h4>Drop files here or click to upload</h4>
+                                <h6>This is a dropzone, drop files or click to browse</h6>
+                                <span class="error">The file size should be upto 2MB,<br /> with a maximum of 10 attachments.</span>
+                            </div>
+                        </div>
+                        <input type="file" id="fileIndent" class="file-input hidden" multiple />
+                        <div id="documentImages" class="document-images"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group" style="display: none;" id="view_att">
+        <div class="card br-none p-0">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                <h2 class="title-two align-self-center">Material COA Upload</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-175 ">
+                <p class="m-0 nofile" id="NoUploadFile1">No Upload</p>
+                <div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile1">
+                    <!--  -->
+                    <div id="documentImagesMCU" class="document-images">
+
+                    </div>
+                    <!--  -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="fileLimitPopup" class="popup-modal">
+    <div class="popup-content">
+        <p id="popup-message"></p>
+        <button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+    </div>
+</div>
+
+@*v--------- View image model-------------*@
+<div id="viewimage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Q1</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="imgprvw">
+
+                    <img id="myImage" src="img/login-img.jpg" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*--------model close-----------*@
+
+<footer class="footer-action-btn ">
+
+    <button type="" class="btn btn-lg  cancelbtn" onclick="CancelBOM()">Cancel</button>
+    <button type="" class="btn  btn-lg  actionbtn" id="bomSubmit" onclick="saveBOM()">Submit</button>
+
+</footer>
+
+
+
+<!-- confirmation Modal popup -->
+<div class="modal fade" id="confirmpopup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-default" role="document">
+        <div class="modal-content">
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="../../assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">Do You Want to delete this process? </h6>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var Edit_ID = "@ViewBag.Edit_ID";
+
+    function Getdata(inputElement) {
+    let rowId = inputElement.id.split('_')[1]; // Extract RowId from input ID
+    let suggestionBox = document.getElementById(`globalSuggestionBox_${rowId}`);
+
+    let search = inputElement.value.toLowerCase();
+    suggestionBox.innerHTML = "";
+
+    //if (search.length < 2) {
+    //    suggestionBox.style.display = "none";
+    //    return;
+    //}
+
+    let matchedItems = ItemCodeList.filter(item =>
+        item.ITEM_DISPLAY.toLowerCase().includes(search) || item.ITEM_DISPLAY.toLowerCase().includes(search)
+    ).slice(0,50);
+
+    if (matchedItems.length === 0) {
+        suggestionBox.innerHTML = `<li class="errordata">No data found</li>`;
+    } else {
+        matchedItems.forEach(item => {
+            let li = document.createElement("li");
+            li.textContent = `${item.ITEM_DISPLAY}`;
+            li.dataset.id = item.ITEM_ID;
+            li.dataset.name = item.ITEM_NAME;
+            li.dataset.code = item.ITEM_CODE;
+
+            li.addEventListener("click", function () {
+                inputElement.value = item.ITEM_NAME; // Set selected value in input
+                suggestionBox.style.display = "none";
+
+                $(`#ddlItem_` + rowId).val(item.ITEM_ID);
+                $(`#lblItemName_` + rowId).text(item.ITEM_NAME);
+                $(`#lblItemDesc_` + rowId).text(item.DESCRIPTION);
+                $(`#lblUnit_` + rowId).text(item.UNIT);
+
+                GetItemDetails(item.ITEM_ID, rowId);
+
+            });
+
+            suggestionBox.appendChild(li);
+        });
+    }
+
+    // Positioning
+    let rect = inputElement.getBoundingClientRect();
+    suggestionBox.style.top = rect.bottom + "px";
+    suggestionBox.style.left = rect.left + "px";
+    suggestionBox.style.width = rect.width + "px";
+    suggestionBox.style.display = "block";
+}
+document.addEventListener("click", function (event) {
+    if (!event.target.classList.contains("searchlist")) {
+        document.querySelectorAll(".suggestions").forEach(box => box.style.display = "none");
+    }
+});
+
+
+    function addRow1() {
+        
+        var rowCount;
+
+        const tableBody = document.getElementById('ingredientTable1');
+        rowCount = tableBody.rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.className = 'ing';
+        newRow.id = `ing_${rowCount}`;
+
+         newRow.innerHTML = `
+        
+            <td class="text-center">
+                <div onclick="deleteRow1(this);">
+                    <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer img-15">
+                </div>
+            </td>
+            <td>${rowCount}</td>
+
+           <td>
+
+                <div class="autocomplete-wrapper" style="position: relative;">
+                    <label for="ddlI_${rowCount}" class="search-label">
+                        <img src="../../../assets/images/icons/help/search-icon.png" class="icon-sm" />
+                    </label>
+                    <input type="text" class="form-control searchlist MandateIng" id="ddlI_${rowCount}" oninput="Getdata(this), HideErrorMessage(this)" onclick="Getdata(this)" placeholder="Type item..." autocomplete="off" />
+                    <span id="spddlI_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    <ul id="globalSuggestionBox_${rowCount}" class="suggestions"></ul>
+                    <input type="hidden" id="ddlItem_${rowCount}" />
+                </div>
+
+            </td>
+             <td>
+                 <input type="number" id="quantity_${rowCount}" oninput="CalculateRate(this), HideErrorMessage(this)"  class="form-control MandateIng text-right" placeholder="0">
+                  <span id="spquantity_${rowCount}" class="text-danger field-validation-error"  style="display:none;">Hey, You missed this field!!</span>
+             </td>
+             <td>
+                 <input type="number" id="sale_${rowCount}" onchange="CalculateRate(this)" oninput="CalculateRate(this), HideErrorMessage(this)" class="form-control MandateIng text-right" placeholder="0">
+                  <span id="spsale_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                 <input type="hidden" id="purch_${rowCount}" />
+             </td>
+              <td>
+                 <input type="number" id="purchrate_${rowCount}" oninput="HideErrorMessage(this); SetZero(this)" class="form-control MandateIng text-right" placeholder="0">
+                  <span id="sppurchrate_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                 <input type="hidden" id="purchrate1_${rowCount}" />
+             </td>
+
+             <td>
+                 <input type="number" id="mpr_${rowCount}" disabled class="form-control  text-right" placeholder="0">
+             </td>
+             <td class="text-right">₹ <enum id="total_${rowCount}">0</enum></td>
+        `;
+
+            tableBody.appendChild(newRow);
+            $(".applyselect").select2();
+
+        return rowCount;
+    }
+
+
+    function deleteRow1(button) {
+        const row = button.closest('tr');
+        if (!row) return;
+        const tbody = row.parentNode;
+
+        // Remove the clicked row
+        tbody.removeChild(row);
+
+        // ---------- Detect id-start from first remaining row ----------
+        // Default: start ids at 1
+        let idStart = 1;
+        const firstRow = tbody.rows[0];
+        if (firstRow) {
+            // Find any element with an id inside the first row
+            const elWithId = firstRow.querySelector('[id]');
+            if (elWithId && elWithId.id) {
+                const match = elWithId.id.match(/_(\d+)(?!.*_.*)/); // last _digits
+                if (match) {
+                    idStart = parseInt(match[1], 10) || 1;
+                }
+            }
+        }
+
+        // If idStart < 99 we will keep ids == visible index (1..N).
+        // If idStart >= 100 we will keep ids starting from idStart (100,101,...).
+        const useSeparateIdBase = idStart >= 100;
+
+        // ---------- Reindex remaining rows ----------
+        const rows = Array.from(tbody.rows);
+        rows.forEach((r, idx) => {
+            if (idx == 0) {
+                return;
+            }
+            const visibleIndex = idx + 1;
+            const idIndex = useSeparateIdBase ? (idStart + idx) : visibleIndex;
+
+            // Update visible sequence cell:
+            // prefer .seq-cell if present, else fallback to second cell (index 1)
+            const seqCell = r.querySelector('.seq-cell') || r.cells[1];
+            if (seqCell) seqCell.innerText = visibleIndex;
+
+            // Update attributes inside row for id/for/name and inline handlers
+            const attrsToFix = ['id', 'for', 'name', 'onclick', 'oninput', 'onchange', 'onblur', 'onfocus', 'aria-labelledby', 'data-id', 'data-target', 'data-index'];
+
+            r.querySelectorAll('*').forEach(el => {
+                attrsToFix.forEach(attr => {
+                    if (!el.hasAttribute(attr)) return;
+                    const oldVal = el.getAttribute(attr);
+                    if (!oldVal) return;
+
+                    // Replace suffix _<digits> with new idIndex
+                    let newVal = oldVal.replace(/_(\d+)\b/g, `_${idIndex}`);
+
+                    // Replace simple function calls like Foo(5) -> Foo(idIndex)
+                    // Only change when argument is a single numeric literal.
+                    newVal = newVal.replace(/([A-Za-z0-9_]+)\(\s*\d+\s*\)/g, function (m, fn) {
+                        return fn + '(' + idIndex + ')';
+                    });
+
+                    if (newVal !== oldVal) el.setAttribute(attr, newVal);
+                });
+
+                // For plain text nodes or innerHTML that contain e.g. SaveItemMasterDynamic(5)
+                // update those occurrences conservatively (only single-number args)
+                if (el.children.length === 0 && typeof el.innerHTML === 'string') {
+                    const oldHtml = el.innerHTML;
+                    const newHtml = oldHtml.replace(/([A-Za-z0-9_]+)\(\s*\d+\s*\)/g, function (m, fn) {
+                        return fn + '(' + idIndex + ')';
+                    });
+                    if (newHtml !== oldHtml) el.innerHTML = newHtml;
+                }
+            });
+
+            // Also update attributes on row itself (like id="row_100")
+            attrsToFix.forEach(attr => {
+                if (!r.hasAttribute(attr)) return;
+                const oldVal = r.getAttribute(attr);
+                if (!oldVal) return;
+                const newVal = oldVal.replace(/_(\d+)\b/g, `_${idIndex}`);
+                if (newVal !== oldVal) r.setAttribute(attr, newVal);
+            });
+        });
+
+        // ---------- Re-init UI plugins (safe) ----------
+        try {
+            if (window.jQuery) {
+                jQuery('.applyselect').each(function () {
+                    try { jQuery(this).select2('destroy'); } catch (e) { }
+                });
+                jQuery('.applyselect').select2();
+            }
+        } catch (e) {
+            console.warn('select2 re-init skipped/failed', e);
+        }
+
+        try {
+            CalculateTotal();
+        }
+        catch (e) {
+            console.warn('select2 re-init skipped/failed', e);
+        }
+
+    }
+
+    function addRow2() {
+
+        var rowCount1;
+
+
+        const tableBody1 = document.getElementById('ingredientTable2');
+       rowCount1  = tableBody1.rows.length + 1;
+
+        const newRow1 = document.createElement('tr');
+        newRow1.className = 'process';
+        newRow1.id = `process_${rowCount1}`;
+        newRow1.innerHTML = `
+            <td class="text-center">
+                <div onclick="showdeleteRow2(this);">
+                    <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer img-15">
+                </div>
+            </td>    
+            <td>${rowCount1}</td>
+			<td>
+				<input type="text"  id="txtprocess_${rowCount1}" oninput="HideErrorMessage(this)"  class="form-control MandateP" placeholder="Enter">
+                <span id="sptxtprocess_${rowCount1}" class="text-danger field-validation-error"  style="display:none;">Hey, You missed this field!!</span>
+			</td>
+			<td>
+				<input type="number" id="txtRPM_${rowCount1}" oninput="SetZero(this), HideErrorMessage(this)" class="form-control MandateP text-right" placeholder="0">
+                <span id="sptxtRPM_${rowCount1}" class="text-danger field-validation-error"  style="display:none;">Hey, You missed this field!!</span>
+			</td>
+			<td>
+				<input type="number" id="txtTemp_${rowCount1}" oninput="SetZero(this), HideErrorMessage(this)" class="form-control MandateP text-right" placeholder="0">
+                <span id="sptxtTemp_${rowCount1}" class="text-danger field-validation-error"  style="display:none;">Hey, You missed this field!!</span>
+			</td>
+        `;
+
+        tableBody1.appendChild(newRow1);
+        $(".applyselect").select2();
+
+        return rowCount1;
+    }
+
+    let currentDeleteButton = null; // To store the button reference
+
+    function deleteRow2(button) {
+        const row = button.parentNode.parentNode;
+        const tableBody = row.parentNode;
+
+        tableBody.removeChild(row);
+
+     
+        Array.from(tableBody.rows).forEach((row, index) => {
+            row.cells[1].innerText = index + 1;
+        });
+    }
+
+    function showdeleteRow2(button) {
+        currentDeleteButton = button; 
+        $('#confirmpopup').modal('show');
+    }
+
+  
+    $(document).ready(function () {
+        
+        $('#confirmpopup .actionbtn').click(function () {
+            if (currentDeleteButton) {
+                deleteRow1(currentDeleteButton);
+                currentDeleteButton = null; 
+            }
+        });
+
+        
+        $('#confirmpopup').on('hidden.bs.modal', function () {
+            currentDeleteButton = null;
+        });
+    });
+</script>
+<script src="~/Areas/ManageSample/DevScript/AddBOM.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/fileupload_Material.js"></script>

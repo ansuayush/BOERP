@@ -1,0 +1,445 @@
+﻿
+@{
+    ViewBag.Title = "DoerTaskAudit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="DoerDashboard?auth=@ViewBag.Auth"><img src="../assets/images/icons/help/back-icon.png" class="headingicon"></a>My Checklist<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <input type="hidden" id="hdnTask_transID" />
+    <input type="hidden" id="hdnStatus" />
+
+
+    <div class="col-sm-12 form-group">
+        <div class="card br-none p-0 h-100">
+
+
+
+            <div class="card-body view-page view-form-group">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 form-group hw-575">
+
+                        <label for="Lead Details" class="form-control-label">Task ID</label>
+                        <input type="text" class="form-control" name="" value="101" disabled placeholder="Enter" id="TaskID">
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group hw-575">
+
+                        <label for="Lead Details" class="form-control-label">Task Date</label>
+                        <input type="text" class="form-control" name="" value="2023-10-20" disabled placeholder="Enter" id="TaskDate">
+
+                    </div>
+                    <div class="col-lg-8 col-md-6 form-group">
+                        <label for="Lead Details" class="form-control-label">Task Name<sup class="red-clr">*</sup></label>
+                        <p id="TaskName">MF-ABC</p>
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group">
+
+                        <label for="Lead Details" class="form-control-label">Frequency<sup class="red-clr">*</sup></label>
+                        <p id="Frequency"></p>
+
+                    </div>
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Task Time <sup class="red-clr">*</sup> </label>
+                        <input type="text" class="form-control" value="09:12" name="" disabled placeholder="Enter" id="TaskTime">
+
+                    </div>
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">First Completion Date<sup class="red-clr">*</sup></label>
+                        <input type="text" class="form-control" name="" value="2023-10-20" disabled placeholder="Enter" id="StartDate">
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">End Date<sup class="red-clr">*</sup></label>
+                        <input type="text" class="form-control" name="" value="2023-10-20" disabled placeholder="Enter" id="EndDate">
+
+                    </div>
+
+
+
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Expiry Date<sup class="red-clr">*</sup> </label>
+                        <input type="text" class="form-control" value="2023-10-20" name="" disabled placeholder="Enter" id="ExpDate">
+
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <hr>
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Department <sup class="red-clr">*</sup></label>
+                        <p  id="Department"></p>
+                        
+
+                    </div>
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Branch  <sup class="red-clr">*</sup></label>
+                        <p id="Branch"></p>
+                        
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Doer  <sup class="red-clr">*</sup></label>
+                        <p id="Doer"></p>
+                        
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Secondary Doer </label>
+                        <p id="SecDoer"></p>                        
+
+                    </div>
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Process Controller <sup class="red-clr">*</sup></label>
+                        <p id="Pc"></p>
+                       
+
+                    </div>
+                    <div class="col-lg-2 col-md-3 form-group">
+                        <label for="Lead Details" class="form-control-label">Audit Required <sup class="red-clr">*</sup></label>
+                        <p id="isAudit"></p>
+                       
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group" id="Auditor" style="display: none">
+
+                        <label for="Lead Details" class="form-control-label">Audit Controller <sup class="red-clr">*</sup></label>
+                        <p id="AuditController"></p>
+                       
+
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 form-group">
+
+                        <label for="Lead Details" class="form-control-label">Escalate To </label>
+                        <p  id="email">demo@demo.com, demo1@demo.com</p>
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group hw-575 align-self-end">
+
+                        <label for="Lead Details" class="form-control-label">Escalation  Time (hrs) </label>
+                        <input type="text" id="EscalationTime" class="form-control" value="01:00" disabled name="" placeholder="Enter">
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group hw-575 align-self-end">
+
+                        <label for="Lead Details" class="form-control-label">Reminder Escalation Time (hrs)</label>
+                        <input type="text" id="ReminderTime" class="form-control" value="01:00" disabled name="" placeholder="Enter">
+
+                    </div>
+                    <div class="col-lg-2 col-md-3 form-group align-self-end ">
+
+                        <label for="Lead Details" class="form-control-label">
+                            Checklist Required<sup class="red-clr">*</sup>
+                        </label>
+                        <p id="isCheckList"></p>
+                      
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group align-self-end" id="yesimageupload">
+
+                        <label for="Lead Details" class="form-control-label">
+                            Image Required To Be Uploaded<sup class="red-clr">*</sup>
+                        </label>
+
+                        <p id="isImageUpload"></p>
+                        
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group align-self-end" id="yesimageshow">
+
+                        <label>Reference Image</label>
+                        <div class="text-p">
+                            <span onclick="handleFile()">
+                                <img src="/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm"> View
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group  align-self-end" id="yesremark">
+
+                        <label for="Lead Details" class="form-control-label">
+                            Remarks Required<sup class="red-clr">*</sup>
+                        </label>
+                        <p id="isRemark"></p>
+                      
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group  align-self-end" id="yesremarkshow">
+
+                        <label for="Lead Details" class="form-control-label">Remarks </label>
+                        <pid="remark"></p>
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group  align-self-end">
+
+                        <label for="Lead Details" class="form-control-label">Planned Score<sup class="red-clr">*</sup> </label>
+                        <input type="text" id="Weightage" class="form-control" value="01:00" disabled name="" placeholder="Enter">
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group  align-self-end">
+
+                        <label for="Lead Details" class="form-control-label">Delay</label>
+                        <p > <span id="DDay">2</span> Days<span class="spcline">|</span><span id="DHour">2</span>  Hrs. <span class="spcline">|</span> <span id="DMin">15</span>  Min.</p>
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group  align-self-end" id="userYesUpload">
+
+                        <label for="Lead Details" class="form-control-label" id="lblImage">Image Upload (By Doer)</label>
+                        <input type="file" class="form-control" id="userImage" name="" value="" placeholder="Enter">
+                        <span id="spuserImage" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 form-group align-self-end" id="yesUserimageshow">
+
+                        <label>Reference Image (Of Doer)</label>
+                        <div class="text-p">
+                            <span onclick="handleUserFile()">
+                                <img src="/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm"> View
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-12 form-group  align-self-end" id="userRemarkUpload">
+
+                        <label for="Lead Details" class="form-control-label" id="lblRemark">Remarks Required (By Doer)</label>
+                        <textarea placeholder="Enter" id="userRemarks" class="form-control br-on h-150"></textarea>
+                        <span id="spuserRemarks" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+                @*v--------- view image model-------------*@
+                <div id="viewimage" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Q1</h4>
+                                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="imgprvw">
+                                    <img id="myImage" src="img/login-img.jpg" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-lg  cancelbtn" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @*--------model close-----------*@
+
+                @*v--------- iew image model-------------*@
+                <div id="viewUserimage" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Q1</h4>
+                                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="imgprvw">
+                                    <img id="myUserImage" src="img/login-img.jpg" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-lg  cancelbtn" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @*--------model close-----------*@
+
+                <div class="row">
+                    <div class="col-sm-11 m-question-yn" id="BindQues">
+
+                    </div>
+                </div>
+            
+
+                <footer class="footer-action-btn ">
+                    <!--  <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Submit</button> -->
+                    <button type="button" class="btn btn-lg  cancelbtn" data-dismiss="modal" onclick="RedirectDoerDashBoardRequest()">Close</button>
+                    <button type="button" class="btn  btn-lg  actionbtn" data-target="#AuditremarkDoer" id="AuditBtn" onclick="DoerAuditTask()">Audit</button>
+                </footer>
+
+            @*v--------- view audit model-------------*@
+            <div id="AuditremarkDoer" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Audit</h4>
+                            <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12 form-group mb-2">
+                                    <h6 class="akstitle">Has the audit passed ?<sup class="red-clr">*</sup></h6>
+                                    <span id="spaudit" class="text-danger field-validation-error" style="display:none;">Atleast One option must selected!!</span>
+                                    <div class="button-wrap">
+                                        <input class="hidden yes-radio radio-label" type="radio" name="auditpass" id="audityes">
+                                        <label class=" button-label" for="audityes">Yes</label>
+                                        <input class="hidden no-radio  radio-label" type="radio" name="auditpass" id="auditno" value="noaudit">
+                                        <label class="nobtn button-label" for="auditno">No</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-12 mb-2  form-group show-hide" id="noaudit">
+                                    <h6 class="akstitle">Do you want to make doer reattempt this task?<sup class="red-clr">*</sup></h6>
+                                    <span id="spreprocess" class="text-danger field-validation-error" style="display:none;">Atleast One option must selected!!</span>
+                                    <div class="button-wrap">
+                                        <input class="hidden yes-radio radio-label" type="radio" name="reprocess" id="reprocessyes" value="yesreprocess">
+                                        <label class=" button-label" for="reprocessyes">Yes</label>
+                                        <input class="hidden no-radio  radio-label" type="radio" name="reprocess" id="reprocessno">
+                                        <label class="nobtn button-label" for="reprocessno">No</label>
+                                    </div>
+                                    <div class="show-div" id="yesreprocess">
+                                        <div class="row">
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="Lead Details" class="form-control-label">End Date <sup class="red-clr">*</sup></label>
+                                                    <div class="input-group">
+                                                        <input class="form-control datepickersecond" autocomplete="off" placeholder="dd-mm-yyyy" id="toDate">
+                                                        <div class="input-group-append ">
+                                                            <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <span id="sptoDate" class="text-danger field-validation-error" style="display:none;">Hey, you miss that field!!</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="Lead Details" class="form-control-label">
+                                                        Task Time <sup class="red-clr">*</sup>
+                                                    </label>
+                                                    <input type="time" id="dtTaskTime" class="form-control Mandatory" name="" placeholder="Enter">
+                                                    <span id="spdtTaskTime" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="Lead Details" class="form-control-label" id="validRemark">Remarks</label>
+                                        <textarea placeholder="Enter" class="form-control h-150" id="auditRemark"></textarea>
+                                        <span id="spauditRemark" class="text-danger field-validation-error" style="display:none;">Hey, you miss that field!!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">.
+                            <button type="button" class="btn btn-lg  cancelbtn" data-dismiss="modal">Close</button>
+                            <button type="button" id="auditTaskBtn" class="btn  btn-lg  actionbtn" onclick="SaveAuditTask()"><i class="fa fa-floppy-o" aria-hidden="true"></i> Submit</button>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @*v--------- model close-------------*@
+            <script src="~/Areas/ManageDoer/DevScript/DoerAuditTask.js"></script>
+
+            <script>
+    var Edit_ID = "@ViewBag.id";
+    console.log("Edit Id" + Edit_ID);
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $("input[name=auditpass]").change(function () {
+                        var test = $(this).val();
+                        $(".show-hide").hide();
+
+                        $("#" + test).show();
+
+
+                        if (test == "noaudit") {
+                            $("#validRemark").html('Reason For Rejection<sup class="red-clr">*</sup>');
+                        } 
+                        else {
+                            $("#validRemark").html("Remarks")
+                        }
+                    });
+                });
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $("input[name=reprocess]").change(function () {
+                        var test = $(this).val();
+                        $(".show-div").hide();
+                        if (test == "yesreprocess") {
+                            $("#fromDate").addClass('Mandatory')
+                            $("#toDate").addClass('Mandatory')
+                            $("#dtTaskTime").addClass('Mandatory')
+                            $("#" + test).show();
+                        }
+                        else {
+                            $("#fromDate").removeClass('Mandatory')
+                            $("#toDate").removeClass('Mandatory')
+                            $("#dtTaskTime").removeClass('Mandatory')
+                            $("#fromDate").val('')
+                            $("#toDate").val('')
+                            $("#dtTaskTime").val('')
+                        }
+                    });
+                });
+            </script>

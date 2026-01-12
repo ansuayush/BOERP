@@ -1,0 +1,227 @@
+﻿
+@{
+    ViewBag.Title = "UserDetailList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<input type="hidden" id="hdnEmployeeMasterId" value="0" />
+<input type="hidden" id="hdnUploadActualFileName" />
+<input type="hidden" id="hdnUploadNewFileName" />
+<input type="hidden" id="hdnUploadFileUrl" />
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        <a href="EmployeeMaster?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon" /></a>User Details
+    </h1>
+    <div class="align-self-center"></div>
+</div>
+<!--  -->
+<!-- Start -->
+<!-- Section 1 -->
+<div class="card  br-none p-0 col-default-bottom">
+    <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+        <h2 class="title-two align-self-center">Personal Information</h2>
+        <div class="align-self-center"><a href="#" onclick="open_edit()" class="btn btn-sm actionbtn">Edit</a></div>
+    </div>
+
+    <div class="card-body pb-0 view-form-group">
+
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <label>Name</label>
+                <p id="emp_name"></p>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Email</label>
+                <p id="email"></p>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Phone Number</label>
+                <p id="phone"></p>
+            </div>
+
+
+            <div class="col-md-3 form-group">
+                <label>   Status</label>
+                <p><span class="badge ml-2" id="IsActive"></span></p>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Created Date</label>
+                <p id="createdat"></p>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Department</label>
+                <p id="department"></p>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>User Type</label>
+                <p id="user_type"></p>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Section 2 -->
+<div class="card   br-none p-0">
+    <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+        <h2 class="title-two align-self-center">System Information</h2>
+        <div class="align-self-center"></div>
+    </div>
+
+    <div class="card-body pb-0 view-form-group">
+
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <label>Employee Code</label>
+                <p id="user_id"></p>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Reporting Manager</label>
+                <p id="ReportingManager"></p>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Last Login Date & Time</label>
+                <p id="LoginTime"></p>
+            </div>
+
+            <div class="col-md-3 form-group"></div>
+
+
+            <div class="col-md-3 form-group">
+                <label>Username</label>
+                <p id="user_name"></p>
+            </div>
+
+
+            <!--<div class="col-md-3 form-group">
+                <label>Password</label>
+                <p class="d-flex flex-wrap gap-r-20"><span class="align-self-center" id="password"></span></h1></p>-->
+            @*<span class="align-self-center badge badge-primary">Generate New Password</span>*@
+            <!--</div>-->
+
+
+        </div>
+
+    </div>
+</div>
+<!-- End -->
+<!-- Close Tab -->
+
+<div class="modal" id="createuser" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-center w-100" id="emp_header">Edit User</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="text-center note-popup">
+                            <h2>Create Account</h2>
+                            <p>Please fill the following details</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="profile-cmd profile-sm">
+                            <div class="profileimg">
+                                <img src="~/assets/images/profileimg/profile-img.png" id="profile_image" alt="">
+                            </div>
+                            <div class="profileinfo">
+                                <input type="file" class="form-control" name="" id="resultImage">
+                                <button id="addmoreItem" class="btn btn-lg actionbtn"><img src="~/assets/images/profileimg/camera-icon.svg"> Upload Image</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label for="text">First Name<sup>*</sup></label>
+                        <input type="text" id="firstname" placeholder="Enter First Name" onchange="HideErrorMessage(this)" class="form-control Mandatory">
+                        <span id="spfirstname" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for="text">Last Name<sup>*</sup></label>
+                        <input type="text" id="lastname" placeholder="Enter Last Name" onchange="HideErrorMessage(this)" class="form-control Mandatory">
+                        <span id="splastname" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="text">Employee Code<sup>*</sup></label>
+                        <input type="text" id="emp_code" placeholder="Enter Employee Code" onchange="HideErrorMessage(this)" class="form-control Mandatory">
+                        <span id="spemp_code" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="role">Email<sup>*</sup></label>
+                        <input type="text" id="email_otp" placeholder="Enter Email" disabled class="form-control">
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="">Created Date</label>
+                        <input type="text" id="created_at" placeholder="Enter" disabled class="form-control ">
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <label for="">Phone Number<sup>*</sup></label>
+                        <input type="number" id="phone_no" onchange="verifyPhoneNumber()" placeholder="Enter" class="form-control Mandatory">
+                        <span id="spphone_no" class="text-danger field-validation-error" style="display:none;">Invalid Phone No. !!</span>
+                    </div>
+
+
+                    <div class="col-sm-6 form-group ">
+                        <label for="role">Department<sup>*</sup></label>
+                        <select class="form-control Mandatory applyselect" onchange="HideErrorMessage(this)" id="ddl_department">
+                        </select>
+                        <span id="spddl_department" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-6 form-group ">
+                        <label for="role">Reporting Manager</label>
+                        <select class="form-control applyselect" id="ddl_manager">
+                        </select>
+                    </div>
+                    <div class="col-sm-12 form-group ">
+                        <label for="role">User Type<sup>*</sup></label>
+                        <select class="form-control Mandatory applyselect" onchange="HideErrorMessage(this)" id="ddl_UserType">
+                        </select>
+                        <span id="spddl_UserType" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="btn_Save" onclick="SaveEmpCategory()" class="btn btn-lg actionbtn">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var Edit_ID = "@ViewBag.EditId";
+</script>
+
+<script src="~/Areas/ManageEmployee/DevScript/UserDetailList.js"></script>

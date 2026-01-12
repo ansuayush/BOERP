@@ -1,0 +1,123 @@
+﻿@model BOERP.Web.ScreenDBMapping
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ScreenDBMapping</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ScreenID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScreenID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScreenName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScreenName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcNameAdd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcNameAdd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcNameGet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcNameGet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcUpdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcUpdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcDelete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcDelete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcDropdown)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcDropdown)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedBy_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedBy_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ISDeleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ISDeleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ScreenDBMapping_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

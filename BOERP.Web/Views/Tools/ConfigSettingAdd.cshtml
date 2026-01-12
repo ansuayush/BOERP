@@ -1,0 +1,84 @@
+﻿
+@model SahajFramework.Models.ConfigSetting
+
+<div class="card multicard mb-4 shadow-box">
+    <h1 class="heading-one "><i class="fas fa-info"></i>Config Setting Add</h1>
+    <div class="card-body">
+
+        <div class="x_panel">
+            @using (Html.BeginForm("ConfigSettingAdd", "Tools",
+            new { src = ViewBag.src }, FormMethod.Post,
+            new
+            {
+                name = "ConfigSettingAddForm",
+                id = "ConfigSettingAddForm",
+                @class = "form-horizontal form-label-left input_mask",
+                enctype = "multipart/form-data"
+            }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => Model.ConfigID)
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label>Config Key<sup>*</sup></label>
+                        @if (Model.ConfigID > 0)
+                        {
+                            @Html.TextBoxFor(model => model.ConfigKey, new { @class = "form-control", @readonly = "true" })
+                            @Html.ValidationMessageFor(model => model.ConfigKey, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(model => model.ConfigKey, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ConfigKey, "", new { @class = "text-danger" })
+                        }
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label>Values </label>
+                        @Html.TextBoxFor(model => model.ConfigValue, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ConfigValue, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label>Remarks </label>
+                        @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label>Help </label>
+                        @Html.TextAreaFor(model => model.Help, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Help, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label>Category </label>
+                        @Html.TextAreaFor(model => model.Category, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label>Sub Category </label>
+                        @Html.TextAreaFor(model => model.SubCategory, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <button type="button" class="btn cnl-btn ripplelink  pull-right" onclick="ShowLoadingDialog(); window.location = '@Url.Action("ConfigSettingList",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID+"*"+"/Tools/ConfigSettingList") })';"><i class="fas fa-times"></i> Cancel</button>
+                    @if (Model.ConfigID > 0)
+                    {
+                        <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Update</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+                    }
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+@section scripts    {
+    <script src="~/assets/design/Scripts/AddInit.js?v=@clsApplicationSetting.GetWebConfigValue("Version")"></script>
+    @System.Web.Optimization.Scripts.Render("~/bundle/unobtrusivejs")
+}

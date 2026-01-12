@@ -1,0 +1,1055 @@
+﻿﻿
+@{
+    ViewBag.Title = "AddTaskMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="TaskMaster?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Add New Task<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        <input type="hidden" id="hdnTaskMasterId" />
+        <input type="hidden" id="hdnUploadActualFileName" />
+        <input type="hidden" id="hdnUploadNewFileName" />
+        <input type="hidden" id="hdnUploadFileUrl" />
+        <input type="hidden" id="hdnUpdateQuesId" />
+
+        <input type="hidden" id="hdnUploadQuesFileUrl" />
+        <input type="hidden" id="hdnUploadQuesNewFileName" />
+        <input type="hidden" id="hdnUploadQuesActualFileName" />
+
+      
+
+
+            
+        <div class="row">
+
+
+            <div class="col-md-12 form-group">
+                <div class="card br-none p-0 h-100">
+
+                    @*<div class="card-header d-flex justify-content-between bg-none ">
+                        <h2 class="title-two align-self-center">Heading</h2>
+                        <div class="align-self-center"></div>
+                    </div>*@
+
+                    <div class="card-body view-form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-sm-3 col-lg-6 wf-575 form-group">
+
+                                        <label for="Lead Details" class="form-control-label">Task Id</label>
+                                        <input type="text" class="form-control" value="" name="" placeholder="Enter" disabled="" id="txtTaskId">
+
+                                    </div>
+                                    <div class="col-sm-3 col-lg-6 wf-575 form-group">
+
+                                        <label for="Lead Details" class="form-control-label">
+                                            Task Date
+                                        </label>
+                                        <input type="text" class="form-control" value="" name="" placeholder="Enter" disabled="" id="txtTaskDate">
+
+                                    </div>
+
+                                    <div class="col-sm-6 col-lg-6 wf-575 align-self-end form-group">
+
+                                        <label for="Lead Details" class="form-control-label">Frequency <sup class="red-clr">*</sup></label>
+                                        <select class="form-control Mandatory applyselect" id="ddlFrequency" onchange="VisibilityHandle(this)">
+                                        </select>
+                                        <span id="spddlFrequency" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6 wf-575 align-self-end form-group">
+
+                                        <label for="Lead Details" class="form-control-label">
+                                            Task Time <sup class="red-clr">*</sup>
+                                        </label>
+                                        <input type="time" id="dtTaskTime" class="form-control Mandatory" onchange="HideErrorMessage(this)" name="" placeholder="Enter">
+                                        <span id="spdtTaskTime" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-6 form-group">
+
+                                <label for="Lead Details" class="form-control-label">Task Name <sup class="red-clr">*</sup></label>
+                                <textarea rows="1" class="field-scroll h-104 Mandatory form-control" maxlength="500" id="txtTaskname" onchange="HideErrorMessage(this)" placeholder="Enter " style="height: 140px;"></textarea>
+                                <span id="sptxtTaskname" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 wf-575 align-self-end form-group">
+
+                                <label for="Lead Details" class="form-control-label">First Completion Date <sup class="red-clr">*</sup></label>
+                                
+                                <div class="input-group">
+                                    <input type="text" class="form-control Mandatory datepickersecond" readonly onchange="HideErrorMessage(this)" autocomplete="off" placeholder="dd-mm-yyyy" id="dtStartDate">
+                                    <span class="clear-date">×</span>
+                                    <div class="input-group-append ">
+                                        <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                                    </div>
+                                </div>
+
+                                <span id="spdtStartDate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 wf-575 align-self-end form-group">
+
+                                <label for="Lead Details" class="form-control-label">End Date <sup class="red-clr">*</sup></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control Mandatory datepickerend" readonly onchange="HideErrorMessage(this)" autocomplete="off" placeholder="dd-mm-yyyy" id="dtEndDate">
+                                    <span class="clear-date">×</span>
+                                    <div class="input-group-append ">
+                                        <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                                    </div>
+                                </div>
+                                <span id="spdtEndDate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+
+                            <div class="col-lg-4 col-md-6 col-sm-12 wf-575 align-self-end form-group">
+
+                                <label for="Lead Details" class="form-control-label">Visibility In Advance<small class="d-block">(Task Date &amp; Time)</small>  </label>
+                                <div class="d-flex">
+                                    <div class="input-group mr-2 w-150 " id="visDay">
+                                        <input type="number" class="form-control numeric-only" placeholder="0" id="LeadDay" name="" onchange="validateNumericInput(this)">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Day</span>
+                                        </div>
+                                    </div>
+                                    <span id="spLeadDay" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    <div class="input-group mr-2 w-150">
+                                        <input type="number" class="form-control numeric-only" placeholder="0" id="LeadHour" name="" onchange="validateNumericInput(this)">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Hr.</span>
+                                        </div>
+                                    </div>
+                                    <span id="spLeadHour" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    <div class="input-group w-150">
+                                        <input type="number" class="form-control numeric-only" placeholder="0" id="LeadMin" name="" onchange="validateNumericInput(this)">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Min.</span>
+                                        </div>
+                                    </div>
+                                    <span id="spLeadMin" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </div>
+                                <span id="spLeadError" class="text-danger field-validation-error" style="display:none;">The given lead day, hour and minute is greater than the expected time!!</span>
+
+
+                            </div>
+
+                            <div class="col-sm-6 col-lg-2 align-self-end form-group">
+
+                                <label for="Lead Details" class="form-control-label">
+                                    Expiry Day<sup class="red-clr">*</sup>
+                                </label>
+                                <input type="text" id="numExpiryDay" class="form-control Mandatory" name="" placeholder="Enter" onchange="validateNumericInput(this)">
+                                <span id="spnumExpiryDay" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <hr />
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 wf-575 align-self-center form-group">
+
+                                <label for="Lead Details" class="form-control-label">Doer <sup class="red-clr">*</sup></label>
+                                <select id="dldDoer" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)">
+                                    <option value="0">Select</option>
+                                    <option value="1">Deepak Kumar</option>
+                                    <option value="2">Raj</option>
+                                    <option value="3">Rohit Sharma</option>
+                                    <option value="4">Amit</option>
+                                </select>
+                                <span id="spdldDoer" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class=" col-sm-6 col-lg-3 wf-575 align-self-center form-group">
+
+                                <label for="Lead Details" class="form-control-label">Department <sup class="red-clr">*</sup></label>
+                                <select id="dldDepartment" onchange="HideErrorMessage(this)" class="form-control applyselect Mandatory">
+                                    <option value="0">Select</option>
+                                    <option value="1">Branch 1</option>
+                                    <option value="2">Branch 2</option>
+                                    <option value="3">Branch 3</option> // done
+                                    <option value="4">Branch 4</option>
+                                </select>
+                                <span id="spdldDepartment" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 wf-575 align-self-center form-group">
+
+                                <label for="Lead Details" class="form-control-label">Branch <sup class="red-clr">*</sup></label>
+                                <select id="dldBranch" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)">
+                                </select>
+                                <span id="spdldBranch" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+
+
+                            <div class="col-sm-6 col-lg-3 wf-575  form-group">
+
+                                <label for="Lead Details" class="form-control-label">Secondary Doer</label>
+                                <select id="dldSecDoer" class="form-control applyselect">
+                                    <option value="0">Select</option>
+                                    <option value="1">Deepak Kumar</option>
+                                    <option value="2">Raj</option>
+                                    <option value="3">Rohit Sharma</option>
+                                    <option value="4">Amit</option>
+                                </select>
+
+
+                            </div>
+                            <div class="col-sm-6 col-lg-3  form-group">
+
+                                <label for="Lead Details" class="form-control-label" id="lblPc">Process Controller<sup class="red-clr">*</sup></label>
+                                <select id="dldContoller" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)">
+                                    <option value="0">Select</option>
+                                    <option value="1">Deepak Kumar</option>
+                                    <option value="2">Raj</option>
+                                    <option value="3">Rohit Sharma</option>
+                                    <option value="4">Amit</option>
+                                </select>
+                                <span id="spdldContoller" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+
+                            <div class="col-sm-6 col-lg-3 form-group">
+
+                                <label for="Lead Details" id="dldAudit" class="form-control-label">Audit Required <sup class="red-clr">*</sup></label>
+                                <select id="auditrequired" class="form-control applyselect Mandatory " onchange="HideErrorMessage(this)">
+                                    <option value="Select">Select</option>
+                                    <option value="1">By PC</option>
+                                    <option value="2">
+                                        By Audit Controller
+                                    </option>
+                                    <option value="3">No</option>
+                                </select>
+                                <span id="spauditrequired" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 form-group" id="auditcontroller" style="display: none">
+
+                                <label for="Lead Details" class="form-control-label">Audit Controller <sup class="red-clr">*</sup></label>
+                                <select id="dldAuditController" class="form-control applyselect" onchange="HideErrorMessage(this)">
+                                </select>
+                                <span id="spdldAuditController" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class="col-lg-6 align-self-end form-group">
+
+                                <label for="" class="form-control-label">Escalate To</label>
+                                <select class="form-control applyselect" id="EscalateTo" multiple>
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-3 form-group">
+
+                                <label for="Lead Details" class="form-control-label">
+                                    Escalation Time (Hrs)
+                                </label>
+                                <input type="text" id="numEscalationTime" class="form-control" name="" placeholder="Enter" onchange="validateNumericInput(this)">
+                                <span id="spnumEscalationTime" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class="col-lg-3 form-group">
+
+                                <label for="Lead Details" class="form-control-label">
+                                    Reminder Escalation Time (Hrs)
+                                </label>
+                                <input type="text" id="numReminderTime" class="form-control" name="" placeholder="Enter" onchange="validateNumericInput(this)">
+                                <span id="spnumReminderTime" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class="col-lg-3 form-group">
+
+                                <label for="Lead Details" class="form-control-label">
+                                    Checklist Required<sup class="red-clr">*</sup>
+                                </label>
+                                <select id="bitCheckList" class="Mandatory applyselect form-control sltshow" onchange="HideErrorMessage(this)">
+                                    <option value="Select">Select</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                                <span id="spbitCheckList" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+                            <div class="col-lg-3 form-group">
+
+                                <label for="Lead Details" class="form-control-label">
+                                    Planned Score<sup class="red-clr">*</sup>
+                                </label>
+                                <input type="text" id="numWeightage" class="form-control Mandatory" name="" placeholder="Enter" onchange="validateNumericInput(this)">
+                                <span id="spnumWeightage" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+
+
+                            <div class="col-lg-3 checknoshow form-group" style="display: none">
+
+                                <label for="Lead Details" class="form-control-label">Image Required To Be Uploaded</label>
+                                <select id="resultupload" class="form-control applyselect">
+                                    <option value="Select">Select</option>
+                                    <option value=1>Yes</option>
+                                    <option value=2>No</option>
+                                    <option value=3>Only Upload Reference Image</option>
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-3 form-group" id="yesupload" style="display: none">
+
+                                <label for="Lead Details" class="form-control-label">
+                                    Upload Reference Image<sup class="red-clr">*</sup>
+                                </label>
+                                <input type="file" id="resultImage" onchange="HideErrorMessage(this)" class="form-control" name="" placeholder="Enter">
+                                <span id="spresultImage" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                            </div>
+                            <div class="col-lg-3 form-group" id="yesrefupload" style="display: none">
+
+                                <label>View Reference Image </label>
+                                <div class="text-p">
+                                    <span onclick="handleTaskFile()" id="userRef,quesArray[i].Id">
+                                        <img src="~/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm" /> View
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-lg-3 checknoshow form-group" style="display: none">
+
+                                <label for="Lead Details" class="form-control-label">Remarks Required</label>
+                                <select class="form-control applyselect" id="remarksRequired">
+                                    <option value="Select">Select</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="col-lg-12 align-self-center mt-3 form-group" id="forward">
+
+                                <div class="checkdgn checkdgnlsit  ">
+                                    <input id="carry" name="checkbox" class="checkbox" type="checkbox" onchange="handleCarryWarning()">
+                                    <label for="carry"> Carry Forward To Next Week</label>
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-12 form-group" id="remarks" style="display: none">
+
+                                <label for="Lead Details" class="form-control-label">Remarks </label>
+                                <textarea placeholder="Enter" id="remark" class="form-control field-scroll h-150"></textarea>
+                                <span id="spremark" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+
+
+                        </div>
+
+                        </div>
+                </div>
+            </div>
+
+
+           
+        
+    <div class="questionOption col-lg-12" id="scrolling">
+        <div class="row" id="yes" style="display: none;" >
+            <div class="col-sm-12 col-lg-12">
+                <div class="checkdgin">
+                    <!--  -->
+                    <div class="questiondtal">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <label>Question<sup class="red-clr">*</sup></label>
+                                <textarea placeholder="Enter question" id="question" class="form-control h-38  Mandatory"></textarea>
+                                <span id="spquestion" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+
+                            <div class="col-lg-3">                                
+                                    <label>Answer Type</label>                                    
+                                    <select class="form-control Mandatory applyselect" id="questionoption">
+                                        <option value="Select">Select</option>
+                                        <option value="Numerical">Numerical</option>
+                                        <option value="text">Text</option>
+                                        <option value="dateandtime">Date and Time</option>
+                                        <option value="singleselect">Single Select</option>
+                                        <option value="multiplechoice">Multiple Choice</option>
+                                    </select>
+                                    <span id="spquestionoption" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                              
+                            </div>
+                        </div>
+
+
+
+
+                            
+                        </div>
+                    <!--  -->
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="Numerical qustionlist mt-2">
+                                <div class="row">
+                                    <div class="col-lg-3  align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Numerical
+                                            </label>
+                                            <input type="number" class="form-control" name="" placeholder="0" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Upload Image/Document If Any
+                                            </label>
+                                            <select class="form-control applyselect " id="isuploadNum">
+                                                <option value="Select">Select</option>
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Reference Image
+                                            </label>
+                                            <input type="file" id="numFileRefferenceImage" class="form-control" name="" onchange="UploadocumentQuesReport(this.id)" placeholder="Enter">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 align-self-end">
+                                        <div class="form-group">
+                                            <label>View Reference Image</label>
+                                            <div class="text-p">
+                                                <span onclick="handleFile()" id="viewnumFileRefferenceImage">
+                                                    <img src="~/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm" /> View
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-1 align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Priority
+                                            </label>
+                                            <input type="number" class="form-control numeric-only" id="prnum" name="" value="5" placeholder="5" >
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="questiontext qustionlist text mt-2">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Text
+                                            </label>
+                                            <textarea placeholder="Enter" class="form-control" disabled></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3  align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Upload Image/Document If Any
+                                            </label>
+                                            <select class="form-control" id="isuploadTxt">
+                                                <option value="Select">Select</option>
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3  align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Reference Image
+                                            </label>
+                                            <input type="file" id="txtFileRefferenceImage" class="form-control" onchange="UploadocumentQuesReport(this.id)" name="" placeholder="Enter">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2  align-self-end">
+                                        <div class="form-group">
+                                            <label>View Reference Image</label>
+                                            <div class="text-p">
+                                                <span onclick="handleFile()" id="viewtxtFileRefferenceImage">
+                                                    <img src="~/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm" /> View
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-1">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Priority
+                                            </label>
+                                            <input type="number" id="prtxt" class="form-control numeric-only" name="" value="5" placeholder="5">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="questiondatetime mt-2 qustionlist dateandtime">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Date & Time
+                                            </label>
+                                            <input type="datetime-local" placeholder="0" class="form-control" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Upload Image/Document If Any
+                                            </label>
+                                            <select class="form-control" id="isuploadDate">
+                                                <option value="Select">Select</option>
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3  align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Reference Image
+                                            </label>
+                                            <input type="file" id="dateFileRefferenceImage" class="form-control" onchange="UploadocumentQuesReport(this.id)" name="" placeholder="Enter">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2  align-self-end">
+
+                                        <div class="form-group">
+                                            <label>View Reference Image</label>
+                                            <div class="text-p">
+                                                <span onclick="handleFile()" id="viewdateFileRefferenceImage">
+                                                    <img src="~/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm" /> View
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-lg-1  align-self-end">
+                                        <div class="form-group">
+                                            <label for="Lead Details" class="form-control-label">
+                                                Priority
+                                            </label>
+                                            <input type="number" id="prdate" class="form-control numeric-only" name="" value="5" placeholder="5">
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qustionlist singleselect">
+                        <div class="row">
+                            <div class="col-lg-5  align-self-end">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">
+                                        Upload Image/Document If Any
+                                    </label>
+                                    <select class="form-control" id="isuploadSingle">
+                                        <option value="Select">Select</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3  align-self-end">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">
+                                        Reference Image
+                                    </label>
+                                    <input type="file" id="singleFileRefferenceImage" onchange="UploadocumentQuesReport(this.id)" class="form-control" name="" placeholder="Enter">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-2  align-self-end">
+                                <div class="form-group">
+                                    <label>View Reference Image</label>
+                                    <div class="text-p">
+                                        <span onclick="handleFile()"id="viewsingleFileRefferenceImage">
+                                            <img src="~/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm" /> View
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2  align-self-end">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">
+                                        Priority
+                                    </label>
+                                    <input type="number" id="prsingle" class="form-control numeric-only" name="" value="5" placeholder="5">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        
+                        <div id="divradio" class="mt-4">
+                            <div class="radiooption d-flex">
+                                <div class="radio align-self-center">
+                                    <input id="radio-3" name="radio" class="radio" type="radio" disabled="" checked>
+                                    <label for="radio-3" class="radio-label"></label>
+
+                                    
+                                </div>
+                                <div class="radioinput">
+                                    <input type="text" placeholder="Enter" onchange="EmptySOptions()" class="form-control singlechoice">
+                                </div>
+                                <div class="radioremove align-self-center"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-10"><a id="addmore" class="add_input">Add Option</a> <span id="spSingle" class="text-danger field-validation-error" style="display:none;"></span></div>
+                    </div>
+
+                    <div class="qustionlist multiplechoice">
+                        <div class="row">
+                            <div class="col-lg-3  align-self-end ">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">
+                                        Upload Image/Document If Any
+                                    </label>
+                                    <select class="form-control" id="isuploadMulti">
+                                        <option value="Select">Select</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4  align-self-end">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">
+                                        Reference Image
+                                    </label>
+                                    <input type="file" id="multiFileRefferenceImage" onchange="UploadocumentQuesReport(this.id)" class="form-control" name="" placeholder="Enter">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3  align-self-end">
+                                <div class="form-group">
+                                    <label>View Reference Image</label>
+                                    <div class="text-p">
+                                        <span onclick="handleFile()" id="viewmultiFileRefferenceImage">
+                                            <img src="~/assets/images/icons/help/view-icon.png" alt="" class="icon-xsm" /> View
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2  align-self-end">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">
+                                        Priority
+                                    </label>
+                                    <input type="number" id="prmulti" class="form-control numeric-only" name="" value="5" placeholder="5">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div id="divcheckbox">
+                            <div class="checkboxdgn d-flex">
+                                <div class="checkdgn">
+                                    <input id="checkbox" name="checkbox" class="checkbox" type="checkbox" checked="" disabled="">
+                                    <label for="checkbox"></label>
+                                </div>
+                                <div class="radioinput">
+                                    <input type="text" placeholder="Enter " onchange="EmptyMOptions()" class="form-control multiselect">
+                                </div>
+                                <div class="radioremove align-self-center"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-10"><a id="addmorecheckbox" class="add_input">Add Option</a> <span id="spMulti" class="text-danger field-validation-error" style="display:none;"></span></div>
+                    </div>
+
+                    <div class="checkdgn-ftr">
+                        <ul class="list-unstyled float-right ftractionbtn d-flex">
+                            <li class="align-self-center">
+                                <label class="pure-material-switch">
+                                    <input id="isMandatory" type="checkbox">
+                                    <span>Mandatory</span>
+                                </label>
+                            </li>
+                            <li class="align-self-center">
+                                <button class="btn  btn-lg  actionbtn" id="addQues" onclick="AddQuesOption()">
+                                     Add
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card br-none mt-4 pl-0 pr-0 col-default-bottom mb-0" id="yesTable" style="display:none"  >
+            <div class="table-responsive" >
+                <table class="display rstable dgntable dataTable no-footer radius-0"
+                       id="tableAddTaskmaster">
+                    <thead>
+                        <tr>
+                            @*<th width="10px">SNo.</th>*@
+                            <th>Question</th>
+                            <th width="150">Type</th>
+                            <th width="80">Priority</th>
+                            <th width="50">Edit</th>
+                            <th width="50">Delete</th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <footer class="footer-action-btn ">
+        <a href="~/ManageTask/TaskMaster?auth=@ViewBag.Auth">
+            <button type="button" class="btn btn-lg  cancelbtn">
+                CANCEL
+            </button>
+        </a>
+        <button type="button" class="btn  btn-lg  actionbtn" id="updTrans" onclick="RefreshTaskTransaction()">
+            Update Transaction
+        </button>
+        <button type="button" id="saveTask" class="btn  btn-lg  actionbtn" data-target="#confirmmsg" onclick="handleSaveWithCarry()">
+            Save
+        </button>
+        <!--  <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Submit</button> -->
+
+    </footer>
+
+
+@*v--------- View image model-------------*@
+<div id="viewimage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Q1</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="imgprvw">
+                    
+                    <img id="myImage" src="img/login-img.jpg" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*--------model close-----------*@
+
+@*v--------- View image model-------------*@
+<div id="viewQuesimage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Q1</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="imgprvw">
+                    <img id="myQuesImage" src="img/login-img.jpg" style="width:100%; height:400px;" frameborder="0"  />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*--------model close-----------*@
+
+
+@*v--------- View Warning model-------------*@
+<div id="confirmmsg" class="modal fade confirmdgn" role="dialog" onclick="handleCarryWarning(this)">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+                <div class="warningmsg">
+                    <img src="../assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">
+                        You are about to select the Carry button, which was previously <enum id="carryCheck">unchecked</enum>.
+
+                                                                                       <span class="d-block">Actions will take place from the specified (<enum id="specDate"></enum>) date onwards <br />Are you sure?</span>
+
+                    </h6>
+
+                </div>
+                <h2>
+                    
+
+
+                </h2>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg  cancelbtn btn-no" onclick="handleCarryWarning(this)" id="no" data-dismiss="modal">No</button>
+                <button type="submit" class="btn  btn-lg  actionbtn btn-yes" onclick="handleCarryWarning(this)" id="yes">Yes</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@*--------model close-----------*@
+
+@*v---------  Warning model 2-------------*@
+<div id="confirmmsg1" class="modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+                <div class="warningmsg">
+                    <img src="../assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">
+                        Are you sure want to Delete
+
+                        <span class="d-block">The checklist in this Task is selected <strong>Yes</strong> but none of the questions added. Add atleast 1 question Or select the checklist to <strong>No</strong>!!</span>
+
+                    </h6>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Close</button>
+                
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@*--------model close-----------*@
+
+<script src="~/Areas/ManageTask/DevScript/AddTaskMaster.js"></script>
+
+
+
+<script>
+    var Edit_ID = "@ViewBag.EditId";
+    var isDuplicate = "@ViewBag.isDuplicate";
+</script>
+
+<script>
+    $("#dldLeverageApplicable").on("change", function () {
+        $("#yesdiv").css("display", "none");
+        $("#txtDay").removeClass("Mandatory");
+        $("#numHours").removeClass("Mandatory");
+        $("#numMinute").removeClass("Mandatory");
+        if ($(this).val() === "true") {
+            $("#yesdiv").css("display", "block");
+            $("#txtDay").addClass("Mandatory");
+            $("#numHours").addClass("Mandatory");
+            $("#numMinute").addClass("Mandatory");
+        }
+    });
+</script>
+
+
+
+@*<script>
+    //See the cdn
+    $("textarea").on("keyup", function () {
+        autosize($(this));
+
+        //force label to stay at the top if there is text in the form
+        if ($(this).val().length > 0) {
+            $(this).addClass("contains-text");
+        }
+    });
+
+    //focus in textarea if clicked on the label
+    $(".textarea-group label").on("click tap", function () {
+        $(this).siblings("textarea").focus();
+    });
+</script>*@
+
+<script>
+    $(function () {
+        $("#questionoption").change(function () {
+            $("#myQuesImage").attr("src", "");
+            $(".qustionlist").hide();
+            if (quesArray.length > 0) {
+                var pr;
+                var n = quesArray.length - 1;
+                var len = quesArray.length + 1;
+                if (quesArray[n].Priority > 0) {
+                    pr = parseInt(quesArray[n].Priority, 10) + 5;
+                }
+                else {
+                    pr = len * 5
+                }
+                $('#prnum').val(pr);
+                $('#prtxt').val(pr);
+                $('#prsingle').val(pr);
+                $('#prdate').val(pr);
+                $('#prmulti').val(pr);
+            }
+            $("." + $(this).val()).show();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var singleId = 0;
+        $("#addmore").click(function () {
+
+            $("#divradio").append(
+                '<div class="required_inp"><div class="radiooption d-flex"><div class="radio  align-self-center"><input id="radio-3" name="radio" class="radio" disabled="" checked="" type="radio" disabled><label for="radio-3" class="radio-label"></label></div><div class="radioinput"><input type="text" placeholder="Enter" onchange="EmptySOptions()" class="form-control singlechoice"  /></div > <div class="radioremove align-self-center text-center inputRemove"><img src="../assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete" ></div></div ></div > '
+            );
+        });
+        $("body").on("click", ".inputRemove", function () {
+
+            $(this).parent().parent("div.required_inp").remove();
+        });
+    });
+</script>
+
+<script>
+    var multiId = 1;
+    $(document).ready(function () {
+        $("#addmorecheckbox").click(function () {
+            $("#divcheckbox").append(
+                '<div class="required_checkbox"><div class="checkboxdgn d-flex"><div class="checkdgn "><input id="checkbox" name="checkbox" class="checkbox" type="checkbox" checked disabled><label for="checkbox"></label></div><div class="radioinput"><input type="text" placeholder="Enter " onchange="EmptyMOptions()" class="form-control multiselect"  /></div><div class="radioremove checkboxRemove align-self-center"><img src="../assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete" ></div></div></div>'
+            );
+        });
+        $("body").on("click", ".checkboxRemove", function () {
+            $(this).parent().parent("div.required_checkbox").remove();
+        });
+
+
+    });
+</script>
+
+
+<script>
+    const $autoExpandTextareas = document.querySelectorAll(
+        "textarea.auto-expand"
+    );
+
+    function addMultiEventListeners(el, s, fn) {
+        s.split(" ").forEach((e) => el.addEventListener(e, fn, false));
+    }
+
+    $autoExpandTextareas.forEach(function (el) {
+        addMultiEventListeners(el, "change keydown paste", function () {
+            autoExpand(el);
+        });
+    });
+
+    function autoExpand(el) {
+        setTimeout(function () {
+            el.style.cssText = "height: auto";
+            el.style.cssText = `height: ${7 + el.scrollHeight}px`;
+        }, 0);
+    }
+
+    window.onresize = function () {
+        $autoExpandTextareas.forEach(function (el) {
+            autoExpand(el);
+        });
+    };
+</script>
+
+<script>
+    function autoGrow(element) {
+        // First, set the default height to 37px
+        $(element).css('height', '37px');
+
+        // Then, set it to the scrollHeight if it exceeds 37px
+        if (element.scrollHeight > 37) {
+            $(element).css('height', (element.scrollHeight) + 'px');
+        }
+    }
+
+    $('.questiontextarea').each(function () {
+        autoGrow(this);
+    });
+
+    $('.questiontextarea').on('input', function () {
+        autoGrow(this);
+    });
+</script>

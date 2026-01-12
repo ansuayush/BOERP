@@ -1,0 +1,162 @@
+﻿
+@{
+	ViewBag.Title = "IndentShortClose";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<ul class="tablink">
+	<li><a href="/MaterialManagement/Material/IndentShortClose?auth=@ViewBag.Auth" class="nav-link active">Indents Short Close</a></li>
+	<li><a href="/MaterialManagement/Material/PurchaseOrderShortClose?auth=@ViewBag.Auth" class="nav-link ">Purchase Orders Short Close</a></li>
+</ul>
+<div class="secondary-light-bg third-container">
+	<div class="row table-filter">
+
+		<div class="col-sm-2 form-group">
+			<label for="role">Status </label>
+			<select class="form-control applyselect" id="ddlStatus" onchange="bindIndentShortCloseGrid()">
+				<option value="0">All</option>
+				<option selected value="1">Pending</option>
+				<option value="2">Completed</option>
+
+			</select>
+		</div>
+		<div class="col-sm-2 form-group" style="display:none">
+			<label for="role">Item Code	 </label>
+			<select class="form-control applyselect" id="ddlItemCode" name=""></select>
+		</div>
+
+		<div class="col-sm-2 form-group" style="display:none">
+			<label for="role">Indents Number </label>
+			<select class="form-control applyselect" id="ddlIndentNo" name=""></select>
+		</div>
+
+		<div class="col-lg-2 col-md-3 col-sm-4 ml-auto form-group align-self-end">
+			<div class="d-flex gap-5 justify-content-end ">
+				<a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+				<div class="searchbox">
+
+					<div class="search w-300">
+						<label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+						<input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--  -->
+	<!--<div class="table-responsive mb-100-1024">
+		<table id="tblIndentShortClose" class="display rstable  dgntable dataTable no-footer">
+			<thead>
+				<tr>-->
+	@*<th width="30"><input type="checkbox" id="selectAll"><label for="selectAll"></label></th>*@
+	@*<th width="35">SR</th>*@
+	<!--<th width="20"></th>
+		<th width="100">Indent Number</th>
+		<th width="80">Indent Date</th>
+		<th width="80">Item Code</th>
+		<th width="150">Item name</th>
+
+		<th width="60">Indent <span class="d-block">Qty</span></th>
+		<th width="60">PO Qty</th>
+		<th width="60">Balance <span class="d-block">Qty</span></th>
+		<th width="80">Short <spasn class="d-block">Close Qty</spasn></th>
+		<th width="150">Remark</th>
+	</tr>
+	<tr class="searchfilter">-->
+	@*<th></th>*@
+	<!--<th></th>
+			<th>
+				<div class="filterdgn">
+					<input type="text" class="filter-input" placeholder="Search" id="txtIndentNo"> <label for="search" class="m-0 single-check"><img src="../../assets/images/icons/help/search-icon.png" class="filtersearchincon" /></label>
+				</div>
+			</th>
+
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+
+			<th></th>
+			<th></th>
+
+		</tr>
+	</thead>-->
+	@*<tbody>
+				<tr>
+
+					<td class="text-center"><input type="checkbox" class="row-checkbox" id="selectone"><label for="selectone" class="single-check"></label></td>
+					<td><a href="indent-document.html" data-toggle="tooltip" class="d-flex justify-content-between" title="IND0001"><strong>IND01-1234 </strong> <span><img src="../../assets/images/icons/help/edit.png" class="icon-xsm"></span></a></td>
+
+					<td class="text-center">11/01/2025</td>
+					<td class="text-center">SKU1234</td>
+					<td class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+					<td class="text-right">500</td>
+					<td class="text-right">1200</td>
+					<td class="text-right">500</td>
+					<td class="">
+						<input type="number" class="form-control text-right" placeholder="0" value="500" />
+					</td>
+
+				</tr>
+		</tbody>*@
+	<!--</table>
+	</div>-->
+	<!--  -->
+	<!-- Grid with Scrollable Area -->
+	<div class="grid-wrapper" style="padding-top: 40px">
+		<div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+	</div>
+
+	<div class="wf-100 text-center mt-3 fixed-b-1024 ">
+		<center><button class="btn btn-lg hidebutton actionbtn" data-toggle="modal" data-target="#confirmindent" style="display:none">Submit</button></center>
+	</div>
+</div>
+
+
+
+<!-- confirmation Modal popup -->
+<div class="modal" id="confirmindent">
+	<div class="modal-dialog modal-dialog-centered modal-default">
+		<div class="modal-content ">
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="warningmsg">
+					<img src="../../assets/images/icons/help/warning-icon.svg" class="warningicon">
+					@*<h6 class="text-center">Short Close<br />Indent# : IND0001 </h6>*@
+					<span class="d-block">Are you sure you want to close this Indent? </span>
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">No</button>
+				<button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal" onclick="UpdateIndentShortCloseQty()">Yes</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<script src="~/Areas/MaterialManagement/DevScript/IndentShortClose.js"></script>
+
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@

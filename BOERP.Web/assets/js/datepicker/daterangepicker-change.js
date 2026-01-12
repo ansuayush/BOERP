@@ -1,0 +1,3 @@
+.daterangepicker {
+    z-index: 9999 !important;
+}

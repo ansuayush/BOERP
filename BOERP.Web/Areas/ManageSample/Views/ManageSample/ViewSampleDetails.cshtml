@@ -1,0 +1,365 @@
+﻿
+@{
+	ViewBag.Title = "ViewSampleDetails";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string loginIDs = clsApplicationSetting.GetSessionValue("LoginID");
+}
+
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<a href="SampleIndex?auth=@ViewBag.Auth"><img src="../../assets/images/icons/help/back-icon.png" alt="" class="headingicon"></a>Sample Details<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center">
+		<div class="d-flex justify-content-between align-items-center gap-10">
+			@if (ViewBag.Status == 1)
+			{
+				<a href="AddSample?id=@ViewBag.id&auth=@ViewBag.Auth" class="btn actionbtn border-r-8"><img src="../../assets/images/icons/help/edit-white-icon.png" alt="" class="btn-icon" />Edit</a>
+			}
+			<a class="btn actionbtn border-r-8" onclick="RedirectToSampleIndex()"><img src="../../assets/images/icons/help/close-two-white-icon.png" alt="" class="btn-icon" /> Cancel</a>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12 form-group">
+
+		<div class="card br-none p-0">
+			<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+				<h2 class="title-two align-self-center">Customer’s Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group pb-0">
+                <div class="row">
+                    <div class="col-md-2 col-sm-3 form-group">
+                        <label>Sample ID</label>
+                        <p class="m-0" id="txtSampleId"></p>
+                    </div>
+
+                    <div class="col-md-2 form-group" id="view_prev_id" style="display: none;">
+                        <label>Previous Sample ID</label>
+                        <p class="m-0" id="txtPrevSampleId"></p>
+                    </div>
+                    <div class="col-md-3  col-sm-9 form-group">
+                        <label>Customer Name</label>
+                        <p class="m-0" id="txtCustomer"></p>
+                    </div>
+
+                    <div class="col-md-2  col-sm-3 form-group">
+                        <label>Sample Type</label>
+                        <p class="m-0" id="txtSampleType"></p>
+                    </div>
+
+                    <div class="col-md-2  col-sm-3 form-group">
+                        <label>Brand Type</label>
+                        <p class="m-0" id="txtBrandType"></p>
+                    </div>
+
+                    <div class="col-md-2  col-sm-3 form-group">
+                        <label>Order Size</label>
+                        <p class="m-0" id="txtOrderSize"></p>
+                    </div>
+
+                    @*<div class="col-md-2  col-sm-3 form-group">
+            <label>NBD/CRR</label>
+            <p class="m-0" id="txtIsNBD"></p>
+        </div>*@
+                    <div class="col-md-2  col-sm-4 form-group">
+                        <label>Payment Screenshot </label>
+                        <p class="m-0" id="txtViewSample"><a href="#" class="fn-bold"><img src="../../assets/images/icons/help/view-icon.png" class="icon-sm" /> View</a></p>
+                    </div>
+
+                    <div class="col-md-2  col-sm-4 form-group">
+                        <label>Technical Document </label>
+                        @*<p class="m-0" id="txtViewSample"><a href="#" class="fn-bold"><img src="../../assets/images/icons/help/view-icon.png" class="icon-sm" /> View</a></p>*@
+                        <p class="m-0" id="techdoc">
+                            <a href="#" class="fn-bold"  onclick="bindTechnicalDocDetById()">
+                                <img src="../../assets/images/icons/help/view-icon.png" class="icon-sm" /> View
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="col-md-12"></div>
+
+                    <div class="col-md-3 col-sm-4 form-group">
+                        <input disabled type="checkbox" id="txtinternationalsample" name="type" value="">
+                        <label for="txtinternationalsample">International Sample</label>
+                    </div>
+
+                    <div class="col-md-3 col-sm-4 form-group">
+                        <input disabled type="checkbox" id="txthandover" onchange="SetAddressDefault()" class="checkselect" name="type" value="">
+                        <label for="txthandover">Handover/Self Pickup</label>
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-4 form-group">
+                        <input disabled type="checkbox" id="paidsample" class="checkselect" name="type" value="">
+                        <label for="txtpaidsample">Free Sample</label>
+                    </div>
+
+
+                </div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="col-lg-12 form-group">
+
+		<div class="card br-none p-0">
+			<div class="card-header border-top-RL bg-white header-active   d-flex justify-content-between ">
+				<h2 class="title-two align-self-center">Address Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group pb-0">
+				<div class="row">
+					<div class="col-md-3 form-group">
+						<label>Address</label>
+						<p class="m-0" id="txtCustomerAdd">
+
+						</p>
+					</div>
+
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+
+	<div class="col-lg-12 form-group">
+
+		<div class="card br-none p-0">
+			<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+				<h2 class="title-two align-self-center">Items Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group pb-0">
+				<div class="row">
+					<div class="col-lg-12 form-group">
+						<div class="table-responsive sticky-responsive" id="viewStandard" style="display: none;">
+							<table class="display  stickyth bg-thrid  dgntable no-footer radius-0 mt-0 ">
+								<thead>
+									<tr>
+										<th width="180" class="">Item Name</th>
+										<th width="200">Formulation Category</th>
+										<th width="100">Fragrance</th>
+										<th width="150">Colour</th>
+										<th width="150">Packaging Type</th>
+										<th width="150">Target Price/KG (₹)</th>
+										<th width="300">Requirement/Description</th>
+										<th width="250">Must have ingredients</th>
+										<th width="250">Must not have ingredients </th>
+										<th width="150">Upload PDF</th>
+									</tr>
+								</thead>
+								<tbody id="sampleTableBody">
+								</tbody>
+							</table>
+						</div>
+
+						<div class="table-responsive" id="viewOil" style="display: none;">
+							<table class="display  bg-thrid  dgntable no-footer radius-0 ">
+								<thead>
+                                    <tr>
+                                        <th width="200" class="">Item Name</th>
+                                        <th>Formulation Category</th>
+
+                                        <th width="150">Target Price (₹)</th>
+
+                                        <th width="300">Requirement/Description</th>
+
+                                        <th width="150">Upload PDF</th>
+                                    </tr>
+								</thead>
+								<tbody id="sampleOilBody">
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0 ">
+			<div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Remarks</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group min-205">
+				<textarea disabled id="Remarks" maxlength="250" class="form-control h-cm" rows="5" placeholder="Enter"></textarea>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+@*v--------- View image model-------------*@
+<div id="viewimage" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Q1</h4>
+				<button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+			</div>
+			<div class="modal-body">
+				<div class="imgprvw">
+
+					<img id="myImage" src="img/login-img.jpg" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+@*--------model close-----------*@
+
+
+@*v--------- View Technical Doc Attachment Step 2 -------------*@
+<div class="modal fade drawer right-align" id="downloadTechnicalDocStep2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header side-header justify-content-between d-flex">
+				<h2>Technical Document</h2>
+				<img src="../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+			</div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        @*<label>Download uploaded document</label>*@
+                        <p class="m-0 nofile" id="NoUploadFile2">No Upload</p>
+                        <div class="section-container fileuploadview  section-container-popup ">
+                            <!--  -->
+                            <div class="document-images hidden" id="ShowUploadFile2">
+                                <div id="downloadDocStep2" class="document-images"></div>
+                            </div>
+                            <!--  -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <label class="text-muted mb-0">Type Of Document </label>
+                    <p id="view_doc"></p>
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <label class="text-muted mb-0">Remarks</label>
+                    <p id="remarks2"></p>
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <div class="toggle-card bg-bgl">
+                        <div class="toggle-card-header toggle-info">
+                            <h4 class="toggle-card-title">Item Information</h4>
+                            <span class="toggle-card-icon"><img src="~/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                        </div>
+                        <div class="toggle-containe toggle-info-content">
+                            <div class="row">
+                                <div class="col-sm-12 form-group ">
+                                    <label class="text-gray mb-0">Item Name</label>
+                                    <p id="txtItem"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="formView">
+                                    <label class="text-gray mb-0">Formulation Category</label>
+                                    <p id="txtFormCate"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="fragView" style="display: none;">
+                                    <label class="text-gray mb-0">Fragrance</label>
+                                    <p id="txtFragrance"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="colorView" style="display: none;">
+                                    <label class="text-gray mb-0">Colour</label>
+                                    <p id="txtColour"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="packegingView" style="display: none;">
+                                    <label class="text-gray mb-0">Packaging Type</label>
+                                    <p id="txtPackegingType"></p>
+                                </div>
+                                <div class="col-sm-12 form-group">
+                                    <label class="text-gray mb-0">Target Price (₹)</label>
+                                    <p id="txtTargetPrice"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group" id="viewReq">
+                                    <label class="text-gray mb-0">Requirement/Description</label>
+                                    <p id="requirements"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="viewMust" style="display: none;">
+                                    <label class="text-gray mb-0">Must have ingredients</label>
+                                    <p id="mustIngredients"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group" id="viewMustNot" style="display: none;">
+                                    <label class="text-gray mb-0">Must not have ingredients</label>
+                                    <p id="mustnotingredients"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="viewAtt">
+                                    <label class="text-gray mb-0">Attachment</label>
+                                    <p><a href="" target="blank" id="item_att"></a></p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+                <!-- End -->
+
+            </div>
+		</div>
+	</div>
+</div>
+@*--------model close-----------*@
+
+<script>
+
+     var login_ID = "@loginIDs";
+
+    var View_Id = @ViewBag.id
+        Edit_ID = 0
+
+
+    var isDuplicate = 0;
+
+    console.log(View_Id);
+
+    var cust_id = 0;
+
+</script>
+
+
+
+<script src="~/Areas/ManageSample/DevScript/AddSample.js"></script>
+

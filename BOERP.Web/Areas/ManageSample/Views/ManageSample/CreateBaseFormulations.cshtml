@@ -1,0 +1,308 @@
+﻿
+@{
+    ViewBag.Title = "CreateBaseFormulations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="pagetitle gap-bottom d-flex justify-content-between">
+        <h1 class="m-0 d-flex align-items-center">
+            <a href="index.html"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a>Create Base Formulations<div class="ml-3"></div>
+        </h1>
+        <div class="align-self-center"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 form-group">
+
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none ">
+                    <h2 class="title-two align-self-center">Base Formulation Information</h2>
+                    <div class="align-self-center"></div>
+                </div>
+                <div class="card-body view-form-group">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 form-group ">
+
+                            <label for="" class="readonly">Base Code<sup>*</sup></label>
+                            <input type="text" class="form-control readonlyfield" readonly="" value="BS0001" name="">
+                        </div>
+
+                        <div class="col-md-3 col-sm-4 form-group">
+                            <label>Formulation Name</label>
+                            <input type="number" class="form-control" value="" placeholder="Enter" name="">
+                        </div>
+                        <div class="col-md-3 col-sm-4 form-group">
+                            <label>Category<sup>*</sup></label>
+                            <select class="form-control applyselect">
+                                <option value="">Select</option>
+                                <option value="">Brand Type 1</option>
+                                <option value="">Brand Type 2</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-4 form-group">
+                            <label>Quantity (gms)</label>
+                            <input type="text" class="form-control " placeholder="Enter">
+                        </div>
+                        <div class="col-md-3 col-sm-4 form-group">
+                            <label>Formulated By<sup>*</sup></label>
+                            <select class="form-control applyselect">
+                                <option value="">Select</option>
+                                <option value="">Formulated By 1</option>
+                                <option value="">Formulated By 2</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-sm-4 form-group">
+                            <label>Wastage %</label>
+                            <input type="number" class="form-control" value="" placeholder="Enter" name="">
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-12 form-group ">
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none ">
+                    <h2 class="title-two align-self-center">Quality Parameters</h2>
+                    <div class="align-self-center oil hide">
+                        <input type="checkbox" id="unlistedittem" name="type" value="">
+                        <label for="unlistedittem" class="m-0">Add Unlisted Item</label>
+                    </div>
+                </div>
+                <div class="card-body view-form-group">
+                    <div class="table-responsive oilhide">
+                        <table class="display rstable dgntable dataTable no-footer radius-0 itemsinformation">
+                            <thead>
+                                <tr>
+                                    <th width="10" class="text-center">#</th>
+                                    <th width="300">Test Name</th>
+                                    <th width="150">Validation</th>
+                                    <th width="50">uoM</th>
+                                    <th width="150">Value 1</th>
+                                    <th width="150">Value 2</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>pH Value</td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>-----</td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>Viscosity</td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>PI</td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td>Viscosity Temperature</td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>Celsius</td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td>Color</td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>-----</td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>-----</td>
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td>Appearance</td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>-----</td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>-----</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 form-group ">
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none ">
+                    <h2 class="title-two align-self-center">Ingredients Information</h2>
+                    <div class="align-self-center "></div>
+                </div>
+                <div class="card-body view-form-group">
+                    <div class="table-responsive oilhide">
+                        <table class="display rstable dgntable dataTable no-footer radius-0 itemsinformation">
+                            <thead>
+                                <tr>
+                                    <th width="50" class="text-center">Add Rows</th>
+                                    <th width="10">#</th>
+                                    <th width="150">Ingredient Name</th>
+                                    <th width="100">Quantity (gm)</th>
+                                    <th width="100">Phase</th>
+                                    <th width="100">Price (₹)</th>
+                                    <th width="200">Total Cost (₹)</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center"><div id="addrow" class="cursor-pointer"><img src="../../assets/images/icons/help/add.svg" alt="" data-toggle="tooltip" title="Add" /></div></td>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        <select class="form-control applyselect">
+                                            <option>Select</option>
+                                            <option value="">Body Butter</option>
+
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>
+                                        <select class="form-control applyselect">
+                                            <option>Select</option>
+                                            <option value="">Body Butter</option>
+
+                                        </select>
+                                    </td>
+                                    <td><input type="number" class="form-control " value="" placeholder="Enter" /></td>
+
+
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"></td>
+
+                                    <td class="text-right fn-bold">Total Quantity : 0 gm</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-right fn-bold">Total Cost : ₹0.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12 form-group ">
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none ">
+                    <h2 class="title-two align-self-center">Manufacturing Process</h2>
+                    <div class="align-self-center "></div>
+                </div>
+                <div class="card-body view-form-group">
+                    <div class="table-responsive oilhide">
+                        <table class="display rstable dgntable dataTable no-footer radius-0 itemsinformation">
+                            <thead>
+                                <tr>
+                                    <th width="50" class="text-center">Add Rows</th>
+                                    <th width="10">#</th>
+                                    <th width="100">Phase</th>
+                                    <th width="500">Process</th>
+                                    <th width="50">RPM</th>
+                                    <th width="50">Temp (°C)</th>
+                                    <th width="10">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center"><div id="addrow" class="cursor-pointer"><img src="../../assets/images/icons/help/add.svg" alt="" data-toggle="tooltip" title="Add" /></div></td>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        <select class="form-control applyselect">
+                                            <option>Select</option>
+                                            <option value="">Body Butter</option>
+
+                                        </select>
+                                    </td>
+                                    <td><textarea placeholder="Enter" class="form-control"></textarea></td>
+                                    <td>
+                                        <input type="number" class="form-control" value="" placeholder="Enter" />
+                                    </td>
+                                    <td><input type="number" class="form-control" value="" placeholder="Enter" /></td>
+
+
+                                    <td class="text-center"><a href=""><img src="../../assets/images/icons/help/delete-icon.png" alt="" class="icon-sm" /></a> </td>
+
+                                </tr>
+                            </tbody>
+
+
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 form-group">
+            <div class="card br-none p-0  ">
+                <div class="card-header d-flex justify-content-between bg-none ">
+                    <h2 class="title-two align-self-center">Upload Document<sup>*</sup></h2>
+                    <div class="align-self-center"></div>
+                </div>
+                <div class="card-body  view-form-group">
+                    <div class="section-container section-container-popup">
+                        <div class="fileuploadview drag-area">
+                            <div class="uploadicon_text file-input-button justify-content-center ">
+                                <div class="uploadicon">
+                                    <img src="../../assets/images/icons/help/fileupload-icon.svg" alt="">
+                                </div>
+                                <div class="uploadtext drag-file">
+                                    <h4>Drop files here or click to upload</h4>
+                                    <h6>This is a dropzone, drop files or click to browse</h6>
+                                    <span class="error">The file size should be between 20KB and 2MB,<br /> with a maximum of 10 attachments.</span>
+                                </div>
+                            </div>
+                            <input type="file" class="file-input hidden" />
+                            <div class="document-images"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <footer class="footer-action-btn ">
+
+        <button type="" class="btn btn-lg  cancelbtn">Cancel</button>
+
+        <button type="" class="btn  btn-lg  actionbtn">Submit</button>
+
+    </footer>
+

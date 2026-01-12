@@ -1,0 +1,634 @@
+﻿@model  Employee.RegistrationDetails
+@{
+    //string MenuID = ViewBag.MenuID.ToString();
+}
+@Html.Partial("_EmployeeHeader")
+
+<div class="mb-100">
+
+
+    @*@using (Ajax.BeginForm("RegistrationDetails", "Employee",
+            new { src = ViewBag.src },
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnBegin = "ShowLoadingDialog()", OnFailure = "OnPostFailure()" },
+        new { @id = "RegistrationDetailsFrom", @autocomplete = "Off" })
+        )*@
+    {
+
+        <div class="inner-main mb-2">
+            <div class="row">
+                <div class="col-md-6 col-sm-9 form-group">
+                    <label>Employee Name <sup>*</sup> </label>
+                    @if (Model.ID > 0)
+                    {
+                        <strong class="green-clr  lbl-rgtsde  tb">Emp Code: @Model.emp_code</strong>
+                    }
+                    @Html.TextBoxFor(model => model.emp_name, new { @class = "form-control", @placeholder = "Enter Name" })
+                    @Html.ValidationMessageFor(model => model.emp_name, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Official Email ID <sup>*</sup></label>
+                    @Html.TextBoxFor(model => model.email, new { @class = "form-control", @placeholder = "Email" })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-3 toggle-full align-self-end form-group">
+                    <div class="togledtl">
+                        <label class="tgl-lbl">Generic User</label>
+                        <div class="toggle-btn tgl-hdrm">
+                            <input type="checkbox" class="toggle" id="mtruser" name="@Html.NameFor(x=>x.IsMitrUser)" @(Model.USER_ID > 0 ? "checked" : "")>
+                            <label for="mtruser"> <span class="off">No</span> <span class="on">Yes</span> </label>
+                        </div>
+                        <a style="@(Model.USER_ID>0?"":"display:none")" class="btn mtr-o-grn mtrlgnid " onclick="ShowUserModal()"><i class="fas fa-user-plus m-0" data-toggle="tooltip" title="" data-original-title="Create User"></i> </a>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12"></div>
+
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Date of Joining <sup>*</sup></label>
+                    @Html.TextBoxFor(model => model.DOJ, new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(model => model.DOJ, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Employee Category <sup>*</sup></label>
+                    @Html.EnumDropDownListFor(model => model.EmploymentTerm, "Select", htmlAttributes: new { @class = "form-control applyselect", @onchange = "ValidateTermBase()" })
+                    @Html.ValidationMessageFor(model => model.EmploymentTerm, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>End Date of Contract <sup>*</sup></label>
+                    @Html.TextBoxFor(model => model.Contract_EndDate, new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(model => model.Contract_EndDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Department <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.DepartmentID, new SelectList(Model.DepartmentList, "ID", "Name", Model.DepartmentID), "Select",
+                           new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-12 form-group">
+                    <label>Thematic Area <sup>*</sup></label>
+                    @Html.HiddenFor(x => Model.thematicarea_IDs)
+                    <select class="applyselect" multiple="multiple" id="ddthematicarea_IDs">
+                        <option>Select Thematicarea</option>
+                        @if (Model.ThematicareaList != null)
+                        {
+                            foreach (var item in Model.ThematicareaList)
+                            {
+                                if (string.IsNullOrEmpty(Model.thematicarea_IDs))
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option @(("@" + Model.thematicarea_IDs.Replace(",", "@") + "@").Contains("@" + item.ID.ToString() + "@") ? "selected" : "") value="@item.ID">@item.Name</option>
+                                }
+
+                            }
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.thematicarea_IDs, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Work Location <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.WorkLocationID, new SelectList(Model.LocationList, "ID", "Name", Model.WorkLocationID), "Select",
+                           new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.WorkLocationID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Metro/Non Metro <sup>*</sup></label>
+                    @Html.EnumDropDownListFor(model => model.metro, "Select", htmlAttributes: new { @class = "form-control applyselect" })
+                    @Html.ValidationMessageFor(model => model.metro, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Designation <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.design_id, new SelectList(Model.DesignationList, "ID", "Name", Model.design_id), "Select",
+                           new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.design_id, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Job Title <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.JobID, new SelectList(Model.JobList, "ID", "Name", Model.JobID), "Select",
+                          new { @class = "form-control  applyselect", @onchange = "FillNoticePeriod(this)" })
+                    @Html.ValidationMessageFor(model => model.JobID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Employment Status <sup>*</sup></label>
+                    @Html.EnumDropDownListFor(model => model.emp_status, "Select", htmlAttributes: new { @class = "form-control applyselect" })
+                    @Html.ValidationMessageFor(model => model.emp_status, "", new { @class = "text-danger", @onchange = "ValidateProbation_EndDate()" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Probation Period End Date</label>
+                    @Html.TextBoxFor(model => model.Probation_EndDate, new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(model => model.Probation_EndDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Confirmation Date</label>
+                    @Html.TextBoxFor(model => model.doc, new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(model => model.doc, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Primary Supervisor <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.hod_name, new SelectList(Model.EMPList, "ID", "Name", Model.hod_name), "Select",
+                         new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.hod_name, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Secondary Supervisor <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.SecondaryHODID, new SelectList(Model.EMPList, "ID", "Name", Model.SecondaryHODID), "Select",
+                         new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.SecondaryHODID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Exceptional Approver <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.ed_name, new SelectList(Model.EMPList, "ID", "Name", Model.ed_name), "Select",
+                      new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.ed_name, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>HR Point Person <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.HRID, new SelectList(Model.EMPList, "ID", "Name", Model.HRID), "Select",
+                      new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.HRID, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Appraiser <sup>*</sup></label>
+                    @Html.DropDownListFor(n => n.AppraiserID, new SelectList(Model.EMPList, "ID", "Name", Model.AppraiserID), "Select",
+                    new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.AppraiserID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Eligible- Overtime/Compensatory Off <sup>*</sup></label>
+                    @Html.EnumDropDownListFor(model => model.co_ot, "Select", htmlAttributes: new { @class = "form-control applyselect" })
+                    @Html.ValidationMessageFor(model => model.co_ot, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Residential Status <sup>*</sup></label>
+                    @Html.EnumDropDownListFor(model => model.ResidentialStatus, "Select", htmlAttributes: new { @class = "form-control applyselect" })
+                    @Html.ValidationMessageFor(model => model.ResidentialStatus, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col-md-3 col-sm-12  form-group">
+                    <label>Skills <sup>*</sup></label>
+                    @Html.HiddenFor(x => Model.SkillsIDs)
+                    <select class="applyselect" multiple="multiple" id="ddSkills">
+                        <option>Select Skill</option>
+                        @if (Model.SkillList != null)
+                        {
+                            foreach (var item in Model.SkillList)
+                            {
+                                if (string.IsNullOrEmpty(Model.SkillsIDs))
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option @(("@" + Model.SkillsIDs.Replace(",", "@") + "@").Contains("@" + item.ID.ToString() + "@") ? "selected" : "") value="@item.ID">@item.Name</option>
+                                }
+
+                            }
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.thematicarea_IDs, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Notice Period (In Days)</label>
+                    @Html.TextBoxFor(model => model.NoticePeriod, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.NoticePeriod, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Date of Resignation</label>
+                    @Html.TextBoxFor(model => model.DOR, new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(model => model.DOR, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Last Working Day</label>
+                    @Html.TextBoxFor(model => model.lastworking_day, new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(model => model.lastworking_day, "", new { @class = "text-danger" })
+                </div>
+
+                <!---->
+            </div>
+        </div>
+        <div class="inner-main mb-2">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h2 class="headingtwo"><i class="fas fa-rupee-sign"></i>Salary Structure &amp; Details </h2>
+                </div>
+                <div class="col-md-8 text-right">
+                    <button type="button" onclick="SalaryStrucure(@Model.ID)" class="btn mtr-g-grn "><i class="fas fa-edit"></i>Set Salary Structure</button>
+
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Employee Category</label>
+                    @Model.EmploymentTerm
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Employee Sub Category</label>
+                    @Model.lstSalaryStucture.Subcategory
+                </div>
+                <div class="col-md-3 col-sm-4 form-group align-self-end">
+                    <label>No. of Hours</label>
+                    @Model.lstSalaryStucture.WorkingHours
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Salary Structure</label>
+                    @Model.lstSalaryStucture.Structure
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Grade</label>
+                    @Model.lstSalaryStucture.Grade
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Step</label>
+                    @Model.lstSalaryStucture.Step
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Annual Salary&amp; Benefit </label>
+                    @Model.lstSalaryStucture.AnnualSalary / @Model.lstSalaryStucture.Benefit
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>Hourly Rate</label>
+                    @Model.lstSalaryStucture.HourlyRate
+                </div>
+            </div>
+        </div>
+        <div class="inner-main mb-2">
+            <h2 class="headingtwo"><i class="fas fa-university"></i>Bank Account Details for Salary and Benefits</h2>
+            <div class="row">
+                <!---->
+                <div class="col-md-3 col-sm-6 form-group">
+                    <label>Name of the Bank </label>
+                    @Html.DropDownListFor(n => n.SalaryAccount.BankID, new SelectList(Model.BankList, "ID", "Name", Model.SalaryAccount.BankID), "Select",
+                         new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.SalaryAccount.BankID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-6 form-group">
+                    <label>Type of Bank Account</label>
+                    @Html.EnumDropDownListFor(model => model.SalaryAccount.AccountType, "Select", htmlAttributes: new { @class = "form-control applyselect" })
+                    @Html.ValidationMessageFor(model => model.SalaryAccount.AccountType, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-6 form-group">
+                    <label>Account Title<sup>*</sup></label>
+                    @Html.TextBoxFor(model => model.SalaryAccount.AccountName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SalaryAccount.AccountName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-6  form-group">
+                    <label>Bank Account No.</label>
+                    @Html.TextBoxFor(model => model.SalaryAccount.AccountNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SalaryAccount.AccountNo, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12 form-group">
+                    <label>Branch Address</label>
+                    @Html.TextAreaFor(model => model.SalaryAccount.BranchAddress, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SalaryAccount.BranchAddress, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>IFS Code</label>
+                    @Html.TextBoxFor(model => model.SalaryAccount.IFSCCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SalaryAccount.IFSCCode, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>SWIFT Code</label>
+                    @Html.TextBoxFor(model => model.SalaryAccount.SwiftCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SalaryAccount.SwiftCode, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-8 form-group">
+                    <label>Other Details</label>
+                    @Html.TextAreaFor(model => model.SalaryAccount.OtherDetails, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SalaryAccount.OtherDetails, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-12">
+                    <ul class="list-unstyled inlin-list mt-2">
+                        <li>
+                            <input type="checkbox" id="ChkUseForOffice" class="trigger">
+                            <label for="ChkUseForOffice"> Use for official reimbursement?</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="inner-main mb-2" id="divReimbursement">
+            <h2 class="headingtwo"><i class="fas fa-university"></i>Bank Account Details for Offical Reimbursement</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 form-group">
+                    <label>Name of the Bank </label>
+                    @Html.DropDownListFor(n => n.ReimbursementAccount.BankID, new SelectList(Model.BankList, "ID", "Name", Model.ReimbursementAccount.BankID), "Select",
+                      new { @class = "form-control  applyselect" })
+                    @Html.ValidationMessageFor(model => model.ReimbursementAccount.BankID, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col-md-3 col-sm-6 form-group">
+                    <label>Type of Bank Account</label>
+                    @Html.EnumDropDownListFor(model => model.ReimbursementAccount.AccountType, "Select", htmlAttributes: new { @class = "form-control applyselect" })
+                    @Html.ValidationMessageFor(model => model.ReimbursementAccount.AccountType, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-6 form-group">
+                    <label>Account Title</label>
+                    @Html.TextBoxFor(model => model.ReimbursementAccount.AccountName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ReimbursementAccount.AccountName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-6  form-group">
+                    <label>Bank Account No.</label>
+                    @Html.TextBoxFor(model => model.ReimbursementAccount.AccountNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ReimbursementAccount.AccountNo, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12 form-group">
+                    <label>Branch Address</label>
+                    @Html.TextAreaFor(model => model.ReimbursementAccount.BranchAddress, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ReimbursementAccount.BranchAddress, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>IFS Code</label>
+                    @Html.TextBoxFor(model => model.ReimbursementAccount.IFSCCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ReimbursementAccount.IFSCCode, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 col-sm-4 form-group">
+                    <label>SWIFT Code</label>
+                    @Html.TextBoxFor(model => model.ReimbursementAccount.SwiftCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ReimbursementAccount.SwiftCode, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-8 form-group">
+                    <label>Other Details</label>
+                    @Html.TextAreaFor(model => model.ReimbursementAccount.OtherDetails, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ReimbursementAccount.OtherDetails, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="inner-main mb-2">
+            <h2 class="headingtwo"><i class="fas fa-info-circle"></i>Psychometric Details</h2>
+            <div class="row">
+                <div class="col-sm-3 form-group hw-575">
+                    <label>Psychometric Test <sup>*</sup></label>
+                    @Html.EnumDropDownListFor(model => model.PsychometricTest, "Select", htmlAttributes: new { @class = "form-control applyselect" })
+                    @Html.ValidationMessageFor(model => model.PsychometricTest, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="ftr-btn">
+            <button type="submit" class="btn mtr-o-grn " onclick="return Validate()" name="Command" value="Add"><i class="fas fa-paper-plane"></i>Submit</button>
+            @*@Html.CreateAnchor(MenuID, ("Employee/PersonalDetails*" + Model.ID), "", "", "", "")
+            @Html.CreateAnchor(MenuID, "/Employee/EmployeeList", "Back", "btn cnl-btn btn-l ripplelink", "Click to go back", "fa fa-share", "")*@
+        </div>
+
+
+        <div class="modal fade pop-dgn" id="adduser">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header blk-gdn-btn">
+                        <h4 class="modal-title"> <i class="fas fa-print"></i>Create User  </h4>
+                        <div class="close" data-dismiss="modal">&times;</div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                                <label> </label>
+                                <input readonly type="text" id="@Html.IdFor(model => model.UserDetails.UserType)" name="@Html.NameFor(model => model.UserDetails.UserType)" value="Employee" />
+                            </div>
+
+                            <div class="col-sm-6 form-group">
+                                <label>Use Id</label>
+                                @Html.HiddenFor(model => model.UserDetails.ID)
+
+                                <input type="hidden" class="hdnRecordExit" tag-id="@Model.USER_ID" tag-value="EMP_Registration" />
+                                @Html.TextBoxFor(model => model.UserDetails.user_name, new { @class = "form-control", @Onblur = "CheckRecordExists(this)" })
+                                @Html.ValidationMessageFor(model => model.UserDetails.user_name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Name</label>
+                                @Html.TextBoxFor(model => model.UserDetails.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.UserDetails.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Email Id</label>
+                                @Html.TextBoxFor(model => model.UserDetails.email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.UserDetails.email, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Password</label>
+                                @Html.TextBoxFor(model => model.UserDetails.password, new { @class = "form-control", @type = "Password" })
+                                @Html.ValidationMessageFor(model => model.UserDetails.password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                <label>Roles </label>
+                                @Html.HiddenFor(x => Model.UserDetails.RoleIDs)
+                                <select class="applyselect" multiple="multiple" id="ddRoleIDs">
+                                    <option>Select Thematicarea</option>
+                                    @if (Model.RoleList != null)
+                                    {
+                                        foreach (var item in Model.RoleList)
+                                        {
+                                            if (string.IsNullOrEmpty(Model.UserDetails.RoleIDs))
+                                            {
+                                                <option value="@item.ID">@item.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option @(("@" + Model.UserDetails.RoleIDs.Replace(",", "@") + "@").Contains("@" + item.ID.ToString() + "@") ? "selected" : "") value="@item.ID">@item.Name</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.UserDetails.RoleIDs, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section scripts    {
+    @System.Web.Optimization.Scripts.Render("~/bundle/unobtrusivejs")
+    @Html.IncludeVersionedJs(Url.Content("~/assets/design/scripts/AddInit.js"))
+    <script>
+
+        function Validate() {
+            var ret = false;
+            var RoleIDs = $("#ddRoleIDs").find("option:selected").val();
+            var UserName = $("#UserDetails_user_name");
+            var Name = $("#UserDetails_Name");
+            if (UserName.val() == "") {
+                $('#adduser').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+            else if (Name.val() == "") {
+                $('#adduser').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+            else if (RoleIDs == undefined) {
+                $('#adduser').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            } else {
+                ret = true;
+            }
+            return ret;
+        }
+
+        function ShowUserModal() {
+            $('#adduser').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            $("#UserDetails_user_name").closest('div').find('.field-validation-valid').html('');
+        }
+        $(document).ready(function () {
+            ValidateProbation_EndDate();
+            ValidateTermBase();
+        });
+        function ValidateProbation_EndDate() {
+            var val = $("#emp_status").find("option:selected").val();
+
+            if (val == 1) {
+
+                $('#Probation_EndDate').rules('add', {
+                    required: true,
+                    messages: {
+                        required: "Hey! You missed this field."
+                    }
+                });
+            } else {
+
+                $('#Probation_EndDate').rules('add', {
+                    required: false,
+                    messages: {
+                        required: ""
+                    }
+                });
+            }
+        }
+
+        function ValidateTermBase() {
+            var val = $("#EmploymentTerm").find("option:selected").val();
+            if (val == 0) {
+
+                $('#Contract_EndDate').rules('add', {
+                    required: true,
+                    messages: {
+                        required: "Hey! You missed this field."
+                    }
+                });
+            } else {
+
+                $('#Contract_EndDate').rules('add', {
+                    required: false,
+                    messages: {
+                        required: ""
+                    }
+                });
+            }
+        }
+        $('#ddthematicarea_IDs').change(function () {
+            GetThematicareaValue()
+        });
+        function GetThematicareaValue() {
+            var ddthematicarea_IDs = $("#ddthematicarea_IDs").val();
+            $("#thematicarea_IDs").val(ddthematicarea_IDs);
+        }
+
+
+        $('#ddSkills').change(function () {
+            GetSkillValue()
+        });
+        function GetSkillValue() {
+            var ddSkills = $("#ddSkills").val();
+            $("#SkillsIDs").val(ddSkills);
+        }
+
+        $(function () {
+            $("#mtruser").click(function () {
+                if ($(this).is(":checked")) {
+                    $(".mtrlgnid").show();
+
+                } else {
+                    $(".mtrlgnid").hide();
+                }
+            });
+        });
+
+
+        $('#ChkUseForOffice').change(function () {
+            CopyBankDetails(this)
+        });
+        function CopyBankDetails(obj) {
+            var checkAll = $(obj).is(":checked");
+            if (checkAll) {
+
+                $("#ReimbursementAccount_AccountType").val($("#SalaryAccount_AccountType").val()).trigger('change');
+                $("#ReimbursementAccount_AccountName").val($("#SalaryAccount_AccountName").val());
+                $("#ReimbursementAccount_AccountNo").val($("#SalaryAccount_AccountNo").val());
+                $("#ReimbursementAccount_BranchAddress").val($("#SalaryAccount_BranchAddress").val());
+                $("#ReimbursementAccount_IFSCCode").val($("#SalaryAccount_IFSCCode").val());
+                $("#ReimbursementAccount_SwiftCode").val($("#SalaryAccount_SwiftCode").val());
+                $("#ReimbursementAccount_OtherDetails").val($("#SalaryAccount_OtherDetails").val());
+                $("#ReimbursementAccount_BankID").val($("#SalaryAccount_BankID").val()).trigger('change');
+            } else {
+
+                $("#ReimbursementAccount_BankID").val('').trigger('change');
+                $("#ReimbursementAccount_AccountType").val('').trigger('change');
+                $("#ReimbursementAccount_AccountName").val('');
+                $("#ReimbursementAccount_AccountNo").val('');
+                $("#ReimbursementAccount_BranchAddress").val('');
+                $("#ReimbursementAccount_IFSCCode").val('');
+                $("#ReimbursementAccount_SwiftCode").val('');
+                $("#ReimbursementAccount_OtherDetails").val('');
+            }
+        }
+
+        function OnSuccess(obj) {
+            if (obj.Status) {
+                SuccessToaster(obj.SuccessMessage);
+                window.location.href = obj.RedirectURL;
+            }
+            else {
+                CloseLoadingDialog();
+                FailToaster(obj.SuccessMessage);
+
+            }
+        }
+
+        $('#ddRoleIDs').change(function () {
+            GetRolesValue()
+        });
+        function GetRolesValue() {
+            var ddRoleIDs = $("#ddRoleIDs").val();
+            $("#UserDetails_RoleIDs").val(ddRoleIDs);
+        }
+
+        $('#Probation_EndDate').blur(function () {
+            if ($(this).val() != '') {
+                var a = $(this).val().split("-");
+                var b = a[0] + "-" + a[1] + "-" + a[2];
+                $('#doc').val(b);
+            }
+
+        });
+
+        function FillNoticePeriod(obj) {
+            var JobID = $(obj).find('option:selected').val();
+            if (JobID != "") {
+                var data = GetGenerateValues(JobID, "NoticePeriod_Job");
+                if (data.Status) {
+                    $("#NoticePeriod").val(data.SuccessMessage);
+                }
+            }
+        }
+         function SalaryStrucure(ID) {
+            var ID = Number(ID);
+            var MenuID = Number('@ViewBag.MenuID');
+            ShowLoadingDialog();
+            var url = "/SalaryStructure/AddEmployeeSalary?src=" + EncryptQueryStringJSON(MenuID + "*" + "/SalaryStructure/AddEmployeeSalary" + "*" + ID);
+            window.location.href = url;
+    }
+    </script>
+}

@@ -1,0 +1,84 @@
+﻿
+
+@model Menu.Add
+
+@using (Ajax.BeginForm("_AddMenu", "Tools",
+        new { src = ViewBag.src },
+         new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnBegin = "ShowLoadingDialog()" },
+            new { @id = "_AddRoleForm" })
+    )
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => Model.MenuID)
+    @Html.HiddenFor(x => Model.ParentMenuID)
+    <div class="row">
+        @if (!string.IsNullOrEmpty(Model.MenuURL))
+        {
+            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                <label style="color:green">@Model.MenuURL</label>
+            </div>
+        }
+
+        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+            <label>Module<sup>*</sup></label>
+            @Html.DropDownListFor(model => model.ModuleID, new SelectList(Model.ModuleList, "ID", "Name", Model.ModuleID), "select", new { @class = "form-control applyselect",@onchange="BindParentMenu()" })
+            @Html.ValidationMessageFor(model => model.ModuleID, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+            <label>Menu Name<sup>*</sup></label>
+            @Html.TextBoxFor(model => model.MenuName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.MenuName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+            <label>Menu Icon Path</label>
+            @Html.TextBoxFor(model => model.MenuImage, new { @class = "form-control", @placeholder = "only fa icons" })
+            @Html.ValidationMessageFor(model => model.MenuImage, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 form-group">
+            <label>Priority</label>
+            @Html.TextBoxFor(model => model.MenuPriority, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.MenuPriority, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 form-group">
+            <label>Target<sup>*</sup></label>
+            @Html.EnumDropDownListFor(model => model.Target, "Select", htmlAttributes: new { @class = "form-control applyselect" })
+            @Html.ValidationMessageFor(model => model.Target, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 form-group">
+            <label>Parent Map</label>
+            <label id="spnMenuMap" style="color:darkslategray">@(Model.ParentMenuID == 0? "No Parent" : Model.ParentMenuMap)</label>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+            <label>Change Parent</label>
+            <input type="checkbox" class="newwidth" id="Chksingle" name="Chksingle" onchange="ChangeParent(this)" />
+            <label for="Chksingle"></label>
+        </div>
+    </div>
+    <div class="row" id="DivParnentSetting" style="display:none;">
+        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+            <label>Parent Menu List<sup>*</sup></label>
+            <select id="ddParentMenu" onchange="GetChildList()" class="form-control applyselect">
+               
+            </select>
+        </div>
+        <div class="col-md-12">
+            <div id="ChildTargetDiv"></div>
+        </div>
+    </div>
+    <div class="row">
+
+        @if (Model.MenuID > 0)
+        {
+            <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Update</button>
+        }
+        else
+        {
+            <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+        }
+    </div>
+
+}
+

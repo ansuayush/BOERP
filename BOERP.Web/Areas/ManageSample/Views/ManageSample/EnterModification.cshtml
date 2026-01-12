@@ -1,0 +1,267 @@
+﻿
+@{
+    ViewBag.Title = "EnterModification";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="modification.html"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Step 9 - Modification<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center"></div>
+</div>
+<div class="row">
+    <div class="col-lg-12 form-group">
+
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Sample Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 form-group ">
+
+                        <label for="" class="readonly">Sample Id<sup>*</sup></label>
+                        <input type="text" class="form-control readonlyfield" readonly="" value="AAY-24-01416" name="itemcode">
+                    </div>
+
+                    <div class="col-md-6 col-sm-4 form-group">
+                        <label>Customer<sup>*</sup></label>
+                        <p class="text-p bg-white border-hlt">Bikram || Unimarck Pharma India Limited | 9543014477</p>
+                    </div>
+                    <div class="col-md-3 col-sm-4 form-group">
+                        <label>Brand Type<sup>*</sup></label>
+                        <p class="text-p bg-white border-hlt">New Brand</p>
+                    </div>
+                    <div class="col-md-3 col-sm-4 form-group">
+                        <label>Sample Type<sup>*</sup></label>
+                        <select class="form-control applyselect">
+                            <option value="">Select</option>
+                            <option value="1" selected>Standard Formulations</option>
+                            <option value="2">Sample Type 1</option>
+                            <option value="3">Sample Type 1</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-4 form-group">
+                        <label>Order Size<sup>*</sup></label>
+                        <select class="form-control applyselect">
+                            <option value="">Select</option>
+                            <option value="1" selected>1500-2000 Unit</option>
+                            <option value="2">Order Size 1</option>
+                            <option value="3">Order Size 2</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 col-sm-4 form-group">
+                        <label>Select Previous Sample Id<sup>*</sup></label>
+                        <p class="text-p bg-white border-hlt">AAY-24-01415</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 form-group ">
+
+                        <label for="" class="readonly">Upload Payment Screenshot<sup>*</sup></label>
+                        <input type="file" class="form-control " readonly="" value="" name="">
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 form-group">
+                        <input type="checkbox" id="internationalsample" name="type" value="" checked disabled>
+                        <label for="internationalsample">International Sample?</label>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 form-group">
+                        <input type="checkbox" id="handover" class="checkselect" name="type" value="" disabled>
+                        <label for="handover">Handover/Self Pickup</label>
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-6 form-group">
+                        <input type="checkbox" id="paidsample" class="checkselect" name="type" value="" disabled>
+                        <label for="paidsample">Paid Sample</label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex flex-wrap gap-10 justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Address Information</h2>
+                <div class="align-self-center">
+                    <input type="checkbox" id="sameas" name="type" value="" checked disabled>
+                    <label for="sameas" class="m-0">Same as Customer's Profile</label>
+
+                </div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 form-group">
+                        <label>Select Address<sup>*</sup></label>
+                        <p class="text-p bg-white border-hlt">Address 1</p>
+                    </div>
+                    <div class="col-lg-3 col-ms-3 form-group">
+                        <label for="">Address</label>
+                        <p>
+                            26/3, 30, Nanik Niwas, Dr.D.D Sathe Marg, Near Girgaon Church,
+                            Opera House, Mumbai (Maharashtra), India - 400004
+                        </p>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group ">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Enter Item Information</h2>
+                <div class="align-self-center oil hide">
+                    <input type="checkbox" id="unlistedittem" name="type" value="">
+                    <label for="unlistedittem" class="m-0">Add Unlisted Item</label>
+                </div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive oilhide">
+                    <table class="display rstable dgntable dataTable no-footer radius-0 itemsinformation">
+                        <thead>
+                            <tr>
+                                <th width="50" class="text-center">Action</th>
+                                <th width="150">Item Name</th>
+                                <th width="150">Formulation Category</th>
+                                <th width="100">Fragrance</th>
+                                <th width="100">Colour</th>
+                                <th width="180">Packaging Type</th>
+                                <th width="110">Target Price (₹)</th>
+                                <th width="200">Requirement/Description	</th>
+                                <th width="200" class="text-left">Must have ingredients</th>
+                                <th width="200" class="text-left">Must not have ingredients</th>
+                                <th width="200" class="text-left">Upload PDF</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center"><div id="addrow" class="cursor-pointer"><img src="~/assets/images/icons/help/add.svg" alt="" data-toggle="tooltip" title="Add" /></div></td>
+                                <td>
+                                    <input type="text" class="form-control" value="Material 1" placeholder="Enter" />
+                                </td>
+                                <td>
+                                    <select class="form-control applyselect">
+                                        <option>Select</option>
+                                        <option value="" selected>Body Butter</option>
+                                        <option>Shampoo</option>
+
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" value="Citrus" placeholder="Enter" /></td>
+                                <td><input type="text" class="form-control" value="Aqua" placeholder="Enter" /></td>
+                                <td>
+                                    <select class="form-control applyselect">
+                                        <option>Select</option>
+                                        <option value="" selected>Bottle-SCREW CAP</option>
+                                        <option>Bottle-SCREW CAP</option>
+
+                                    </select>
+                                </td>
+                                <td><input type="number" class="form-control text-right" value="350.00" placeholder="0.00" /></td>
+                                <td><textarea placeholder="Enter" class="form-control">Lorem ipsum dolor sit amet</textarea></td>
+                                <td><textarea placeholder="Enter" class="form-control">Lorem ipsum</textarea></td>
+                                <td><textarea placeholder="Enter" class="form-control">Lorem ipsum</textarea></td>
+                                <td><input type="file" class="form-control" value="" placeholder="Enter" /></td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="text-center"><div class="cursor-pointer deleterow "><img src="~/assets/images/icons/help/close.svg" alt="" data-toggle="tooltip" title="Remove" /></div></td>
+                                <td>
+                                    <input type="text" class="form-control" value="Material 2" placeholder="Enter" />
+                                </td>
+                                <td>
+                                    <select class="form-control applyselect">
+                                        <option>Select</option>
+                                        <option value="">Body Butter</option>
+                                        <option selected>Shampoo</option>
+
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" value="Citrus" placeholder="Enter" /></td>
+                                <td><input type="text" class="form-control" value="Aqua" placeholder="Enter" /></td>
+                                <td>
+                                    <select class="form-control applyselect">
+                                        <option>Select</option>
+                                        <option value="">Bottle-SCREW CAP</option>
+                                        <option selected>Bottle-SCREW CAP</option>
+
+                                    </select>
+                                </td>
+                                <td><input type="number" class="form-control text-right" value="350.00" placeholder="0.00" /></td>
+                                <td><textarea placeholder="Enter" class="form-control">Lorem ipsum dolor sit amet</textarea></td>
+                                <td><textarea placeholder="Enter" class="form-control">Lorem ipsum</textarea></td>
+                                <td><textarea placeholder="Enter" class="form-control">Lorem ipsum</textarea></td>
+                                <td><input type="file" class="form-control" value="" placeholder="Enter" /></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--  OILS Sample  -->
+                <div class="table-responsive oil hide">
+                    <table class="display rstable dgntable dataTable no-footer mt-2 radius-0 itemsinformation">
+                        <thead>
+                            <tr>
+                                <th width="10" class="text-center">Action</th>
+                                <th width="200">Item Name</th>
+                                <th width="200">Formulation Category</th>
+                                <th width="100">Target Price (₹)</th>
+                                <th width="200" class="text-left">Upload PDF</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center"><div id="addrow" class="cursor-pointer"><img src="~/assets/images/icons/help/add.svg" alt="" data-toggle="tooltip" title="Add" /></div></td>
+                                <td>
+                                    <select class="form-control applyselect">
+                                        <option>Select</option>
+                                        <option value="">Material 1</option>
+                                        <option value="">Material 2</option>
+                                        <option value="">Material 3</option>
+                                        <option value="">Material 4</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control applyselect">
+                                        <option>Select</option>
+                                        <option value="">Body Butter</option>
+
+                                    </select>
+                                </td>
+
+                                <td><input type="number" class="form-control" value="" placeholder="0.00" /></td>
+                                <td><input type="file" class="form-control" value="" placeholder="Enter" /></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   
+
+
+</div>
+
+<footer class="footer-action-btn ">
+
+    <button type="submit" class="btn btn-lg  cancelbtn">Cancel</button>
+    <button type="submit" class="btn  btn-lg  actionbtn">Save</button>
+
+</footer>
+

@@ -1,0 +1,448 @@
+﻿
+@{
+    ViewBag.Title = "GrossMarginApprove";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="pagetitle gap-bottom d-flex justify-content-between">
+        <h1 class="m-0 d-flex align-items-center">
+            <a onclick="RedirectToPil()"><img src="../assets/images/icons/help/back-icon.png" alt="" class="headingicon"></a>Step 3 - Gross Margin Approval<div class="ml-3"></div>
+        </h1>
+        <div class="align-self-center">
+            <div class="d-flex justify-content-between align-items-center gap-10">
+                <button class="btn mr-2 actionbtn border-r-8">
+                    <img src="../assets/images/icons/help/print-white-icon.png" class="btn-icon m-0">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12 form-group">
+
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none  ">
+                    <h2 class="title-two align-self-center">Formula Information</h2>
+                    <div class="align-self-center"></div>
+                </div>
+                <div class="card-body view-form-group pb-0">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label>Sample ID</label>
+                            <p class="m-0 d-flex justify-content-between " id="sample_id"> <a href=""><img src="../assets/images/icons/help/edit-icon.png" class="icon-sm" /></a></p>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label>SFG BOM Number</label>
+                            <p class="m-0" id="bom_no"></p>
+                        </div>
+
+
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label>FG Item Name</label>
+                            <p class="m-0" id="fg"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label>SFG Item Name</label>
+                            <p class="m-0" id="sfg"></p>
+                        </div>
+
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label>SFG Item Code</label>
+                            <p class="m-0" id="sfg_code"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Chemist Name</label>
+                            <p class="field-value" title="" id="ch"></p>
+                        </div>
+
+                        <div class="col-lg-2  col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Sample Type</label>
+                            <p class="field-value" title="General Changes" id="st"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Sales Order Number</label>
+                            <p class="field-value" title="" id="so"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Order Quantity (Pcs)</label>
+                            <p class="field-value" title="100 pcs" id="oq"> <span class="unit">pcs</span></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Order Quantity (Kg)</label>
+                            <p class="field-value" title="100 kg" id="oq2"> <span class="unit">kg</span></p>
+                        </div>
+
+
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">CRR Name</label>
+                            <p class="field-value" title="Keshav Singh" id="crr"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">NBD Name</label>
+                            <p class="field-value" title="Keshav Singh" id="nbd"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Customer Company</label>
+                            <p class="field-value" title="ABC Enterprises" id="cust"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Customer Brand Name</label>
+                            <p class="field-value" title="Lakme" id="brand"></p>
+                        </div>
+
+
+                        <div class="col-sm-12 form-group" id="Standard" style="display: none;">
+                            <div class="table-responsive sticky-responsive">
+                                <table class="display  bg-thrid stickyth dgntable dataTable no-footer radius-0 itemsinformation">
+                                    <thead>
+                                        <tr>
+
+                                            <th width="150">Item Name</th>
+                                            <th width="200">Formulation Category</th>
+                                            <th width="100">Fragrance</th>
+                                            <th width="100">Colour</th>
+                                            <th width="150">Packaging Type</th>
+                                          
+                                            <th width="200">Requirements/Description</th>
+                                            <th width="200">Must have ingredients</th>
+                                            <th width="200">Must not have ingredients</th>
+                                            <th width="100" class="text-left">Upload PDF</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="viewStandard">
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 form-group">
+                            <div class="d-flex gap-20 align-items-center flex-wrap">
+                                <a href="">View Guidelines / S.O.P</a>
+                                <a href="">View Guidelines Video</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12 form-group">
+
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none  ">
+                    <h2 class="title-two align-self-center">BOM Information</h2>
+                    <div class="align-self-center"></div>
+                </div>
+                <div class="card-body view-form-group pb-0">
+                    <div class="card-header d-flex justify-content-between bg-none  ">
+                        <h2 class="title-two align-self-center fn-md">Semi Finished Goods (RM) Information</h2>
+                        <div class="align-self-center"><a href="" class="fn-bold fn-md">VIEW FORMULATION</a></div>
+                    </div>
+                    <!--  -->
+
+                    <div class="table-responsive">
+                        <table class="display  dgntable dataTable no-footer radius-0">
+                            <thead>
+                                <tr>
+                                    <th style="width:5px;">#</th>
+                                    <th>SFG Item Name</th>
+                                    <th width="200">Sample Id</th>
+                                    <th width="40" class="num">Qty</th>
+                                    <th width="40">UoM</th>
+                                    <th width="80">Cost Price <span class="d-block">(₹)/Kg</span></th>
+                                    <th width="80">Selling Price <span class="d-block">(₹)/Kg</span></th>
+                                    <th width="80">Margin <span class="d-block">(₹) / Kg</span></th>
+                                    <th width="80">Cost Price <span class="d-block">(₹)/Pc</span></th>
+                                    <th width="80">Selling Price <span class="d-block">(₹)/Pc</span></th>
+                                    <th width="80">Margin <span class="d-block">(₹) / Pc</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="sfg_data">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--  -->
+
+                    <div class="card-header d-flex justify-content-between  bg-none  ">
+                        <h2 class="title-two align-self-center fn-md">Primary Packaging Information</h2>
+                        <div class="align-self-center"></div>
+                    </div>
+
+                    <!--  -->
+
+                    <div class="table-responive">
+                        <table class="display  dgntable dataTable no-footer radius-0 ">
+                            <thead>
+                                <tr>
+                                    <th width="5">#</th>
+                                    <th width="50">From <span class="d-block">Client</span></th>
+                                    <th>Sub Category</th>
+                                    <th>PM Item Name</th>
+                                    <th>PM Item Code</th>
+                                    <th width="50" class="text-right">Qty</th>
+                                    <th width="50">UoM</th>
+                                    <th width="80" class="text-right">Cost Price <span class="d-block">(₹)/Pc</span></th>
+                                    <th width="80" class="text-right">Selling Price <span class="d-block">(₹)/Pc</span></th>
+                                    <th width="80" class="text-right">Margin <span class="d-block">(₹)/Pc</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="pp_data">
+                                <tr>
+                                    <td>1</td>
+                                    <td class="text-center">
+                                        <input type="checkbox" id="FromClientone" name="FromClient" checked disabled value="">
+                                        <label for="FromClientone" class="m-0 singlecheck pl-0"></label>
+                                    </td>
+
+                                    <td>Primary Packaging</td>
+                                    <td>Bottle</td>
+                                    <td>PM1234</td>
+                                    <td class="text-right">1000</td>
+                                    <td>Pcs</td>
+                                    <td class="text-right">20.00</td>
+                                    <td class="text-right">25.00</td>
+                                    <td class="text-right">5.00</td>
+                                </tr>
+
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" class="text-right ">Gross Total :</td>
+                                    <td class="text-right fn-bold" id="pp_total_cp"></td>
+                                    <td class="text-right fn-bold" id="pp_total_sp"></td>
+                                    <td class="text-right fn-bold" id="pp_total_m"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+
+                    <!--  -->
+
+                    <div class="card-header d-flex justify-content-between bg-none  ">
+                        <h2 class="title-two align-self-center fn-md">Secondary Packaging Information</h2>
+                        <div class="align-self-center"></div>
+                    </div>
+
+                    <!--  -->
+
+                    <div class="table-responsive">
+                        <table class="display  dgntable dataTable no-footer radius-0">
+                            <thead>
+                                <tr>
+                                    <th width="5">#</th>
+                                    <th width="40">From <span class="d-block">Client</span></th>
+                                    <th>Sub Category</th>
+                                    <th>PM Item Name</th>
+                                    <th>PM Item Code</th>
+                                    <th width="50">Qty</th>
+                                    <th width="50">UoM</th>
+                                    <th width="80">Cost Price <span class="d-block">(₹)/Pc</span></th>
+                                    <th width="80">Selling Price <span class="d-block">(₹)/Pc</span></th>
+                                    <th width="80">Margin <span class="d-block">(₹)/Pc</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="sp_data">
+                              
+                                <tr>
+                                    <td>3</td>
+                                    <td class="center">
+                                        <input type="checkbox" id="SecondaryFromClienttwo" name="FromClient" disabled value="">
+                                        <label for="SecondaryFromClienttwo" class="m-0 singlecheck pl-0"></label>
+                                    </td>
+                                    <td>Leaflet</td>
+                                    <td>Item 3</td>
+                                    <td>PM1234</td>
+                                    <td class="text-right">1000</td>
+                                    <td>Pcs</td>
+                                    <td class="text-right">20.00</td>
+                                    <td class="text-right">25.00</td>
+                                    <td class="text-right">5.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" class="right muted">Goss Total :</td>
+                                    <td class="text-right bold" id="sp_total_cp"></td>
+                                    <td class="text-right bold" id="sp_total_sp"></td>
+                                    <td class="text-right bold" id="sp_total_m"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+
+                    <div class="card-header d-flex justify-content-between bg-none  ">
+                        <h2 class="title-two align-self-center fn-md">Other Charges</h2>
+                        <div class="align-self-center"></div>
+                    </div>
+
+                    <!--  -->
+                    <div class="table-responsive">
+                        <table class="display  dgntable dataTable no-footer radius-0">
+                            <thead>
+                                <tr>
+                                    <th width="5">#</th>
+                                    <th>Classification</th>
+                                    <th width="140">Tentative Cost Price<span class="d-block"> (₹)/Pc</span></th>
+                                    <th width="100">Selling Price<span class="d-block"> (₹)/Pc</span></th>
+                                    <th width="100">Margin <span class="d-block">(₹) / Pc</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="ot_data">
+                                <tr>
+                                    <td>1</td>
+                                    <td>Conversion Charge</td>
+                                    <td><input type="text" class="form-control text-right" placeholder="Enter" value="7.00" /></td>
+                                    <td class="text-right">10.00</td>
+                                    <td class="text-right">10.00</td>
+                                </tr>
+                              
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--  -->
+
+                    <div class="card-header d-flex justify-content-between bg-none  ">
+                        <h2 class="title-two align-self-center fn-md">Total Gross Margin</h2>
+                        <div class="align-self-center"></div>
+                    </div>
+
+                    <!--  -->
+                    <div class="table-responsive">
+                        <table class="display  dgntable dataTable no-footer radius-0">
+                            <thead>
+                                <tr>
+                                    <th style="width:48px;">#</th>
+                                    <th>Classification</th>
+                                    <th width="150">Total (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Total Selling price (Per pc)</td>
+                                    <td class="text-right fn-bold" id="total_sp">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Total Cost Price (per pc)</td>
+                                    <td class="text-right fn-bold" id="total_cp">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <div class="d-flex gap-5 align-items-center">
+                                            Wastage <input type="number" id="wastage"  oninput="SetZero(this); calculateAllCharges()" class="form-control text-right w-80" value="" />
+                                        </div>
+                                    </td>
+                                    <td class="text-right fn-bold" id="wastage_cost">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="right ">Total Margin per pc</td>
+                                    <td class="text-right fn-bold " id="m_total">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="right muted">Total Margin per pc %</td>
+                                    <td class="text-right fn-bold " id="m_perc"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--  -->
+
+
+                    <div class="form-group">
+                        <label>Remark</label>
+                        <p id="remarks"></p>
+                    </div>
+
+
+                    <!--  -->
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="col-sm-12">
+            <footer class="footer-action-btn ">
+
+                <button type=""  class="btn btn-lg btn-warning" data-toggle="modal" data-target="#reasonpopup">Reject</button>
+                <a onclick="saveGrossMargin()" class="btn btn-lg btn-success">Approve</a>
+            </footer>
+        </div>
+
+    </div>
+
+
+
+<div class="modal modaloverlay" id="reasonpopup">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-left w-100">Reason for Rejection</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="../assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+
+                    <div class="form-group col-sm-12">
+                        <label>Please enter Reason for Rejection <sup>*</sup></label>
+                        <textarea class="form-control h-120 char-limit MandatoryR" oninput="HideErrorMessage(this)" id="reject" placeholder="Enter" data-maxlength="300"></textarea>
+                        <span id="spreject" class="text-danger field-validation-error" style="display:none;">Oops! Looks like you missed this field.</span>
+                        <div class="text-right">
+                            <small class="light-label counter">0/300</small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button> 
+                <a  onclick="rejectGrossMargin()" class="btn btn-lg actionbtn">Submit</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var Edit_ID = localStorage.getItem('Order_ItemID');
+</script>
+
+<script src="~/Areas/ManageOrder/DevScript/GrossMArginApprove.js"></script>

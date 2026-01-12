@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "CostingSheetBreakup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="/ManageOrder/Index?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Costing Sheet Breakup<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center"></div>
+</div>
+<!--  -->
+
+<div class="secondary-light-bg third-container">
+
+    <!--  -->
+    <div class="table-responsive">
+        <table class="display rstable dgntable dataTable no-footer" style=" table-layout: initial;">
+            <thead>
+                <tr>
+                    <th colspan="2"></th>
+                    <th colspan="4" class="text-center">Bulk Costing</th>
+                    <th colspan="9" class="text-center">Packaging Material</th>
+                    <th colspan="6"></th>
+                </tr>
+                <tr class="br-none b-none">
+                    <th width="20">S. No.</th>
+                    <th>Product Name</th>
+                    <th width="80">Size</th>
+                    <th width="100">Bulk Cost<span class="d-block">Per Kg</span></th>
+                    <th width="180">RM Transport <span class="d-block">Cost</span></th>
+                    <th width="160">RM Wastage <span class="d-block">(5%)</span></th>
+                    <th width="100">Bottle/Jar</th>
+                    <th width="100">Pump/Cap</th>
+                    <th width="100">Labels</th>
+                    <th width="100">Mono<span class="d-block">Carton</span></th>
+                    <th width="150">Master<span class="d-block">Carton</span></th>
+                    <th width="100">Shrink</th>
+                    <th width="100">Others<span class="d-block">in any</span></th>
+                    <th width="130" class="text-center">PM Wastage<span class="d-block">(5%)</span></th>
+                    <th width="140" class="text-center">PM Transport<span class="d-block">(₹2)</span></th>
+                    <th width="100">Total Bulk<span class="d-block">Cost</span></th>
+                    <th width="100">Total PM<span class="d-block">Cost</span></th>
+                    <th width="100">Conversion<span class="d-block">Cost</span></th>
+                    <th width="100">Margin</th>
+                    <th width="100">Total EXW</th>
+                    <th width="100">MOQ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Vitamin C Cream</td>
+                    <td class="text-right">100</td>
+                    <td class="text-right">500</td>
+                    <td class="text-right">10</td>
+                    <td class="text-right">25</td>
+                    <td class="text-right">20</td>
+                    <td class="text-right">5</td>
+                    <td class="text-right">6</td>
+                    <td class="text-right">8</td>
+                    <td class="text-right">3</td>
+                    <td class="text-right">1</td>
+                    <td class="text-right">0</td>
+                    <td class="text-right">1.95</td>
+                    <td class="text-right">1</td>
+                    <td class="text-right">53.5</td>
+                    <td class="text-right">43</td>
+                    <td class="text-right">6</td>
+                    <td class="text-right">6</td>
+                    <td class="text-right">108.5</td>
+                    <td class="text-right">2000 pcs</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!--  -->
+</div>

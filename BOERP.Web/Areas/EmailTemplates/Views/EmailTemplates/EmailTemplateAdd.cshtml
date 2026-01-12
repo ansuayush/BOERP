@@ -1,0 +1,194 @@
+﻿
+@{
+    ViewBag.Title = "EmailTemplateAdd";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model SahajFramework.Models.EmailTemplate
+
+
+@{
+    string TemplateID = "0";
+    if (ViewBag.TemplateID != null)
+    {
+        TemplateID = ViewBag.TemplateID;
+    }
+}
+<ul class="tablink">
+    <li>
+        <a href="#" class="nav-link active"> Email Template Details</a>
+    </li>
+</ul>
+
+
+<div class="row">
+
+    <div class="x_panel">
+        <div class="">
+
+
+            @using (Html.BeginForm("EmailTemplateAdd", "EmailTemplates",
+            new { auth = ViewBag.auth }, FormMethod.Post,
+            new
+            {
+                name = "EmailTemplateAddForm",
+                id = "EmailTemplateAddForm",
+                @class = "form-horizontal form-label-left input_mask",
+                enctype = "multipart/form-data"
+            }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => Model.ID)
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+                        <label>Template Name<sup>*</sup></label>
+                        @if (Model.ID > 0)
+                        {
+                            @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control", @readonly = "true" });
+                            @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
+                        }
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+                        <label>Template Group</label>
+                        @Html.TextBoxFor(model => model.GroupName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+                        <label>CC Mail</label>
+                        @Html.TextBoxFor(model => model.CCMail, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CCMail, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+                        <label>BCC Mail</label>
+                        @Html.TextBoxFor(model => model.BCCMail, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BCCMail, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                        <label>Subject<sup>*</sup></label>
+                        @Html.TextBoxFor(model => model.Subject, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                        <label>Repository</label>
+                        @if (Model.ID == 0)
+                        {
+                            @Html.TextBoxFor(model => model.Repository, new { @class = "form-control" })
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Repository))
+                        {
+                            <ul class="emtaglist list-unstyled">
+                                @if (Model.Repository.Contains(','))
+                                {
+                                    int Count = 0;
+                                    foreach (var item in Model.Repository.Split(','))
+                                    {
+                                        Count++;
+                                        <li><input type="text" readonly id="copy" data-toggle="tooltip" title="Copy This" onclick="CopyText(this)" class="form-control" name="txtcopytxt" value="@item"></li>
+
+                                    }
+                                }
+                                else
+                                {
+                                    <li><input type="text" readonly id="copy" data-toggle="tooltip" title="Copy This" onclick="CopyText(this)" class="form-control" name="txtcopytxt" value="@Model.Repository"></li>
+                                }
+                            </ul>
+                        }
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                        <label>SMS Body</label>
+                        @Html.TextAreaFor(model => model.SMSBody, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SMSBody, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Body </label>
+                        @Html.TextAreaFor(model => model.Body, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @if (Model.ID > 0)
+                    {
+                        <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Update</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+                    }
+                    <button type="button" class="btn cnl-btn ripplelink pull-right" onclick="BackToHome();"><i class="fas fa-times"></i> Cancel</button>
+
+
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<script src="~/ckeditor/ckeditor.js?v=@clsApplicationSetting.GetWebConfigValue("Version")"></script>
+<script>
+            CKEDITOR.replace("Body");
+
+
+    //$("#TemplateName" ).blur(function() {
+    //    CheckEmailTemplateNameExist();
+//});
+
+     function CheckEmailTemplateNameExist() {
+            var TemplateID = '@TemplateID';
+            var txtTemplateName = $("#TemplateName").val();
+            if (txtTemplateName != "") {
+                $.ajax({
+                    url: "/CommonAjax/CheckEmailTemplateNameExistJSON",
+                    type: "Get",
+                    async: true,
+                    data: { TemplateID: TemplateID, TemplateName: txtTemplateName },
+                    success: function (data) {
+                        if (data == 0) {
+                            $('#TemplateName').css('border', '2px solid Green');
+                        }
+                        else {
+                            $('#TemplateName').val('');
+                            $('#TemplateName').css('border', '2px solid Red');
+                            swal('', 'Template Name Already Used')
+                        }
+                    },
+                    error: function (er) {
+                        alert(er);
+                    }
+                });
+            }
+        }
+        function CopyText(obj) {
+            var copyText = $(obj);
+            copyText.select();
+            //copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            SuccessToaster('Copied Successfully');
+	}
+	function BackToHome() {
+		var url = "/EmailTemplates/EmailTemplate?auth=" + '@ViewBag.Auth&templateId=0';
+        window.location = url;
+}
+</script>
+
+

@@ -1,0 +1,95 @@
+﻿@model IEnumerable<BOERP.Web.ERP_LoginMenu>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        Menu List
+
+    </h1>
+
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+            @Html.ActionLink("Create New", "Create")
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="display rstable dgntable dataTable no-footer">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DocNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MenuName)
+            </th>          
+
+            <th>
+                @Html.DisplayNameFor(model => model.ActionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsVisible)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Controller)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Action)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleId)
+            </th>
+
+            <th width="200">Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MenuName)
+                </td>
+
+                
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsVisible)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Controller)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Action)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleId)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MenuID }) <span class="divline"> | </span>
+                    @Html.ActionLink("Details", "Details", new { id = item.MenuID }) <span class="divline"> | </span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MenuID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

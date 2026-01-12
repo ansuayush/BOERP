@@ -1,0 +1,196 @@
+﻿
+@{
+    ViewBag.Title = "VendorItems";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" id="hdnVendorId" value="@ViewBag.VendorId" />
+<input type="hidden" id="hdnPAId" value="@ViewBag.PAId" />
+<input type="hidden" id="hdnRecordType" value="@ViewBag.RecordType" />
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="/BusinessPartner/Vendor?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a><span id="vendorName"></span><div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-16">
+            @*<a href="edit-create-vendor.html" class="btn mr-2 actionbtn border-r-8" data-toggle="modal" data-target="#additems"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Add Item</a>*@
+            <a href="/MaterialManagement/Material/ItemMaster?auth=@ViewBag.Auth&itemId=0" class="btn mr-2 actionbtn border-r-8"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Add Item</a>
+        </div>
+    </div>
+</div>
+<ul class="tablink">
+    <li><a href="/BusinessPartner/ViewVendor?auth=@ViewBag.Auth&id=@ViewBag.VendorId&PAId=@ViewBag.PAId&status=2" class="nav-link">Vendor Details</a></li>
+    <li><a href="/BusinessPartner/VendorItems?auth=@ViewBag.Auth&id=@ViewBag.VendorId&PAId=@ViewBag.PAId" class="nav-link active">Vendor Items</a></li>
+    <li><a href="/BusinessPartner/PurchaseOrders?auth=@ViewBag.Auth&id=@ViewBag.VendorId&PAId=@ViewBag.PAId" class="nav-link ">Purchase Orders</a></li>
+    <li><a href="/BusinessPartner/GRN?auth=@ViewBag.Auth&id=@ViewBag.VendorId&PAId=@ViewBag.PAId" class="nav-link ">GRN</a></li>
+    <li><a href="/BusinessPartner/FinancialLedgers?auth=@ViewBag.Auth&id=@ViewBag.VendorId&PAId=@ViewBag.PAId" class="nav-link ">Financial Ledgers</a></li>
+
+</ul>
+
+<div class="table-responsive">
+
+    <div class="col-lg-2 col-md-4 col-sm-4 ml-auto form-group align-self-end">
+        <div class="d-flex gap-5 justify-content-end ">
+            <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+            <div class="searchbox w-350">
+
+                <div class="search">
+                    <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                    <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!--<table id="tblVendorItemList"
+           class="display Date rstable dgntable dataTable no-footer">
+        <thead>
+            <tr>-->
+    @*<th width="35">SR</th>*@
+    <!--<th width="120">Item Code</th>
+        <th width="250">Item Name</th>
+        <th width="120">Category</th>
+        <th width="120">Sub Category</th>
+        <th width="80">Last <span class="d-block">Purchased Date </span></th>
+        <th width="80">Total Qty<span class="d-block">Purchased</span> </th>
+        <th width="80">Last <span class="d-block">Purchase Rate</span></th>
+        <th width="80">PO to <span class="d-block">Delivery Days</span></th>
+
+    </tr>
+    <tr class="searchfilter">-->
+    @*<th></th>*@
+    <!--<th>
+                <div class="filterdgn">
+                    <input type="text" class="filter-input"
+                           placeholder="Search" id="txtItemCode"> <label for="search" class="m-0">
+                        <img src="~/assets/images/icons/help/search-icon.png"
+                             class="filtersearchincon" />
+                    </label>
+                </div>
+            </th>
+
+            <th>
+                <div class="filterdgn">
+                    <input type="text" class="filter-input"
+                           placeholder="Search" id="txtItemName"> <label for="search" class="m-0">
+                        <img src="~/assets/images/icons/help/search-icon.png"
+                             class="filtersearchincon" />
+                    </label>
+                </div>
+            </th>
+
+            <th>
+                <div class="filterdgn">
+                    <input type="text" class="filter-input"
+                           placeholder="Search" id="txtItemCategory"> <label for="search" class="m-0">
+                        <img src="~/assets/images/icons/help/search-icon.png"
+                             class="filtersearchincon" />
+                    </label>
+                </div>
+            </th>
+
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+
+        </tr>
+    </thead>-->
+    @*<tbody>
+            <tr>
+                <td>SKU0021</td>
+                <td>
+                    <a href=""
+                       data-toggle="tooltip"
+                       class="d-flex justify-content-between"
+                       title="IND0001">
+                        <strong>Product 25 </strong>
+                        <span>
+                            <img src="~/assets/images/icons/help/edit.png"
+                                 class="icon-xsm">
+                        </span>
+                    </a>
+                </td>
+
+                <td class="text-center">Raw Material</td>
+                <td class="text-center">Lorem ipsum </td>
+                <td class="text-right">21/10/2023</td>
+                <td class="text-right">150</td>
+                <td class="text-right">₹ 150.00</td>
+                <td class="text-right">15</td>
+
+            </tr>
+        </tbody>*@
+    <!--</table>-->
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+
+<!-- add Modal popup -->
+<div class="modal" id="additems">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-left w-100">Add Item</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+
+
+                    <div class="col-sm-12 form-group applyselect-icon">
+
+                        <label for="role">Item Name</label>
+
+
+                        <select class="applyselect form-control">
+                            <option>Select Item</option>
+                            <option value="">Product 40 </option>
+                            <option value="">Product 41 </option>
+                            <option value="">Product 42</option>
+                            <option value="">Product 43</option>
+                        </select>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg actionbtn">Save</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+
+<script src="~/Areas/BusinessPartner/DevScript/GetVendorRecordByType.js"></script>

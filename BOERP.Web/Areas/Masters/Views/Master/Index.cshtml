@@ -1,0 +1,2675 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+
+
+
+<style>
+    .ui-datepicker {
+        z-index: 9999 !important;
+        font-size: 14px !important;
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+    }
+</style>
+<!-- Include Daterangepicker -->
+<!-- main -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        <a href=""><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Settings
+        <div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center"></div>
+</div>
+<div class="secondmain bg-none p-0 main-br main-min-height-primary">
+    <!--  -->
+    <input type="hidden" id="hddEditRowId" />
+    <input type="hidden" id="hddEditGroupId" />
+    <input type="hidden" id="hddEditLocationRowId" />
+    <input type="hidden" id="hddEditWarehouseRowId" />
+    <input type="hidden" id="hddEditTransportationRowId" />
+    <input type="hidden" id="hddEditQCPparameterRowId" />
+    <div class="tile" id="tile-1">
+        <span class="nav-arrow left disabled btn br-none"><img src="~/assets/images/icons/help/arrow-left.png" class="icon-sm"></span>
+        <div class="tab-slider-container">
+            <ul class="nav nav-tabs" id="tab-slider" role="tablist">
+                <div class="slider" style="left: 0px; width: 165.663px;"></div>
+                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tabone" id="tabItemCategory" onclick="LoadMastersOther(this);" role="tab">Item Category</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tabMastersRegion" onclick="LoadMastersOther(this);" href="#tabtwo" role="tab">Region</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tabMastersTax" onclick="LoadMastersOther(this);" href="#tabthree" role="tab">Tax</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tabMastersOrganisation" onclick="LoadMastersOther(this);" href="#tabfour" role="tab">Organisation</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tabMastersWarehouse" onclick="LoadMastersOther(this);" href="#tabfive" role="tab">Warehouse</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tabMastersPricing" onclick="LoadMastersOther(this);" href="#tabsix" role="tab">Pricing</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tabMastersOther" onclick="LoadMastersOther(this);" href="#tabseven" role="tab">Other</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tabMastersSample" onclick="LoadMastersOther(this);" href="#tabeight" role="tab">Sample</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tabQCPM" onclick="LoadMastersOther(this);" href="#tabnine" role="tab">Quality</a> </li>
+
+            </ul>
+        </div>
+        <span class="nav-arrow right btn br-none disabled"><img src="~/assets/images/icons/help/arrow-right.png" class="icon-sm"></span>
+    </div>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!-- tab 1 -->
+        <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+            <div class="row">
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Category </h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageCategoryType" fdprocessedid="0of1wg">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageCategoryList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Sub Category </h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageSubCategoryType" fdprocessedid="kwtbw">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageSubCategoryList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+
+            </div>
+        </div>
+
+        <!-- tab 2 -->
+        <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+            <div class="row">
+
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Country</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageCountryType">View</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageCountryList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">State</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageStateType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageStateList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Territory</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageTerritoryType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageTerritoryList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- tab 3 -->
+        <div class="tab-pane fade" id="tabthree" role="tabpanel">
+            <div class="row">
+
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Tax Code</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageTaxCodeType">View</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageTaxCodeList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center ">HSN</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageHSNType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageHSNList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">SAC</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageSACType">View</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageSACList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Other Charges</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnTaxOtherCharges">View</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liTaxOtherCharges" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+            </div>
+        </div>
+
+        <!-- tab 4 -->
+        <div class="tab-pane fade" id="tabfour" role="tabpanel">
+            <div class="row">
+
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Department</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageDepartmentType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageDepartmentList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Designation</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageDesignationType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageDesignationList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Team Mapping</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " data-toggle="modal" data-target="#manageteammapping">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled m-0 listlink scroll">
+                                <li><a href="#" data-toggle="modal" data-target="#manageteammapping">Team Mapping 1</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#manageteammapping">Team Mapping 2</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#manageteammapping">Team Mapping 3</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#manageteammapping">Team Mapping 4</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#manageteammapping">Team Mapping 5</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#manageteammapping">Team Mapping 6</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+
+            </div>
+        </div>
+
+        <!-- tab 5 -->
+        <div class="tab-pane fade" id="tabfive" role="tabpanel">
+            <div class="row">
+
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Warehouse Type</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " data-toggle="modal" data-target="#managewarehousetype">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled m-0 listlink scroll">
+                                <li><a href="#" data-toggle="modal" data-target="#managewarehousetype">Warehouse Type 1</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#managewarehousetype">Warehouse Type 2</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#managewarehousetype">Warehouse Type 3</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#managewarehousetype">Warehouse Type 4</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#managewarehousetype">Warehouse Type 5</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#managewarehousetype">Warehouse Type 6</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Warehouse</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageWarehouse">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageWarehouseList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Location</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageLocationType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageLocationList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Transportation Details</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageTransportationDetails">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageTransportationDetailsList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+
+            </div>
+        </div>
+        <!--  -->
+        <!-- tab 6 -->
+        <div class="tab-pane fade" id="tabsix" role="tabpanel">
+            <div class="row">
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Terms & Conditions</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnTermsCondidtions">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageTermsCondidtionsList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Payment Terms</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManagePaymentTerms">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManagePaymentTermsList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Currency</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageCurrencyType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageCurrencyList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Currency Conversion</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageCurrConversionType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageCurrConversionList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">UoM</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageUoMType">View</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageUoMList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+
+            </div>
+        </div>
+        <!--  -->
+        <!-- tab 7 -->
+        <div class="tab-pane fade" id="tabseven" role="tabpanel">
+            <div class="row">
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Principle Brand Type</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer" onclick="CommonOperations(this)" id="btnManageBrandType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Lead Source</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " id="btnManageLeadSource" onclick="CommonOperations(this);">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liLeadSourceList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Client Brand Types</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " id="btnManageClientBrandTypes" onclick="CommonOperations(this);" fdprocessedid="1651fc">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liClientBrandTypesList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Other Charges</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " id="btnManageOtherCharges" onclick="CommonOperations(this);" fdprocessedid="gwacwe">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageOtherChargesList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--  -->
+        <!-- tab 8 -->
+        <div class="tab-pane fade" id="tabeight" role="tabpanel">
+            <div class="row">
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Sample Type</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageSampleType">View</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageSampleTypeList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Formulation Categories</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageFormulationCategoriesType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageFormulationCategoriesList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Packaging Type</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManagePackagingType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-body">
+                                <ul id="liManagePackagingTypeList" class="list-unstyled m-0 listlink scroll"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Order Size</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageOrderSizeType">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-body">
+                                <ul id="liManageOrderSizeTypeList" class="list-unstyled m-0 listlink scroll"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+            </div>
+        </div>
+        <!--  -->
+        <!--  -->
+        <!-- tab 9 -->
+        <div class="tab-pane fade" id="tabnine" role="tabpanel">
+            <div class="row">
+                <!--  -->
+                <div class="col-sm-6  col-md-4 col-lg-3 col-default-bottom">
+                    <div class="card card-two h-define h-100 p-0">
+                        <div class="card-header justify-content-between ">
+                            <h2 class="m-0 title-two align-self-center">Quality</h2>
+                            <span class="card-right align-self-center">
+                                <button class="link-add cursor-pointer " onclick="CommonOperations(this)" id="btnManageQuality">Manage</button>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <ul id="liManageQualityList" class="list-unstyled m-0 listlink scroll"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.datepicker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-mm-yy",
+            yearRange: "-90:+10"
+        });
+    });
+
+</script>
+<script>
+    function ValidateAddGSTNumber(ctrl) {
+        var inputvalues = $(ctrl).val();
+        if (inputvalues == "") {
+            document.getElementById('spAddGTMNumberErrorMsg').innerHTML = '';
+            return false;
+        }
+        var gstinformat = new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$');
+
+        if (gstinformat.test(inputvalues)) {
+            document.getElementById('spAddGTMNumberErrorMsg').innerHTML = '';
+            return true;
+        } else {
+            document.getElementById('spAddGTMNumberErrorMsg').innerHTML = 'Please Enter Valid GSTIN Number';
+            $(".txtAddGSTNumber").val('');
+            $(".txtAddGSTNumber").focus();
+        }
+    }
+</script>
+<script>
+    function ValidateEditGSTNumber(ctrl) {
+        var inputvalues = $(ctrl).val();
+        if (inputvalues == "") {
+            document.getElementById('spEditGTMNumberErrorMsg').innerHTML = '';
+            return false;
+        }
+        var gstinformat = new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$');
+
+        if (gstinformat.test(inputvalues)) {
+            document.getElementById('spEditGTMNumberErrorMsg').innerHTML = '';
+            return true;
+        } else {
+            document.getElementById('spEditGTMNumberErrorMsg').innerHTML = 'Please Enter Valid GSTIN Number';
+            $(".txtEditGSTNumber").val('');
+            $(".txtEditGSTNumber").focus();
+        }
+    }
+</script>
+<script>
+    function ValidateAddWarehouseGSTNumber(ctrl) {
+        var inputvalues = $(ctrl).val();
+        if (inputvalues == "") {
+            return false;
+        }
+        var gstinformat = new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$');
+
+        if (gstinformat.test(inputvalues)) {
+            return true;
+        } else {
+            alert('Please Enter Valid GSTIN Number');
+            $(".txtWarehouseGSTNumber").val('');
+            $(".txtWarehouseGSTNumber").focus();
+        }
+    }
+    function ValidateEditWarehouseGSTNumber(ctrl) {
+        var inputvalues = $(ctrl).val();
+        if (inputvalues == "") {
+            return false;
+        }
+        var gstinformat = new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$');
+
+        if (gstinformat.test(inputvalues)) {
+            return true;
+        } else {
+            alert('Please Enter Valid GSTIN Number');
+            $(".txtEditWarehouseGSTNumber").val('');
+            $(".txtEditWarehouseGSTNumber").focus();
+        }
+    }
+</script>
+<script>
+    var tabName = "";
+    var tabId = "";
+    var dropdownMasterCurrencyData = [];
+    $(document).ready(function () {
+        CommonGetAllType('CATEGORY');
+        CommonGetAllType('SUBCATEGORY');
+        //LoadMasterDropdown('ddlEditCountry', {
+        //    parentId: 0,
+        //    masterTableTypeId: 0,
+        //    isMasterTableType: false,
+        //    isManualTable: true,
+        //    manualTable: 63,
+        //    manualTableId: 0,
+        //    ScreenId: "DropdownList_101"
+        //}, 'Select', false);
+        //LoadMasterDropdown('ddlEditStates', {
+        //    parentId: 0,
+        //    masterTableTypeId: 0,
+        //    isMasterTableType: false,
+        //    isManualTable: true,
+        //    manualTable: 64,
+        //    manualTableId: 0,
+        //    ScreenId: "DropdownList_101"
+        //}, 'Select', false);
+        LoadMasterDropdown('ddlTransEditCountry', {
+            parentId: 0,
+            masterTableTypeId: 0,
+            isMasterTableType: false,
+            isManualTable: true,
+            manualTable: 102,
+            manualTableId: 0,
+            ScreenId: "DropdownList_101"
+        }, 'Select', false);
+        LoadMasterDropdown('ddlTransEditState', {
+            parentId: 0,
+            masterTableTypeId: 0,
+            isMasterTableType: false,
+            isManualTable: true,
+            manualTable: 64,
+            manualTableId: 0,
+            ScreenId: "DropdownList_101"
+        }, 'Select', false);
+
+        $('#ddlTransEditState').on('change', function () {
+            getCountryOfStateOnChangeS();
+        })
+    })
+
+
+
+    function BuildManageList(data) {
+        $("#liManageList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+                    <li class="item">
+                    <a href="#" id="btnManageBrandType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+                    </li>`;
+                $("#liManageList").append(listItem);
+            });
+        }
+    }
+    function BuildLeadSourceList(data) {
+        $("#liLeadSourceList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+                <li class="item">
+                <a href="#" id="btnManageLeadSource" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+                </li>`;
+                $("#liLeadSourceList").append(listItem);
+            });
+        }
+    }
+    function BuildDepartmentList(data) {
+        $("#liManageDepartmentList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+            <li class="item">
+            <a href="#" id="btnManageDepartmentType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+            </li>`;
+                $("#liManageDepartmentList").append(listItem);
+            });
+        }
+    }
+    function BuildCountryList(data) {
+        $("#liManageCountryList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+        <li class="item">
+        <a href="#" id="btnManageCountryType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+        </li>`;
+                $("#liManageCountryList").append(listItem);
+            });
+        }
+    }
+    function BuildStateList(data) {
+        $("#liManageStateList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+        <li class="item">
+        <a href="#" id="btnManageStateType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+        </li>`;
+                $("#liManageStateList").append(listItem);
+            });
+        }
+    }
+    function BuildHSNList(data) {
+        $("#liManageHSNList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+                <li class="item">
+                <a href="#" id="btnManageHSNType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+                </li>`;
+                $("#liManageHSNList").append(listItem);
+            });
+        }
+    }
+    function BuildSACList(data) {
+        $("#liManageSACList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+            <li class="item">
+            <a href="#" id="btnManageSACType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+            </li>`;
+                $("#liManageSACList").append(listItem);
+            });
+        }
+    }
+    function BuildTaxCodeList(data) {
+        $("#liManageTaxCodeList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+        <li class="item">
+        <a href="#" id="btnManageTaxCodeType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+        </li>`;
+                $("#liManageTaxCodeList").append(listItem);
+            });
+        }
+    }
+    function BuildManageUoMList(data) {
+        $("#liManageUoMList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+                <li class="item">
+                <a href="#" id="btnManageUoMType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+                </li>`;
+                $("#liManageUoMList").append(listItem);
+            });
+        }
+    }
+    function BuildManageCurrencyList(data) {
+        $("#liManageCurrencyList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+            <li class="item">
+            <a href="#" id="btnManageCurrencyType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_VALUE}</span></a>
+            </li>`;
+                $("#liManageCurrencyList").append(listItem);
+            });
+        }
+    }
+    function BuildManageCurrConversionList(data) {
+        $("#liManageCurrConversionList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+        <li class="item">
+        <a href="#" id="btnManageCurrConversionType" onclick="SingleManage(this)" ><span class="title-one">${item.CurrencyName}</span></a>
+        </li>`;
+                $("#liManageCurrConversionList").append(listItem);
+            });
+        }
+    }
+    function BuildManageCategoryList(data) {
+        $("#liManageCategoryList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+                <li class="item">
+                <a href="#" id="btnManageCategoryType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+                </li>`;
+                $("#liManageCategoryList").append(listItem);
+            });
+        }
+    }
+    function BuildManageSubCategoryList(data) {
+        $("#liManageSubCategoryList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+            <li class="item">
+            <a href="#" id="btnManageSubCategoryType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+            </li>`;
+                $("#liManageSubCategoryList").append(listItem);
+            });
+        }
+    }
+    function BuildDesignationList(data) {
+        $("#liManageDesignationList").empty(); // Clear existing items
+        if (data.length > 0) {
+            data.forEach((item) => {
+                const listItem = `
+            <li class="item">
+            <a href="#" id="btnManageDesignationType" onclick="SingleManage(this)" ><span class="title-one">${item.FIELD_NAME}</span></a>
+            </li>`;
+                $("#liManageDesignationList").append(listItem);
+            });
+        }
+    }
+
+
+    function RenderCurrConversionItems(data) {
+        $("#searchList").empty(); // Clear existing items
+        if (data.length > 0) {
+            var tbody = $('#edittableCurrencyConversion');
+            tbody.empty(); // Clear existing rows
+            $.each(data, function (index, item) {
+                var row = `<tr>
+                            <td>${ChangeDateFormatToddMMYYY(item.EffectiveDate)}</td>
+                            <td class="text-left">${item.CurrencyName}</td>
+                            <td class="text-right">${item.Conversion.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                           </tr>`;
+                tbody.append(row);
+            });
+        }
+    }
+
+
+
+    function SingleManage(ctrl) {
+        CommonOperations(ctrl);
+    }
+
+
+    function AddTblRow() {
+        //$("#addrow").click(function () {
+        var RowId = 0;
+        RowId = $("#tblCurrencyConversion tbody tr").length + 1;
+        let newRow = `
+                    <tr>
+                        <td>
+                            <div class="deleterow text-center cursor-pointer">
+                                <img src="../../assets/images/icons/help/close.svg" alt="" data-toggle="tooltip" title="Remove" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input id="txtDate${RowId}"  readonly onchange="HideErrorMessage(this);" autocomplete="off" class="form-control datepicker MandatoryConv" placeholder="DD-MM-YYYY" >
+                                <div class="input-group-append "> <span class="input-group-text bg-white"><img src="../../assets/images/icons/help/calendar-icon.svg" alt=""></span> </div>
+
+                                </div>
+                                <span id="sptxtDate${RowId}" class="text-danger field-validation-error fn-10" style="display:none;">Can't be blank</span>
+                        </td>
+                        </td>
+                         <td>
+                            <select id="ddlCConversion${RowId}" onchange="HideErrorMessage(this);" class="form-control applyselect ddlCurrencyConversion1 MandatoryAddConv">
+                            </select>
+                            <span id="spddlCConversion${RowId}" class="text-danger field-validation-error fn-10" style="display:none;">Can't be blank</span>
+                        </td>
+                        <td>
+                        <input id="txtCConversionRate${RowId}" onchange="HideErrorMessage(this);" type="number" placeholder="00.00" class="form-control text-right  only-numeric MandatoryConv" value="">
+                        <span id="sptxtCConversionRate${RowId}" class="text-danger field-validation-error fn-10" style="display:none;">Can't be blank</span>
+                        </td>
+                    </tr>`;
+
+        // Append new row
+        $(".addinformation tbody").append(newRow);
+
+        // Use find() to locate the new dropdown
+        setTimeout(function () {
+            let newRowElement = $(".addinformation tbody").find("tr").last();
+            console.log("New Row Element Found:", newRowElement);
+
+            let dropdown = newRowElement.find(".ddlCurrencyConversion1");
+
+            if (dropdown.length === 0) {
+                console.error("Dropdown not found!");
+            } else {
+                console.log("Dropdown found!", dropdown);
+            }
+
+            dropdown.empty();
+            dropdown.append(`<option value="Select">Select</option>`);
+
+            // Add new options
+            $.each(dropdownMasterCurrencyData, function (index, item) {
+                dropdown.append(`<option value="${item.ID}">${item.CurrencyCodeName}</option>`);
+            });
+
+            console.log("Dropdown options after binding:", dropdown.html());
+
+            // Re-initialize select2
+            dropdown.select2();
+        }, 100);
+        // Re-initialize select2 for newly added element
+        $(".addinformation tbody tr:last .applyselect").select2();
+
+        // Delete a row
+        $(document).on("click", ".deleterow", function () {
+            $(this).closest("tr").remove();
+        });
+        $('.datepicker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-mm-yy",
+            yearRange: "-90:+10"
+        });
+    }
+
+    $(function () {
+        $('#parametertype').change(function () {
+            $('.hide').hide();
+            $('.' + $(this).val()).show();
+        });
+    });
+
+
+
+    function SetZero(ctrl) {
+        let val = parseFloat(ctrl.value);
+        console.log(`Input value: ${val}`);
+
+        if (isNaN(val) || val < 0) {
+            ctrl.value = '';
+            return;
+        }
+
+        const decimalPart = ctrl.value.split('.')[1];
+        if (decimalPart && decimalPart.length > 2) {
+            // Floor to 2 decimal places
+            val = Math.floor(val * 100) / 100;
+            ctrl.value = val.toString();
+        }
+    }
+
+    function SetZeroInt(ctrl) {
+        let val = parseInt(ctrl.value);
+        if (isNaN(val) || val < 0) {
+            ctrl.value = '';
+        }
+    }
+
+
+
+
+
+</script>
+
+<!----------------------------Common model popup------------------------------------->
+<!-- Manage Brand Type -->
+<div class="modal fade model-freeze drawer right-align" id="managebrandtype" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title"><span id="spHeaderName"></span></h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                    <label for="searchInput" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10 " id="btnOpenModal"><span id="spCreateName"></span> </button>
+                <ul id="searchList" class="itemlist m-0 list-unstyled scroll"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade drawer right-align" id="taxmapping" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Add Tax Mapping</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- Error Message Section -->
+                <div id="error-message" class="alert alert-danger" style="display: none;">
+                    <strong>Error!</strong> <span id="error-text"></span>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-sm-4 col-sm-6 form-group ">
+                        <label>HSN Code</label>
+                        <p id="hsn_code"></p>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-4 col-sm-6 form-group ">
+                        <label>HSN Name</label>
+                        <p id="hsn_name"></p>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-4 col-sm-6 form-group ">
+                        <label>Sub Category</label>
+                        <select class="applyselectmultiple" id="ddlsubcate" onchange="HideErrorMessage(this)" multiple="">
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- Tax Mapping Table -->
+                <div class="table-responsive">
+                    <table class="table tb-m mt-0" id="edittablecc">
+                        <thead>
+                            <tr>
+                                <th width="180">Charge Type</th>
+                                <th>Charge Name</th>
+                                <th width="100">Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+                </div>
+                <!-- End -->
+
+            </div>
+            <div class="side-footer">
+                <button type="button" onclick="SaveItemMasterChargeData()" class="btn btn-lg actionbtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View Brand Type-->
+<div class="modal model-freeze fade drawer right-align" id="viewbrandtype" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> <span id="spViewHeaderlabel"></span> </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div id="divCommonType" style="display:none" class="col-sm-12 form-group">
+                        <label><span id="spViewBodylabelName"></span></label>
+                        <p class="text-p" id="txtCommonName"></p>
+                    </div>
+                    <div id="divCommonCode" style="display:none" class="col-sm-12 form-group">
+                        <label><span id="spViewBodyCommonCodelabel"></span></label>
+                        <p class="text-p" id="txtCommonCodeType"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label><span id="spViewBodylabel"></span></label>
+                        <p class="text-p" id="txtCommonType"></p>
+                    </div>
+                </div>
+                @*<div class="side-footer">
+                        <button type="button" class="btn btn-lg actionbtn" data-toggle="modal" data-target="#addbrandtype">Edit</button>
+                    </div>*@
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- View Brand Type-->
+<div class="modal model-freeze fade drawer right-align" id="hsnInsertUpdate" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal"  alt="" class="cursor-pointer"> <span id='spEditHeaderlabel'></span> </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-12 form-group">
+                        <label>HSN Code</label>
+                        <input oninput="HideErrorMessage(this);" type="text" id="txtHSNCode" maxlength="50" required placeholder="Enter" class="form-control MandatoryHSN" value="">
+                        <span id="sptxtHSNCode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div  class="col-sm-12 form-group">
+                        <label>HSN Name</label>
+                        <input oninput="HideErrorMessage(this);" type="text" id="txtHSNName" maxlength="50" required placeholder="Enter" class="form-control MandatoryHSN" value="">
+                        <span id="sptxtHSNName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                  
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="saveHSN();" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Manage Location-->
+<!-- add Brand Type-->
+<div class="modal model-freeze fade drawer right-align" id="addbrandtype" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" id="btnAddTypeBackArrow" alt="" class="cursor-pointer"> <span id='spAddHeaderlabel'></span> </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div id="divCategory" style="display:none;" class="col-sm-12 form-group">
+                        <label>Category</label>
+                        <select class="form-control applyselect select2-hidden-accessible MandatoryAddSubCat" aria-hidden="true" id="ddlCategory" onchange="HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlCategory" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div id="divCountry" style="display:none;" class="col-sm-12 form-group">
+                        <label>Country</label>
+                        <select class="form-control applyselect select2-hidden-accessible MandatoryAddCountry" aria-hidden="true" id="ddlCountry" onchange="HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlCountry" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label><span id='spAddBodylabel'></span></label>
+                        <input type="text" onchange="HideErrorMessage(this);" id="txtType" required maxlength="50" placeholder="Enter" class="form-control Mandatory" value="">
+                        <span id="sptxtType" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div id="divCommonTypeName" style="display:none" class="col-sm-12 form-group">
+                        <label><span id='spAddBodylabelName'></span></label>
+                        <input type="text" onchange="HideErrorMessage(this);" id="txtCommonTypeName" required maxlength="50" placeholder="Enter" class="form-control MandatoryCurrency" value="">
+                        <span id="sptxtCommonTypeName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div id="divCommonTermDescriptions" style="display:none" class="col-sm-12 form-group">
+                        <label><span id='spAddBodylabelTermDescriptions'></span></label>
+                        <textarea id="txtCommonTermDescriptions" required onchange="HideErrorMessage(this);" class="form-control field-scroll h-100-p MandatoryCurrency" rows="5" placeholder="Enter"></textarea>
+                        <span id="sptxtCommonTermDescriptions" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="MasterSaveType();" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- edit Brand Type-->
+<div class="modal model-freeze fade drawer right-align" id="editbrandtype" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" id="btnEditTypeBackArrow" alt="" class="cursor-pointer"> <span id='spEditHeaderlabel'></span> </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div id="divEditCategory" style="display:none;" class="col-sm-12 form-group">
+                        <label>Category</label>
+                        <select onchange="HideErrorMessage(this);" id="ddlEditCategory" class="form-control applyselect select2-hidden-accessible MandatoryEditSubCat" aria-hidden="true">
+                        </select>
+                        <span id="spddlEditCategory" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div id="divEditCountry" style="display:none;" class="col-sm-12 form-group">
+                        <label>Country</label>
+                        <select onchange="HideErrorMessage(this);" id="ddlEditCountry" class="form-control applyselect select2-hidden-accessible MandatoryEditCountry" aria-hidden="true">
+                        </select>
+                        <span id="spddlEditCountry" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label><span id='spEditBodylabel'></span></label>
+                        <input onchange="HideErrorMessage(this);" type="text" id="txtEditType" maxlength="50" required placeholder="Enter" class="form-control EditMandatory" value="">
+                        <span id="sptxtEditType" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div id="divCommonEditTypeName" style="display:none;" class="col-sm-12 form-group">
+                        <label><span id='spEditBodylabelName'></span></label>
+                        <input onchange="HideErrorMessage(this);" type="text" id="txtEditTypeName" maxlength="50" required placeholder="Enter" class="form-control MandatoryCurrencyEdit" value="">
+                        <span id="sptxtEditTypeName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div id="divCommonEditTermDescriptions" style="display:none;" class="col-sm-12 form-group">
+                        <label><span id='spEditBodylabeTermDescriptions'></span></label>
+                        <textarea id="txtEditTypeTermDescriptions" required onchange="HideErrorMessage(this);" class="form-control h-100-p MandatoryCurrencyEdit" rows="5" placeholder="Enter"></textarea>
+                        <span id="sptxtEditTypeTermDescriptions" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="CommonEditSave();" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Manage Location-->
+<div class="modal fade model-freeze drawer right-align" id="managelocation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage Location </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="searchInput1" placeholder="Search...">
+                    <label for="searchInput1" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10 " onclick="CreateLocation();" id="btnOpenModal">Create New Location </button>
+                <ul id="searchLocationList" class="itemlist m-0 list-unstyled scroll location-list"></ul>
+                <!-- End -->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- view Location-->
+<div class="modal model-freeze fade drawer right-align" id="viewlocation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">View Location </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label for="locationcode">Location Code</label>
+                        <p class="text-p" id="txtViewLocationCode"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="locationname">Location Name</label>
+                        <p class="text-p" id="txtViewLocationName"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="address">Address</label>
+                        <p class="text-p" id="txtViewLocationAddress"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="state">Country</label>
+                        <p class="text-p" id="txtViewCountry"></p>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state">State</label>
+                        <p class="text-p" id="txtViewStates"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="city">City</label>
+                        <p class="text-p" id="txtViewCity"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="pinecode">Pin Code</label>
+                        <p class="text-p" id="txtViewPinecode"></p>
+                    </div>
+                </div>
+                @*<div class="side-footer">
+                        <button type="button" class="btn btn-lg actionbtn" data-toggle="modal" data-target="#addlocation">Edit</button>
+                    </div>*@
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add Location-->
+<div class="modal model-freeze fade drawer right-align" id="addlocation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Create New Location </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label for="locationcode">Location Code<sup>*</sup></label>
+                        <input id="txtLocationCode" onchange="HideErrorMessage(this);" type="text" placeholder="Enter" class="form-control MandatoryLocation" value="">
+                        <span id="sptxtLocationCode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="locationname">Location Name<sup>*</sup></label>
+                        <input id="txtLocationName" onchange="HideErrorMessage(this);" type="text" placeholder="Enter" class="form-control MandatoryLocation" value="">
+                        <span id="sptxtLocationName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="address">Address<sup>*</sup></label>
+                        <textarea id="txtLocationAddress" onchange="HideErrorMessage(this);" maxlength="250" class="form-control MandatoryLocation" placeholder="Enter "></textarea>
+                        <span id="sptxtLocationAddress" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="Country">Country<sup>*</sup></label>
+                        <select id="ddlCountryL" onchange="HideErrorMessage(this);  BindStateByCountryId('ddlCountryL', 'ddlStates')" class="form-control applyselect MandatoryLocation" name="country">
+                        </select>
+                        <span id="spddlCountryL" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="state">State<sup>*</sup></label>
+                        <select id="ddlStates" onchange="HideErrorMessage(this);" class="form-control applyselect MandatoryLocation" name="State">
+                        </select>
+                        <span id="spddlStates" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="city">City<sup>*</sup></label>
+                        <input id="txtCity" onchange="HideErrorMessage(this);" type="text" placeholder="Enter" class="form-control MandatoryLocation" value="">
+                        <span id="sptxtCity" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="pinecode">Pin Code<sup>*</sup></label>
+                        <input id="txtPinecode" maxlength="6" onchange="HideErrorMessage(this);" type="text" placeholder="Enter" class="form-control MandatoryLocation" value="">
+                        <span id="sptxtPinecode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="SaveLocation();" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Location-->
+<div class="modal fade model-freeze drawer right-align" id="editlocation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Edit Location </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label for="locationcode">Location Code</label>
+                        <input id="txtEditLocationCode" onchange="HideErrorMessage(this);" type="text" placeholder="Enter" class="form-control MandatoryEditLocation" value="">
+                        <span id="sptxtEditLocationCode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="locationname">Location Name</label>
+                        <input id="txtEditLocationName" onchange="HideErrorMessage(this);" type="text" placeholder="Enter" class="form-control MandatoryEditLocation" value="">
+                        <span id="sptxtEditLocationName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="address">Address</label>
+                        <textarea id="txtEditLocationAddress" onchange="HideErrorMessage(this);" maxlength="250" class="form-control MandatoryEditLocation" placeholder="Enter "></textarea>
+                        <span id="sptxtEditLocationAddress" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="Country">Country</label>
+                        <select id="ddlEditCountryL" onchange="HideErrorMessage(this); BindStateByCountryId('ddlEditCountryL', 'ddlEditStates')" class="form-control applyselect MandatoryEditLocation" name="country">
+                        </select>
+                        <span id="spddlEditCountryL" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="state">State</label>
+                        <select id="ddlEditStates" onchange="HideErrorMessage(this);" class="form-control applyselect MandatoryEditLocation" name="State">
+                        </select>
+                        <span id="spddlEditStates" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="city">City</label>
+                        <input id="txtEditCity" onchange="HideErrorMessage(this);" type="text" placeholder="Enter" class="form-control MandatoryEditLocation" value="">
+                        <span id="sptxtEditCity" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="pinecode">Pin Code</label>
+                        <input id="txtEditPinecode" maxlength="6" onchange="HideErrorMessage(this);" type="text" placeholder="Enter" class="form-control MandatoryEditLocation" value="">
+                        <span id="sptxtEditPinecode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="UpdateLocation();" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Manage Currency Conversion -->
+<div class="modal fade drawer model-freeze right-align" id="managecurrencyconversion" aria-labelledby="exampleModalLabel" style="display: block; padding-right: 8px;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage Currency Conversion </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal">
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+
+                <button class="btn btn-lg actionbtn w-100 mb-10 " onclick="CreateCurrencyConversion();" fdprocessedid="fpfia1">Create New Currency Conversion </button>
+                <table class="table tb-m">
+                    <thead>
+                        <tr>
+                            <th width="180">Effective Date</th>
+                            <th>Currency Name</th>
+                            <th width="100">Conversion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="edittableCurrencyConversion">
+                    </tbody>
+                </table>
+                <!-- End -->
+
+            </div>
+            <div class="side-footer">
+                <button type="button" onclick="EditCurrConversion();" class="btn btn-lg actionbtn" fdprocessedid="fxhaf">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade drawer model-freeze right-align" id="viewcurrencyconversion" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title"><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Add Currency Conversion </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal">
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <table class="table table-scd tb-m addinformation " id="tblCurrencyConversion">
+                    <thead>
+                        <tr>
+                            <th width="20"></th>
+                            <th width="180">Effective Date</th>
+                            <th>Currency Name</th>
+                            <th width="100">Conversion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="cursor-pointer">
+                                    <img id="addrow" onclick="AddTblRow();" src="~/assets/images/icons/help/add.svg" alt="" class="w-15" data-toggle="tooltip" title="" data-original-title="Add">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <input autocomplete="off" readonly onchange="HideErrorMessage(this);" class="form-control datepicker MandatoryConv" placeholder="DD-MM-YYYY" id="txtDate0">
+                                    <div class="input-group-append "> <span class="input-group-text bg-white"><img src="../../assets/images/icons/help/calendar-icon.svg" alt=""></span> </div>
+                                </div>
+                                <span id="sptxtDate0" class="text-danger field-validation-error fn-10" style="display:none;">Can't be blank</span>
+
+                            </td>
+                            <td>
+
+                                <select onchange="HideErrorMessage(this);" id="ddlCurrencyConversion" class="form-control applyselect select2-hidden-accessible MandatoryAddConv " aria-hidden="true">
+                                </select>
+                                <span id="spddlCurrencyConversion" class="text-danger field-validation-error fn-10" style="display:none;">Can't be blank</span>
+
+                            </td>
+                            <td>
+
+                                <input onchange="HideErrorMessage(this);" type="number" id="txtCurrentAmount" placeholder="00.00" class="form-control text-right  only-numeric MandatoryConv" value="">
+                                <span id="sptxtCurrentAmount" class="text-danger field-validation-error fn-10" style="display:none;">Can't be blank</span>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- End -->
+
+            </div>
+            <div class="side-footer">
+                <button type="button" onclick="SaveCurrencyConversion();" class="btn btn-lg actionbtn" fdprocessedid="o43e6l">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- edit Currency Conversion -->
+<div class="modal fade drawer model-freeze right-align" id="editcurrencyconversion" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title"><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Edit Currency Conversion </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal">
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <table class="table table-scd tb-m ">
+                    <thead>
+                        <tr>
+                            <th width="180">Effective Date</th>
+                            <th>Currency Name</th>
+                            <th width="100">Conversion</th>
+                            <th width="20"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="EditCurrConversionTable">
+                    </tbody>
+                </table>
+                <!-- End -->
+
+            </div>
+            <div class="side-footer">
+                <button type="button" onclick="UpdateCurrConversion();" class="btn btn-lg actionbtn" fdprocessedid="lz04ak">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------------->
+<!-- Manage category -->
+<div class="modal fade drawer model-freeze right-align" id="managecategory" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage Category</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                    <label for="searchInput" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10 " data-toggle="modal" data-target="#addcategory">Create New Category</button>
+                <ul id="searchList" class="itemlist m-0 list-unstyled scroll">
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Category 1</span> </div>
+                            <div class="right">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="modal" data-target="#addcategory"> <img src="~/assets/images/icons/help/edit-icon.svg" alt="" data-toggle="tooltip" title="Edit"> </a> <a href="#" data-toggle="modal" data-target="#viewcategory"> <img src="~/assets/images/icons/help/view-icon.svg" alt="" data-toggle="tooltip" title="View"> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Category 2</span> </div>
+                            <div class="right">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="modal" data-target="#addcategory"> <img src="~/assets/images/icons/help/edit-icon.svg" alt="" data-toggle="tooltip" title="Edit"> </a> <a href="#" data-toggle="modal" data-target="#viewcategory"> <img src="~/assets/images/icons/help/view-icon.svg" alt="" data-toggle="tooltip" title="View"> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Category 3</span> </div>
+                            <div class="right">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="modal" data-target="#addcategory"> <img src="~/assets/images/icons/help/edit-icon.svg" alt="" data-toggle="tooltip" title="Edit"> </a> <a href="#" data-toggle="modal" data-target="#viewcategory"> <img src="~/assets/images/icons/help/view-icon.svg" alt="" data-toggle="tooltip" title="View"> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Category 4</span> </div>
+                            <div class="right">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="modal" data-target="#addcategory"> <img src="assets/images/icons/help/edit-icon.svg" alt="" data-toggle="tooltip" title="Edit"> </a> <a href="#" data-toggle="tooltip" title="View"> <img src="~/assets/images/icons/help/view-icon.svg" alt=""> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <div id="noResultsMessage" class="noResultsMessage" style="display: none;">No results found.</div>
+                </ul>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Manage Team Mapping -->
+<div class="modal fade drawer model-freeze right-align" id="manageteammapping" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage Team Mapping </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                    <label for="searchInput" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10 " data-toggle="modal" data-target="#addteammapping">Create New Team Mapping </button>
+                <ul id="searchList" class="itemlist m-0 list-unstyled scroll">
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Team Mapping 1</span> </div>
+                            <div class="right ">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="tooltip" title="Edit"> <img src="~/assets/images/icons/help/edit-icon.svg" alt=""> </a> <a href="#" data-toggle="tooltip" title="View"> <img src="~/assets/images/icons/help/view-icon.svg" alt=""> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Team Mapping 2</span> </div>
+                            <div class="right">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="tooltip" title="Edit"> <img src="~/assets/images/icons/help/edit-icon.svg" alt=""> </a> <a href="#" data-toggle="tooltip" title="View"> <img src="~/assets/images/icons/help/view-icon.svg" alt=""> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <div id="noResultsMessage" class="noResultsMessage" style="display: none;">No results found.</div>
+                </ul>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add teammapping-->
+<div class="modal fade drawer model-freeze right-align" id="addteammapping" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Create New Team Mapping </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Manager Name</label>
+                        <select class="form-control applyselect" id="">
+                            <option value="">Select</option>
+                            <option value="">Raj Kuamr</option>
+                            <option value="">Amit</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Select Employee</label>
+                        <select class="form-control applyselect" id="" multiple>
+                            <option value="">Select</option>
+                            <option value="">Deepak Kuamr</option>
+                            <option value="">Akash</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Manage Transportation  -->
+<div class="modal fade drawer model-freeze right-align" id="managetransportation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage Transportation </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="searchInput2" placeholder="Search...">
+                    <label for="searchInput2" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10 " id="btnOpenModal" onclick="CreateTransportation();">Create New Transportation </button>
+                <ul id="searchTransportationList" class="itemlist m-0 list-unstyled scroll transportation-list"></ul>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View Transportation-->
+<div class="modal fade drawer model-freeze right-align" id="viewtransportation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Transportation </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Transporter Name</label>
+                        <p class="text-p" id="txtViewTransTransporterName"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Display Name</label>
+                        <p class="text-p" id="txtViewTransDisplayName"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Address</label>
+                        <p class="text-p" id="txtViewTransAddress"> </p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Pin code<sup>*</sup></label>
+                        <p class="text-p" id="txtViewTransPinCode"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>City<sup>*</sup></label>
+                        <p class="text-p" id="txtViewTransCity"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>State<sup>*</sup></label>
+                        <select id="ddlTransViewState" onchange="HideErrorMessage(this);" class="form-control applyselect" name="State">
+                        </select>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Country<sup>*</sup></label>
+                        <select id="ddlTransViewCountry" onchange="HideErrorMessage(this);" class="form-control applyselect" name="State">
+                        </select>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>GST Number<sup>*</sup></label>
+                        <p class="text-p" id="txtViewTransGSTNumber"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Contact Person<sup>*</sup></label>
+                        <p class="text-p" id="txtViewTransContactPerson"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Contact Number<sup>*</sup></label>
+                        <p class="text-p" id="txtViewTransContactNumber"></p>
+                    </div>
+                </div>
+                @*<div class="side-footer">
+                        <button type="button" class="btn btn-lg actionbtn" data-toggle="modal" data-target="#addtransportation">Edit</button>
+                    </div>*@
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add Transportation-->
+<div class="modal fade drawer model-freeze right-align" id="addtransportation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Create New Transportation </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body pb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Transporter Name</label>
+                        <input type="text" oninput="HideErrorMessage(this); CopyTransporterName();" id="txtAddTransporterName" placeholder="Enter" class="form-control MandatoryAddTransporter" value="">
+                        <span id="sptxtAddTransporterName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Display Name</label>
+                        <input type="text" oninput="HideErrorMessage(this);" id="txtAddDisplayName" placeholder="Enter" class="form-control MandatoryAddTransporter" value="">
+                        <span id="sptxtAddDisplayName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Address</label>
+                        <textarea id="txtAddAddress" oninput="HideErrorMessage(this);" class="form-control MandatoryAddTransporter" placeholder="Address Line 2 "></textarea>
+                        <span id="sptxtAddAddress" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Pin code<sup>*</sup></label>
+                        <input type="tel" oninput="HideErrorMessage(this);" onkeyup="this.value = this.value.replace(/[^0-9]/g, '')" id="txtAddPinCode" maxlength="6" placeholder="Enter Name" class="form-control MandatoryAddTransporter" value="">
+                        <span id="sptxtAddPinCode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Country<sup>*</sup></label>
+                        <select id="ddlTransAddCountry" onchange="HideErrorMessage(this);" class="form-control applyselect MandatoryAddTransporter" name="ddlTransAddCountry">
+                        </select>
+                        <span id="spddlTransAddCountry" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>State<sup>*</sup></label>
+                        <select id="ddlAddState" onchange="HideErrorMessage(this);" class="form-control applyselect MandatoryAddTransporter" name="State">
+                        </select>
+                        <span id="spddlAddState" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>City<sup>*</sup></label>
+                        <input type="text" oninput="HideErrorMessage(this);" id="txtAddCity" placeholder="Enter Name" class="form-control MandatoryAddTransporter" value="">
+                        <span id="sptxtAddCity" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>GST Number</label>
+                        <div class="d-flex gap-10 ">
+                            <input type="text" id="txtAddGSTNumber" onchange="ValidateAddGSTNumber(this);" maxlength="15" placeholder="12ABCDE1234F5Z6" class="form-control " value="" fdprocessedid="rj262r">
+                            <span id="gstError" style="color: red; display: none;">Invalid GSTIN format</span>
+                            <button style="display:none;" type="button" class="btn btn-lg actionbtn align-self-start w-150" fdprocessedid="51atlg">Verify</button>
+                        </div>
+                        <div class="d-flex align-items-center  errror-info"><img src="../assets/images/icons/help/info-error-icon.png" alt=""><span id="spAddGTMNumberErrorMsg"></span></div>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Contact Person<sup>*</sup></label>
+                        <input type="text" oninput="HideErrorMessage(this);" id="txtAddContactPerson" placeholder="Enter" class="form-control MandatoryAddTransporter" value="">
+                        <span id="sptxtAddContactPerson" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Contact Number<sup>*</sup></label>
+                        <input id="txtAddContactNumber" onkeyup="this.value = this.value.replace(/[^0-9]/g, '')" oninput="HideErrorMessage(this);" maxlength="10" type="tel" placeholder="Enter" class="form-control MandatoryAddTransporter" value="">
+                        <span id="sptxtAddContactNumber" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="SaveTransporter();" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Transportation-->
+<div class="modal fade drawer model-freeze right-align" id="edittransportation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Update Transporter Details </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body pb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Transporter Name</label>
+                        <input type="text" oninput="HideErrorMessage(this);CopyEditTransporterName()" id="txtEditTransporterName" placeholder="Enter" class="form-control MandatoryEditTransporter" value="">
+                        <span id="sptxtEditTransporterName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Display Name</label>
+                        <input type="text" oninput="HideErrorMessage(this);" id="txtEditDisplayName" placeholder="Enter" class="form-control MandatoryEditTransporter" value="">
+                        <span id="sptxtEditDisplayName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Address</label>
+                        <textarea id="txtEditAddress" oninput="HideErrorMessage(this);" class="form-control MandatoryEditTransporter" placeholder="Address Line 2 "></textarea>
+                        <span id="sptxtEditAddress" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Pin code<sup>*</sup></label>
+                        <input type="tel" onkeyup="this.value = this.value.replace(/[^0-9]/g, '')" oninput="HideErrorMessage(this);" id="txtEditPinCode" maxlength="6" placeholder="Enter Name" class="form-control MandatoryEditTransporter" value="">
+                        <span id="sptxtEditPinCode" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Country<sup>*</sup></label>
+                        <select id="ddlTransEditCountry" onchange="HideErrorMessage(this);" class="form-control applyselect MandatoryEditTransporter" name="Country">
+                        </select>
+                        <span id="spddlTransEditCountry" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>State<sup>*</sup></label>
+                        <select id="ddlTransEditState" onchange="HideErrorMessage(this);" class="form-control applyselect MandatoryEditTransporter" name="State">
+                        </select>
+                        <span id="spddlTransEditState" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>City<sup>*</sup></label>
+                        <input type="text" oninput="HideErrorMessage(this);" id="txtTransEditCity" placeholder="Enter Name" class="form-control MandatoryEditTransporter" value="">
+                        <span id="sptxtTransEditCity" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>GST Number</label>
+                        <div class="d-flex gap-10 ">
+                            <input type="text" id="txtEditGSTNumber" maxlength="15" onchange="ValidateEditGSTNumber(this);" placeholder="12ABCDE1234F5Z6" class="form-control " value="" fdprocessedid="rj262r">
+                            <button style="display:none;" type="button" class="btn btn-lg actionbtn align-self-start w-150" fdprocessedid="51atlg">Verify</button>
+                        </div>
+                        <div class="d-flex align-items-center  errror-info"><img src="../assets/images/icons/help/info-error-icon.png" alt=""> <span id="spEditGTMNumberErrorMsg"></span></div>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Contact Person</label>
+                        <input type="text" oninput="HideErrorMessage(this);" id="txtEditContactPerson" placeholder="Enter" class="form-control MandatoryEditTransporter" value="">
+                        <span id="sptxtEditContactPerson" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Contact Number</label>
+                        <input id="txtEditContactNumber" oninput="HideErrorMessage(this);" maxlength="20" onkeyup="this.value = this.value.replace(/[^0-9]/g, '')" type="tel" placeholder="Enter" class="form-control MandatoryEditTransporter" value="">
+                        <span id="sptxtEditContactNumber" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="UpdateTransporter();" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Manage Terms -->
+<div class="modal fade drawer model-freeze right-align" id="manageterms" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage Terms </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                    <label for="searchInput" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10 " data-toggle="modal" data-target="#addterms">Create New Terms </button>
+                <ul id="searchList" class="itemlist m-0 list-unstyled scroll">
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Terms 1</span> </div>
+                            <div class="right ">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="modal" data-target="#addterms"> <img src="~/assets/images/icons/help/edit-icon.svg" alt="" data-toggle="tooltip" title="Edit"> </a> <a href="#" data-toggle="modal" data-target="#viewterms"> <img src="~/assets/images/icons/help/view-icon.svg" alt="" data-toggle="tooltip" title="View"> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Terms 2</span> </div>
+                            <div class="right">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="modal" data-target="#addterms"> <img src="~/assets/images/icons/help/edit-icon.svg" alt="" data-toggle="tooltip" title="Edit"> </a> <a href="#" data-toggle="modal" data-target="#viewterms"> <img src="~/assets/images/icons/help/view-icon.svg" alt="" data-toggle="tooltip" title="View"> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <div id="noResultsMessage" class="noResultsMessage" style="display: none;">No results found.</div>
+                </ul>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- view Terms-->
+<div class="modal fade drawer model-freeze right-align" id="viewterms" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Terms </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Terms</label>
+                        <p class="text-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg actionbtn" data-toggle="modal" data-target="#addterms">Edit</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add Terms-->
+<div class="modal fade drawer model-freeze right-align" id="addterms" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Create New Terms </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Terms</label>
+                        <input type="text" placeholder="Enter" class="form-control " value="">
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Manage Warehouse Type -->
+<div class="modal fade drawer model-freeze right-align" id="managewarehousetype" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage Warehouse Type</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                    <label for="searchInput" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10 " data-toggle="modal" data-target="#addwarehousetype">Create New Warehouse Type </button>
+                <ul id="searchList" class="itemlist m-0 list-unstyled scroll">
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Warehouse Type 1</span> </div>
+                            <div class="right ">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="modal" data-target="#addwarehousetype"> <img src="~/assets/images/icons/help/edit-icon.svg" alt="" data-toggle="tooltip" title="Edit"> </a> <a href="#" data-toggle="modal" data-target="#viewwarehousetype"> <img src="~/assets/images/icons/help/view-icon.svg" alt="" data-toggle="tooltip" title="View"> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="d-flex justify-content-between">
+                            <div class="left"> <span class="title-one bold">Warehouse Type 2</span> </div>
+                            <div class="right">
+                                <div class="td-action-btn item-gap-btn"> <a href="#" data-toggle="modal" data-target="#addwarehousetype"> <img src="~/assets/images/icons/help/edit-icon.svg" alt="" data-toggle="tooltip" title="Edit"> </a> <a href="#" data-toggle="modal" data-target="#viewwarehousetype"> <img src="~/assets/images/icons/help/view-icon.svg" alt="" data-toggle="tooltip" title="View"> </a> <a href="#" data-toggle="modal" data-target="#delete"> <img src="~/assets/images/icons/help/svg/delete-icon.svg" data-toggle="tooltip" title="Delete" alt="Delete"> </a> </div>
+                            </div>
+                        </div>
+                    </li>
+                    <div id="noResultsMessage" class="noResultsMessage" style="display: none;">No results found.</div>
+                </ul>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- view Warehouse Type-->
+<div class="modal fade drawer model-freeze right-align" id="viewwarehousetype" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Create New Warehouse Type </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Warehouse Type</label>
+                        <p class="text-p">Warehouse Type 1</p>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg actionbtn" data-toggle="modal" data-target="#addwarehousetype">Edit</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add Warehouse Type-->
+<div class="modal fade drawer model-freeze right-align" id="addwarehousetype" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Create New Warehouse Type </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Warehouse Type</label>
+                        <input type="text" placeholder="Enter" class="form-control " value="">
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Manage Warehouse 1-->
+<div class="modal fade drawer model-freeze right-align" id="managewarehouse" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage Warehouse</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="txtSearchWarehouse" placeholder="Search...">
+                    <label for="txtSearchWarehouse" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10 " onclick="CreateWarehouse();" id="btnOpenModal">Create New Warehouse </button>
+                <ul id="searchWarehouseList" class="itemlist m-0 list-unstyled scroll warehouse-list"></ul>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade drawer model-freeze right-align" id="manageqcparameter" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Manage QC Parameter </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal">
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="searchbar mb-10">
+                    <input type="text" class="form-control" id="searchInput9" placeholder="Search...">
+                    <label for="searchInput9" class="search-label"> <img src="~/assets/images/icons/help/search-icon.png" alt="Search Icon"> </label>
+                </div>
+                <button class="btn btn-lg actionbtn w-100 mb-10" onclick="CreateQCParam()" data-toggle="modal" data-target="#addqcparameter">Create New QC Parameter </button>
+                <ul id="searchListQCPM" class="itemlist m-0 list-unstyled scroll QCPM-list">
+                </ul>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Add QC Parameters-->
+
+<div class="modal fade model-freeze drawer right-align" id="addqcparameter" role="dialog" aria-labelledby="exampleModalLabel" aaria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Create New QC Parameter </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal">
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Category</label>
+
+                        <select class="applyselectmultiple MandatoryQM" id="ddlQMCategory" onchange="HideErrorMessage(this)" multiple="">
+                        </select>
+                        <span id="spddlQMCategory" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Parameter Name</label>
+                        <input type="text" placeholder="Enter" id="parameter_name" oninput="HideErrorMessage(this)" class="form-control MandatoryQM" value="">
+                        <span id="spparameter_name" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label>Parameter Type</label>
+                        <select name="" class="form-control applyselect MandatoryQM" onchange="HideErrorMessage(this)" id="parametertype">
+                            <option value="Select">Select </option>
+                            <option value="numeric">Numeric</option>
+                            <option value="text">Text</option>
+                            <option value="range">Range</option>
+                        </select>
+                        <span id="spparametertype" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <!-- numeric -->
+                    <div class="col-sm-4  numeric hide form-group">
+                        <label>Measuring Value</label>
+                        @*<input type="number" id="numMeasuring" oninput="SetZero(this);HideErrorMessage(this);" placeholder="0" class="form-control text-right MandatoryN" value="">*@
+                        <input type="text" id="numMeasuring" oninput="HideErrorMessage(this);" placeholder="0" class="form-control text-right MandatoryN" value="">
+                        <span id="spnumMeasuring" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <!-- Text -->
+                    <div class="col-sm-12  text hide form-group">
+                        <label>Measuring Value</label>
+                        <input type="text" id="txtMeasuring" oninput="HideErrorMessage(this)" placeholder="Enter" class="form-control MandatoryT" value="">
+                        <span id="sptxtMeasuring" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <!-- range -->
+                    <div class="col-sm-6 range hide form-group">
+                        <label>Measuring Value</label>
+                        <div class="d-flex gap-10">
+                            <div class="input-group left-inputgroup">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Min</span>
+                                </div>
+                                @*<input type="number" class="form-control text-right MandatoryR" id="range_min" oninput="SetZero(this);HideErrorMessage(this)" placeholder="0" aria-label="" aria-describedby="basic-addon1">*@
+                                <input type="text" class="form-control text-right MandatoryR" id="range_min" oninput="HideErrorMessage(this)" placeholder="0" aria-label="" aria-describedby="basic-addon1">
+                                <span id="sprange_min" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+
+
+                            <div class="input-group left-inputgroup">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Max</span>
+                                </div>
+                                @*<input type="number" class="form-control text-right MandatoryR" id="range_max" oninput="SetZero(this);HideErrorMessage(this)" placeholder="0" aria-label="" aria-describedby="basic-addon1">*@
+                                <input type="text" class="form-control text-right MandatoryR" id="range_max" oninput="HideErrorMessage(this)" placeholder="0" aria-label="" aria-describedby="basic-addon1">
+                                <span id="sprange_max" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+
+                        <div class="d-flex flex-wrap gap-10">
+
+                            <input type="checkbox" id="isSample" name="type" value="">
+                            <label for="isSample"> Sample</label>
+                            <input type="checkbox" id="isProducation" name="type" value="">
+                            <label for="isProducation"> Production </label>
+                            <input type="checkbox" id="isInward" name="type" value="">
+                            <label for="isInward"> Inward</label>
+                            <input type="checkbox" id="isOutWard" name="type" value="">
+                            <label for="isOutWard"> OutWard</label>
+                            <input type="checkbox" id="isMicrobiological" name="type" value="">
+                            <label for="isMicrobiological"> Microbiological</label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="saveQualityMaster()" class="btn btn-lg actionbtn">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- END -->
+<!-- View Warehouse 2-->
+<div class="modal fade drawer model-freeze right-align" id="viewwarehouse" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">View Warehouse </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body pb-100">
+                <!-- open -->
+
+                <input type="number" id="hiddenQCPMId" class="hidden" />
+
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Unique ID</label>
+                        <p class="text-p" id="txtViewUniqueID"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Name<sup>*</sup></label>
+                        <p class="text-p" id="txtViewWarehouseName"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Location</label>
+                        <p class="text-p" id="txtViewWarehouseLocation"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Description</label>
+                        <p class="text-p" id="txtViewWarehouseDescription"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Branch Name</label>
+                        <p class="text-p" id="txtViewWarehouseBranchName"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>GST Number</label>
+                        <p class="text-p" id="txtViewWarehouseGSTNumber"></p>
+                    </div>
+                    <div class="col-sm-12">
+                        <hr />
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <h2 class="title-two">Address</h2>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Address Line 1</label>
+                        <p class="text-p" id="txtViewWarehouseAddress1"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Address Line 2</label>
+                        <p class="text-p" id="txtViewWarehouseAddress2"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Pin code<sup>*</sup></label>
+                        <p class="text-p" id="txtViewWarehousePinCode"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>City<sup>*</sup></label>
+                        <p class="text-p" id="txtViewWarehouseCity"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>State<sup>*</sup></label>
+                        <p class="text-p" id="txtViewWarehouseState"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Country<sup>*</sup></label>
+                        <p class="text-p" id="txtViewWarehouseCountry"></p>
+                    </div>
+                </div>
+                @*<div class="side-footer">
+                        <button type="button" class="btn btn-lg actionbtn" data-toggle="modal" data-target="#addwarehouse">Edit</button>
+                    </div>*@
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- add Warehouse-->
+<div class="modal fade drawer model-freeze right-align" id="addwarehouse" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Create New Warehouse </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal">
+            </div>
+            <div class="modal-body pb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Unique ID<sup>*</sup></label>
+                        <input maxlength="10" onchange="HideErrorMessage(this);" type="text" id="txtUniqueID" placeholder="Enter" class="form-control MandatoryWarehouse" value="" fdprocessedid="oo9r0n">
+                        <span id="sptxtUniqueID" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Name<sup>*</sup></label>
+                        <input onchange="HideErrorMessage(this);" type="text" id="txtWarehouseName" placeholder="Enter Name" class="form-control MandatoryWarehouse" value="" fdprocessedid="otviy">
+                        <span id="sptxtWarehouseName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="WarehouseLocation">Location<sup>*</sup></label>
+                        <select onchange="HideErrorMessage(this);WarehouseLocation();" class="form-control applyselect MandatoryWarehouse" id="ddlWarehouseLocation" name="WarehouseLocation">
+                        </select>
+                        <span id="spddlWarehouseLocation" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Branch<sup>*</sup> </label> @**@
+                        <select onchange="HideErrorMessage(this);WarehouseBranches();" class="form-control applyselect MandatoryWarehouse " id="ddlWarehouseBranchs" aria-hidden="true">
+                            <option value="0">Select</option>
+                        </select>
+                        <span id="spddlWarehouseBranchs" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group hide" id="divWarehouseBranch">
+                        <label>GST Number<sup>*</sup></label>
+                        <input type="text" readonly id="txtWarehouseGSTNumber" onchange="ValidateAddWarehouseGSTNumber(this);" maxlength="15" placeholder="Enter " class="form-control " value="">
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Category<sup>*</sup> </label> @**@
+                        <select onchange="HideErrorMessage(this);WarehouseBranches();" class="form-control applyselect MandatoryWarehouse " id="ddlWHCategory" aria-hidden="true">
+                            <option value="0">Select</option>
+                        </select>
+                        <span id="spddlWHCategory" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+
+                    <div class="col-sm-12 hide" id="divWarehouseAddress">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <h2 class="title-two">Location Address</h2>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label>Address</label>
+                                <p class="text-p" id="txtWarehouseLocationAddress"> </p>
+                            </div>
+
+                            <div class="col-sm-6 form-group">
+                                <label>City<sup>*</sup></label>
+                                <p class="text-p" id="txtWarehouseLocationCity"> </p>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>State<sup>*</sup></label>
+                                <p class="text-p" id="txtWarehouseLocationState"></p>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Country<sup>*</sup></label>
+                                <p class="text-p" id="txtWarehouseLocationCountry"></p>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Pin code<sup>*</sup></label>
+                                <p class="text-p" id="txtWarehouseLocationPinCode"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="SaveWarehouse();" class="btn btn-lg actionbtn" fdprocessedid="rm3xkp">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Warehouse-->
+<div class="modal fade drawer model-freeze right-align" id="editwarehouse" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> Edit Warehouse </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal">
+            </div>
+            <div class="modal-body pb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Unique ID</label>
+                        <input readonly maxlength="10" onchange="HideErrorMessage(this);" type="text" id="txtEditUniqueID" placeholder="Enter" class="form-control MandatoryEditWarehouse" value="" fdprocessedid="oo9r0n">
+                        <span id="sptxtEditUniqueID" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Name<sup>*</sup></label>
+                        <input onchange="HideErrorMessage(this);" type="text" id="txtEditWarehouseName" placeholder="Enter Name" class="form-control MandatoryEditWarehouse" value="" fdprocessedid="otviy">
+                        <span id="sptxtEditWarehouseName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="EditWarehouseLocation">Location</label>
+                        <select onchange="HideErrorMessage(this);EditWarehouseLocation();" class="form-control applyselect MandatoryEditWarehouse" id="ddlEditWarehouseLocation" name="EditWarehouseLocation">
+                        </select>
+                        <span id="spddlEditWarehouseLocation" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Branch </label>
+                        <select onchange="HideErrorMessage(this);EditWarehouseBranches();" class="form-control applyselect MandatoryEditWarehouse" id="ddlEditWarehouseBranchs" aria-hidden="true">
+                        </select>
+                        <span id="spddlEditWarehouseBranchs" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 form-group hide" id="divEditWarehouseBranch">
+                        <label>GST Number</label>
+                        <input type="text" readonly id="txtEditWarehouseGSTNumber" onchange="ValidateEditWarehouseGSTNumber(this);" placeholder="Enter " class="form-control " value="">
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Category<sup>*</sup> </label> @**@
+                        <select onchange="HideErrorMessage(this);WarehouseBranches();" class="form-control applyselect MandatoryEditWarehouse " id="ddlEditWHCategory" aria-hidden="true">
+                            <option value="0">Select</option>
+                        </select>
+                        <span id="spddlEditWHCategory" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-12 hide" id="divEditWarehouseAddress">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <h2 class="title-two">Location Address</h2>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label>Address</label>
+                                <p class="text-p" id="txtEditWarehouseLocationAddress"> </p>
+                            </div>
+
+                            <div class="col-sm-6 form-group">
+                                <label>City<sup>*</sup></label>
+                                <p class="text-p" id="txtEditWarehouseLocationCity"> </p>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>State<sup>*</sup></label>
+                                <p class="text-p" id="txtEditWarehouseLocationState"></p>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Country<sup>*</sup></label>
+                                <p class="text-p" id="txtEditWarehouseLocationCountry"></p>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Pin code<sup>*</sup></label>
+                                <p class="text-p" id="txtEditWarehouseLocationPinCode"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="side-footer">
+                    <button type="button" onclick="UpdateWarehouse();" class="btn btn-lg actionbtn" fdprocessedid="rm3xkp">Save</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade drawer  right-align" id="viewqcparameter" aria-labelledby="exampleModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="~/assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer"> QC Parameter</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal">
+            </div>
+            <div class="modal-body">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Category</label>
+                        <p class="text-p" id="txtCategory"></p>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Parameter Name</label>
+                        <p class="text-p" id="txtParameterName"></p>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label>Parameter Type</label>
+                        <p class="text-p" id="txtRange"></p>
+
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label>Measuring Value</label>
+                        <p class="text-p" id="txtMeasuringValue"></p>
+
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="d-flex flex-wrap gap-10">
+                            <input type="checkbox" id="viewsample" name="type" value="" disabled="">
+                            <label for="viewsample"> Sample</label>
+                            <input type="checkbox" id="viewproducation" name="type" value="" disabled="">
+                            <label for="viewproducation"> Production</label>
+                            <input type="checkbox" id="viewinward" name="type" value="" disabled="">
+                            <label for="viewinward"> Inward</label>
+                            <input type="checkbox" id="chkOutWard" name="type" value="" disabled="">
+                            <label for="chkOutWard"> OutWard</label>
+                            <input type="checkbox" id="chkMicrobiological" name="type" value="" disabled="">
+                            <label for="chkMicrobiological"> Microbiological</label>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="side-footer" style="display:none">
+                    <button type="button" class="btn btn-lg actionbtn" data-toggle="modal" data-target="#editqcparameter">Edit</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Delete confirmation Modal popup -->
+<div class="modal" id="deleteCommonType" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">Are you sure want to Deactivate <span class="d-block" id="role_name"></span></h6>
+                    <span id="spDeleteMsg" class="d-block"></span>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" onclick="CloseDelete();" data-dismiss="modal" class="btn btn-lg  cancelbtn  radius-24">Cancel</button>
+                <button type="button" onclick="MasterDeleteType();" class="btn btn-lg actionbtn radius-24">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="confirmationdeactivate" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">Are you sure want to Activate </h6>
+                    <span id="spActiveDeleteMsg" class="d-block"></span>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" onclick="CloseDelete()" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn radius-24" onclick="MasterDeleteType()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/commonfile.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterQuality.js"></script>
+<script src="~/Areas/Masters/DevScript/CommonModelPopup.js"></script>
+<script src="~/Areas/Masters/DevScript/CurrencyConversionModelPopup.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterLocation.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterWarehouse.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterTerritory.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterOtherCharges.js"></script>
+<script src="~/Areas/Masters/DevScript/ClientBrandTypes.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterPaymentTerms.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterTransportation.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterTermsCondidtions.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterTaxOtherCharges.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterOrderSize.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterFormulationCategories.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterSampleType.js"></script>
+<script src="~/Areas/Masters/DevScript/MasterPackagingType.js"></script>
+<!-- jQuery -->

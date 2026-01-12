@@ -1,0 +1,298 @@
+﻿
+@{
+	ViewBag.Title = "CreateDebitNote";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    var Ids = '@ViewBag.Ids';
+    var auth = '@ViewBag.auth';
+    var Id = '@ViewBag.Id';
+
+</script>
+<input type="hidden" id="hdnIsView" value="@ViewBag.isView" />
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<a href="#" onclick="BackToList();"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a>Debit Note<div class="ml-3"></div>
+	</h1>
+
+	<div class="align-self-center"></div>
+</div>
+<div class="row">
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0">
+			<!-- <div class="card-header d-flex justify-content-between bg-none ">
+				<h2 class="title-two align-self-center">Items Information</h2>
+				<div class="align-self-center"></div>
+			</div> -->
+			<div class="card-body view-form-group">
+				<div class="row">
+					<input type="hidden" id="hddSupplierId" />
+					<input type="hidden" id="hddPOIDs" />
+					<input type="hidden" id="hddDocNo" />
+					<input type="hidden" id="hddGateEntryId" />
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group ">
+
+						<label for="">Series</label>
+						<select class="form-control applyselect" id="ddlDocSeries" onchange="SetDocNumber(this);HideErrorMessage(this)">
+						</select>
+						<span id="spddlDocSeries" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-6 form-group">
+						<label class="readonlay">Debit Note Number</label>
+						<input id="txtDebitNoteNumber" disabled type="number" class="form-control" placeholder="Enter" value="" readonly>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="readonlay">Date</label>
+						<input id="txtDate" type="text" class="form-control" placeholder="DD/MM/YYYY" value="" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 col-sm-6 form-group">
+						<label class="readonlay">Company Name<sup>*</sup></label>
+						<input id="txtCompanyName" type="text" class="form-control" placeholder="Enter" value="" readonly>
+					</div>
+				</div>
+				<div class="projecttable">
+					<div class="table-responsive sticky-responsive">
+						<table id="tblItemInformation" class="display stickyth  dgntable dataTable no-footer radius-0 itemsinformation">
+							<thead>
+								<tr>
+									<th width="50" class="text-center  ">Action</th>
+									<th width="200px">AR No./ GRN No.</th>
+									<th width="80px">Item Code</th>
+									<th width="150px">Item Name</th>
+									<th width="30px">Qty</th>
+									<th width="60px">Status</th>
+									<th width="80px">Issue Qty</th>
+									<th width="35">UOM</th>
+									<th width="60px">Unit <span class="d-block">Price</span></th>
+									<th width="100">Amount Before<sapn class="d-block">Discount</sapn></th>
+									<th width="50">Dis. %</th>
+									<th width="100">Amount After <sapn class="d-block">Discount</sapn></th>
+									<th width="60">IGST%</th>
+									<th width="80">IGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="60">CGST%</th>
+									<th width="100">CGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="60">SGST%</th>
+									<th width="80">SGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="100" style="text-align: left;">Total</th>
+									<th width="150" style="display:none; text-align: right;">GRNItemId</th>
+									<th width="150" style="display:none; text-align: right;">GrnNo</th>
+									<th width="150" style="display:none; text-align: right;">ItemID</th>
+									<th width="150" style="display:none; text-align: right;">GRNId</th>
+									<th width="150" style="display:none; text-align: right;">PoItemId</th>
+									<th width="150" style="display:none; text-align: right;">ItemDescription</th>
+									<th width="150" style="display:none; text-align: right;">DeliveryDate</th>
+									<th width="150" style="display:none; text-align: right;">HSN</th>
+									<th width="150" style="display:none; text-align: right;">Quantity</th>
+									<th width="150" style="display:none; text-align: right;">BalancedQty</th>
+									<th width="150" style="display:none; text-align: right;">ADJ_QTY</th>
+									<th width="150" style="display:none; text-align: right;">ADJ_QTY1</th>
+									<th width="150" style="display:none; text-align: right;">ADJ_QTY2</th>
+									<th width="150" style="display:none; text-align: right;">QtyReceived</th>
+									<th width="150" style="display:none; text-align: right;">QtyDamage</th>
+									<th width="150" style="display:none; text-align: right;">QtyShort</th>
+									<th width="150" style="display:none; text-align: right;">QtyRemaning</th>
+									<th width="150" style="display:none; text-align: right;">DiscountAmount</th>
+									<th width="150" style="display:none; text-align: right;">FinID</th>
+									<th width="150" style="display:none; text-align: right;">BatchOrLot</th>
+									<th width="150" style="display:none; text-align: right;">ExpDate</th>
+									<th width="150" style="display:none; text-align: right;">MFGDate</th>
+									<th width="150" style="display:none; text-align: right;">WarehouseID</th>
+									<th width="150" style="display:none; text-align: right;">DamgedWarehouseID</th>
+									<th width="150" style="display:none; text-align: right;">ShortWarehouseID</th>
+									<th width="150" style="display:none; text-align: right;">PORITEM</th>
+								</tr>
+							</thead>
+							<tbody id="tblReturnItems">
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-5 ml-auto d-flex justify-content-end">
+						<div class="totalamount w-100">
+							<table class="">
+								<thead>
+									<tr>
+										<td width="200">Total (before tax) :</td>
+										<td class="text-right" width="100">
+											<span id="totalBeforeTax">0.00</span>
+											<span id="sptotalBeforeTax" class="text-danger field-validation-error" style="display:none;">Hey, This should not be Zero!!</span>
+										</td>
+
+									</tr>
+									<tr>
+										<td><span data-toggle="tooltip" title="" data-original-title="Add"><img src="~/assets/images/icons/help/add.svg" alt="" data-toggle="modal" data-target="#othercharge" onclick="RefreshData()" class="icon-xsm cursor-pointer"></span> Other Charges :</td>
+										<td class="text-right"><span class="otherChargesInput" id="otherChargesInputData">0.00</span> </td>
+									</tr>
+									<tr>
+										<td class="fn-sm">IGST :</td>
+										<td class="text-right fn-sm"><span id="igstTotal">0.00</span></td>
+									</tr>
+
+									<tr>
+										<td class="fn-sm">CGST :</td>
+										<td class="text-right fn-sm"><span id="cgstTotal">0.00</span></td>
+
+									</tr>
+
+									<tr>
+										<td class="fn-sm">SGST :</td>
+										<td class="text-right fn-sm"><span id="sgstTotal">0.00</span></td>
+
+									</tr>
+
+									<tr>
+										<td>Total Tax :</td>
+										<td class="text-right"><span id="totalTax">0.00</span></td>
+
+									</tr>
+
+									<tr>
+										<td>Total (After Tax) :</td>
+										<td class="text-right"><span id="totalAfterTax">0.00</span></td>
+
+									</tr>
+
+
+									<tr>
+										<td>Rounding Amount :</td>
+										<td class="text-right"><input type="number" id="roundingAmountInput" class="form-control text-right w-120 float-right" placeholder="0" value="0" fdprocessedid="3a42pn"></td>
+
+									</tr>
+									<tr>
+										<td>Total Amount :</td>
+										<td class="text-right"><span id="grandTotal">0.00</span> </td>
+
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				@if (ViewBag.isView != 1)
+				{
+					<div class="mt-3 align-self-end justify-content-end align-items-center d-flex gap-10 mb-5">
+						<button type="submit" class="btn btn-lg cancelbtn" onclick="POReturnCancle();">Cancel</button>
+						<button type="submit" class="btn btn-lg actionbtn" onclick="POReturnSubmit();">Submit</button>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="othercharge" style="display: none;" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-xl modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title w-100">Add Other Charges</h4>
+				<button type="button" id="btnPopupClose" class="close" data-dismiss="modal" fdprocessedid="sjwo0k"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+			</div>
+
+			<div class="modal-body">
+				<div class="table-reponsive">
+					<table id="tblOtherCharge" class=" dgntable dataTable no-footer othercharnge">
+						<thead>
+							<tr>
+								<th width="20"></th>
+								<th>Charge Name</th>
+								<th>Charge Amount</th>
+								<th id="headerI">IGST (in %)</th>
+								<th id="headerC">CGST (in %)</th>
+								<th id="headerS">SGST (in %)</th>
+								<th>Total Tax Amount</th>
+								<th>Total Net Amount</th>
+
+							</tr>
+						</thead>
+						<tbody id="tableToModify">
+							<tr>
+								<td data-label="">
+									<span>
+										<div id="addothercharge" class="cursor-pointer"><img style="pointer-events: none;" src="~/assets/images/icons/help/add.svg" alt="" data-toggle="tooltip" title="" data-original-title="Add" class="icon-sm"></div>
+
+										<span style="display:none;" id="hdnOtherChargeId_0" class="hdnOtherChargeId">0</span>
+										<span style="display:none;" id="hdnOtherNew_0" class="hdnOtherNew">0</span>
+									</span>
+								</td>
+								<td data-label="Charge Name">
+									<span>
+										<select class="form-control applyselect ddlChargeName OMandate" id="ddlCharge_0" onchange="HideErrorMessage(this);setNARRCharges(this)">
+											<option>Select</option>
+										</select>
+										<span id="spddlCharge_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</span>
+								</td>
+								<td data-label="Charge Amount">
+									<span>
+										<input type="number" id="txtChargeAmount_0" class="form-control text-right ChargeAmount OMandate" value="" placeholder="0" oninput="GetTax(this)" onchange="HideErrorMessage(this); SetZero(this)">
+										<span id="sptxtChargeAmount_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+									</span>
+								</td>
+								<td data-label="IGST (in %)" id="viewIGST">
+									<span>
+
+										<select class="form-control applyselect taxDdl" id="ddlTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+											<option>Select</option>
+										</select>
+										<span id="spddlTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</span>
+								</td>
+								<td data-label="CGST (in %)" id="viewCGST" style="display: none;">
+									<span>
+
+										<select class="form-control applyselect taxCDdl" id="ddlCTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+											<option>Select</option>
+										</select>
+										<span id="spddlCTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</span>
+								</td>
+								<td data-label="SGST (in %)" id="viewSGST" style="display: none;">
+									<span>
+
+										<select class="form-control applyselect taxSDdl" id="ddlSTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+											<option>Select</option>
+										</select>
+										<span id="spddlSTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</span>
+								</td>
+								<td data-label="Total Tax Amount">
+									<span>
+										<input placeholder="0" type="text" id="txtTax_0" class="form-control text-right TaxAmount OMandate" fdprocessedid="5nb56" disabled>
+
+									</span>
+								</td>
+								<td class="text-right" data-label="Total Net Amount"><span class="TotalOtherChargeAmount" id="spTotalOtherCharge_0"></span></td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			@if (ViewBag.isView != 1)
+			{
+				<div class="modal-footer text-center">
+
+					<button type="button" class="btn btn-lg actionbtn" onclick="SaveOtherCharges()" fdprocessedid="ogmb0u">Save</button>
+				</div>
+			}
+
+		</div>
+	</div>
+</div>
+<script src="~/Areas/MaterialManagement/DevScript/PurchaseReturns/CreateDebitNote.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/PurchaseReturns/OtherCharges.js"></script>
+
+<script>
+	$(document).ready(function () {
+		$(".applyselect").select2();
+
+	});
+	var IsIGST = 0;
+</script>

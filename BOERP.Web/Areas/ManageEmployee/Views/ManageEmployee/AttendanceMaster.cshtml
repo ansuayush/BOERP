@@ -1,0 +1,452 @@
+﻿
+@{
+    ViewBag.Title = "AttendanceMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+        background-color: #44488c !important;
+    }
+
+    #customLoader {
+        background: rgba(0, 0, 0, 0.7) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding: 0px 5px !important;
+    }
+
+    .ag-header-group-cell-label, .ag-cell-label-container {
+        padding: 0px 0px !important;
+    }
+
+    #customLoader img {
+        width: 40px;
+        height: 40px
+    }
+
+    .ag-text-field-input {
+        color: #000 !important;
+        font-size: 10px !important
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        display: none;
+        width: auto;
+        z-index: 1000;
+        overflow: inherit !important;
+    }
+
+        .custom-alert .modal-body {
+            padding-bottom: 0px;
+            overflow: scroll;
+            height: 400px;
+            overflow-x: hidden;
+        }
+
+    .custom-lg {
+        width: 630px;
+        background: #fff;
+        font-size: 10px;
+        border-radius: 8px
+    }
+
+    .custom-alert table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .custom-alert th {
+        background: #2f3261;
+        color: #fff;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 2px 5px !important;
+        text-align: left;
+        word-break: break-all;
+        vertical-align: top;
+        line-height: 25px;
+        font-size: 12px;
+        text-transform: lowercase;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+</style>
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        Attendance Master<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+
+
+    <div class="col-md-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <input type="hidden" id="hdnAttendanceMasterId" />
+                    @*<div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="Lead Details" class="form-control-label">Branch<sup class="red-clr">*</sup></label>
+                                <select id="dldBranch" class="form-control Mandatory">
+                                </select>
+                                <span id="spdldBranch" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>*@
+
+                    <div class="col-md-2 col-sm-6 form-group">
+                        <label for="Lead Details" class="form-control-label">Date<sup class="red-clr">*</sup></label>
+                        <div class="input-group">
+
+                            <input type="text" class="form-control Mandatory datepickersecond" onchange="HideErrorMessage(this)" autocomplete="off" placeholder="dd-mm-yyyy" id="dtAttendance" readonly>
+                            <span class="clear-date">×</span>
+                            <div class="input-group-append dateicon">
+                                <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                            </div>
+
+
+                        </div>
+                        <span id="spdtAttendance" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                    </div>
+
+
+
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="Lead Details" class="form-control-label">Employee Name<sup >*</sup></label>
+                            <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="dldEmployee" multiple>
+                            </select>
+                            <span id="spdldEmployee" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group">
+                            <label for="Lead Details" class="form-control-label ">Leave Type<sup >*</sup></label>
+                            <select class="form-control Mandatory applyselect" onchange="HideErrorMessage(this)" id="dldLeave">
+                            </select>
+                            <span id="spdldLeave" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1 col-sm-2 align-self-center mt-2">
+                        
+                        <a href="#" class="btn btn-sm  actionbtn " onclick="saveAttendanceMaster()"><i class="fa fa-plus" aria-hidden="true"></i> Add</a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-4 ml-auto form-group align-self-end">
+        <div class="d-flex gap-5 justify-content-end ">
+            <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+            <div class="searchbox w-350">
+                <div class="search">
+                    <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                    <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                </div>
+
+            </div>
+        </div>
+
+        </div>
+
+        <div class="col-md-12 form-group">
+            <!--<div class="card br-none p-0">
+        <div class="card-body view-form-group">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="display rstable single-sort dgntable dataTable no-footer" id="tableAttendance">
+                        <thead>
+                            <tr>-->
+            @*<th width="50">S.No</th>*@
+            <!--<th width="150">Employee Code</th>
+            <th>Employee Name</th>
+            <th width="100">Date</th>
+            <th width="100">Leave Type</th>
+            <th width="60" class="text-center Action">Action</th>
+        </tr>
+
+        <tr class="searchfilter">-->
+            @*<th width="50" class="searchhide"></th>*@
+            <!--<th width="120">Employee code</th>
+                                    <th>Employee Name</th>
+                                    <th width="100">Date</th>
+                                    <th width="100">Leave Type</th>
+                                    <th width="60" class="text-center searchhide"></th>
+                                </tr>
+
+
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>-->
+
+            <div class="grid-wrapper" style="padding-top: 40px">
+                <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+<style>
+    #globalSearch {
+        display: none
+    }
+
+    .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+        transition: opacity 0.2s;
+        opacity: 1;
+        color: #fff;
+    }
+
+    .ag-icon::before {
+        color: #fff;
+    }
+
+    .ag-theme-balham .ag-header-cell-label {
+        white-space: normal; /* Allow wrapping in header text */
+    }
+
+    .ag-theme-balham {
+        overflow-x: auto; /* Avoid extra whitespace */
+    }
+
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding-left: var(--ag-cell-horizontal-padding);
+        padding-right: var(--ag-cell-horizontal-padding);
+        background: #44488c;
+        color: #fff !important
+    }
+
+    .ag-icon-filter {
+        font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+        font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+        color: #ffffff !important;
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 1000;
+    }
+
+        .custom-alert table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-alert th {
+            background-color: #f2f2f2;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+
+    .ag-icon.ag-icon-previous::before {
+        content: "\f104"; /* Font Awesome: fa-angle-left */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .ag-icon.ag-icon-next::before {
+        content: "\f105"; /* Font Awesome: fa-angle-right */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+</style>
+
+
+
+
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+
+@*Ag Grid Scripts End*@
+
+
+<script src="~/Areas/ManageEmployee/DevScript/Attendance.js"></script>
+<script>
+    $('#resultupload').on('change', function () {
+        $('#yesupload').css('display', 'none');
+        if ($(this).val() === 'yes') {
+            $('#yesupload').css('display', 'block');
+        }
+
+    });
+</script>
+<script>
+    //See the cdn
+    $('textarea').on('keyup', function () {
+        autosize($(this));
+
+        //force label to stay at the top if there is text in the form
+        if ($(this).val().length > 0) {
+            $(this).addClass('contains-text');
+        }
+    })
+
+    //focus in textarea if clicked on the label
+    $('.textarea-group label').on('click tap', function () {
+        $(this).siblings('textarea').focus();
+    })
+</script>
+
+<script>
+    $(function () {
+        $('#questionoption').change(function () {
+            $('.qustionlist').hide();
+            $('.' + $(this).val()).show();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#addmore").click(function () {
+            $("#divradio").append('<div class="required_inp"><div class="radiooption d-flex"><div class="radio  align-self-center"><input id="radio-3" name="radio" type="radio" disabled><label for="radio-3" class="radio-label"></label></div><div class="radioinput"><input type="text" placeholder="Enter " class="form-control"  /></div><div class="radioremove align-self-center text-center inputRemove"><i class="fas fa-times"></i></div></div></div>');
+        });
+        $('body').on('click', '.inputRemove', function () {
+            $(this).parent().parent('div.required_inp').remove()
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#addmorecheckbox").click(function () {
+            $("#divcheckbox").append('<div class="required_checkbox"><div class="checkboxdgn d-flex"><div class="checkdgn "><input id="checkbox" name="checkbox" class="checkbox" type="checkbox" checked disabled><label for="checkbox"></label></div><div class="radioinput"><input type="text" placeholder="Enter " class="form-control"  /></div><div class="radioremove checkboxRemove align-self-center"><i class="fas fa-times"></i></div></div></div>');
+        });
+        $('body').on('click', '.checkboxRemove', function () {
+            $(this).parent().parent('div.required_checkbox').remove()
+        });
+    });
+</script>
+
+<script>
+    $('#auditrequired').on('change', function () {
+        $('#auditcontroller').css('display', 'none');
+        if ($(this).val() === 'auditcontroller') {
+            $('#auditcontroller').css('display', 'block');
+        }
+    });
+
+</script>
+
+<script>
+    const $autoExpandTextareas = document.querySelectorAll("textarea.auto-expand");
+
+    function addMultiEventListeners(el, s, fn) {
+        s.split(" ").forEach(e => el.addEventListener(e, fn, false));
+    }
+
+    $autoExpandTextareas.forEach(function (el) {
+        addMultiEventListeners(el, "change keydown paste", function () {
+            autoExpand(el);
+        });
+    });
+
+    function autoExpand(el) {
+        setTimeout(function () {
+            el.style.cssText = "height: auto";
+            el.style.cssText = `height: ${7 + el.scrollHeight}px`;
+        }, 0);
+    }
+
+    window.onresize = function () {
+        $autoExpandTextareas.forEach(function (el) {
+            autoExpand(el);
+        });
+    };
+
+</script>
+
+
+
+
+
+

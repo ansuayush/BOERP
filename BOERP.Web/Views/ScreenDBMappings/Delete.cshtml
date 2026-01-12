@@ -1,0 +1,129 @@
+﻿@model BOERP.Web.ScreenDBMapping
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ScreenDBMapping</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ScreenID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScreenID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScreenName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScreenName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcNameAdd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcNameAdd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcNameGet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcNameGet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcUpdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcUpdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcDelete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcDelete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcDropdown)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProcDropdown)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedBy_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedBy_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ISDeleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ISDeleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

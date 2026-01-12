@@ -1,0 +1,41 @@
+﻿@model SahajFramework.Models.AdminModule
+@using SahajFramework.CommonClass;
+@using SahajFramework.Models;
+
+@if (Model != null && Model.ModuleID!=0)
+{
+    <div class="l-sideNav">
+        <div id="js-nav-toggle" class="l-hamburger arrow "> <a href="#"> <span class="top"></span> <span class="middle"></span> <span class="bottom"></span> </a> </div>
+        <div class="l-nav">
+            <nav role="navigation">
+                <div class="l-nav-container">
+                    <ul class="l-nav-inner">
+
+                        @foreach (AdminMenu itemMenu in Model.MainMenuList.Where(x => x.ParentMenuID == 0).OrderBy(x => x.MenuPriority).ThenBy(x => x.MenuName).ToList())
+                        {
+                        <li class="l-nav-item ripplelink">
+                            @Html.CreateAnchor(itemMenu.MenuID.ToString(), (itemMenu.MenuURL.Contains("javascripts") ? "javascripts:;" : itemMenu.MenuURL), itemMenu.MenuName, "l-nav-item-link", "", itemMenu.Target)
+
+                            @*<a class="l-nav-item-link" id="Menu_@itemMenu.MenuID" target="@itemMenu.Target" href="@(itemMenu.MenuURL.Contains("javascripts")?"javascripts:;": itemMenu.MenuURL+ "?src="+clsApplicationSetting.EncryptQueryString(itemMenu.MenuID.ToString()+"*"+itemMenu.MenuURL))">@itemMenu.MenuName</a>*@
+                            <span class="l-nav-item-icon">
+
+                                @if (!string.IsNullOrEmpty(itemMenu.MenuImage))
+                                {
+                                    @Html.CreateImage(itemMenu.MenuImage, "Post icon")
+                                }
+                                else
+                                {
+                                    @itemMenu.MenuName[0]
+                                }
+                            </span>
+                        </li>
+                        }
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+		
+		<div class="overlay-bg l-contents"></div>
+    </div>
+}

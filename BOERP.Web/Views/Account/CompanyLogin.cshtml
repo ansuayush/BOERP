@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>ERP - BO International</title>
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#6B54C8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    @*<link rel="shortcut icon" href="~/assets/images/favicon.png" type="image/x-icon">*@
+<link rel="icon" href="~/assets/images/logo/bo-international-logo.png" type="image/png" sizes="50x50">
+    <link href="~/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery-ui.css" rel="stylesheet" /> <link href="~/assets/css/jquery-ui.css.css" rel="stylesheet" />
+    <link href="~/assets/css/help.css" rel="stylesheet">
+    <link href="~/assets/css/login.css " rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/css/daterangepicker.css">
+    <link href="~/assets/css/colorguide.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/css/responsive.css" rel="stylesheet">
+    <link href="~/assets/css/select2.min.css" rel="stylesheet" />
+
+    <script>
+        var virtualPath = "@System.Configuration.ConfigurationManager.AppSettings["APIURL"]";
+             var baseURL= "@System.Configuration.ConfigurationManager.AppSettings["BaseURL"]";
+    </script>
+</head>
+<body>
+    <section class="d-flex flex-row justify-content-between">
+        <div class="left-side">
+            <div class="overlay"></div>
+            <img src="~/assets/images/login/bo-internation-image.jpg" alt="" class="w-full h-full object-cover">
+        </div>
+        <div class="right-side">
+            <div class="opt_details login_detail">
+                <div class="loginlogo">
+                    <img src="~/assets/images/logo/bo-international-logo.png" class="logo-sm" alt="">
+                    <h2>Bo International</h2>
+                </div>
+                <!-- Step 1  -->
+                <form method="POST">
+                    <div class="form-label-group">
+                        @if (TempData["LoginErrorMsg"].ToString() != "")
+                        {
+                            <p class="text-danger error text-center">
+                                @TempData["LoginErrorMsg"]
+                            </p>
+                        }
+                    </div>
+                    <div class="login-from mb-3">
+
+                        <label for="opt">Company <sup>*</sup></label>
+                        <select class="form-control applyselect" id="CompanyId" name="CompanyId" onchange="FillFinanceYear(this)">
+                        </select>
+
+                    </div>
+                    <div class="login-from  mb-3">
+                        <label for="opt">Active Financial Year</label>
+                        <select class="form-control applyselect" id="FinId" name="FinId" onchange="SetFinDate(this)">
+                        </select>
+                    </div>
+                    <div class="login-from">
+                        <label for="opt">Date <sup>*</sup></label>
+
+                        <div class="input-group">
+                            <input autocomplete="off" class="form-control Mandatory datepicker" readonly placeholder="DD/MM/YYYY" id="tbFinYearDate" name="FinYearDate" onchange="SetFinDate(this); HideErrorMessage(this)">
+                            <span class="clear-date" style="display:inline">×</span>
+                            <div class="input-group-append dateicon">
+                                <span class="input-group-text bg-white dateicon"><img src="/assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                            </div>
+                            <span id="sptxtExpectedDate_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+
+
+                    </div>
+                    <div class="loginbtn"> <input type="submit" class="btn btn-lg actionbtn" value="Login" /></div>
+
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/jquery-ui.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/select2.min.js"></script>
+    <script src="~/assets/js/moment.min.js"></script>
+    <script src="~/assets/js/daterangepicker.min.js"></script>
+    <script src="~/CommonJS/Common.js"></script>
+    <script src="~/CommonJS/CompanyLogin.js"></script>
+</body>
+
+
+</html>

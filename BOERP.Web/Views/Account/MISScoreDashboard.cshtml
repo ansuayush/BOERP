@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "MISScoreDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+    <!-- page title -->
+    <div class="pagetitle gap-bottom d-flex justify-content-between">
+        <h1 class="m-0 d-flex ">
+            MIS Scoring<div class="ml-2">
+                <svg data-toggle="tooltip" title="This page shows list of all the Purchase Orders" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+            </div>
+        </h1>
+        <div class="align-self-center heading-action-btn w-100-slt primary-color-slt">
+
+            <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+
+        </div>
+    </div>
+    <!--  -->
+
+
+
+
+    <div class="secondary-light-bg third-container">
+        <div class="scorebox w-100 scorefilterbox d-flex align-self-center">
+            <div class="pill prm-bg h-100 w-50-p d-flex gap-20 align-self-center">
+                <div class="wk  line-h-14 " id="weekNo"></div>
+                <div class="ttl d-flex gap-10 line-h-14 "> <img src="../assets/images/icons/help/dashboard-icon.svg" class="icon-sm" alt=""> <span>Score Dashboard - <enum id="user"></enum></span></div>
+            </div>
+
+            <div class="d-flex w-100 light-bg m-scoreheaderdgn">
+                <div class="thfilterbox ">
+                    <label>Week No.</label>
+                    <select id="dldWeek" class="form-control applyselect">
+                    </select>
+                </div>
+                <div class="thfilterbox">
+                    <label>Week Score</label>
+                    <p class="fn-bold" id="wkDate"></p>
+                </div>
+                <div class="thfilterbox">
+                    <label>Year</label>
+                    <select id="dldYear" onchange="handleFinWeek(this)" class="form-control applyselect">
+                    </select>
+                </div>
+                <div class="thfilterbox">
+                    <label>Employees</label>
+                    <select id="dldEmployee" class="form-control applyselect">
+                    </select>
+                </div>
+
+                <div class="thfilterbox">
+                    <label>Branch</label>
+                    <select id="dldBranch" disabled class="form-control applyselect">
+                    </select>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="grid-wrapper">
+            <div id="myGrid" class="ag-theme-alpine agrid-dgn agrid-score-dgn signlesearchscroe scroeborder-white shorting filter-hide" style="width:100%; height:560px;"></div>
+
+        </div>
+
+        <!--  -->
+    </div>
+
+
+<!--  -->
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+@*Ag Grid Scripts End*@
+
+
+
+<script>
+    /* --------- Demo data (swap with your API) --------- */
+
+
+
+
+</script>
+
+<script src="~/Areas/ManageEmployee/DevScript/MISScoreDashboard.js"></script>

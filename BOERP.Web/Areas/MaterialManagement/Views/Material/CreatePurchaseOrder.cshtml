@@ -1,0 +1,422 @@
+﻿
+@{
+    ViewBag.Title = "CreatePurchaseOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string Content = "Create Purchase Order";
+
+    if(Convert.ToInt32(ViewBag.PoId) > 0)
+            {
+                Content = "Edit Purchase Order";
+            }
+}
+
+<link href="~/assets/css/bootstrap-multiselect.css" rel="stylesheet" />
+
+<input type="hidden" value="@ViewBag.PoId" id="hdnPoId" />
+<input type="hidden" value="@ViewBag.SuppId" id="hdnSuppId" />
+<input type="hidden" value="@ViewBag.IndId" id="hdnIndId" />
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="/MaterialManagement/Material/PurchaseOrderIndex?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>@Content<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 form-group ">
+        <div class="card br-none p-0 col-default-bottom ">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Supplier’s Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label>Supplier’s Name</label>
+                        <select class="applyselect form-control Mandate" id="ddlSupp" onchange="FillSuppDetails(this, 0); ChangeOtherChargersBasedOnSupplier()">
+                        </select>
+                        <span id="spddlSupp" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>Sales Person Name</label>
+                        <select class="form-control applyselect select2-hidden-accessible Mandate" tabindex="-1" aria-hidden="true" id="ddlSalesPerson" onchange="HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlSalesPerson" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="label-light">Address of Supplier</label>
+                        <p class="m-0" id="lblSuppAdd"></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="label-light">GSTIN</label>
+                        <p class="m-0" id="lblSuppGST"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card br-none p-0  ">
+
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Raised By</h2>
+                <div class="align-self-center"></div>
+            </div>
+
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="" class="readonlay">Name</label>
+                        <p id="lblReqName"></p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="" class="readonlay">Department</label>
+                        <p id="lblReqDept"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0 h-100">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Primary Document Details</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 form-group ">
+
+                        <label for="">Series</label>
+                        <select class="form-control applyselect select2-hidden-accessible Mandate" id="ddlDocSeries" tabindex="-1" aria-hidden="true" onchange="SetDocNumber(this);HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlDocSeries" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-md-4 col-sm-4 form-group">
+                        <label class="readonlay">Purchase Order</label>
+                        <input id="txtPONumber" disabled type="text" class="form-control readonlyfield Mandate" placeholder="Enter" fdprocessedid="kobths" onchange="HideErrorMessage(this)">
+                        <span id="spddlDocSeries" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-md-4 col-sm-4 form-group">
+                        <label class="readonlay">Purchase Order Date</label>
+                        <input type="text" id="txtPODate" class="form-control Mandate" placeholder="" readonly="">
+                        <span id="sptxtPODate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-md-4 col-sm-4  form-group">
+                        <label class="form-label">Ship To</label>
+                        <select id="ddlshipTo" class="form-control applyselect select2-hidden-accessible Mandate" tabindex="-1" aria-hidden="true" onchange="HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlshipTo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-md-4 col-sm-4 form-group">
+                        <label class="form-label">Bill To</label>
+                        <select id="ddlBillTo" class="form-control applyselect select2-hidden-accessible Mandate" tabindex="-1" aria-hidden="true" onchange="HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlBillTo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-md-4 col-sm-4 form-group">
+                        <label class="form-label">Indent No.</label>
+
+                        <select id="ddlIndent" class="form-control border-r-8 multiple-checkboxes Mandate" multiple="multiple" style="display: none;" onchange="FillGrid(this);HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlIndent" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+
+                     
+                    </div>
+
+
+                    <div class="col-md-4 col-sm-4">
+                        <label class="form-label">Payment Terms</label>
+                        <select id="ddlPaymentTerm" class="form-control applyselect select2-hidden-accessible Mandate" tabindex="-1" aria-hidden="true" onchange="HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlPaymentTerm" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+
+                    <div class="col-md-4 col-sm-4">
+                        <label class="form-label">Terms & Condition</label>
+                        <select id="ddlTC" class="form-control applyselect select2-hidden-accessible Mandate" tabindex="-1" aria-hidden="true" onchange="HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlTC" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Items Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body p-0">
+
+                <div class="table-responsive sticky-responsive ">
+                    <table id="tblItemInformation" class="display m-sticky-one stickytable  dgntable no-footer radius-0 ">
+                        <thead>
+							<tr>
+								<th width="100" class="text-center  ">Action</th>
+								<th width="150">Indent No</th>
+								<th width="100">Item Code</th>
+								<th width="200">Item Name</th>
+								<th width="300">Item Description</th>
+								<th width="85">HSN</th>
+								<th width="150">Delivery Date</th>
+								<th width="80">Quantity</th>
+								<th width="60">UOM</th>
+								<th width="100">Last Purchase <span class="d-block">Rate</span></th>
+								<th width="100">Unit <span class="d-block">Price</span></th>
+								<th width="120">Amount Before<sapn class="d-block">Discount</sapn></th>
+								<th width="80">Dis. %</th>
+								<th width="120">Amount After <sapn class="d-block">Discount</sapn></th>
+								<th width="150">IGST%</th>
+								<th width="100">IGST <span class="d-block">Amount (₹)</span> </th>
+								<th width="150">CGST%</th>
+								<th width="100">CGST <span class="d-block">Amount (₹)</span> </th>
+								<th width="150">SGST%</th>
+								<th width="100">SGST <span class="d-block">Amount (₹)</span> </th>
+								<th width="110">Total</th>
+							</tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 form-group">
+        <div class="card br-none p-0   ">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Upload Invoice<sup>*</sup></h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-175">
+                <div class="section-container section-container-popup">
+                    <div class="fileuploadview drag-area">
+                        <div class="uploadicon_text file-input-button" id="fileInputButton1">
+                            <div class="uploadicon">
+                                <img src="~/assets/images/icons/help/fileupload-icon.svg" alt="">
+                            </div>
+                            <div class="uploadtext drag-file" id="dragFile">
+                                <h4>Drop files here or click to upload</h4>
+                                <h6>This is a dropzone, drop files or click to browse</h6>
+                                <span class="error">The file size should be upto 2MB,<br /> with a maximum of 10 attachments.</span>
+                            </div>
+                        </div>
+                        <input type="file" id="fileMaterialPhoto" class="file-input hidden" multiple />
+                        <div id="documentImages1" class="document-images"></div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 form-group">
+        <div class="card br-none p-0 ">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Notes</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-205">
+                <textarea id="txtComments" maxlength="250" class="form-control h-cm" rows="5" placeholder="Enter"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5 form-group">
+        <div class="totalamount">
+            <table class="">
+                <thead>
+                    <tr>
+                        <td width="200">Total (before tax) :</td>
+                        <td class="text-right" width="100">
+                            <span id="totalBeforeTax">0.00</span>
+                            <span id="sptotalBeforeTax" class="text-danger field-validation-error" style="display:none;">Hey, This should not be Zero!!</span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <span data-toggle="tooltip" title="" data-original-title="Add">
+                                <a href="#" data-toggle="modal" data-target="#othercharge" onclick="RefreshData()">
+                                    <img src="~/assets/images/icons/help/add.svg" alt="" class="icon-xsm cursor-pointer" />
+                                </a>
+                            </span>
+                            Other Charges :
+                        </td>
+
+                        <td class="text-right"><span class="otherChargesInput" id="otherChargesInputData">0.00</span> </td>
+                    </tr>
+                    <tr>
+                        <td class="fn-sm">IGST :</td>
+                        <td class="text-right fn-sm"><span id="igstTotal">0.00</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="fn-sm">CGST :</td>
+                        <td class="text-right fn-sm"><span id="cgstTotal">0.00</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="fn-sm">SGST :</td>
+                        <td class="text-right fn-sm"><span id="sgstTotal">0.00</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td>Total Tax :</td>
+                        <td class="text-right"><span id="totalTax">0.00</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td>Total (After Tax) :</td>
+                        <td class="text-right"><span id="totalAfterTax">0.00</span></td>
+
+                    </tr>
+
+
+                    <tr>
+                        <td>Rounding Amount :</td>
+                        <td class="text-right"><input type="number" id="roundingAmountInput" class="form-control text-right w-120 float-right" placeholder="0" fdprocessedid="3a42pn"></td>
+
+                    </tr>
+                    <tr>
+                        <td>Total Amount :</td>
+                        <td class="text-right"><span id="grandTotal">0.00</span> </td>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-12 align-self-end justify-content-end align-items-center d-flex mb-5 gap-10">
+        <a href="/MaterialManagement/Material/PurchaseOrderIndex?auth=@ViewBag.Auth" class="btn btn-lg cancelbtn">Cancel</a>
+        <button type="button" class="btn btn-lg actionbtn" fdprocessedid="sw1sou" onclick="SavePurchaseOrder()">Save</button>
+
+    </div>
+</div>
+<div class="modal" id="othercharge">
+    <div class="modal-dialog modal-xl modal-m-991-f modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100">Add Other Charges</h4>
+                <button type="button" id="btnPopupClose" class="close" data-dismiss="modal" fdprocessedid="sjwo0k"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="tblOtherCharge" class="dgntable  dataTable no-footer othercharnge">
+                        <thead>
+                            <tr>
+                                <th width="20"></th>
+                                <th width="150px">Charge Name</th>
+                                <th width="100px">Charge Amount</th>
+                                <th width="100px" id="headerI">IGST (in %)</th>
+                                <th width="100px" id="headerC">CGST (in %)</th>
+                                <th width="100px" id="headerS">SGST (in %)</th>
+                                <th width="100px">Total Tax Amount</th>
+                                <th width="100px">Total Net Amount</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tableToModify">
+                            <tr>
+                                <td data-label="" class="text-center">
+                                    <span>
+                                        <div id="addothercharge" class="cursor-pointer "><img style="pointer-events: none;" src="~/assets/images/icons/help/add.svg" alt="" data-toggle="tooltip" title="" data-original-title="Add" class="icon-sm"></div>
+
+                                        <span style="display:none;" id="hdnOtherChargeId_0" class="hdnOtherChargeId">0</span>
+                                        <span style="display:none;" id="hdnOtherNew_0" class="hdnOtherNew">0</span>
+                                    </span>
+                                </td>
+                                <td data-label="Charge Name">
+                                    <span>
+                                        <select class="form-control applyselect ddlChargeName OMandate" id="ddlCharge_0" onchange="HideErrorMessage(this);setNARRCharges(this)">
+                                            <option>Select</option>
+                                        </select>
+                                        <span id="spddlCharge_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </span>
+                                </td>
+                                <td data-label="Charge Amount">
+                                    <span>
+                                        <input type="number" id="txtChargeAmount_0" class="form-control text-right ChargeAmount OMandate" value="" placeholder="0" oninput="GetTax(this)" onchange="HideErrorMessage(this);SetZero(this)">
+                                        <span id="sptxtChargeAmount_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                                    </span>
+                                </td>
+                                <td data-label="IGST (in %)" id="viewIGST">
+                                    <span>
+
+                                        <select class="form-control applyselect taxDdl" id="ddlTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+                                            <option>Select</option>
+                                        </select>
+                                        <span id="spddlTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </span>
+                                </td>
+                                <td data-label="CGST (in %)" id="viewCGST" style="display: none;">
+                                    <span>
+
+                                        <select class="form-control applyselect taxCDdl OCGSTPercentage" id="ddlCTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+                                            <option>Select</option>
+                                        </select>
+                                        <span id="spddlCTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </span>
+                                </td>
+                                <td data-label="SGST (in %)" id="viewSGST" style="display: none;">
+                                    <span>
+
+                                        <select class="form-control applyselect OSGSTPercentage taxSDdl" id="ddlSTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+                                            <option>Select</option>
+                                        </select>
+                                        <span id="spddlSTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </span>
+                                </td>
+                                <td data-label="Total Tax Amount">
+                                    <span>
+                                        <input placeholder="0" type="text" id="txtTax_0" class="form-control text-right TaxAmount OMandate" fdprocessedid="5nb56" disabled>
+
+                                    </span>
+                                </td>
+                                <td class="text-right" data-label="Total Net Amount"><span class="TotalOtherChargeAmount" id="spTotalOtherCharge_0"></span></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer text-center">
+
+                <button type="button" class="btn btn-lg actionbtn" onclick="SaveOtherCharges()" fdprocessedid="ogmb0u">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--  -->
+<!-- Popup Modal for File Limit -->
+<div id="fileLimitPopup" class="popup-modal">
+    <div class="popup-content">
+        <p id="popup-message"></p>
+        <button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+    </div>
+</div>
+<script>
+    var IsIGST = 0;
+</script>
+<script src="~/Areas/MaterialManagement/DevScript/PurchasOrder/fileupload_PO.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/PurchasOrder/CreatePurchaseOrder.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/PurchasOrder/OtherCharges.js"></script>

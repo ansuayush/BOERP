@@ -1,0 +1,425 @@
+﻿
+@{
+    ViewBag.Title = "ViewSalesOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string loginIDs = clsApplicationSetting.GetSessionValue("LoginID");
+}
+
+<input type="hidden" id="hdnOrderId" value="@ViewBag.OrderId" />
+<input type="hidden" id="hdnType" value="@ViewBag.Type" />
+<input type="hidden" id="hdnPageType" value="@ViewBag.PageType" />
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="/ManageOrder/OrderList?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Order Details<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        @if (@ViewBag.Type == "SaleOrder")
+        {
+            <a href="/ManageOrder/CreateOrder?auth=@ViewBag.Auth&id=@ViewBag.OrderId&Type=@ViewBag.Type" class="btn mr-2 actionbtn border-r-8">
+                <img src="~/assets/images/icons/help/edit-white-icon.png" class="btn-icon">Edit
+            </a>
+        }
+        else
+        {
+            <a href="/ManageOrder/BulkOrder?auth=@ViewBag.Auth&id=@ViewBag.OrderId&Type=@ViewBag.Type" class="btn mr-2 actionbtn border-r-8">
+                <img src="~/assets/images/icons/help/edit-white-icon.png" class="btn-icon">Edit
+            </a>
+        }
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 form-group">
+        <div class="card h-100 br-none p-0">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between">
+                <h2 class="title-two align-self-center">
+                    Client Information
+                </h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body pb-0 flex-initial view-form-group">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Customer</label>
+                        <p id="custName"></p>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label>Customer Contact Person</label>
+                        <p id="ContPersonName"></p>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>Customer Brand Name</label>
+                        <p id="custBrandName"></p>
+
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label>CRR</label>
+                        <p id="crrName"></p>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card br-none p-0">
+                <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between  ">
+                    <h2 class="title-two align-self-center">Raised By</h2>
+                    <div class="align-self-center"></div>
+                </div>
+                <div class="card-body view-form-group">
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="" class="readonlay">Name</label>
+                            <p id="lblReqName"></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0 h-100">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between  ">
+                <h2 class="title-two align-self-center">Basic Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 form-group ">
+                        <label for="">Series</label>
+                        <p id="seriesNo"></p>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 form-group">
+                        <label class="readonlay">Sales Order No</label>
+                        <p id="seriesOrderNo"></p>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label class="readonlay">Order Date</label>
+                        <p id="orderDate"></p>
+                    </div>
+                    <div class="col-md-4 col-sm-4 form-group">
+                        <label class="readonlay">PO No</label>
+                        <p id="poNo"><p>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label class="readonlay">PO Date</label>
+                        <p id="poDate"></p>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <label class="form-label">Payment Terms</label>
+                        <p id="paymentTerms"></p>
+
+                    </div>
+
+                    <div class="col-md-4 col-sm-4">
+                        <label class="form-label">Terms & Condition</label>
+                        <p id="termsCondition"></p>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4">
+                        <label class="form-label">Currency</label>
+                        <p id="currecny"></p>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4">
+                        <label class="form-label" id="lblOrderFor">Order For</label>
+                        <p id="orderFor"></p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 form-group">
+        <div class="card h-100 br-none p-0">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between  ">
+                <h2 class="title-two align-self-center">Billing Address</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Address</label>
+                        <p id="fullBillAddress"></p>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between  ">
+                <h2 class="title-two align-self-center">Shipping Address</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Address </label>
+                        <p id="fullShipAddress"></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between  ">
+                <h2 class="title-two align-self-center">Items Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive">
+
+                    <div class="table-wrap">
+                        <table id="datatableSaleOrder" class="display  dgntable dataTable no-footer radius-0 itemsinformation">
+                            <thead>
+                                <tr>
+
+                                    <th width="130">Item Code</th>
+                                    <th width="130">Item Name</th>
+                                    <th width="60">Size</th>
+                                    <th width="60">Qty</th>
+                                    <th width="60">Qty Unit</th>
+                                    <th width="100px" class="text-center">SFG/RM Price<span class="d-block">(per Kg)</span></th>
+                                    <th width="80px" class="text-center">SFG/RM Price<span class="d-block">(per Pc)</span></th>
+                                    <th width="100px" class="text-center">Total Packaging<span class="d-block">Cost(₹/Pc)</span></th>
+                                    <th width="90px" class="text-center">Other Charges<span class="d-block">(₹/Pc)</span></th>
+                                    <th width="80px" class="text-center">Selling Price<span class="d-block">(₹/Pc)</span></th>
+                                    <th width="80px" class="text-center">Total Amount</th>
+                                    <th width="100" class="text-center">View Status</th>
+                                </tr>
+                            </thead>
+                            @*<tbody>
+                                    <tr>
+                                        <td>FG0026</td>
+                                        <td>Baby Breath Fragrance Oil	</td>
+                                        <td class="text-right">50 ml</td>
+                                        <td class="text-right">100</td>
+                                        <td>Pcs</td>
+                                        <td class="text-right">₹ 1,600.00</td>
+                                        <td class="text-right">₹ 5.00</td>
+                                        <td class="text-right">₹ 5.00</td>
+                                        <td class="text-right">₹ 5.00</td>
+                                        <td class="text-right">₹ 5.00</td>
+                                        <td class="text-right">₹ 5.00</td>
+                                        <td class="text-right">₹ 5.00</td>
+                                        <td class="text-right">₹ 350.00</td>
+                                        <td class="text-center">
+                                            <a href="" data-toggle="modal" data-target="#ItemOtherChargesModal"><img src="~/assets/images/icons/help/edit-icon.png" class="icon-sm" alt="" /></a>
+                                        </td>
+                                    </tr>
+                                </tbody>*@
+                        </table>
+
+                        <table id="datatableSaleBulkOrder" class="display  dgntable dataTable no-footer radius-0 itemsinformation">
+                            <thead>
+                                <tr>
+
+                                    <th width="130">Sample Id</th>
+                                    <th width="130">Item Code</th>
+                                    <th width="120">Item Name</th>
+                                    <th width="60">Qty</th>
+                                    <th width="60">UOM</th>
+                                    <th width="100" class="text-center">Reference <span class="d-block">Selling Price</span></th>
+                                    <th width="80" class="text-center">Sample <span class="d-block">Selling Price</span></th>
+                                    <th width="100" class="text-center">Selling Price <span class="d-block">(Per unit)</span></th>
+                                    <th width="100" class="text-center">Total Packaging <span class="d-block">Charges</span></th>
+                                    <th width="100" class="text-center">Total Amount</th>
+
+                                </tr>
+                            </thead>
+
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row flex-column-reverse flex-lg-row">
+    <div class="col-lg-4 col-md-12 col-sm-12  form-group">
+        <div class="card br-none p-0 h-100">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between  ">
+                <h2 class="title-two align-self-center">Upload Customer PO</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <!--  -->
+                <p class="m-0 nofile" id="NoUploadFile1">No Upload</p>
+                <div class="section-container fileuploadview section-container-popup ">
+                    @*<p class="m-0 nofile">No Uploads</p>*@
+                    <div class="document-images hidden" id="ShowUploadFile1">
+                        <div id="documentImages1" class="document-images"></div>
+
+                    </div>
+                </div>
+
+                <!--  -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-12 form-group" style="display:none">
+        <div class="card br-none p-0 h-100">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between  ">
+                <h2 class="title-two align-self-center">Upload Packaging Image</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <!--  -->
+                <p class="m-0 nofile" id="NoUploadFile2">No Upload</p>
+                <div class="section-container fileuploadview  section-container-popup ">
+                    <!--  -->
+                    <div class="document-images hidden" id="ShowUploadFile2">
+                        <div id="documentImages2" class="document-images"></div>
+                    </div>
+                    <!--  -->
+                </div>
+
+                <!--  -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5 col-md-12 col-sm-12  form-group ">
+        <div class="card br-none p-0 ">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between  ">
+                <h2 class="title-two align-self-center">Remarks</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-205" id="remarks"></div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-3 col-md-12 col-sm-12 form-group ">
+        <div class="totalamount w-100">
+            <table class="bm-none">
+                <thead>
+                    <tr>
+                        <td width="100">Total :</td>
+                        <td class="text-right" width="100">
+                            <span id="totalBeforeTax">0.00</span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="fn-sm">GST Amount: :</td>
+                        <td class="text-right fn-sm"><span id="roundAmt">0.00</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="fn-sm">Total Amount :</td>
+                        <td class="text-right fn-sm"><span id="totalAmt">0.00</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="fn-sm">Advance Amount :</td>
+                        <td class="text-right fn-sm"><span id="advanceAmt">0.00</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="fn-sm">Outstanding Amount :</td>
+                        <td class="text-right"><span id="outstandingAmt">0.00</span></td>
+
+                    </tr>
+
+
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 align-self-end d-flex gap-10 justify-content-end text-right  mb-5">
+    <button id="btnCancel" type="button" class="btn btn-lg  cancelbtn" onclick="RedirectOrderList()">Cancel</button>
+
+</div>
+
+
+<!--  Other Charges Order  Popup-->
+<div class="modal fade drawer right-align" id="ItemOtherChargesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2> Other Charges (₹)</h2>
+                <img src="../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row" id="chargeListContainer">
+                    @*<div class="col-sm-12 form-group d-flex justify-content-between">
+                            <label>Semi Finished Goods - Base - SFG</label>
+                            <p>₹ 100.00</p>
+                        </div>
+                        <div class="col-sm-12 form-group d-flex justify-content-between">
+                            <label>Packing Material - Client Cap/Pump</label>
+                            <p>₹ 100.00</p>
+                        </div>
+                        <div class="col-sm-12 form-group d-flex justify-content-between">
+                            <label>Packing Material - Client Leaflet</label>
+                            <p>₹ 100.00</p>
+                        </div>
+                        <div class="col-sm-12 form-group d-flex justify-content-between">
+                            <label>Conversion Charge</label>
+                            <p>₹ 100.00</p>
+                        </div>
+                        <div class="col-sm-12 form-group d-flex justify-content-between">
+                            <label>Margin</label>
+                            <p>₹ 100.00</p>
+                        </div>
+                        <div class="col-sm-12 form-group d-flex justify-content-between">
+                            <label>Other Charges</label>
+                            <p>₹ 100.00</p>
+                        </div>*@
+
+                </div>
+
+                @*<div class="side-footer ">
+                        <button class="btn btn-lg  cancelbtn">Cancel</button>
+                    </div>*@
+
+
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="yourModalContainer"></div>
+
+<script src="~/Areas/ManageOrder/DevScript/CreateOrder.js"></script>
+<script src="~/Areas/ManageOrder/DevScript/fileupload1.js"></script>
+<script src="~/Areas/ManageOrder/DevScript/fileupload2.js"></script>
+
+<script>
+	var login_ID = "@loginIDs";
+</script>

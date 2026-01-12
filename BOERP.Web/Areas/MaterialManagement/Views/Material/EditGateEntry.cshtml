@@ -1,0 +1,362 @@
+﻿
+@{
+	ViewBag.Title = "EditGateEntry";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string statusGate_Entry = "Edit Gate Entry";
+
+	if (ViewBag.viewGateEntry == 1)
+	{
+		statusGate_Entry = "View Gate Entry";
+	}
+
+	string pointerStyle = ViewBag.viewGateEntry == 1 ? "pointer-events: none;" : "";
+
+}
+<script>
+	var itemId =@ViewBag.itemId
+</script>
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<a href="/MaterialManagement/Material/GateEntry?auth=@ViewBag.Auth"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a>@statusGate_Entry<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center"></div>
+</div>
+
+<div class="card br-none p-0">
+	<!-- <div class="card-header d-flex justify-content-between bg-none ">
+		<h2 class="title-two align-self-center"></h2>
+		<div class="align-self-center"></div>
+	</div> -->
+	<div class="card-body view-form-group">
+		<div class="row">
+			<div class="col-lg-3 col-md-4 col-sm-6 form-group ">
+
+				<label for="">Series<sup>*</sup></label>
+				<select onchange="HideErrorMessage(this)" class="form-control applyselect Mandatory" id="ddlGateEntrySeriesManual" disabled>
+					<option value="0">Select</option>
+				</select>
+				<span id="spddlGateEntrySeriesManual" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+			</div>
+
+			<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+				<label for="" class="readonlay">Document No.<sup>*</sup></label>
+				<input onchange="HideErrorMessage(this)" maxlength="20" type="text" class="form-control placeholder readonlyfield Mandatory" id="txtDocumentNo" disabled name="txtDocumentNo">
+				<span id="sptxtDocumentNo" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+			</div>
+
+			<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+
+				<label for="">Document Date<sup>*</sup></label>
+				<div class="input-group input-group-d">
+					<input onchange="HideErrorMessage(this)" type="text" id="txtDocumentDate" autocomplete="off" class="form-control Mandatory" disabled placeholder="DD/MM/YYYY">
+
+					<div class="input-group-append ">
+						<span class="input-group-text">
+							<img src="~/assets/images/icons/help/calendar-icon.svg" alt="">
+						</span>
+					</div>
+
+				</div>
+				<span id="sptxtDocumentDate" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 form-group ">
+
+				<label for="">Business Partner<sup>*</sup></label>
+				<select onchange="HideErrorMessage(this);" class="form-control applyselect Mandatory" id="ddlSupp">
+					<option value="0">Select</option>
+				</select>
+				<span id="spddlSupp" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+
+
+			</div>
+
+			<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+				<label for="">Invoice Number<sup>*</sup></label>
+				<input onchange="HideErrorMessage(this)" maxlength="20" type="text" id="txtInvoiceNumber" class="form-control placeholder Mandatory" value="" name="txtInvoiceNumber" placeholder="Enter">
+				<span id="sptxtInvoiceNumber" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+			</div>
+
+			<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+
+				<label for="">Invoice Date<sup>*</sup></label>
+				<div class="input-group">
+					<input onchange="HideErrorMessage(this)" type="text" id="txtInvoiceDate" autocomplete="off" class="datepicker form-control Mandatory" placeholder="DD/MM/YYYY">
+					<span class="clear-date">×</span>
+					<div class="input-group-append" style="@pointerStyle"> <span class="input-group-text"><img src="~/assets/images/icons/help/calendar-icon.svg" alt=""></span> </div>
+
+				</div>
+				<span id="sptxtInvoiceDate" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+			</div>
+
+
+			<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+
+				<label for="">Material Category<sup>*</sup></label>
+				<select onchange="HideErrorMessage(this)" class="form-control applyselect Mandatory" disabled id="ddlMaterialCategory">
+				</select>
+				<span id="spddlMaterialCategory" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6  form-group">
+				<label for="">Vehicle number<sup>*</sup></label>
+				<input onchange="HideErrorMessage(this)" maxlength="20" type="text" id="txtVehicleNumber" class="form-control placeholder Mandatory" value="" name="txtVehicleNumber" placeholder="Enter">
+				<span id="sptxtVehicleNumber" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+			</div>
+
+			<div class="col-lg-3 col-md-4 col-sm-6  form-group">
+				<label for="">Gate Number</label>
+				<input onchange="HideErrorMessage(this)" maxlength="20" type="text" class="form-control placeholder Mandatory" id="txtGateNumber" value="" name="txtGateNumber" placeholder="Enter">
+				<span id="sptxtGateNumber" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6  form-group">
+				<label for=""> Transporter Name<sup>*</sup></label>
+				<select class="form-control applyselect Mandatory" id="ddlTransporterName" onchange="HideErrorMessage(this);ChangeTransporterName();">
+					<option value="">Select</option>
+				</select>
+				<span id="spddlTransporterName" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+			</div>
+			<div class="col-sm-3">
+				<label class="readonlay">Address of Transporter </label>
+				<p id="pAddressofTransporter" class="m-0 readonlay">
+
+				</p>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+				<label for="">Client Material<sup>*</sup></label>
+				<!--  -->
+
+				<div class="d-flex flex-wrap gap-20 mt-2">
+					<input type="radio" id="rdoClientMaterialYes" class="radio" name="radio-group">
+					<label for="rdoClientMaterialYes">Yes</label>
+
+					<input type="radio" id="rdoClientMaterialNo" class="radio" name="radio-group">
+					<label for="rdoClientMaterialNo">No</label>
+				</div>
+
+				<!--  -->
+			</div>
+
+
+			<div class="col-lg-12 form-group">
+				<div class="card br-none p-0  ">
+					<div class="card-header d-flex justify-content-between bg-none ">
+						<h2 class="title-two align-self-center">Upload</h2>
+						<div class="align-self-center"></div>
+					</div>
+					@if (ViewBag.viewGateEntry == 0)
+					{
+						<div class="card-body view-form-group">
+							<div class="row">
+								<div class="col-lg-4 col-md-6 col-sm-6">
+									<label>Material Photo Upload</label>
+									<div class="section-container section-container-popup">
+										<div class="fileuploadview drag-area1">
+											<div class="uploadicon_text file-input-button justify-m-content pb-m-0" id="fileInputButton1">
+
+												<div class="uploadicon">
+													<img src="~/assets/images/icons/help/fileupload-icon.svg" alt="" class="icon-sm d-m-block">
+													<img src="~/assets/images/icons/help/camera-icon.png" class="icon-sm d-m-none d-none" />
+												</div>
+												<div class="uploadtext drag-file" id="dragFile1">
+													<h4 class="d-m-none d-none"> Click here</h4>
+													<h4 class="d-m-block">Drop files here or click to upload</h4>
+													<h6 class="d-m-block">This is a dropzone, drop files or click to browse</h6>
+													<span class="error d-m-block">The file size should be between 20KB and 2MB,<br> with a maximum of 10 attachments.</span>
+												</div>
+											</div>
+											<input type="file" id="fileMaterialPhoto" class="file-input hidden" multiple />
+											<div id="documentImages1" class="document-images"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-6 col-sm-6">
+									<label>Material COA Upload</label>
+									<div class="section-container section-container-popup">
+										<div class="fileuploadview drag-area2">
+											<div class="uploadicon_text file-input-button justify-m-content pb-m-0" id="fileInputButton2">
+												<div class="uploadicon">
+
+													<img src="~/assets/images/icons/help/fileupload-icon.svg" alt="" class="icon-sm d-m-block">
+													<img src="~/assets/images/icons/help/camera-icon.png" class="icon-sm d-m-none d-none" />
+												</div>
+												<div class="uploadtext drag-file" id="dragFile2">
+													<h4 class="d-m-none d-none"> Click here</h4>
+													<h4 class="d-m-block">Drop files here or click to upload</h4>
+													<h6 class="d-m-block">This is a dropzone, drop files or click to browse</h6>
+													<span class="error d-m-block">The file size should be between 20KB and 2MB,<br> with a maximum of 10 attachments.</span>
+												</div>
+											</div>
+											<input type="file" id="fileMaterialCOA" class="file-input hidden" multiple />
+											<div id="documentImages2" class="document-images"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-12 col-sm-12">
+									<label>Invoice <sup>*</sup></label>
+									<div class="section-container section-container-popup">
+										<div class="fileuploadview drag-area3">
+											<div class="uploadicon_text file-input-button justify-m-content pb-m-0" id="fileInputButton3">
+												<div class="uploadicon">
+													<img src="~/assets/images/icons/help/fileupload-icon.svg" alt="" class="icon-sm d-m-block">
+													<img src="~/assets/images/icons/help/camera-icon.png" class="icon-sm d-m-none d-none" />
+												</div>
+												<div class="uploadtext drag-file" id="dragFile3">
+													<h4 class="d-m-none d-none"> Click here</h4>
+													<h4 class="d-m-block">Drop files here or click to upload</h4>
+													<h6 class="d-m-block">This is a dropzone, drop files or click to browse</h6>
+													<span class="error d-m-block">The file size should be between 20KB and 2MB,<br> with a maximum of 10 attachments.</span>
+												</div>
+											</div>
+											<input type="file" id="fileAttachment3" class="file-input hidden" multiple />
+											<div id="documentImages3" class="document-images"></div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+					}
+					else
+					{
+						<div class="card-body view-form-group">
+							<div class="row">
+
+								<div class="col-lg-4 form-group">
+									<div class="card br-none p-0">
+										<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+											<h2 class="title-two align-self-center">Material Photo Upload</h2>
+											<div class="align-self-center"></div>
+										</div>
+										<div class="card-body view-form-group min-175 ">
+											<p class="m-0 nofile" id="NoUploadFile1">No Upload</p>
+											<div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile1">
+												<!--  -->
+												<div id="documentImagesMP" class="document-images">
+
+												</div>
+												<!--  -->
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-4 form-group">
+									<div class="card br-none p-0">
+										<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+											<h2 class="title-two align-self-center">Material COA Upload</h2>
+											<div class="align-self-center"></div>
+										</div>
+										<div class="card-body view-form-group min-175 ">
+											<p class="m-0 nofile" id="NoUploadFile2">No Upload</p>
+											<div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile2">
+												<!--  -->
+												<div id="documentImagesMCU" class="document-images">
+
+												</div>
+												<!--  -->
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="col-lg-4 form-group">
+									<div class="card br-none p-0">
+										<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+											<h2 class="title-two align-self-center">Attachment</h2>
+											<div class="align-self-center"></div>
+										</div>
+										<div class="card-body view-form-group min-175 ">
+											<p class="m-0 nofile" id="NoUploadFile3">No Upload</p>
+											<div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile3">
+												<!--  -->
+												<div id="documentImagesAtt" class="document-images previewimg">
+
+												</div>
+												<!--  -->
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+
+					}
+				</div>
+			</div>
+			<div class="col-md-12 align-self-end d-flex gap-10 justify-content-end text-right buttongroup mt-0">
+				<button type="submit" onclick="CancleGateEntry();" class="btn btn-lg  cancelbtn">Cancel</button>
+
+				@if (ViewBag.viewGateEntry == 0)
+				{
+					<button type="submit" onclick="SaveGateEntry();" class="btn  btn-lg  actionbtn">Update</button>
+				}
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Popup Modal for File Limit -->
+<div id="fileLimitPopup" class="popup-modal">
+	<div class="popup-content">
+		<p id="popup-message"></p>
+		<button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+	</div>
+</div>
+<!-- add Modal popup -->
+<div class="modal" id="radioModal">
+	<div class="modal-dialog modal-dialog-centered modal-md">
+		<div class="modal-content ">
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title text-left w-100">Sales Order Id</h4>
+				<button type="button" class="close" data-dismiss="modal"><img src="../../assets/images/icons/help/close-icon.png" class="closeicon"></button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="text-center note-popup">
+					<p>Please select sales order id to continue</p>
+				</div>
+				<div class="row">
+
+
+					<div class="col-sm-12 form-group">
+
+						<label for="role">Sales Order ID</label>
+
+
+						<select class="applyselect form-control" id="optionSelect">
+							<option>Select</option>
+							<option value="create-purchase-order.html">Sales Order ID 1 </option>
+							<option value="create-purchase-order.html">Sales Order ID 2 </option>
+							<option value="create-purchase-order.html">Sales Order ID 3</option>
+							<option value="create-purchase-order.html">Sales Order ID 4</option>
+						</select>
+
+
+					</div>
+
+
+
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="" class="btn btn-lg  cancelbtn">CANCEL</button> <button class="btn btn-lg actionbtn">Save</button>
+			</div>
+
+
+		</div>
+	</div>
+</div>
+<script>
+    var isView = "@ViewBag.viewGateEntry"
+</script>
+<script src="~/Areas/MaterialManagement/DevScript/GateEntry/EditGateEntry.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/GateEntry/materialImageupload.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/GateEntry/invoiceImageupload.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/GateEntry/coaImageupload.js"></script>

@@ -1,0 +1,127 @@
+﻿
+@model IList<SahajFramework.Models.EmailTemplate>
+@{
+    ViewBag.Title = "EmailTemplate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul class="tablink">
+    <li>
+        <a href="#" class="nav-link active">Email Template</a>
+    </li>
+</ul>
+
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex "  >        
+    </h1>
+    <div class="align-self-center gap-10 d-flex">
+        <a href="#" style="display:none;" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+        <a href="/EmailTemplates/EmailTemplateAdd?auth=@ViewBag.Auth&templateId=0"   class="btn mr-2 actionbtn border-r-8"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Add Template</a>
+    </div>
+</div>
+ 
+<div class="secondary-light-bg third-container">
+    <div>
+        @Html.Partial("ListHeader_Partial", "")
+
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="card p-0">
+                    <div class="card-body p-0">
+
+                        <div class="x_content table-currency">
+
+
+
+                            <div class="table-responsive">
+                                <table id="datatable-buttons" class="display stickyth   dgntable dataTable no-footer radius-0 itemsinformation">
+                                    <thead>
+                                        <tr>
+                                            <th width="40" >S.no.</th>
+                                            <th  width="80" class="text-center">Action</th>
+                                            <th>Template Group</th>
+                                            <th>Template Name</th>
+                                            <th>Subject</th>
+                                            <th>CC Mail</th>
+                                            <th>BCC Mail</th>
+                                            <th>Inserted Date</th>
+                                            <th  width="120">Updated Date</th>
+                                            <th  width="120">IP Address</th>
+                                        </tr>
+                                        <tr class="searchbar">
+                                            <th class="searchhide"></th>
+                                            <th class="searchhide"></th>
+                                            <th> </th>
+
+                                            <th> </th>
+                                            <th></th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @{ int Count = 0;}
+                                        @foreach (SahajFramework.Models.EmailTemplate item in Model)
+                                        {
+                                            Count++;
+                                            <tr class="@(item.IsActive == true?"": "trrowred")">
+                                                <td>@Count</td>
+                                                <td>
+                                                    <div class="text-center-sm action-btn-td justify-content-center d-flex">
+                                                        <input type="hidden" name="I" value="@item.ID" />
+                                                        <input type="hidden" name="N" value="@item.TemplateName" />
+
+                                                        @Html.Raw(item.IsActive == true
+                                                       ? "<a  data-toggle='tooltip' data-original-title='Click to DeActivate' onclick='ActiveAndDeActive(" + @item.ID + ")' list='EmailTemplateList' OP='0' class='AIsActive' > <i class='fa fa-check-circle checkgreen fn-md' aria-hidden='true'></i></a>"
+                                                       : "<a data-toggle='tooltip' data-original-title='Click to Activate' onclick='ActiveAndDeActive(" + @item.ID + ")' list='EmailTemplateList' OP='1'  class='AIsActive' > <i class='fa fa-times-circle red-clr crossred fn-md' aria-hidden='true'></i></a>")
+                                                        <span class="divline"> | </span>
+                                                        <a title="Edit" href="/EmailTemplates/EmailTemplateAdd?auth=@ViewBag.Auth&templateId=@item.ID" data-toggle='tooltip'><img src="~/assets/images/icons/help/edit-icon.png" alt="" class="action-image"></a>
+
+                                                    </div>
+                                                </td>
+
+                                                <td> @item.GroupName</td>
+                                                <td> @item.TemplateName</td>
+                                                <td> @item.Subject</td>
+                                                <td>@item.CCMail</td>
+                                                <td>@item.BCCMail</td>
+                                                <td>@item.CreatedDate</td>
+                                                <td>@item.ModifiedDate</td>
+                                                <td>@item.IPAddress</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>function ActiveAndDeActive(id) {
+		var model = {
+			ID: id,
+		}
+		const jsonString = JSON.stringify(model);
+		// Assign the final data for submission
+		let GenericModeldata = {
+			ScreenID: "EmailTemp",
+			Operation: "U",  // Use Update for existing records, Add for new ones
+			ModelData: jsonString
+		};
+		CommonAjaxMethod(virtualPath + 'Generic/PerformOperationAsync', GenericModeldata, 'POST', function (response) {
+			setTimeout(function () {
+				window.location.reload();
+			}, 1000);
+		});
+	}</script>

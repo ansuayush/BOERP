@@ -1,0 +1,20 @@
+﻿
+		@if (TempData["Success"] != null)
+	{
+
+		<div id="MsgDiv" class="scs-mgs wow bounceInUp" data-wow-delay="0.1s" style="visibility: hidden; -webkit-animation-delay: 0.1s; -moz-animation-delay: 0.1s; animation-delay: 0.1s;" >
+			
+			
+			<!---- <a id="CloseDiv" onclick="MsgClose()">
+				<div class="alert alert-light  alert-elevate fade show @(TempData["Success"].ToString()=="Y"?"green-clr": "red-clr")" role="alert">
+					<div class="alert-icon"><i class="@(TempData["Success"].ToString()=="Y"?"fas fa-check": "fas fa-times-circle")"></i></div>
+					<div class="alert-text">
+						@TempData["SuccessMsg"].ToString()
+
+					</div>
+				</div>
+				<i class="fas fa-times"></i>
+			</a> ---->
+		</div>
+}
+	

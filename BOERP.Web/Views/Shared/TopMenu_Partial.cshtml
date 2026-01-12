@@ -1,0 +1,83 @@
+﻿@using SahajFramework.CommonClass;
+@using SahajFramework.Models;
+@{
+     
+    int selectedModuleId = 0;
+
+    string userType = clsApplicationSetting.GetSessionValue("UserType");
+    string loginIDs = clsApplicationSetting.GetSessionValue("LoginID");
+    string auth = Request.QueryString["auth"];
+    var AdminModuleMenu = new AdminModuleMenu();
+    var MainMenuModal = new List<AdminModule>();
+    var MenuList = new List<AdminMenu>();
+    var filteredMenus= new List<AdminMenu>();
+    try
+    {
+
+        AdminModuleMenu = SahajFramework.CommonClass.ClsCommon.GetAdminModuleMenu(auth);
+        MainMenuModal = AdminModuleMenu.AdminModuleList;
+        MenuList = AdminModuleMenu.AdminMenuList;
+
+        selectedModuleId = Session["SelectedModuleID"] != null ? Convert.ToInt32(Session["SelectedModuleID"]) : 0;
+
+        filteredMenus = MenuList.Where(m => m.ModuleID == selectedModuleId && m.ParentMenuID == 0).ToList();
+
+    }
+    catch (Exception)
+    {
+
+        Response.Redirect(Url.Action("Login", "Account"));
+        return; // prevent further rendering
+    }
+
+    //<span class="menu-text" @(menuItem.MenuID == 26 ? "style='display: none;'" : "")>@menuItem.MenuName</span>
+
+}
+<ul class="list-unstyled d-flex header-menu m-0 pr-35">
+    @if (selectedModuleId == 23)
+    {
+        foreach (var menuItem in filteredMenus)
+        {
+            <li class="align-self-center option">
+                <a href="@menuItem.MenuURL">@menuItem.MenuName</a>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="align-self-center option">
+            <a href="~/ManageDelegation/MyDelegation?auth=@ViewBag.Auth" class="active">Delegation Sheet</a>
+        </li>
+        <li class="align-self-center option">
+            <a href="~/ManageDoer/DoerDashboard?auth=@ViewBag.Auth">Checklist</a>
+        </li>
+        <li class="align-self-center option">
+            @if (loginIDs == "1")
+            {
+                <a id="ahref" href="~/Account/AdminDashboard?auth=@ViewBag.Auth" class="m-brand__logo-wrapper">MIS Scoring</a>
+            }
+            else
+            {
+                <a id="ahref" href="~/Account/EmployeeDashboard?auth=@ViewBag.Auth" class="m-brand__logo-wrapper">MIS Scoring</a>
+            }
+        </li>
+        <li class="align-self-center option"><a href="">Help Ticket</a></li>
+        <li class="align-self-center option"><a href="">Technical Help</a></li>
+        <li class="align-self-center dropdown dropdown-default ">
+            <a id="option" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                Options
+                <span class="caret">
+                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon" class="ml-[15px] h-5 w-5 text-[#333333]">
+                        <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
+                    </svg>
+                </span>
+            </a>
+            <ul class="dropdown-menu w-56 dropdown-menu-right" role="menu" aria-labelledby="option">
+                <li role="presentation"><a role="menuitem" tabindex="-1" class="text-sm text-gray-700" href="">Example 1</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" class="text-sm text-gray-700" href="">Example 2</a></li>
+            </ul>
+        </li>
+    }
+</ul>
+
+

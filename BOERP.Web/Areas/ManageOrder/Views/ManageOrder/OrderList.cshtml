@@ -1,0 +1,321 @@
+﻿
+@{
+	ViewBag.Title = "Sale Order List";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+	@@media (min-width: 576px) {
+		.modal-sm {
+			max-width: 500px !important;
+		}
+	}
+</style>
+
+<!-- page title -->
+
+<ul class="tablink">
+	<li><a href="OrderList?auth=@ViewBag.Auth" id="open" class="nav-link active">Sales Order Management</a></li>
+	<li><a href="/ManageBOM/FGBOMList?auth=@ViewBag.Auth" id="dispatch" class="nav-link">Finished Goods BOM</a></li>
+
+</ul>
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h5 class="title-two m-0 align-self-center">
+		Order Management <img src="../../assets/images/icons/help/info-icon.png"
+						  alt="info icon" class="icon-sm" data-toggle="tooltip"
+						  title="This page shows list of all the products">
+	</h5>
+
+	<div class="align-self-center heading-action-btn">
+		<a href="#" class="btn border-r-8" data-toggle="tooltip" id="" title="Download">
+			<img src="~/assets/images/icons/help/filter/download-icon.svg" id="exportExcel" title="Download Excel Report" class="btn-icon m-0">
+		</a>
+
+		<div class=" dropdown">
+			<button class="dropdown-toggle arrow-none btn mr-2 actionbtn border-r-8 " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+				<img src="/assets/images/icons/help/add-white-icon.png" class="btn-icon"> Create Sales Order<img src="../assets/images/icons/help/bottom-arrow-white.png" class="btn-icon btn-icon-right " />
+			</button>
+			<div class="dropdown-menu actiondropdown dropdown-menu-right  " aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item d-flex gap-10" href="/ManageOrder/CreateOrder?auth=@ViewBag.Auth">
+					Create Order
+				</a>
+
+				<a class="dropdown-item d-flex gap-10" href="/ManageOrder/BulkOrder?auth=@ViewBag.Auth">
+					Bulk Order
+				</a>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+<!--  -->
+
+<div class="secondary-light-bg third-container">
+	<div class="row table-filter">
+		<div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none">
+			<label for="role">Brand Name </label>
+			<select class="form-control applyselect MandateOrder" id="ddlBrand" name="" onchange="HideErrorMessage(this); bindSaleOrderGridFilter()"></select>
+			<span id="spddlBrandType" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+		</div>
+
+		@*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+				<label for="role">Created By </label>
+				<select class="form-control applyselect">
+
+					<option>All</option>
+					<option>Priya Krishnan</option>
+					<option>Rishabh Jain</option>
+					<option>Divya Reddy</option>
+				</select>
+			</div>
+			<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+				<label for="role">Stage </label>
+				<select class="form-control applyselect">
+
+					<option>All</option>
+					<option>MGF</option>
+					<option>Artwork Received</option>
+					<option>Purchase PM</option>
+				</select>
+			</div>*@
+		<div class="col-sm-2 ml-auto form-group">
+			<div class="searchbox">
+				<label style="" for="role"></label>
+				<div class="search w-300">
+					<label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+					<input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-wrapper" style="padding-top: 40px">
+		<div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="orderstatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xlg modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title text-center w-100">Order Status</h4>
+				<button type="button" class="close" data-dismiss="modal"><img src="../../assets/images/icons/help/close-icon.png" class="closeicon"></button>
+			</div>
+			<div class="modal-body">
+				<div class="orderstatus">
+					<table class="table " style="table-layout:fixed;">
+						<thead>
+							<tr>
+								<th width="230px"></th>
+								<th width="120px">Planned Date</th>
+								<th width="120px">Actual Date</th>
+								<th width="120px">Delay (Days)</th>
+								<th width="180px">Doer Name</th>
+								<th width="250px">Remarks</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Accounts Approval</td>
+								<td class="status-green text-center">12/07/2024</td>
+								<td class="status-green text-center">12/07/2024</td>
+								<td class="status-green text-center">0</td>
+								<td class="status-green text-center">Vikas Malhotra</td>
+								<td class="status-green">----</td>
+							</tr>
+							<tr>
+								<td>FDA Approval</td>
+								<td class="status-red text-center">14/07/2024</td>
+								<td class="status-red text-center">15/07/2024</td>
+								<td class="status-red text-center">1</td>
+								<td class="status-red text-center">Arjun Sharma</td>
+								<td class="status-red">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</td>
+							</tr>
+							<tr>
+								<td>Artwork Received</td>
+								<td class="status-red text-center">15/07/2024</td>
+								<td class="status-red text-center">16/07/2024</td>
+								<td class="status-red text-center">1</td>
+								<td class="status-red text-center">Neha Shah</td>
+								<td class="status-red">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</td>
+							</tr>
+							<tr>
+								<td>Graphic Review</td>
+								<td class="status-green text-center">17/07/2024</td>
+								<td class="status-green text-center">17/07/2024</td>
+								<td class="status-green text-center">0</td>
+								<td class="status-green text-center">Sohan Desai</td>
+								<td class="status-green">----</td>
+							</tr>
+							<tr>
+								<td>Legal Review</td>
+								<td class="status-red text-center">20/07/2024</td>
+								<td class="status-red text-center">22/07/2024</td>
+								<td class="status-red text-center">2</td>
+								<td class="status-red text-center">Aarti Prakash</td>
+								<td class="status-red">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</td>
+							</tr>
+							<tr>
+								<td>Sample Received</td>
+								<td class="empty-cell">25/07/2024</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">Neelam Singh</td>
+								<td class="empty-cell">----</td>
+							</tr>
+							<tr>
+								<td>Sample QC</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+							</tr>
+							<tr>
+								<td>Sample Approval from Client</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+							</tr>
+							<tr>
+								<td>Delivery Confirmation</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+							</tr>
+							<tr>
+								<td>Purchase RM</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+							</tr>
+							<tr>
+								<td>Purchase PM</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+							</tr>
+							<tr>
+								<td>PM QC</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+								<td class="empty-cell">----</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- confirmation Modal popup -->
+<div class="modal" id="deletepopup">
+	<div class="modal-dialog modal-dialog-centered modal-default">
+		<div class="modal-content ">
+
+
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="warningmsg">
+					<img src="../../assets/images/icons/help/warning-icon.svg" class="warningicon">
+					<h6 class="text-text-center">Delete Order </h6>
+					<span class="d-block">Are you sure you want to delete this order?</span>
+
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal">Delete</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- Delete Order Popup -->
+
+<div class="modal" id="deleteSaleOrder" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-dialog-centered modal-default">
+		<div class="modal-content ">
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="warningmsg">
+					<img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+					<h6 class="text-center">Are you sure you want to delete this order</h6>
+					
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-lg  cancelbtn radius-24" onclick="deleteOrderByType()">Yes</button>
+				<button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal">No</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Archive Popup -->
+
+<div class="modal" id="archiveOrder" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-dialog-centered modal-default">
+		<div class="modal-content ">
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="warningmsg">
+					<img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+					<h6 class="text-center">Are you sure you want to archive this order</h6>
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-lg  cancelbtn radius-24" onclick="updateArchiveStatusByType(1)">Yes</button>
+				<button type="button" onclick="updateArchiveStatusByType(2)" class="btn btn-lg actionbtn radius-24">No</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+<script src="~/Areas/ManageOrder/DevScript/OrderList.js"></script>

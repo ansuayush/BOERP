@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "UserLoginActivity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        <a href="/ManageEmployee/EmployeeMaster?auth=@ViewBag.Auth"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a>User Login Activity<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        @*<a href="" class="btn actionbtn iconbtn"><img src="../../assets/images/icons/help/print-white-icon.svg" alt="" /></a>*@
+    </div>
+</div>
+<!--  -->
+
+<div class="white-bg third-container">
+    
+    <!--  -->
+
+    <div class="row mb-2  table-filter">
+        <div class="col-md-2 ">
+            <div class="box-none w-100 align-self-center">
+                <p class="m-0 title-22 text-16" id="emp_name"></p>
+                <small class="" id="emp_code"></small>
+                <p class="text-14 m-0" id="dept"></p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 wf-575 col-lg-2 fieldlable">
+            <label for="">From</label>
+
+            <div class="input-group">
+                <input type="text" class="form-control datepickersecond" autocomplete="off" placeholder="dd-mm-yyyy" id="pendingFromDate" readonly>
+                <span class="clear-date">×</span>
+                <div class="input-group-append ">
+                    <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3 wf-575 col-lg-2 fieldlable">
+            <label for="">To</label>
+            <div class="input-group">
+                <input type="text" class="form-control datepickersecond" autocomplete="off" placeholder="dd-mm-yyyy" id="pendingToDate" readonly>
+                <span class="clear-date">×</span>
+                <div class="input-group-append dateicon">
+                    <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table id="UserActivityLog" class="display rstable dgntable dataTable no-footer">
+            <thead>
+                <tr>
+
+
+                    <th width="250" >Date</th>
+                    <th width="150">Login Time</th>
+                    <th width="120">Logout Time</th>
+                    <th width="150">Active Time</th>
+                </tr>
+
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!--  -->
+</div>
+
+
+
+<!-- confirmation Modal popup -->
+<div class="modal" id="deletepopup">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">Inactive Rohit Kumar</h6>
+                    <span class="d-block">Are you sure you want to Inactive this user?</span>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var id = "@ViewBag.id";
+    var name = "@ViewBag.name";
+</script>
+<script src="~/Areas/ManageEmployee/DevScript/UserLoginActivity.js"></script>

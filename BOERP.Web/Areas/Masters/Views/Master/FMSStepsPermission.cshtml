@@ -1,0 +1,125 @@
+﻿
+@{
+	ViewBag.Title = "FMS Steps Permission";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using SahajFramework.CommonClass;
+@using SahajFramework.Models;
+@{
+	string auth = Request.QueryString["auth"];
+	string roleId = Request.QueryString["roleId"];
+	var AdminModuleMenu = SahajFramework.CommonClass.ClsCommon.GetMenuForPermission(auth, roleId, "FMSStepsPer");
+	var MainMenuModal = AdminModuleMenu.AdminModuleList;
+	var MenuList = AdminModuleMenu.AdminMenuList;
+
+}
+
+<!-- page title -->
+<input type="hidden" value="@ViewBag.Auth" id="hdnAuth" />
+<input type="hidden" value="@ViewBag.RoleId" id="hdnRoleId" />
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex ">Role Menu Management</h1>
+	<div class="align-self-center heading-action-btn w-100-slt primary-color-slt">
+		<button id="btnFMSStepPerUpdate" type="button" value="Update" class="btn  btn-lg  actionbtn " fdprocessedid="rjwvrn"><i class="fas fa-pencil-alt"></i> Update</button>
+		<button type="button" class="btn btn-lg  cancelbtn" data-toggle="tooltip" title="" onclick="RedirectToRole()" data-original-title="Cancel" fdprocessedid="vfl4k4"><i class="fas fa-times"></i> Cancel</button>
+	</div>
+</div>
+<!--  -->
+
+<div class="secondmain main-br main-min-height-primary">
+	<!--  -->
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+
+			<div id="accordion" class="acdgn" role="tablist" aria-multiselectable="true">
+				<!--  -->
+				<div class="card p-0 mb-2">
+					<div class="card-header  p-0" role="tab" id="heading_1">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_2" class="blk-gdn-btn hd-acd" aria-expanded="true" aria-controls="collapse_2">
+							<strong>FMS Steps Permission</strong>
+						</a>
+					</div>
+					<div id="collapse_2" class="collapse show " role="tabpanel" aria-labelledby="heading_1" aria-expanded="false" style="">
+						<div class="card-body p-0 shadow-box">
+							<div class="table-responsive menu-tbl">
+								<table class="table rstable  " width="100%">
+									<thead>
+										<tr>
+											<th><i class="fas fa-bars"></i> Menu Name</th>
+											<th class="text-center" width="90"><i class="fas fa-book"></i> View</th>
+											@*<th class="text-center" width="90"><i class="fas fa-pencil-alt"></i> Add</th>*@
+											<th class="text-center" width="90"><i class="fas fa-edit"></i> Edit</th>
+											@*<th class="text-center" width="90"><i class="fas fa-trash-alt"></i> Delete</th>
+												<th class="text-center" width="90"><i class="fa fa-file-excel"></i> Print</th>*@
+										</tr>
+									</thead>
+									<tbody>
+										@foreach (AdminModule item in MainMenuModal.OrderBy(a => a.ModulePriority))
+										{
+											<tr class="ParentMenuList data-label-none">
+												<td colspan="6"><strong><i class="fas fa-folder"></i> @item.ModuleName</strong></td>
+												@*<td class="text-right d-none-1024"></td>
+													<td class="text-right"></td>
+													<td class="text-right"></td>
+													<td class="text-right"></td>
+													<td class="text-center"></td>*@
+											</tr>
+											if (MenuList.Where(a => a.ModuleID == item.ModuleID).ToList().Count > 0)
+											{
+												foreach (var menuItem in MenuList.Where(a => a.ModuleID == item.ModuleID).OrderBy(a => a.MenuPriority).ToList())
+												{
+													if (menuItem.ParentMenuID != 0)
+													{
+
+													}
+													else
+													{
+														<tr class="ChildMenuList" data-moduleid="@menuItem.ModuleID">
+															<td class="data-label-none"><span class="spDocNo" id="@menuItem.DocNumber"></span> <i class="fa fa-chevron-right"></i> @menuItem.MenuName</td>
+															<td class="text-right text-center">
+																<input class="Readchild_1" type="checkbox" id="Read_@menuItem.DocNumber" name="Read_@menuItem.DocNumber" @(menuItem.R ? "checked" : "")>
+																<label for="Read_@menuItem.DocNumber" class="pr-none p-0"></label>
+															</td>
+															@*<td class="text-right text-center">
+																	<input class="Writechild_1" type="checkbox" id="Write_@menuItem.DocNumber" name="Write_@menuItem.DocNumber" @(menuItem.W ? "checked" : "")>
+																	<label for="Write_@menuItem.DocNumber" class="pr-none p-0"></label>
+																</td>*@
+															<td class="text-right text-center">
+																<input class="Modifychild_1" type="checkbox" id="Modify_@menuItem.DocNumber" name="Modify_@menuItem.DocNumber" @(menuItem.M ? "checked" : "")>
+																<label for="Modify_@menuItem.DocNumber" class="pr-none p-0"></label>
+															</td>
+															@*<td class="text-right text-center">
+																	<input class="Deletechild_1" type="checkbox" id="Delete_@menuItem.DocNumber" name="Delete_@menuItem.DocNumber" @(menuItem.D ? "checked" : "")>
+																	<label for="Delete_@menuItem.DocNumber" class="pr-none p-0"></label>
+																</td>
+																<td class="text-right text-center">
+																	<input class="Exportchild_1" type="checkbox" id="Export_@menuItem.DocNumber" name="Export_@menuItem.DocNumber" @(menuItem.E ? "checked" : "")>
+																	<label for="Export_@menuItem.DocNumber" class="pr-none p-0"></label>
+																</td>*@
+														</tr>
+													}
+												}
+
+											}
+										}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--  -->
+			</div>
+
+
+
+		</div>
+	</div>
+	<!--  -->
+</div>
+
+
+
+<script src="~/Areas/Masters/DevScript/RoleMenuManagement.js"></script>

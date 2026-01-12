@@ -1,0 +1,521 @@
+﻿
+@{
+    ViewBag.Title = "UserList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- page title -->
+<style>
+
+    .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+        background-color: #44488c !important;
+    }
+
+    #customLoader {
+        background: rgba(0, 0, 0, 0.7) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding: 0px 5px !important;
+    }
+
+    .ag-header-group-cell-label, .ag-cell-label-container {
+        padding: 0px 0px !important;
+    }
+
+    #customLoader img {
+        width: 40px;
+        height: 40px
+    }
+
+    .ag-text-field-input {
+        color: #000 !important;
+        font-size: 10px !important
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        display: none;
+        width: auto;
+        z-index: 1000;
+        overflow: inherit !important;
+    }
+
+        .custom-alert .modal-body {
+            padding-bottom: 0px;
+            overflow: scroll;
+            height: 400px;
+            overflow-x: hidden;
+        }
+
+    .custom-lg {
+        width: 630px;
+        background: #fff;
+        font-size: 10px;
+        border-radius: 8px
+    }
+
+    .custom-alert table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .custom-alert th {
+        background: #2f3261;
+        color: #fff;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 2px 5px !important;
+        text-align: left;
+        word-break: break-all;
+        vertical-align: top;
+        line-height: 25px;
+        font-size: 12px;
+        text-transform: lowercase;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+</style>
+<input type="hidden" id="hdnUserListId" />
+
+
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">User Lists</h1>
+    <div class="align-self-center">
+        
+        <a href="" onclick="addUserListId()" class="btn mr-2 actionbtn" data-toggle="modal" data-target="#add"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Add</a>
+        @*<a href="" class="btn"><i class="fa fa-file-excel"></i> Export</a>*@
+    </div>
+</div>
+
+<div class="col-lg-2 col-md-4 col-sm-4 ml-auto form-group align-self-end">
+    <div class="d-flex gap-5 justify-content-end ">
+        <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+        <div class="searchbox  w-350">
+            <div class="search">
+                <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+    <!--  -->
+    <!--  -->
+    <!--<div class="table-responsive">
+        <table id="tableUserList" class="display single-sort rstable dgntable dataTable no-footer">
+            <thead>
+                <tr>-->
+    @*<th width="50" rowspan="1" colspan="1">S.No</th>*@
+    <!--<th width="150" rowspan="1" colspan="1">User Type</th>
+        <th width="150" rowspan="1" colspan="1">User ID</th>
+        <th width="250" rowspan="1" colspan="1">Role Name</th>
+        <th width="150" rowspan="1" colspan="1">Name</th>
+        <th width="220" rowspan="1" colspan="1">Email</th>
+        <th width="150" rowspan="1" colspan="1">Inserted Date</th>
+        <th width="150" rowspan="1" colspan="1">Updated Date</th>
+        <th width="100" rowspan="1" colspan="1">IP Address</th>
+        <th width="150" rowspan="1" colspan="1">Action</th>
+    </tr>
+
+    <tr class="searchfilter">-->
+    @*<th width="50" class="searchhide"></th>*@
+    <!--<th></th>
+                    <th></th>
+                    <th width="150"></th>
+                    <th width="150"></th>
+                    <th width="150"></th>
+                    <th width="150"></th>
+                    <th width="150"></th>
+                    <th width="150" class="searchhide"></th>
+                    <th width="150" class="searchhide"></th>
+                </tr>
+
+
+            </thead>
+        </table>
+    </div>-->
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+
+    <div class="modal" id="confirmation" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-default">
+            <div class="modal-content">
+
+
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="warningmsg">
+                        <img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+                        <h6 class="text-center">Are you sure want to Deactivate <span class="d-block" id="role_name"></span></h6>
+
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg cancelbtn radius-24" onclick="closeUserlistDel()" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-lg actionbtn radius-24" onclick="DeleteRole()">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="confirmationdeactivate" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-default">
+            <div class="modal-content ">
+
+
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="warningmsg">
+                        <img src="~/assets/images/icons/help/warning-icon.svg" class="warningicon">
+                        <h6 class="text-center">Are you sure want to Activate <span class="d-block" id="role_name2"></span></h6>
+
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg cancelbtn radius-24" onclick="closeUserlistDel()" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-lg actionbtn radius-24" onclick="DeleteRole()">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="add" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content ">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="titleUser">Add User</h4>
+                    <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="role">User Type <sup>*</sup></label>
+                            <select class="form-control applyselect Mandatory" id="ddl_UserType" onchange="HideErrorMessage(this)">
+                            </select>
+                            <span id="spddl_UserType" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label for="role">Candidate <sup>*</sup></label>
+                            <select class="form-control applyselect Mandatory" id="ddl_emp" onchange="HideErrorMessage(this)">
+                            </select>
+                            <span id="spddl_emp" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label for="role">User Id <sup>*</sup></label>
+                            <input type="text" id="emp_code" placeholder="Enter" class="form-control" disabled>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label for="role">Name <sup>*</sup></label>
+                            <input type="text" id="emp_name" placeholder="Enter" class="form-control" disabled>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 wf-575 align-self-center form-group">
+                            <div class="form-group">
+                                <label for="Lead Details" class="form-control-label">Branch <sup>*</sup></label>
+                                <select id="dldBranch" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)">
+                                </select>
+                                <span id="spdldBranch" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label for="role">Mac Address <sup>*</sup></label>
+                            <input type="text" placeholder="Enter" id="macaddress" class="form-control Mandatory" onchange="HideErrorMessage(this)">
+                            <span id="spmacaddress" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label for="role">Phone <sup>*</sup></label>
+                            <input type="number" id="phone_no" onchange="verifyPhoneNumber(this)" placeholder="Enter" disabled class="form-control Mandatory">
+                            <span id="spphone_no" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label for="role">Email <sup>*</sup></label>
+                            <input type="text" placeholder="Enter" id="email" class="form-control" disabled>
+                            <span id="spemail" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label for="role">Password <sup>*</sup></label>
+                            <div class="password-feild">
+                                <input type="password" placeholder="Enter Password" class="form-control Mandatory" id="passwordField" onchange="HideErrorMessage(this)">
+                                <span class="passwordicon">
+                                    <img src="../assets/images/icons/help/eye-off-icon.png"
+                                         class="toggle-password"
+                                         data-target="#passwordField"
+                                         data-show="../assets/images/icons/help/eye-off-icon.png"
+                                         data-hide="../assets/images/icons/help/eye-on-icon.png"
+                                         style="cursor: pointer;" />
+
+                                </span>
+                                <span id="sppasswordField" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6  wf-575 align-self-center form-group">
+                            <div class="form-group">
+                                <label for="Lead Details" class="form-control-label">Category<sup class="red-clr">*</sup></label>
+                                <select id="dldCategory" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)">
+                                </select>
+                                <span id="spdldCategory" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 form-group selectmultiple">
+                            <label for="role">Role <sup>*</sup></label>
+                            <button type="button" class="select-all-btn">Select All</button>
+
+                            <select class="applyselectmultiplemultiple Mandatory" id="roleIDs" onchange="HideErrorMessage(this)" multiple="">
+                            </select>
+                            <span id="sproleIDs" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+
+                        <div class="col-sm-12 form-group">
+                            <label for="role">Description</label>
+                            <textarea placeholder="Enter" id="description" class="form-control h-150" maxlength="255"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="btn_Save" onclick="saveUSerListMaster()" class="btn btn-lg actionbtn">Submit</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        #globalSearch {
+            display: none
+        }
+
+        .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+            transition: opacity 0.2s;
+            opacity: 1;
+            color: #fff;
+        }
+
+        .ag-icon::before {
+            color: #fff;
+        }
+
+        .ag-theme-balham .ag-header-cell-label {
+            white-space: normal; /* Allow wrapping in header text */
+        }
+
+        .ag-theme-balham {
+            overflow-x: auto; /* Avoid extra whitespace */
+        }
+
+
+        .ag-header-cell, .ag-header-group-cell {
+            padding-left: var(--ag-cell-horizontal-padding);
+            padding-right: var(--ag-cell-horizontal-padding);
+            background: #44488c;
+            color: #fff !important
+        }
+
+        .ag-icon-filter {
+            font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+            font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+            color: #ffffff !important;
+        }
+        /* Styles for the alert box */
+        .custom-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+            .custom-alert table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .custom-alert th, .custom-alert td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .custom-alert th {
+                background-color: #f2f2f2;
+            }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .ag-icon.ag-icon-previous::before {
+            content: "\f104"; /* Font Awesome: fa-angle-left */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .ag-icon.ag-icon-next::before {
+            content: "\f105"; /* Font Awesome: fa-angle-right */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+
+    <script>
+
+        var ddl_user_type = 0;
+
+        $(document).on("click", ".toggle-password", function () {
+            var $icon = $(this);
+            var targetField = $icon.attr("data-target");
+            var $passwordField = $(targetField);
+            var fieldType = $passwordField.attr("type");
+
+            // Image paths
+            var showIcon = $icon.attr("data-show");
+            var hideIcon = $icon.attr("data-hide");
+
+            if (fieldType === "password") {
+                $passwordField.attr("type", "text");
+                $icon.attr("src", hideIcon);
+            } else {
+                $passwordField.attr("type", "password");
+                $icon.attr("src", showIcon);
+            }
+        });
+    </script>
+
+
+    @*Ag Grid Scripts Start*@
+    <link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+    <link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+    <link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+    <link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+    <script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+    <script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+    <script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+    <script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/CommonJS/GenericAgGrid.js"></script>
+
+    @*Ag Grid Scripts End*@
+
+    @*<script>
+            $(document).ready(function () {
+                // Initialize Bootstrap Tooltip
+                $('[data-toggle="tooltip"]').tooltip();
+
+                // Toggle password visibility and update tooltip and icon
+                $('#togglePassword').on('click', function () {
+                    // Get the password field
+                    const passwordField = $('#passwordField');
+                    // Toggle the type attribute
+                    const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+                    passwordField.attr('type', type);
+                    // Toggle the icon class
+                    if (type == 'password') {
+                        $(this).removeClass('fa-eye');
+                        $(this).addClass('fa-eye-slash');
+                    }
+                    else {
+                        $(this).removeClass('fa-eye-slash');
+                        $(this).addClass('fa-eye');
+                    }
+                    // Update the tooltip text
+                    const tooltipText = type === 'password' ? 'Show Password' : 'Hide Password';
+                    $(this).attr('title', tooltipText).tooltip('dispose').tooltip(); // Refresh tooltip
+                });
+            });
+        </script>*@
+<script>
+    document.getElementById("macaddress").addEventListener("keyup", function () {
+        this.value = this.value.replace(/[^0-9.]/g, ''); // Remove everything except digits and dot
+    });
+</script>
+    <script src="~/Areas/ManageEmployee/DevScript/UserList.js"></script>
+    @*<script>
+               $(document).on("click", ".toggle-password", function () {
+            var targetField = $(this).attr("data-target");
+            var passwordField = $(targetField);
+            var fieldType = passwordField.attr("type");
+
+            if (fieldType === "password") {
+                passwordField.attr("type", "text");
+                $(this).attr("src", "../assets/images/icons/help/eye-off-icon.png");
+            } else {
+                passwordField.attr("type", "password");
+                $(this).attr("src", "../assets/images/icons/help/eye-on-icon.png");
+            }
+        });
+
+            </script>*@
+

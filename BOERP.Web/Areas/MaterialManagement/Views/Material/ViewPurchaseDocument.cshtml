@@ -1,0 +1,268 @@
+﻿
+@{
+    ViewBag.Title = "ViewPurchaseDocument";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var pageType = ViewBag.PageType as string;
+
+    var backUrl = pageType == "VendorPO"
+    ? $"/BusinessPartner/PurchaseOrders?auth={ViewBag.Auth}&id={ViewBag.ErpPartyId}&PAId={ViewBag.PAId}"
+    : pageType == "POSCList"
+        ? $"/MaterialManagement/Material/PurchaseOrderShortClose?auth={ViewBag.Auth}"
+        : $"/MaterialManagement/Material/PurchaseOrderIndex?auth={ViewBag.Auth}";
+}
+
+
+    <div class="pagetitle gap-bottom d-flex justify-content-between">
+        <h1 class="m-0 d-flex align-items-center gap-10">
+            @*<a href="PurchaseOrderIndex?auth=@ViewBag.Auth">*@
+            <a href="@backUrl">
+            <img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a><enum id="lblDocSeries"></enum><enum id="lblStatus"><span class="badge badge-success ml-2" href="#">Approved</span></enum>
+        </h1>
+        <div class="align-self-center">
+			<div class="d-flex justify-content-between align-items-center gap-10">
+
+				<input type="hidden" id="hdnPoId" />
+				<input type="hidden" id="hdnPODocNo" />
+
+				<button class="btn actionbtn border-r-8">
+					<img src="../../assets/images/icons/help/share-white-icon.svg" class="btn-icon">
+				</button>
+				<button type="" onclick="PoDownload(@ViewBag.PoId)" class="btn actionbtn border-r-8"><img src="../../assets/images/icons/help/download-white-icon.svg" alt="" class="btn-icon"></button>
+				<button type="" onclick="PoPrint(@ViewBag.PoId)" class="btn mr-2 actionbtn border-r-8"><img src="../../assets/images/icons/help/print-white-icon.svg" alt="" class="btn-icon"></button>
+			</div>
+        </div>
+    </div>
+
+    <div class="card br-none p-0">
+        <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+            <h2 class="title-two align-self-center">Purchase Order</h2>
+            <div class="align-self-center"></div>
+        </div>
+        <div class="card-body view-form-group">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-sm-12 form-group">
+                    <label class="readonlay">Name &amp; Address of Supplier</label>
+                    <p id="lblSuppName">Acme Co. <br> <enum id="lblSuppAdd"></enum> </p>
+                  
+
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                    <label class="readonlay">GSTIN</label>
+                    <p class="m-0" id="lblSuppGST">
+                      
+
+                    </p>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                    <label class="readonlay">Sales Person</label>
+                    <p class="m-0" id="txtSalesName">
+                      
+
+                    </p>
+                </div>
+
+
+                <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                    <label class="readonlay">Name of Raised</label>
+                    <p class="m-0" id="lblReqName">
+                        
+
+                    </p>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                    <label class="readonlay">Department</label>
+                    <p class="m-0" id="lblReqDept"></p>
+                </div>
+
+                <div class="col-sm-12"><hr></div>
+
+                <div class="col-sm-12 ">
+                    <div class="row label-d-flex">
+                        <div class="col-lg-4 col-md-6  d-flex justify-content-between m-br-p">
+                            <label class="m-0">Series</label>
+                            <p class="m-0  w-350 text-right" id="txtPOSeries"></p>
+                        </div>
+                        <div class="col-lg-4 col-md-6  d-flex justify-content-between m-br-p">
+                            <label class="m-0">Purchase Order</label>
+                            <p class="m-0  w-350 text-right" id="txtPONumber"></p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6  d-flex justify-content-between m-br-p">
+                            <label class="m-0">Purchase Order Date</label>
+                            <p class="m-0  w-350 text-right" id="txtPODate"></p>
+                        </div>
+                        <div class="col-lg-4 col-md-6  d-flex justify-content-between m-br-p">
+                            <label class="m-0">Ship To</label>
+                            <p class="m-0 w-350  text-right" id="SHIP_ADD1"></p>
+                        </div> 
+                        <div class="col-lg-4 col-md-6  d-flex justify-content-between m-br-p">
+                            <label class="m-0">Bill To</label>
+                            <p class="m-0 w-350  text-right" id="BILL_ADD1"></p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-3  d-flex justify-content-between m-br-p">
+                            <label class="m-0">
+                                Indent No.
+                            </label>
+                            <p class="m-0 w-350 text-right" id="ddlIndent"></p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6  d-flex justify-content-between m-br-p">
+                            <label class="m-0">
+                                Payment Terms
+                            </label>
+                            <p class="m-0 w-350 text-right" id="ddlPaymentTerm"></p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6  d-flex justify-content-between m-br-p">
+                            <label class="m-0">
+                                Term & Condition
+                            </label>
+                            <p class="m-0 w-350 text-right" id="ddlTC"></p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6  d-flex justify-content-between m-br-p">
+                            <label class="m-0">
+                                Number of Items
+                            </label>
+                            <p class="m-0 w-350 text-right" id="noOfItems"></p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12 ">
+                    <div class="table-responsive">
+                        <table class="table  table-custom" id="tblPODocument">
+                            <thead>
+								<tr>
+									<th>#</th>
+									<th width="150" class="text-center">Indent No	</th>
+									<th width="300">Item Details</th>
+									<th width="150" class="text-center">HSN</th>
+									<th width="150" class="text-center">Quantity</th>
+									<th width="150" class="text-center">UoM</th>
+									<th width="100">Last Purchase <span class="d-block">Rate</span></th>
+									<th width="150" class="text-center">Unit <span class="d-block">Price</span></th>
+									<th width="150" class="text-center">Amount Before<sapn class="d-block">Discount</sapn></th>
+									<th width="150" class="text-center">Discount %</th>
+									<th width="150" class="text-center">Amount After <sapn class="d-block">Discount</sapn></th>
+									<th width="150" class="text-center">IGST%</th>
+									<th width="150" class="text-center">IGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="150" class="text-center">CGST%</th>
+									<th width="150" class="text-center">CGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="150" class="text-center">SGST%</th>
+									<th width="210" class="text-center">SGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="150">Total Cost</th>
+
+								</tr>
+                            </thead>
+                            <tbody>
+                                @*@<tr>
+                                    <td>1</td>
+                                    <td>IND0001</td>
+                                    <td>
+                                        Item Code : SKU001<br>
+                                        Item Name : Material 4<br>
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+
+
+                                    </td>
+                                    <td>#12345	</td>
+                                    <td class="text-right">100</td>
+                                    <td class="text-center">Kg</td>
+                                    <td class="text-right">100</td>
+                                    <td class="text-right">10</td>
+                                    <td class="text-right">500</td>
+                                    <td class="text-right">18</td>
+                                    <td class="text-right">18</td>
+                                    <td class="text-right">200</td>
+                                    <td class="text-right">6</td>
+                                    <td class="text-right">300</td>
+                                    <td class="text-right">5</td>
+                                    <td class="text-right">400</td>
+                                    <td class="text-right">₹ 4000.00</td>
+
+                                </tr>*@
+                            </tbody>
+                            <tfoot class="tdfooter">
+                                <tr>
+                                    <td colspan="15" rowspan="10">
+                                        <ul class="list-unstyled table-imp">
+                                            <li class="d-flex flex-wrap"><span class="w-150">PO Amount</span> <span id="POAmount"></span></li>
+                                            <li class="d-flex flex-wrap"><span class="w-150">IGST</span> <span id="igstTotalInWords"></span></li>
+                                            <li class="d-flex flex-wrap"><span class="w-150">CGST</span> <span id="cgstTotalInWords"></span></li>
+                                            <li class="d-flex flex-wrap"><span class="w-150">SGST</span>	<span id="sgstTotalInWords"></span></li>
+                                            <li class="d-flex flex-wrap"><span class="w-150">Total Amount</span>	<span id="TotalAmtInWords"></span></li>
+                                        </ul>
+
+
+
+                                    </td>
+                                    <td width="200">Total (before tax) :</td>
+                                    <td class="text-right" width="100">₹ <span id="totalBeforeTax">0.00</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td> Other Charges :</td>
+                                    <td class="text-right">₹ <span id="otherChargesInput">0.00</span> </td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-sm">IGST :</td>
+                                    <td class="text-right fn-sm">₹ <span id="igstTotal">0.00</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="fn-sm">CGST :</td>
+                                    <td class="text-right fn-sm">₹ <span id="cgstTotal">0.00</span></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td class="fn-sm">SGST :</td>
+                                    <td class="text-right fn-sm">₹ <span id="sgstTotal">0.00</span></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td>Total Tax :</td>
+                                    <td class="text-right">₹ <span id="totalTax">0.00</span></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td>Total (After Tax) :</td>
+                                    <td class="text-right">₹ <span id="totalAfterTax">0.00</span></td>
+
+                                </tr>
+
+
+                                <tr>
+                                    <td>Rounding Amount :</td>
+                                    <td class="text-right">₹ <span id="roundingAmountInput">0.00</span> </td>
+                                </tr>
+                                <tr>
+                                    <td>Total Amount :</td>
+                                    <td class="text-right">₹ <span id="grandTotal">0.00</span> </td>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    var Edit_ID = "@ViewBag.PoId";
+        $('#hdnPoId').val(Edit_ID);
+
+        var Status = "@ViewBag.status";
+    </script>
+    <script src="~/Areas/MaterialManagement/DevScript/PurchasOrder/ViewPurchaseDocument.js"></script>

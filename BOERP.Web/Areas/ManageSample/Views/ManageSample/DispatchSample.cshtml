@@ -1,0 +1,1076 @@
+﻿
+@{
+    ViewBag.Title = "DispatchSample";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+        background-color: #44488c !important;
+    }
+
+    #customLoader {
+        background: rgba(0, 0, 0, 0.7) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding: 0px 5px !important;
+    }
+
+    .ag-header-group-cell-label, .ag-cell-label-container {
+        padding: 0px 0px !important;
+    }
+
+    #customLoader img {
+        width: 40px;
+        height: 40px
+    }
+
+    .ag-text-field-input {
+        color: #000 !important;
+        font-size: 10px !important
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        display: none;
+        width: auto;
+        z-index: 1000;
+        overflow: inherit !important;
+    }
+
+        .custom-alert .modal-body {
+            padding-bottom: 0px;
+            overflow: scroll;
+            height: 400px;
+            overflow-x: hidden;
+        }
+
+    .custom-lg {
+        width: 630px;
+        background: #fff;
+        font-size: 10px;
+        border-radius: 8px
+    }
+
+    .custom-alert table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .custom-alert th {
+        background: #2f3261;
+        color: #fff;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 2px 5px !important;
+        text-align: left;
+        word-break: break-all;
+        vertical-align: top;
+        line-height: 25px;
+        font-size: 12px;
+        text-transform: lowercase;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+	.sampleDoc {
+		color: #6b54c8;
+	}
+</style>
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        Sampling FMS<div class="ml-2">
+            <svg data-toggle="tooltip" title="This page shows list of all the Purchase Orders" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+        </div>
+    </h1>
+    <div class="align-self-center heading-action-btn w-100-slt primary-color-slt">
+
+    </div>
+</div>
+<!--  -->
+
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        @*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+                <label for="role">Status </label>
+                <select class="form-control applyselect">
+                    <option>All</option>
+                    <option>All</option>
+                    <option>Approved</option>
+                    <option>Pending</option>
+                    <option>Rejected</option>
+                </select>
+            </div>*@
+
+        @*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+                <label for="role">Item </label>
+                <select class="form-control applyselect" id="ddlItem">
+                </select>
+            </div>*@
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Chemist Name </label>
+            <select class="form-control applyselect" id="ddlChemist">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Customer Name </label>
+            <select class="form-control applyselect" id="ddlCustomer">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Sample Type </label>
+            <select class="form-control applyselect" id="ddlSampleType">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group">
+            <label for="role">Tasks</label>
+            <select class="form-control applyselect" id="ddlTask" onchange="bindItemMasterGridFilter()">
+            </select>
+        </div>
+
+        <div class="col-sm-2 ml-auto form-group align-self-end">
+            <div class="d-flex gap-5 justify-content-end ">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox w-350">
+
+                    <div class="search w-300">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        @*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+                <label for="role">Tasks</label>
+                <div class="filterdgn">
+                    <input type="text" class="filter-input" id="txtSampleId"
+                           placeholder="Search"> <label for="search" class="m-0">
+                        <img src="~/assets/images/icons/help/search-icon.png"
+                             class="filtersearchincon" />
+                    </label>
+                </div>
+            </div>*@
+
+
+
+    </div>
+    <!--  -->
+    <!--<div class="table-responsive">
+        <table id="sampleStep234" class="display rstable dgntable dataTable no-footer">
+            <thead>
+                <tr>-->
+    @*<th width="60">Serial No.</th>*@
+    <!--<th width="150">Sample Id</th>
+    <th width="80">Created <span class="d-block">On</span></th>
+    <th width="130">Sales <span class="d-block">Person</span></th>
+    <th width="130">Customer <span class="d-block">Name</span></th>
+    <th width="150">Item Name</th>
+    b <th width="150">Sample <span class="d-block">Type</span></th>
+    <th width="130">Assigned <span class="d-block">Chemist</span></th>
+    <th width="120">Task No. <span class="d-block">Task Description</span></th>
+    <th width="150">Dispatch Status</th>-->
+    @*<th width="150">Modification ID</th>*@
+    <!--<th width="80">Planned <span class="d-block">Date</span></th>
+        <th width="50">Delay <span class="d-block">(Hr)</span></th>
+        <th width="60">Action</th>
+
+    </tr>
+
+    <tr class="searchfilter">-->
+    @*<th></th>*@
+    <!--<th>
+        <div class="filterdgn">
+            <input type="text" class="filter-input" id="txtSampleId"
+                   placeholder="Search"> <label for="search" class="m-0">
+                <img src="~/assets/images/icons/help/search-icon.png"
+                     class="filtersearchincon" />
+            </label>
+        </div>
+    </th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+    <th>
+        <div class="filterdgn">
+            <input type="text" class="filter-input" id="txtItemName"
+                   placeholder="Search"> <label for="search" class="m-0">
+                <img src="~/assets/images/icons/help/search-icon.png"
+                     class="filtersearchincon" />
+            </label>
+        </div>
+    </th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>-->
+    @*<th></th>*@
+    <!--<th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+            </thead>
+
+        </table>
+    </div>-->
+    <!--  -->
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+
+
+<div id="yourModalContainer"></div>
+<!-- confirmation Modal popup -->
+<div class="modal" id="deletepopup">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="../../assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">Delete SHL-24-01422	 </h6>
+                    <span class="d-block">Dispatch Sample</span>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- reassign Modal popup -->
+<div class="modal" id="reassign">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="../../assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">Reassign Task </h6>
+                    <span class="d-block">Are you sure you want this task to get reassigned to someone else?</span>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal">Reassign</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade drawer right-align" id="markdone" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="../../assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Step 1 - Enter Basic Information</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state" class="mb-0">Chemist Name <sup>*</sup></label>
+                        <select class="form-control applyselect Mandatory" id="txtChemist" name="">
+                        </select>
+                        <span id="sptxtChemist" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="locationcode">Base ID</label>
+                        <select class="form-control applyselect" id="ddlBaseItem">
+                        </select>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="locationname">Fragrance</label>
+                        <input type="text" placeholder="Enter Name" id="fragrance" class="form-control " value="">
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="address">Color</label>
+                        <textarea class="form-control" id="color" placeholder="Enter "></textarea>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label for="city">Actives</label>
+                        <input type="text" placeholder="Enter" id="activities" class="form-control " value="">
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="city">Number of Variants</label>
+                        <input type="number" placeholder="0" onkeydown="blockInvalidKeys(event)" oninput="SetZero(this)" id="variantsno" class="form-control " value="">
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="pinecode">Basic Information</label>
+                        <div class="d-flex flex-wrap gap-50 mt-2">
+                            <input type="radio" id="normal" class="radio openModal" name="radio-group">
+                            <label for="normal">Normal</label>
+                            <input type="radio" id="urgent" class="radio" name="radio-group">
+                            <label for="urgent">Urgent</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="toggle-card bg-bgl">
+                            <div class="toggle-card-header toggle-info">
+                                <h4 class="toggle-card-title">Item Information</h4>
+                                <span class="toggle-card-icon"><img src="~/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                            </div>
+                            <div class="toggle-containe toggle-info-content">
+                                <div class="row">
+                                    <div class="col-sm-12 form-group ">
+                                        <label class="text-gray mb-0">Item Name</label>
+                                        <p id="txtItem"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="formView">
+                                        <label class="text-gray mb-0">Formulation Category</label>
+                                        <p id="txtFormCate"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="fragView">
+                                        <label class="text-gray mb-0">Fragrance</label>
+                                        <p id="txtFragrance"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="colorView">
+                                        <label class="text-gray mb-0">Colour</label>
+                                        <p id="txtColour"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="packegingView">
+                                        <label class="text-gray mb-0">Packaging Type</label>
+                                        <p id="txtPackegingType"></p>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="text-gray mb-0">Target Price (₹)</label>
+                                        <p id="txtTargetPrice"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewReq">
+                                        <label class="text-gray mb-0">Requirement/Description</label>
+                                        <p id="requirements"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewMust">
+                                        <label class="text-gray mb-0">Must have ingredients</label>
+                                        <p id="mustIngredients"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewMustNot">
+                                        <label class="text-gray mb-0">Must not have ingredients</label>
+                                        <p id="mustnotingredients"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewAtt1">
+                                        <label class="text-gray mb-0">Attachment</label>
+                                        <p><a href="" target="blank" id="item_att1"></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="d-flex gap-20 align-items-center flex-wrap">
+                            <a href="#" id="open_pdf" class="sampleDoc">View Guidelines / S.O.P</a>
+                            <a href="#" id="video" target="blank">View Guidelines Video</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="side-footer">
+                    <button type="button" onclick="SaveBasicInfo()" class="btn btn-lg actionbtn">Submit</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade drawer right-align" id="markdone2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="../../assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Step 2 - Sample Production</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-12 form-group">
+                        <p>Please confirm that sample has been processed and handed over to quality person</p>
+                    </div>
+
+                    <div class="col-sm-12 form-group mt-2 mb-4">
+                        <label class="text-gray mb-0">Chemist Name</label>
+                        <p id="Chemist2"></p>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <div class="toggle-card bg-bgl">
+                            <div class="toggle-card-header toggle-info">
+                                <h4 class="toggle-card-title">Item Information</h4>
+                                <span class="toggle-card-icon"><img src="~/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                            </div>
+                            <div class="toggle-containe toggle-info-content">
+                                <div class="row">
+                                    <div class="col-sm-12 form-group ">
+                                        <label class="text-gray mb-0">Item Name</label>
+                                        <p id="txtItem2"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="formView2">
+                                        <label class="text-gray mb-0">Formulation Category</label>
+                                        <p id="txtFormCate2"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="fragView2">
+                                        <label class="text-gray mb-0">Fragrance</label>
+                                        <p id="txtFragrance2"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="colorView2">
+                                        <label class="text-gray mb-0">Colour</label>
+                                        <p id="txtColour2"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="packegingView2">
+                                        <label class="text-gray mb-0">Packaging Type</label>
+                                        <p id="txtPackegingType2"></p>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="text-gray mb-0">Target Price (₹)</label>
+                                        <p id="txtTargetPrice2"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewReq2">
+                                        <label class="text-gray mb-0">Requirement/Description	</label>
+                                        <p id="requirements2"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewMust2">
+                                        <label class="text-gray mb-0">Must have ingredients</label>
+                                        <p id="mustIngredients2"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewMustNot2">
+                                        <label class="text-gray mb-0">Must not have ingredients</label>
+                                        <p id="mustnotingredients2"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewAtt2">
+                                        <label class="text-gray mb-0">Attachment</label>
+                                        <p><a href="" target="blank" id="item_att2"></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="d-flex gap-20 align-items-center flex-wrap">
+                            <a href="#" id="open_pdf2" class="sampleDoc">View Guidelines / S.O.P</a>
+                            <a href="#" id="video2" target="blank">View Guidelines Video</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg actionbtn" onclick="SaveBasicInfo234(1)">Confirm</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade drawer right-align" id="markdone3" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="../../assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Step 3 - Quality Check</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-12 form-group">
+                        <p>Please confirm that you have checked all physical parameters of the sample as per client requirements. QC Checklist Verified:</p>
+                        <ul class="deault-ul" id="qc_params">
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-12 form-group mt-3 mb-4">
+                        <label class="text-gray mb-0">Chemist Name</label>
+                        <p id="Chemist3"></p>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <div class="toggle-card bg-bgl">
+                            <div class="toggle-card-header toggle-info">
+                                <h4 class="toggle-card-title">Item Information</h4>
+                                <span class="toggle-card-icon"><img src="~/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                            </div>
+                            <div class="toggle-containe toggle-info-content">
+                                <div class="row">
+                                    <div class="col-sm-12 form-group ">
+                                        <label class="text-gray mb-0">Item Name</label>
+                                        <p id="txtItem3"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="formView3">
+                                        <label class="text-gray mb-0">Formulation Category</label>
+                                        <p id="txtFormCate3"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="fragView3">
+                                        <label class="text-gray mb-0">Fragrance</label>
+                                        <p id="txtFragrance3"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="colorView3">
+                                        <label class="text-gray mb-0">Colour</label>
+                                        <p id="txtColour3"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="packegingView3">
+                                        <label class="text-gray mb-0">Packaging Type</label>
+                                        <p id="txtPackegingType3"></p>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="text-gray mb-0">Target Price (₹)</label>
+                                        <p id="txtTargetPrice3"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewReq3">
+                                        <label class="text-gray mb-0">Requirement/Description	</label>
+                                        <p id="requirements3"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewMust3">
+                                        <label class="text-gray mb-0">Must have ingredients</label>
+                                        <p id="mustIngredients3"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewMustNot3">
+                                        <label class="text-gray mb-0">Must not have ingredients</label>
+                                        <p id="mustnotingredients3"></p>
+                                    </div>
+
+                                   
+
+                                    <div class="col-sm-12 form-group" id="viewAtt3">
+                                        <label class="text-gray mb-0">Attachment</label>
+                                        <p><a href="" target="blank" id="item_att3"></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="d-flex gap-20 align-items-center flex-wrap">
+                            <a href="#" id="open_pdf3" class="sampleDoc" onclick="handleOnClickTaskFile()">View Guidelines / S.O.P</a>
+                            <a href="#" id="video3" target="blank">View Guidelines Video</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-footer">
+                    <button type="button" onclick="SaveBasicInfo234(0)" class="btn btn-lg btn-warning" >Reject</button> <button type="button" class="btn btn-lg btn-success" onclick="SaveBasicInfo234(1)">Approve</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade drawer right-align" id="markdone4" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="../../assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Step 4 - Packaging and sales approval</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-12 form-group">
+                        <p>Please confirm that you have checked the sample and are approving it for sending to the client.</p>
+                        <p>Sales Checklist:</p>
+                        <ul class="deault-ul">
+                            <li>Client Name & Contact Verified</li>
+                            <li>Sample Matches Request</li>
+                            <li>Packaging is Presentable</li>
+                            <li>QC Approval Completed</li>
+                            <li>Dispatch Details Confirmed</li>
+
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-12 form-group mt-3 mb-4">
+                        <label class="text-gray mb-0">Chemist Name</label>
+                        <p id="Chemist4"></p>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <div class="toggle-card bg-bgl">
+                            <div class="toggle-card-header toggle-info">
+                                <h4 class="toggle-card-title">Item Information</h4>
+                                <span class="toggle-card-icon"><img src="~/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                            </div>
+                            <div class="toggle-containe toggle-info-content">
+                                <div class="row">
+                                    <div class="col-sm-12 form-group ">
+                                        <label class="text-gray mb-0">Item Name</label>
+                                        <p id="txtItem4"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="formView4">
+                                        <label class="text-gray mb-0">Formulation Category</label>
+                                        <p id="txtFormCate4"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="fragView4">
+                                        <label class="text-gray mb-0">Fragrance</label>
+                                        <p id="txtFragrance4"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="colorView4">
+                                        <label class="text-gray mb-0">Colour</label>
+                                        <p id="txtColour4"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="packegingView4">
+                                        <label class="text-gray mb-0">Packaging Type</label>
+                                        <p id="txtPackegingType4"></p>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="text-gray mb-0">Target Price (₹)</label>
+                                        <p id="txtTargetPrice4"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewReq4">
+                                        <label class="text-gray mb-0">Requirement/Description	</label>
+                                        <p id="requirements4"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewMust4">
+                                        <label class="text-gray mb-0">Must have ingredients</label>
+                                        <p id="mustIngredients4"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewMustNot4">
+                                        <label class="text-gray mb-0">Must not have ingredients</label>
+                                        <p id="mustnotingredients4"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewAtt4">
+                                        <label class="text-gray mb-0">Attachment</label>
+                                        <p><a href="" target="blank" id="item_att4"></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="d-flex gap-20 align-items-center flex-wrap">
+                            <a href="#" id="open_pdf4" class="sampleDoc" onclick="handleOnClickTaskFile()">View Guidelines / S.O.P</a>
+                            <a href="#" id="video4" target="blank">View Guidelines Video</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-footer">
+                    <button type="button" onclick="SaveBasicInfo234(0)" class="btn btn-lg btn-warning">Reject</button> <button type="button" class="btn btn-lg btn-success" onclick="SaveBasicInfo234(1)">Approve</button>
+                    
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade drawer right-align" id="markdone6" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="../../assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Step 5 - Enter Sample ingredient list</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-md-12 form-group">
+                        <label>
+                            Please Enter sample ingredients to be printed on the
+                            product label
+                        </label>
+                        <textarea placeholder="Enter" id="remarks6" oninput="HideErrorMessage(this)" class="form-control Mandatory6 h-150"></textarea>
+                        <span id="spremarks6" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group mt-3 mb-4">
+                        <label class="text-gray mb-0">Chemist Name</label>
+                        <p id="Chemist6"></p>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group mt-3 mb-4">
+                        <label class="text-gray mb-0">Ingredients from BOM                        </label>
+                        <p id="bomIngedients"></p>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <div class="toggle-card bg-bgl">
+                            <div class="toggle-card-header toggle-info">
+                                <h4 class="toggle-card-title">Item Information</h4>
+                                <span class="toggle-card-icon"><img src="~/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                            </div>
+                            <div class="toggle-containe toggle-info-content">
+                                <div class="row">
+                                    <div class="col-sm-12 form-group">
+                                        <label class="text-gray mb-0">Item Name</label>
+                                        <p id="txtItem6"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="formView6">
+                                        <label class="text-gray mb-0">Formulation Category</label>
+                                        <p id="txtFormCate6"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="fragView6">
+                                        <label class="text-gray mb-0">Fragrance</label>
+                                        <p id="txtFragrance6"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="colorView6">
+                                        <label class="text-gray mb-0">Colour</label>
+                                        <p id="txtColour6"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="packegingView6">
+                                        <label class="text-gray mb-0">Packaging Type</label>
+                                        <p id="txtPackegingType6"></p>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="text-gray mb-0">Target Price (₹)</label>
+                                        <p id="txtTargetPrice6"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewReq6">
+                                        <label class="text-gray mb-0">Requirement/Description	</label>
+                                        <p id="requirements6"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewMust6">
+                                        <label class="text-gray mb-0">Must have ingredients</label>
+                                        <p id="mustIngredients6"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewMustNot6">
+                                        <label class="text-gray mb-0">Must not have ingredients</label>
+                                        <p id="mustnotingredients6"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewAtt6">
+                                        <label class="text-gray mb-0">Attachment</label>
+                                        <p><a href="" target="blank" id="item_att6"></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <a href="#" id="open_pdf6" class="sampleDoc">View Guidelines / S.O.P</a>
+                            <a href="#" id="video6" target="blank">View Guidelines Video</a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg actionbtn" onclick="SaveSamp6Info()">Submit</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- add Mark Done-->
+<div class="modal" id="markdone8" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-left w-100">Step 7 - Enter Customer Feedback</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="../../assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+
+
+                    <div class="col-md-12 form-group">
+                        <label>Enter Customer’s Feedback<sup>*</sup></label>
+                        <textarea placeholder="Enter" id="remarks8" oninput="HideErrorMessage(this)" class="form-control Mandatory8 h-150"></textarea>
+                        <span id="spremarks8" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-warning" onclick="SaveBasicInfo8(2)">Reject</button>
+                <button class="btn btn-lg actionbtn" onclick="SaveBasicInfo8(1)">Approve</button>
+                <button onclick="SaveModifyBasicInfo8()" class="btn btn-lg actionbtn">Submit and Modify</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+@*v--------- View image model-------------*@
+<div id="viewimage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Q1</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="imgprvw">
+
+                    <img id="myImage" src="img/login-img.jpg" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*--------model close-----------*@
+
+<style>
+    #globalSearch {
+        display: none
+    }
+
+    .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+        transition: opacity 0.2s;
+        opacity: 1;
+        color: #fff;
+    }
+
+    .ag-icon::before {
+        color: #fff;
+    }
+
+    .ag-theme-balham .ag-header-cell-label {
+        white-space: normal; /* Allow wrapping in header text */
+    }
+
+    .ag-theme-balham {
+        overflow-x: auto; /* Avoid extra whitespace */
+    }
+
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding-left: var(--ag-cell-horizontal-padding);
+        padding-right: var(--ag-cell-horizontal-padding);
+        background: #44488c;
+        color: #fff !important
+    }
+
+    .ag-icon-filter {
+        font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+        font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+        color: #ffffff !important;
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 1000;
+    }
+
+        .custom-alert table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-alert th {
+            background-color: #f2f2f2;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+
+    .ag-icon.ag-icon-previous::before {
+        content: "\f104"; /* Font Awesome: fa-angle-left */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .ag-icon.ag-icon-next::before {
+        content: "\f105"; /* Font Awesome: fa-angle-right */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+</style>
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+
+@*Ag Grid Scripts End*@
+<script>
+    var isDispatch = "@ViewBag.isDispatch";
+</script>
+
+<script src="~/Areas/ManageSample/DevScript/Sample_Step7.js"></script>

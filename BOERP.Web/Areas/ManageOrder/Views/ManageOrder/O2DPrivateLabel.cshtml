@@ -1,0 +1,231 @@
+﻿
+@{
+    ViewBag.Title = "O2DPrivateLabel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        Order Management<div class="ml-2">
+            <svg data-toggle="tooltip" title="This page shows list of all the Purchase Orders" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+        </div>
+    </h1>
+    <div class="align-self-center heading-action-btn">
+
+
+        @*<a href="/ManageOrder/CreateOrder?auth=@ViewBag.Auth" class="btn mr-2 actionbtn border-r-8"><img src="../../assets/images/icons/help/add-white-icon.png" class="btn-icon"><span class="d-none-sm">Create Order</span></a>*@
+    </div>
+</div>
+<!--  -->
+
+
+<div id="dynamic_fms">
+
+</div>
+
+
+<div id="view_dynamic_fms">
+
+</div>
+
+
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none">
+            <label for="role">Brand Name </label>
+            <select class="form-control applyselect MandateOrder" id="ddlBrand" name="" onchange="HideErrorMessage(this); bindSaleOrderGridFilter()"></select>
+            <span id="spddlBrandType" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none">
+            <label for="role">Created By </label>
+            <select class="form-control applyselect">
+
+                <option>All</option>
+                <option>Priya Krishnan</option>
+                <option>Rishabh Jain</option>
+                <option>Divya Reddy</option>
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none">
+            <label for="role">Stage </label>
+            <select class="form-control applyselect">
+
+                <option>All</option>
+                <option>MGF</option>
+                <option>Artwork Received</option>
+                <option>Purchase PM</option>
+            </select>
+        </div>
+        <div class="col-sm-2 ml-auto form-group align-self-end">
+            <div class="d-flex gap-5 justify-content-end ">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox w-350">
+
+                    <div class="search w-300">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+
+
+<div id="yourModalContainer"></div>
+<!-- confirmation Modal popup -->
+<!-- confirmation Modal popup -->
+<div class="modal" id="deletepopup">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="../../assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-text-center">Delete Order </h6>
+                    <span class="d-block">Are you sure you want to delete this order?</span>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade drawer right-align" id="markdone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2>Step 1 - Delivery Confirmation</h2>
+                <img src="../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state" class="mb-0">Please confirm Order delivery type</label>
+                        <select class="form-control applyselect Mandate" onchange=" HideErrorMessage(this)" id="confirmorderdelivery" name="">
+                            <option value="Select">Select</option>
+                            <option value="part">Part</option>
+                            <option value="full">Full</option>
+                        </select>
+                        <span id="spconfirmorderdelivery" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                    </div>
+
+
+                    <div class="col-sm-12 part hide totalpart form-group">
+                        <label for="state" class="mb-0">Total Order Quantity</label>
+                        <input type="text" class="form-control Mandate" id="totalorder" name="" placeholder="Enter" value="">
+                        <span id="sptotalorder" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                    </div>
+
+                    <div class="col-sm-12 part hide form-group">
+                        <label for="state" class="mb-0">Part Order Quantity</label>
+                        <input type="number" class="form-control Mandate" id="partorder" oninput="SetZeroNoDecimal(this); HideErrorMessage(this)" name="" placeholder="Enter" value="">
+                        <span id="sppartorder" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label>Sample ID</label>
+                        <div class="autocomplete-wrapper" style="position: relative;">
+                            <label for="ddlI_0" class="search-label">
+                                <img src="../../../assets/images/icons/help/search-icon.png" class="icon-sm" />
+                            </label>
+                            <input type="text" class="form-control searchlist MandateIng" id="ddlSample" oninput="GetdataSample(this), HideErrorMessage(this)" onclick="GetdataSample(this)" placeholder="Type item..." autocomplete="off" />
+                            <span id="spddlSample" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            <ul id="globalSuggestionBoxS" class="suggestions"></ul>
+                            <input type="hidden" id="ddlSameleID" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state" class="mb-0">Approved MRP</label>
+                        <input type="number" class="form-control Mandate" oninput="SetZero(this); HideErrorMessage(this)" id="app_mrp" name="" placeholder="Enter">
+                        <span id="spapp_mrp" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+
+                        <ul class="list-unstyled checklist">
+                            <li>
+                                <input type="checkbox" id="check1" name="type" value="">
+                                <label for="check1">I Confirm that this MRP can be printed on the box without any further confirmation</label>
+
+                            </li>
+                            <li>
+                                <input type="checkbox" id="check2" name="type" value="">
+                                <label for="check2">I Confirm to initiate procurement for this order</label>
+
+                            </li>
+
+
+                        </ul>
+                    </div>
+
+
+
+                </div>
+
+                <div class="side-footer">
+                    <a href="#" onclick="saveO2DPL()" class="btn btn-lg actionbtn">Submit</a>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Areas/ManageOrder/DevScript/O2DPLGrid.js"></script>
+@*<script src="~/Areas/ManageOrder/DevScript/fileupload1.js"></script>
+    <script src="~/Areas/ManageOrder/DevScript/fileupload2.js"></script>
+    <script src="~/Areas/ManageOrder/DevScript/fileupload3.js"></script>*@
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+
+
+
+
+

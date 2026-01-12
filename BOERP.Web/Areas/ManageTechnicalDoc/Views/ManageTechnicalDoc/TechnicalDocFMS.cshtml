@@ -1,0 +1,515 @@
+﻿
+@{
+    ViewBag.Title = "TechnicalDocFMS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Open -->
+
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h5 class="title-two m-0 align-self-center">
+        Upload Technical Document <img src="../assets/images/icons/help/info-icon.png"
+                                       alt="info icon" class="icon-sm" data-toggle="tooltip"
+                                       title="This page shows list of all the products">
+    </h5>
+
+    <div class="align-self-center gap-10 d-flex">
+        <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+        @*<a href="" data-toggle="modal" data-target="#technicalDocStep1" class="btn mr-2 actionbtn border-r-8"><img src="~/assets/images/icons/help/add-white-icon.png" class="btn-icon">Create Technical Doc</a>*@
+    </div>
+
+</div>
+
+<!--  -->
+<ul class="tablink">
+    <li><a href="#" onclick="loadTechDocByTask(1); setActiveTab('open');" id="open" class="nav-link active">Technical Doc Pending</a></li>
+    <li><a href="#" onclick="loadTechDocByTask(2); setActiveTab('completed');" id="completed" class="nav-link">Technical Doc Completed</a></li>
+
+</ul>
+
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        <div class="col-sm-2 form-group" style="display:none">
+            <label for="role">Item Code</label>
+            <select class="form-control applyselect" id="ddlItemCode" name="" onchange="bindTechnicalDocGridFilter()"></select>
+        </div>
+
+        <div class="col-sm-2 form-group" style="display:none">
+            <label for="role">Sales Person </label>
+            <select class="form-control applyselect">
+
+                <option>All</option>
+                <option>Neha Patel</option>
+                <option>Rakesh Verma</option>
+                <option>Pooja Mishra</option>
+            </select>
+        </div>
+
+        <div class="col-sm-2 form-group" style="display:none">
+            <label for="role">Customer Code </label>
+            <select class="form-control applyselect">
+
+                <option>All</option>
+                <option>WH 1</option>
+                <option>WH 2</option>
+                <option>WH 3</option>
+            </select>
+        </div>
+        <div class="col-sm-2 form-group ml-auto">
+            <div class="searchbox">
+                <label style="" for="role"></label>
+                <div class="search w-300">
+                    <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                    <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid with Scrollable Area -->
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+
+<div id="yourModalContainer"></div>
+
+
+<!-- close  agrid -->
+<!-- CLose -->
+<!-- Modal -->
+<!-- Action Modal -->
+<!-- Delete Popup Modal -->
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deletepopup" tabindex="-1" role="dialog" aria-labelledby="deletepopupLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-default" role="document">
+        <div class="modal-content">
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="warningmsg text-center">
+                    <img src="../assets/images/icons/help/warning-icon.svg" class="warningicon mb-2" alt="Warning Icon">
+                    <h6>Are you sure you want to delete </h6>
+                    <span class="d-block">Aloe Vera Gel (k) 1</span>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn  btn-lg cancelbtn" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn  btn-lg actionbtn radius-24" data-dismiss="modal">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  Modal alertModal -->
+
+<div class="modal" id="alertModal">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="../assets/images/icons/help/warning-icon.svg"
+                         class="warningicon">
+                    <h6 class="text-center">
+                        <span id="alertModalMessage"></span>
+                    </h6>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+                <button type="button" data-dismiss="modal"
+                        class="btn btn-lg actionbtn ">
+                    Ok
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Button to Open the Modal -->
+<input type="hidden" id="hdnTechnicalDocId" value="@ViewBag.TechnicalDocId" />
+
+<div class="modal fade drawer right-align" id="technicalDocStep1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2>Step 1 -  Requirement Raised by Sales Person</h2>
+                <img src="../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" onclick="RedirectUrl()" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="">Ticket Doc No<sup>*</sup></label>
+                        <input class="form-control MandateTechnicalDoc" placeholder="TKT00" id="lblTicketDocNo" oninput="HideErrorMessage(this)" readonly>
+                        <span id="splblTicketDocNo" class="text-danger field-validation-error" style="display:none;">Hey ! You've missed this field</span>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for="state" class="mb-0">Transaction Type<sup>*</sup></label>
+                        <select class="form-control applyselect MandateTechnicalDoc" id="ddlTransType" name="" onchange="HideErrorMessage(this); bindDocNoByTransType()">
+                            <option value="Select">Select</option>
+                            <option value="1">Sample ID</option>
+                            <option value="2">Order Id</option>
+                        </select>
+                        <span id="spddlTransType" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for="state" class="mb-0">Document No<sup>*</sup></label>
+                        <select class="form-control applyselect MandateTechnicalDoc" id="ddlDocNoByTransType" name="" onchange="HideErrorMessage(this); bindCustomerDetByDocNo()"></select>
+                        <span id="spddlDocNoByTransType" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="text-muted mb-0">Customer</label>
+                                <p class="m-0" id="customerName"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted mb-0">Sales Person Name</label>
+                                <p class="m-0" id="salesPersonName"></p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6">
+                                <label class="text-muted mb-0">Item Name</label>
+                                <p class="m-0" id="itemName"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted mb-0">Item Description</label>
+                                <p class="m-0" id="itemDes"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state" class="mb-0">Type Of Document<sup>*</sup></label>
+                        <select id="ddlTypeOfDoc" class="form-control applyselect MandateTechnicalDoc" onchange="HideErrorMessage(this)">
+                            <option value="Select">Select</option>
+                            <option value="1">COA</option>
+                            <option value="2">MSDS</option>
+                            <option value="3">Ingredients</option>
+                        </select>
+                        <span id="spddlTypeOfDoc" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label>Upload any reference document</label>
+                        <div class="section-container section-container-popup">
+                            <div class="fileuploadview drag-area1">
+                                <div class="uploadicon_text file-input-button" id="fileInputButton1">
+                                    <div class="uploadicon">
+                                        <img src="~/assets/images/icons/help/fileupload-icon.svg" alt="">
+                                    </div>
+                                    <div class="uploadtext drag-file" id="dragFile1">
+                                        <h4>Drop files here or click to upload</h4>
+                                        <h6>This is a dropzone, drop files or click to browse</h6>
+                                        <span class="error">The file size should be upto 2MB,<br /> with a maximum of 10 attachments.</span>
+                                    </div>
+                                </div>
+                                <input type="file" id="fileRefDocStep1" class="file-input hidden" multiple />
+                                <div id="documentImages1" class="document-images"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+         
+
+
+                <div class="side-footer">
+                    <button id="btnSave" type="button" class="btn  btn-lg  actionbtn" onclick="SaveTechnicalDocStep1()">Submit</button>
+
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade drawer right-align" id="technicalDocStep2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2>Step 1 - Share Documents</h2>
+                <img src="../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" onclick="RedirectUrl()" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label>Upload Document</label>
+                        <div class="section-container section-container-popup">
+                            <div class="fileuploadview drag-area2">
+                                <div class="uploadicon_text file-input-button" id="fileInputButton2">
+                                    <div class="uploadicon">
+                                        <img src="~/assets/images/icons/help/fileupload-icon.svg" alt="">
+                                    </div>
+                                    <div class="uploadtext drag-file" id="dragFile2">
+                                        <h4>Drop files here or click to upload</h4>
+                                        <h6>This is a dropzone, drop files or click to browse</h6>
+                                        <span class="error">The file size should be upto 2MB,<br /> with a maximum of 10 attachments.</span>
+                                    </div>
+                                </div>
+                                <input type="file" id="fileRefDocStep2" class="file-input hidden" multiple />
+                                <div id="documentImages2" class="document-images"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <label class="text-muted mb-0">Type Of Document </label>
+                    <p id="edit_doc"></p>
+                </div>
+
+
+                <div class="col-sm-12 form-group">
+                    <label class="text-muted mb-0">Remarks</label>
+                    <p id="remarks"></p>
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <div class="toggle-card bg-bgl">
+                        <div class="toggle-card-header toggle-info">
+                            <h4 class="toggle-card-title">Item Information</h4>
+                            <span class="toggle-card-icon"><img src="/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                        </div>
+                        <div class="toggle-containe toggle-info-content" style="display: none;">
+                            <div class="row">
+                                <div class="col-sm-12 form-group ">
+                                    <label class="text-gray mb-0">Item Name</label>
+                                    <p id="txtItem1"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="formView1">
+                                    <label class="text-gray mb-0">Formulation Category</label>
+                                    <p id="txtFormCate1"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="fragView1" style="display: none;">
+                                    <label class="text-gray mb-0">Fragrance</label>
+                                    <p id="txtFragrance1"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="colorView1" style="display: none;">
+                                    <label class="text-gray mb-0">Colour</label>
+                                    <p id="txtColour1"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="packegingView1" style="display: none;">
+                                    <label class="text-gray mb-0">Packaging Type</label>
+                                    <p id="txtPackegingType1"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group">
+                                    <label class="text-gray mb-0">Target Price (₹)</label>
+                                    <p id="txtTargetPrice1"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group">
+                                    <label class="text-gray mb-0">Requirement/Description</label>
+                                    <p id="requirements1"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group" id="viewMust1" style="display: none;">
+                                    <label class="text-gray mb-0">Must have ingredients</label>
+                                    <p id="mustIngredients1"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group" id="viewMustNot1" style="display: none;">
+                                    <label class="text-gray mb-0">Must not have ingredients</label>
+                                    <p id="mustnotingredients1"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group" id="viewAtt1">
+                                    <label class="text-gray mb-0">Attachment</label>
+                                    <p><a href="" target="blank" id="item_att1"></a></p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <div class="d-flex gap-20 align-items-center flex-wrap">
+                        <a href="#" id="open_pdf">View Guidelines / S.O.P</a>
+                        <a href="#" id="video" target="blank">View Guidelines Video</a>
+                    </div>
+                </div>
+
+                <div class="side-footer">
+                    <button id="btnSave" type="button" class="btn  btn-lg  actionbtn" onclick="SaveTechnicalDocStep2()">Submit</button>
+
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade drawer right-align" id="downloadTechnicalDocStep2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2>Step 1 - Download Upload Documents</h2>
+                <img src="../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" aria-label="Close" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        @*<label>Download uploaded document</label>*@
+                        <p class="m-0 nofile" id="NoUploadFile2">No Upload</p>
+                        <div class="section-container fileuploadview  section-container-popup ">
+                            <!--  -->
+                            <div class="document-images hidden" id="ShowUploadFile2">
+                                <div id="downloadDocStep2" class="document-images"></div>
+                            </div>
+                            <!--  -->
+                        </div>
+                    </div>
+
+                </div>
+                <!-- End -->
+
+                <div class="col-sm-12 form-group">
+                    <label class="text-muted mb-0">Type Of Document </label>
+                    <p id="view_doc"></p>
+                </div>
+
+
+                <div class="col-sm-12 form-group">
+                    <label class="text-muted mb-0">Remarks</label>
+                    <p id="remarks2"></p>
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <div class="toggle-card bg-bgl">
+                        <div class="toggle-card-header toggle-info">
+                            <h4 class="toggle-card-title">Item Information</h4>
+                            <span class="toggle-card-icon"><img src="~/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                        </div>
+                        <div class="toggle-containe toggle-info-content">
+                            <div class="row">
+                                <div class="col-sm-12 form-group ">
+                                    <label class="text-gray mb-0">Item Name</label>
+                                    <p id="txtItem"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="formView">
+                                    <label class="text-gray mb-0">Formulation Category</label>
+                                    <p id="txtFormCate"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="fragView" style="display: none;">
+                                    <label class="text-gray mb-0">Fragrance</label>
+                                    <p id="txtFragrance"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="colorView" style="display: none;">
+                                    <label class="text-gray mb-0">Colour</label>
+                                    <p id="txtColour"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="packegingView" style="display: none;">
+                                    <label class="text-gray mb-0">Packaging Type</label>
+                                    <p id="txtPackegingType"></p>
+                                </div>
+                                <div class="col-sm-12 form-group">
+                                    <label class="text-gray mb-0">Target Price (₹)</label>
+                                    <p id="txtTargetPrice"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group" id="viewReq">
+                                    <label class="text-gray mb-0">Requirement/Description</label>
+                                    <p id="requirements"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="viewMust" style="display: none;">
+                                    <label class="text-gray mb-0">Must have ingredients</label>
+                                    <p id="mustIngredients"></p>
+                                </div>
+
+
+                                <div class="col-sm-12 form-group" id="viewMustNot" style="display: none;">
+                                    <label class="text-gray mb-0">Must not have ingredients</label>
+                                    <p id="mustnotingredients"></p>
+                                </div>
+
+                                <div class="col-sm-12 form-group" id="viewAtt">
+                                    <label class="text-gray mb-0">Attachment</label>
+                                    <p><a href="" target="blank" id="item_att"></a></p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup Modal for File Limit -->
+<div id="fileLimitPopup" class="popup-modal">
+    <div class="popup-content">
+        <p id="popup-message"></p>
+        <button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+    </div>
+</div>
+
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+<script src="~/Areas/ManageTechnicalDoc/DevScript/TechnicalDoc.js"></script>
+<script src="~/Areas/ManageTechnicalDoc/DevScript/fileupload1.js"></script>
+<script src="~/Areas/ManageTechnicalDoc/DevScript/fileupload2.js"></script>
+
+

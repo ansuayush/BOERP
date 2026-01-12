@@ -1,0 +1,836 @@
+﻿
+@{
+    ViewBag.Title = "OilSample";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ag-header-viewport {
+        overflow-x: hidden !important; /* Prevents independent scroll */
+    }
+
+    .ag-body-viewport {
+        overflow-x: auto !important; /* Enables scrolling only for body */
+    }
+</style>
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        Oil Sampling FMS<div class="ml-2">
+            <svg data-toggle="tooltip" title="This page shows list of all the Oil Listed as well as Unlisted FMS" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+        </div>
+    </h1>
+    <div class="align-self-center heading-action-btn w-100-slt primary-color-slt">
+
+    </div>
+</div>
+
+<ul class="tablink">
+    <li><a href="#" onclick="bindItemMasterGrid(); bindTasksOilL()" id="open" class="nav-link active">Oil Listed FMS</a></li>
+    <li><a href="#" onclick="bindItemMasterGrid2(); bindTasksOilUL()" id="completed" class="nav-link">Oil Unlisted FMS</a></li>
+
+</ul>
+<!--  -->
+
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        @*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+                <label for="role">Status </label>
+                <select class="form-control applyselect">
+                    <option>All</option>
+                    <option>All</option>
+                    <option>Approved</option>
+                    <option>Pending</option>
+                    <option>Rejected</option>
+                </select>
+            </div>*@
+
+        @*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+                <label for="role">Item </label>
+                <select class="form-control applyselect" id="ddlItem">
+                </select>
+            </div>*@
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Chemist Name </label>
+            <select class="form-control applyselect" id="ddlChemist">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Customer Name </label>
+            <select class="form-control applyselect" id="ddlCustomer">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Sample Type </label>
+            <select class="form-control applyselect" id="ddlSampleType">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group">
+            <label for="role">Tasks</label>
+            <select class="form-control applyselect" id="ddlTask" onchange="bindItemMasterGridFilter()">
+            </select>
+        </div>
+
+        <div class="col-sm-2 ml-auto form-group align-self-end">
+            <div class="d-flex gap-5 justify-content-end ">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox w-350">
+
+                    <div class="search w-300">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        @*<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+                <label for="role">Tasks</label>
+                <div class="filterdgn">
+                    <input type="text" class="filter-input" id="txtSampleId"
+                           placeholder="Search"> <label for="search" class="m-0">
+                        <img src="~/assets/images/icons/help/search-icon.png"
+                             class="filtersearchincon" />
+                    </label>
+                </div>
+            </div>*@
+
+
+
+    </div>
+    <!--  -->
+    <!--<div class="table-responsive">
+        <table id="sampleStep234" class="display rstable dgntable dataTable no-footer">
+            <thead>
+                <tr>-->
+    @*<th width="60">Serial No.</th>*@
+    <!--<th width="150">Sample Id</th>
+    <th width="80">Created <span class="d-block">On</span></th>
+    <th width="130">Sales <span class="d-block">Person</span></th>
+    <th width="130">Customer <span class="d-block">Name</span></th>
+    <th width="150">Item Name</th>
+    b <th width="150">Sample <span class="d-block">Type</span></th>
+    <th width="130">Assigned <span class="d-block">Chemist</span></th>
+    <th width="120">Task No. <span class="d-block">Task Description</span></th>
+    <th width="150">Dispatch Status</th>-->
+    @*<th width="150">Modification ID</th>*@
+    <!--<th width="80">Planned <span class="d-block">Date</span></th>
+        <th width="50">Delay <span class="d-block">(Hr)</span></th>
+        <th width="60">Action</th>
+
+    </tr>
+
+    <tr class="searchfilter">-->
+    @*<th></th>*@
+    <!--<th>
+        <div class="filterdgn">
+            <input type="text" class="filter-input" id="txtSampleId"
+                   placeholder="Search"> <label for="search" class="m-0">
+                <img src="~/assets/images/icons/help/search-icon.png"
+                     class="filtersearchincon" />
+            </label>
+        </div>
+    </th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+    <th>
+        <div class="filterdgn">
+            <input type="text" class="filter-input" id="txtItemName"
+                   placeholder="Search"> <label for="search" class="m-0">
+                <img src="~/assets/images/icons/help/search-icon.png"
+                     class="filtersearchincon" />
+            </label>
+        </div>
+    </th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>-->
+    @*<th></th>*@
+    <!--<th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+            </thead>
+
+        </table>
+    </div>-->
+    <!--  -->
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+
+
+
+<div id="yourModalContainer"></div>
+
+<div class="modal fade drawer right-align" id="markdone" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="../../assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Step 1 - Arrange Sample</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state" class="mb-0">Required Quantity</label>
+                        <div class="input-group">
+                            <input type="text" id="reqQuantity" oninput="HideErrorMessage(this); SetZero(this)" class="form-control Mandate1" placeholder="Enter">
+                            <div class="input-group-append bg-bgl">
+                                <span class="input-group-text w-60 d-flex align-self-centre d-flex justify-content-center">
+                                    <select id="unit" class="form-control applyselect hidesearchselect">
+                                        <option value="ml">ml</option>
+                                        <option value="gm">gm</option>
+                                    </select>
+                                </span>
+                            </div>
+
+                        </div>
+                        <span id="spreqQuantity" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+                    </div>
+
+
+
+                    @*<div class="col-lg-4 col-md-4 col-sm-6 form-group align-self-end">
+                            <label for="">Base Unit<sup>*</sup></label>
+                            <select class="form-control applyselect Mandatory" id="ddlUnit" name="Unit" onchange="HideErrorMessage(this)"></select>
+                            <span id="spddlUnit" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+
+                        </div>*@
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state" class="mb-0">Available Quantity</label>
+                        <p class="m-0" id="avialquantity"></p> <enum id="uomhtml"></enum>
+                        <input id="uom" type="hidden" value="" />
+                    </div>
+
+
+
+                    <div class="col-sm-12 form-group">
+                        <div class="toggle-card bg-bgl">
+                            <div class="toggle-card-header toggle-info">
+                                <h4 class="toggle-card-title">Item Information</h4>
+                                <span class="toggle-card-icon"><img src="~/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                            </div>
+                            <div class="toggle-containe toggle-info-content">
+                                <div class="row">
+                                    <div class="col-sm-12 form-group ">
+                                        <label class="text-gray mb-0">Item Name</label>
+                                        <p id="txtItem"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="formView">
+                                        <label class="text-gray mb-0">Formulation Category</label>
+                                        <p id="txtFormCate"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="fragView">
+                                        <label class="text-gray mb-0">Fragrance</label>
+                                        <p id="txtFragrance"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="colorView">
+                                        <label class="text-gray mb-0">Colour</label>
+                                        <p id="txtColour"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="packegingView">
+                                        <label class="text-gray mb-0">Packaging Type</label>
+                                        <p id="txtPackegingType"></p>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="text-gray mb-0">Target Price (₹)</label>
+                                        <p id="txtTargetPrice"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewReq">
+                                        <label class="text-gray mb-0">Requirement/Description</label>
+                                        <p id="requirements"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewMust">
+                                        <label class="text-gray mb-0">Must have ingredients</label>
+                                        <p id="mustIngredients"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewMustNot">
+                                        <label class="text-gray mb-0">Must not have ingredients</label>
+                                        <p id="mustnotingredients"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewAtt1">
+                                        <label class="text-gray mb-0">Attachment</label>
+                                        <p><a href="" target="blank" id="item_att1"></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <div class="d-flex gap-20 align-items-center justify-content-between flex-wrap">
+                            <a href="#" id="open_pdf">View Guidelines Doc</a>
+                            <a href="#" id="video" target="blank">View Guidelines Video</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="side-footer">
+                    <button type="button" onclick="SaveOilLFMSStep1()" class="btn btn-lg actionbtn">Sample Is Ready</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade drawer right-align" id="markdone2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="../../assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Step 2 - Enter Quality Details</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-4 form-group">
+                        <label class="mb-0">Item Name</label>
+                        <p id="item_Name2"></p>
+                    </div>
+
+                    <div class="col-sm-4 form-group">
+                        <label class="mb-0">Item Code</label>
+                        <p id="Item_Code2"></p>
+                    </div>
+
+                    <div class="col-sm-4 form-group" style="display:none">
+                        <label class="mb-0">Vendor Name</label>
+                        <p id="vendor_name2"></p>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <p>Please Select an AR number to continue</p>
+                        <div class="table-responsive sticky-responsive">
+                            <table class="display stickyth  dgntable graytable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+                                <thead>
+                                    <tr>
+                                        <th width="20"></th>
+                                        <th>AR Number</th>
+                                        <th width="100">GRN Date</th>
+                                        <th width="150">Available Quantity</th>
+                                        <th width="50">Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblARRNo">
+                                    @*<tr>
+                                            <td>
+                                                <input type="radio" id="active" class="radio" name="status" value="">
+                                                <label for="active" class="d-initial m-0"></label>
+
+                                            </td>
+                                            <td>RM/2526/1002</td>
+                                            <td>04/05/2025</td>
+                                            <td class="text-right">75</td>
+                                            <td>Ltr</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <input type="radio" id="activeone" class="radio" name="status" value="">
+                                                <label for="activeone" class="d-initial m-0"></label>
+
+                                            </td>
+                                            <td>RM/2526/1023</td>
+                                            <td>26/05/2025</td>
+                                            <td class="text-right">1000</td>
+                                            <td>Ltr</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="radio" id="activetwo" class="radio" name="status" value="">
+                                                <label for="activetwo" class="d-initial m-0"></label>
+
+                                            </td>
+                                            <td>RM/2526/1168</td>
+                                            <td>12/06/2025</td>
+                                            <td class="text-right">200</td>
+                                            <td>Ltr</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="radio" id="activethree" class="radio" name="status" value="">
+                                                <label for="activethree" class="d-initial m-0"></label>
+
+                                            </td>
+                                            <td>RM/2526/1225</td>
+                                            <td>26/05/2025</td>
+                                            <td class="text-right">500</td>
+                                            <td>Ltr</td>
+                                        </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-12 form-group" id="viewPhValue" style="display: none;">
+                        <div class="table-responsive sticky-responsive">
+                            <table class="display stickyth  dgntable  no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+                                <thead>
+                                    <tr>
+                                        <th>Test Name</th>
+
+                                        <th width="100">Result Type</th>
+                                        <th width="100">Measuring Unit</th>
+
+                                        <th width="100">Approved Range</th>
+                                        <th width="100">Result Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="txtTablePhResult">
+                                    @*<tr>
+                                            <td> pH</td>
+                                            <td>Range</td>
+                                            <td>1-14</td>
+                                            <td>1-14</td>
+                                            <td class="text-right">12</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>Color</td>
+                                            <td>Text</td>
+                                            <td>Aqua Blue</td>
+                                            <td>Navy Blue</td>
+                                            <td>Navy Blue</td>
+
+                                        </tr>*@
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="side-footer">
+                    <button type="button" class="btn btn-lg cancelbtn">CANCEL</button>
+                    <button type="button" class="btn btn-lg actionbtn" onclick="SaveOilLFMSStep2()">Submit</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="markdone4" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-left w-100">Step <enum id="last_step"></enum> - Enter Customer Feedback</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="../../assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="row">
+
+
+                    <div class="col-md-12 form-group">
+                        <label>Enter Customer’s Feedback<sup>*</sup></label>
+                        <textarea placeholder="Enter" id="remarks8" oninput="HideErrorMessage(this)" class="form-control Mandatory8 h-150"></textarea>
+                        <span id="spremarks8" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-warning" onclick="SaveBasicInfo8(2)">Reject</button>
+                <button class="btn btn-lg actionbtn" onclick="SaveBasicInfo8(1)">Approve</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade drawer right-align" id="markdone16" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2><img src="../../assets/images/icons/help/svg/back-white-arrow.svg" data-dismiss="modal" alt="" class="cursor-pointer">Step 1 - Arrange Sample</h2>
+                <img src="../../assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                <div class="row">
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state" class="mb-0">Required Quantity</label>
+                        <div class="input-group">
+                            <input type="text" id="txtReqQ_Ul" oninput="HideErrorMessage(this); SetZero(this)" class="MandateUL form-control" placeholder="Enter">
+                            <div class="input-group-append bg-bgl">
+                                <span class="input-group-text w-60 d-flex align-self-centre d-flex justify-content-center">
+                                    <select id="unit_req_ul" class="form-control hidesearchselect  applyselect">
+                                        <option value="ml">ml</option>
+                                        <option value="gm">gm</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                        <span id="sptxtReqQ_Ul" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <label for="state" class="mb-0">Available Quantity</label>
+                        <div class="input-group">
+                            <input type="text" id="availReqQ_Ul" oninput="HideErrorMessage(this); SetZero(this)" class="MandateUL form-control" placeholder="Enter">
+                            <div class="input-group-append bg-bgl">
+                                <span class="input-group-text w-60 d-flex align-self-centre d-flex justify-content-center">
+                                    <select id="unit_avail_ul" class="form-control hidesearchselect  applyselect">
+                                        <option value="ml">ml</option>
+                                        <option value="gm">gm</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                        <span id="spavailReqQ_Ul" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <div class="toggle-card bg-bgl">
+                            <div class="toggle-card-header toggle-info">
+                                <h4 class="toggle-card-title">Item Information</h4>
+                                <span class="toggle-card-icon"><img src="/assets/images/icons/help/arrow-down.png" class="icon-sm" alt=""></span>
+                            </div>
+                            <div class="toggle-containe toggle-info-content" style="display: none;">
+                                <div class="row">
+                                    <div class="col-sm-12 form-group ">
+                                        <label class="text-gray mb-0">Item Name</label>
+                                        <p id="txtItem1"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="formView1">
+                                        <label class="text-gray mb-0">Formulation Category</label>
+                                        <p id="txtFormCate1"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="fragView1">
+                                        <label class="text-gray mb-0">Fragrance</label>
+                                        <p id="txtFragrance1"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="colorView1">
+                                        <label class="text-gray mb-0">Colour</label>
+                                        <p id="txtColour1"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="packegingView1">
+                                        <label class="text-gray mb-0">Packaging Type</label>
+                                        <p id="txtPackegingType1"></p>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="text-gray mb-0">Target Price (₹)</label>
+                                        <p id="txtTargetPrice1"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewReq1">
+                                        <label class="text-gray mb-0">Requirements/Descriptions</label>
+                                        <p id="requirements1"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewMust1">
+                                        <label class="text-gray mb-0">Must have ingredients</label>
+                                        <p id="mustIngredients1"></p>
+                                    </div>
+
+
+                                    <div class="col-sm-12 form-group" id="viewMustNot1">
+                                        <label class="text-gray mb-0">Must not have ingredients</label>
+                                        <p id="mustnotingredients1"></p>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group" id="viewAtt2">
+                                        <label class="text-gray mb-0">Attachment</label>
+                                        <p><a href="" target="blank" id="item_att2"></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-sm-12 form-group">
+                        <div class="d-flex gap-20 align-items-center justify-content-between flex-wrap">
+                            <a href="#" id="open_pdf1">View Guidelines Doc</a>
+                            <a href="#" id="video1" target="blank">View Guidelines Video</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="side-footer">
+                    <button type="button" onclick="SaveOilULFMSStep1()" class="btn btn-lg actionbtn">Sample Is Ready</button>
+                </div>
+                <!-- End -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade drawer right-align" id="qctestmapping">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Step 2 - Enter Quality Details</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+
+                <div class="row">
+                    @*<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+                            <label class="label-light">AR Number</label>
+                            <p id="lbArnNumberMapping"></p>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 form-group">
+                            <label class="label-light">GRN Date</label>
+                            <p id="lbDocDateMapping"></p>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 form-group">
+                            <label class="label-light">Batch number</label>
+                            <p id="lbBatchNumerMapping"></p>
+                        </div>*@
+
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 form-group">
+                        <label class="label-light">Unlisted Item Name</label>
+                        <p id="lbItemNameMapping"></p>
+                    </div>
+                    <div class="col-md-8 form-group">
+                        <label class="mb-0">Requirements/Descriptions</label>
+                        <p id="lblReqItem"></p>
+                    </div>
+
+                    @*<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+                            <label class="label-light">Total Qty</label>
+                            <p id="lbTotalQtyMapping"> </p>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6 form-group">
+                            <label class="label-light">Vendor Name</label>
+                            <p id="lbSuppNameMapping"> </p>
+                        </div>*@
+
+                    <div class="col-sm-12 form-group">
+                        <p class="mb-2">Please Select the Quality Parameters needed for the QC Check of this item. </p>
+                        <div class="table-responsive sticky-responsive">
+                            <table id="tblQCTestMapping" class="display stickyth  dgntable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+                                <thead>
+                                    <tr>
+                                        <th width="20"></th>
+                                        <th width="150">Test Name</th>
+                                        <th width="100">Result Type</th>
+                                        <th width="60">Measuring <span class="d-block">Unit</span></th>
+                                        <th width="100">Approved Range</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblQcCheckBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="side-footer">
+                <button type="button" class="btn btn-lg  cancelbtn" data-dismiss="modal">Cancel</button>
+                <button type="button" onclick="SaveQCCheck();" class="btn btn-lg actionbtn">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade drawer right-align" id="qctestmappingInitiated">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Step 3 - QC Check initiated</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+
+                <div class="row">
+
+                    <div class="col-md-4 form-group">
+                        <label class="mb-0">Unlisted Item Name</label>
+                        <p id="un_item_name"></p>
+                    </div>
+
+                    <div class="col-md-8 form-group">
+                        <label class="mb-0">Requirements/Descriptions</label>
+                        <p id="un_desc"></p>
+                    </div>
+
+
+                    <div class="col-sm-12 form-group">
+                        <p>Please Select the Quality Parameters needed for the QC Check of this item.</p>
+                        <div class="table-responsive sticky-responsive">
+                            <table id="dtStockTransferInitiated" class="display stickyth     dgntable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+                                <thead>
+                                    <tr>
+                                        <th width="150">Test Name</th>
+                                        <th width="100">Result Type</th>
+                                        <th width="60">Measuring <span class="d-block">Unit</span></th>
+                                        <th width="100">Approved Range</th>
+                                        <th width="100">Result Value</th>
+
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 form-group">
+                        <label>Remarks (Optional)</label>
+                        <textarea id="txtRemarkInitiated" class="form-control h-120" maxlength="250" placeholder="Enter"></textarea>
+                        <span id="spRemarkInitiated" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+
+
+                    <div class="col-sm-12 form-group">
+                        <div class="card br-none p-0  ">
+                            <div class="card-header d-flex justify-content-between bg-none ">
+                                <h2 class="title-two align-self-center">Upload Document</h2>
+                                <div class="align-self-center"></div>
+                            </div>
+                            <div class="card-body  view-form-group">
+                                <div class="section-container section-container-popup">
+                                    <div class="fileuploadview drag-area">
+                                        <div class="uploadicon_text file-input-button">
+                                            <div class="uploadicon">
+                                                <img src="~/assets/images/icons/help/fileupload-icon.svg" alt="">
+                                            </div>
+                                            <div class="uploadtext drag-file">
+                                                <h4>Drop files here or click to upload</h4>
+                                                <h6>This is a dropzone, drop files or click to browse</h6>
+                                                <span class="error">The file size should be upto 2MB,<br /> with a maximum of 10 attachments.</span>
+                                            </div>
+                                        </div>
+                                        <input type="file" id="fileIndent" class="file-input hidden" multiple />
+                                        <div id="documentImages" class="document-images"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="side-footer">
+                    <button type="button" data-toggle="modal" data-dismiss="modal" class="btn btn-lg cancelbtn">Cancel</button>
+                    <button type="button" class="btn btn-lg actionbtn" id="initiatedBtn" onclick="SaveDataInitiated()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fileLimitPopup" class="popup-modal">
+        <div class="popup-content">
+            <p id="popup-message"></p>
+            <button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+        </div>
+    </div>
+
+    <script>
+        var finFromDate;
+        var finToDate;
+
+        var availQ_Unit;
+
+        function blockInvalidKeys(e) {
+            if (["e", "E", "-", "+"].includes(e.key)) {
+                e.preventDefault();
+            }
+        }
+
+        var isUno = "@ViewBag.isUn"
+
+    </script>
+
+
+    <script src="~/Areas/MaterialManagement/DevScript/fileupload_Material.js"></script>
+
+    @*Ag Grid Scripts Start*@
+    <link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+    <link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+    <link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+    <link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+    <script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+    <script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+    <script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+    <script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/CommonJS/GenericAgGrid.js"></script>
+
+    @*Ag Grid Scripts End*@
+    <script src="~/Areas/ManageSample/DevScript/OilFMS.js"></script>
+

@@ -1,0 +1,101 @@
+﻿@using SahajFramework.CommonClass
+@model SahajFramework.Models.Login
+@using SahajFramework.Models.Captcha
+@using CaptchaMvc.HtmlHelpers  
+
+@using CaptchaMvc;  
+  
+@{
+    Layout = null;
+    string PageName = ClsCommon.GetPageName();
+}
+
+<html>
+<head>
+    <title>ERP - BO International</title>
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#6B54C8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="~/assets/images/logo/bo-international-logo.png" type="image/png" sizes="50x50">
+    <link href="~/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/help.css" rel="stylesheet">
+    <link href="~/assets/css/login.css " rel="stylesheet">
+    <link href="~/assets/css/colorguide.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/css/responsive.css" rel="stylesheet">
+
+</head>
+<body>
+    @using (Html.BeginForm("Login", "Account",
+new { ReturnURL = ViewBag.ReturnURL }, FormMethod.Post,
+new
+{
+    name = "LoginForm",
+    id = "LoginForm",
+    @class = "login-form",
+    enctype = "multipart/form-data"
+}))
+    {
+        @Html.AntiForgeryToken()
+        <section class="d-flex flex-row justify-content-between">
+            <div class="left-side">
+                <div class="overlay"></div>
+                <img src="~/assets/images/login/bo-internation-image.jpg" alt="" class="w-full h-full object-cover">
+            </div>
+            <div class="right-side">
+                <!--  -->
+                <div class="login_detail">
+                    <div class="loginlogo">
+
+                        <img src="~/assets/images/logo/bo-international-logo.png" class="logo-sm" alt="">
+                        <h2>Bo International</h2>
+                    </div>
+                    <!-- Step 1  -->
+                    <div class="logintext">
+                        <h3>LOGIN</h3>
+                        <p>Please enter your registered email id or phone number</p>
+                    </div>
+
+
+                    <div class="login-from">
+                        <div class="form-group">
+                            <label for="email">Email ID / Phone Number <sup>*</sup></label>
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @autofocus = "true", @placeholder = "Email id / Phone Number" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                            @if (TempData["LoginErrorMsg"] != null)
+                            {
+                                if (TempData["LoginErrorMsg"].ToString() != "")
+                                {
+                                    <small id="OTPMessage" class="text-danger error">@TempData["LoginErrorMsg"]</small>
+                                }
+                            }
+                        </div>
+                    </div>
+                   
+                    <div class="loginbtn">
+
+
+                        <button name="Command" value="Continue" class="btn btn-lg actionbtn" type="submit">Continue</button>
+                    </div>
+
+
+                </div>
+                <!--  -->
+
+
+            </div>
+        </section>
+    }
+        <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+        <script src="~/assets/js/popper.min.js"></script>
+        <script src="~/assets/js/bootstrap.min.js"></script>
+        <script src="~/assets/js/login.js"></script>
+
+    </body>
+
+
+</html>

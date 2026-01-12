@@ -1,0 +1,60 @@
+﻿<div class="modal fade show" id="viewstatus" role="dialog">
+    <div class="modal-dialog modal-xlg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title text-center w-100">Status</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="../../assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <div class="table-responsive sticky-responsive">
+                            <table class="display  bg-thrid stickyth dgntable dataTable no-footer  itemsinformation">
+                                <thead>
+                                    <tr>
+
+                                        <th width="80" class="white-clr">Task #</th>
+                                        <th width="300" class="white-clr">Task Description</th>
+                                        <th width="100" class="white-clr">Planned <span class="d-block">Date</span></th>
+                                        <th width="100" class="white-clr">Actual<span class="d-block">Date</span></th>
+                                        <th width="100" class="white-clr">Doer Name</th>
+                                        <th width="50" class="white-clr">Delay<span class="d-block">(Hrs)</span></th>
+                                        <th class="white-clr">Remarks</th>
+                                        @*<th width="100" class="text-center white-clr">View</th>*@
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        var rowColor = item.PlannedDate != null && item.ActualDate != null ? "status-bg-c" : item.PlannedDate != null ?  "status-bg-p" : "";
+                                        <tr class="@rowColor">
+                                            <td>@item.TaskNo</td>
+                                            <td>@item.Description</td>
+                                            <td>@(item.PlannedDate?.ToString("dd-MM-yyyy HH:mm:ss") ?? "")</td>
+                                            <td>@(item.ActualDate?.ToString("dd-MM-yyyy HH:mm:ss") ?? "")</td>
+                                            <td>@item.DoerName</td>
+                                            <td>@item.DelayHours</td>
+                                            <td>@item.Remarks</td>
+                                            @*<td class="text-center">
+                                                <a href="">
+                                                    <img src="../../assets/images/icons/help/view-icon.png" alt="" class="icon-sm" />
+                                                </a>
+                                            </td>*@
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>

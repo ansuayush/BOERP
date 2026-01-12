@@ -1,0 +1,135 @@
+﻿
+@{
+	ViewBag.Title = "PurchaseReturns";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul class="tablink">
+	<li><a href="PurchaseReturns?auth=@ViewBag.Auth" class="nav-link  active">Purchase Returns</a></li>
+	<li><a href="DebitNote?auth=@ViewBag.Auth" class="nav-link ">Debit Note</a></li>
+
+</ul>
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex ">
+		Purchase Returns <div class="ml-2">
+			<svg data-toggle="tooltip" title="" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" data-original-title=""><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+		</div>
+	</h1>
+	<div class="align-self-center">
+
+	</div>
+</div>
+
+<div class="secondary-light-bg third-container">
+	<div class="row table-filter">
+
+		<div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display:none;">
+			<label for="role">Status </label>
+			<select class="form-control applyselect" id="ddlStatus" onchange="onchangeStatus();">
+			</select>
+		</div>
+
+		<div class="col-lg-2 col-md-3 col-sm-3 form-group">
+			<label for="role">Supplier’s Name		 </label>
+			<select class="form-control applyselect" id="ddlSupplier" onchange="bindPOShortCloseGridFilter();">
+			</select>
+		</div>
+
+		<div class="col-lg-2 col-md-3 col-sm-4 ml-auto form-group align-self-end">
+			<div class="d-flex gap-5 justify-content-end ">
+				<a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+				<div class="searchbox">
+
+					<div class="search w-300">
+						<label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+						<input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<!--  -->
+	@*<div class="table-responsive">
+			<table id="tblPurchaseReturns" class="display rstable single-sort  dgntable dataTable no-footer">
+				<thead>
+					<tr>
+						
+						<th class="text-center" width="40">
+							<input type="checkbox" id="selectAll" name="type" value="">
+							<label for="selectAll" class="single-checkbox d-table m-auto p-0"></label>
+						</th>
+						<th width="100">Doc. Type</th>
+						<th width="200">Doc. Number</th>
+						<th width="100">Doc. Date</th>
+						<th width="250">Supplier Name</th>
+						<th width="120">Item Code</th>
+						<th width="200">Item Name</th>
+						<th width="100">GRN Quantity</th>
+						<th width="100">Rejected QTY</th>
+
+					</tr>
+					<tr class="searchfilter">
+						
+						<th>
+						</th>
+						<th>
+
+						</th>
+
+						<th>
+							<div class="filterdgn">
+								<input type="text" class="filter-input" id="txtDocNumber"
+									   placeholder="Search"> <label for="search" class="m-0">
+									<img src="~/assets/images/icons/help/search-icon.png"
+										 class="filtersearchincon" />
+								</label>
+							</div>
+						</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>*@
+	<!--  -->
+	<!-- Grid with Scrollable Area -->
+	<div class="grid-wrapper" style="padding-top: 40px">
+		<div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+	</div>
+
+	<div class="text-center mt-3">
+		<center><button class="btn btn-lg actionbtn d-table" id="btnProcess" onclick="ProcessData();">Process</button></center>
+	</div>
+</div>
+
+
+<script>
+    var auth = '@ViewBag.Auth';
+</script>
+
+<script src="~/Areas/MaterialManagement/DevScript/PurchaseReturns/PurchaseReturns.js"></script>
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@

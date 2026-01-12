@@ -1,0 +1,120 @@
+﻿
+@{
+	ViewBag.Title = "Financial Ledgers";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" id="hdnCustId" value="@ViewBag.CustId" />
+<input type="hidden" id="hdnPAId" value="@ViewBag.PAId" />
+<input type="hidden" id="hdnRecordType" value="@ViewBag.RecordType" />
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<a href="/BusinessPartner/CustomerList?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a><span id="compName"></span> <div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center">
+		<div class="d-flex justify-content-between align-items-center gap-16"></div>
+	</div>
+</div>
+<ul class="tablink">
+	<li><a href="/BusinessPartner/ViewCustomer?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId&status=2" class="nav-link">Customer Details</a></li>
+	<li><a href="/BusinessPartner/CustSOItems?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link">Sales Order History</a></li>
+	<li><a href="/BusinessPartner/CustFinancialLedgers?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link active">Financial Ledgers</a></li>
+	<li><a href="/BusinessPartner/CustSampleRecords?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link ">Sample</a></li>
+	<li><a href="/BusinessPartner/CustPMInventory?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link">Client PM Inventory</a></li>
+</ul>
+
+<!-- page title -->
+<!--  -->
+
+<div class="secondary-light-bg third-container">
+
+	<!--  -->
+	<div class="table-responsive">
+		<div class="col-lg-2 col-md-4 col-sm-4 ml-auto form-group align-self-end">
+			<div class="d-flex gap-5 justify-content-end ">
+				<a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+				<div class="searchbox w-350">
+
+					<div class="search">
+						<label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+						<input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+
+
+		<!--<table id="tblVendorFinLedgerList" class="display single-sort rstable dgntable dataTable no-footer">
+		<thead>
+			<tr>-->
+		@*<th width="35">SR</th>*@
+		<!--<th width="100">Date</th>
+			<th width="400">Particulars</th>
+			<th width="100">Voucher Number</th>
+			<th width="100">Debit</th>
+			<th width="100">Credit</th>
+			<th width="100">Balance</th>
+
+		</tr>
+		<tr class="searchfilter">-->
+		@*<th></th>*@
+		<!--<th></th>
+				<th></th>
+				<th>
+					<div class="filterdgn">
+						<input type="text" class="filter-input" placeholder="Search" id="txtVoucherNo"> <label for="search" class="m-0"><img src="~/assets/images/icons/help/search-icon.png" class="filtersearchincon" /></label>
+					</div>
+				</th>
+				<th></th>
+				<th></th>
+				<th></th>
+
+			</tr>
+		</thead>-->
+		@*<tbody>
+				<tr>
+					<td>1</td>
+					<td>15/07/2024</td>
+					<td>Lorem Ipsum</td>
+					<td>Payment Voucher</td>
+					<td><a href="" class="fn-bold">1234567890</a></td>
+					<td class="text-right">₹ 1500.00</td>
+					<td class="text-right">₹ 1,890.00</td>
+					<td class="text-right">₹ 3,45,907.00</td>
+				</tr>
+
+			</tbody>*@
+		<!--</table>-->
+
+		<div class="grid-wrapper" style="padding-top: 40px">
+			<div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+		</div>
+
+	</div>
+	<!--  -->
+</div>
+
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+
+
+
+<script src="~/Areas/BusinessPartner/DevScript/ViewCustomer.js"></script>

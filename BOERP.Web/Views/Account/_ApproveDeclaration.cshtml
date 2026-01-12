@@ -1,0 +1,59 @@
+﻿@model Employee.Declaration
+<div id="collapse-B" class="collapse" data-parent="#content" role="tabpanel" aria-labelledby="heading-B">
+	<div class="card-body p-0">
+		<!-- --->
+		<div class="table-responsive">
+			<table class="table mt-4">
+				<thead>
+					<tr>
+						<th width="10">S.No</th>
+						<th>Declaration Name</th>
+						<th width="100">Frequency</th>
+						<th width="150">Due Date	</th>
+						<th width="150"> Remarks	 </th>
+						<th width="100">Attachment	</th>
+						<th width="100">Attachment	</th>
+						<th width="150">Accepted On</th>
+						<th width="100">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Model.declarationslist != null)
+					{
+						int count = 0;
+						foreach (var item in Model.declarationslist.Where(x => x.Accept == 1 || (x.Status=="1" || x.Status=="2")).ToList())
+						//foreach (var item in Model.declarationslist.Where(x => x.Accept == 1 ).ToList())
+						{
+							count++;
+					<tr>
+						<td class="hdftableid">
+							@count
+							<input type="hidden" value="@item.DEId" />
+
+						</td>
+						<td class="hdftableName">
+							@item.Declarationname
+							<input type="hidden" value="@item.Declarationname" />
+						</td>
+						<td>@item.Frequency</td>
+						<td>@item.DueDate</td>
+						<td><p class="ellipsis  m-0">@item.Remark</p></td>
+						<td><a href="@item.Attachement">@item.file_Name</a></td>
+						<td><a href="@item.EmpAttachement">@item.fileApprove_Name</a></td>
+						<td>@item.AcceptedDate</td>
+						<td><a href="" onclick="ShowApprovedData(this)" data-toggle="modal" data-target="#adview" class="green-clr"><i class="fas fa-check"></i>Accepted</a></td>
+					</tr>
+						}
+					}
+
+
+
+
+				</tbody>
+
+			</table>
+		</div>
+		<!-- --->
+
+	</div>
+</div>

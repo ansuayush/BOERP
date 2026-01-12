@@ -1,0 +1,473 @@
+﻿
+@{
+    ViewBag.Title = "Create GRN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string grnText = (Convert.ToInt32(ViewBag.PoId) > 0) ? "Edit GRN" : "Create GRN";
+
+    var pageType = ViewBag.PageType as string;
+    var backUrl = pageType == "GateEntryList"
+          ? $"/MaterialManagement/Material/GateEntry?auth={ViewBag.Auth}"
+        : $"/MaterialManagement/Material/Grn?auth={ViewBag.Auth}";
+}
+
+
+
+<input type="hidden" value="@ViewBag.PoId" id="hdnPoId" />
+<input type="hidden" value="@ViewBag.SuppId" id="hdnSuppId" />
+<input type="hidden" value="@ViewBag.GateEntryId" id="hdnGateEntry" />
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<!--<a href="/MaterialManagement/Material/Grn?auth=@ViewBag.Auth">-->
+        <a href="@backUrl">
+		<img src="~/assets/images/icons/help/back-icon.png" class="headingicon">
+		</a>
+		@grnText
+		<div class="ml-3"></div>
+	</h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 form-group">
+        <div class="row">
+            <div class="col-lg-12 form-group">
+                <div class="card br-none p-0">
+                    <div class="card-header d-flex justify-content-between bg-none ">
+                        <h2 class="title-two align-self-center">Supplier’s Information</h2>
+                        <div class="align-self-center"></div>
+                    </div>
+                    <div class="card-body view-form-group">
+                        <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <label class="readonlay">Supplier’s Name</label>
+                                <input id="txtSupName" type="text" class="form-control" readonly="" name="itemcode" fdprocessedid="7sfoj">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="readonlay">Address of Supplier</label>
+                                <p class="m-0" id="lblSuppAdd"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="readonlay">GSTIN</label>
+                                <p class="m-0" id="lblSuppGST"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card br-none p-0">
+                    <div class="card-header d-flex justify-content-between bg-none ">
+                        <h2 class="title-two align-self-center">Buyer’s Information</h2>
+                        <div class="align-self-center"></div>
+                    </div>
+                    <div class="card-body view-form-group">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                                <label for="" class="readonlay">Name</label>
+                                <p id="lblReqName"></p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                                <label for="" class="readonlay">Department</label>
+                                <p id="lblReqDept"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Primary Document Details</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+
+
+
+                    <div class="col-sm-6 form-group ">
+
+                        <label for="">Series</label>
+                        <select class="form-control applyselect Mandate" id="ddlDocSeries" tabindex="-1" aria-hidden="true" onchange="SetDocNumber(this);HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlDocSeries" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Document Number</label>
+                        <input id="txtDocumentNumber" type="number" disabled class="form-control readonlyfield Mandate" placeholder="Enter" fdprocessedid="kobths" onchange="HideErrorMessage(this)">
+                        <span id="spdtxtDocumentNumber" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Document Date</label>
+                        <input type="text" id="txtDocumentDate" class="form-control Mandate" placeholder="" readonly="">
+                        <span id="sptxtDocumentDate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Gate Entry Number</label>
+                        <select class="form-control applyselect Mandate" id="ddlGateEntryNumber" tabindex="-1" aria-hidden="true" onchange="ChangeGateEntryNumber();HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlGateEntryNumber" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                    </div>
+
+
+                    <!--<div class="col-sm-6 form-group" id="viewGateEntry" style="display: none;">
+                    <label class="readonlay">Gate Entry Uploads</label>
+                    <ul class="list-unstyled d-flex align-items-baseline gap-10 m-0 scroll-sm feild-scroll scroll" id="GateEntryUpload">-->
+                    @*<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+                        <li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>*@
+
+                    <!--</ul>
+                    </div>-->
+
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Gate Entry Date</label>
+                        <input type="text" id="txtGateEntryDate" class="form-control" placeholder="" readonly="">
+                        <span id="sptxtGateEntryDate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="readonlay">Invoice Number</label>
+                        <input type="text" id="txtInvoiceNumber" class="form-control" placeholder="" readonly="">
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>Invoice Date</label>
+                        <input type="text" id="txtInvoiceDate" class="form-control" placeholder="" readonly="">
+                    </div>
+                    <div class="col-sm-6  form-group">
+                        <label for=""> Transporter Name</label>
+                        <input type="text" id="txtTransporterName" class="form-control" placeholder="" readonly="">
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="form-label">Purchase Order No.</label>
+
+                        <select id="ddlIndent" class="form-control border-r-8 multiple-checkboxes Mandate" multiple="multiple" style="display: none;" onchange="FillGrid(this);HideErrorMessage(this)">
+                        </select>
+                        <span id="spddlIndent" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Items Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body p-0">
+
+                <div class="table-responsive sticky-responsive ">
+                    <table id="tblItemInformation" class="display  stickytable  dgntable no-footer radius-0 ">
+                        <thead>
+                            <tr>
+                                <th width="100" class="text-center  ">Action</th>
+                                <th width="100">PO No</th>
+                                <th width="100">Item Code</th>
+                                <th width="200">Item Name</th>
+                                <th width="250">Item Description</th>
+                                <th width="90">HSN</th>
+                                <th width="90">PO Qty <span class="d-block">Ordered</span></th>
+                                <th width="90">
+                                    Qty <span class="d-block">Received</span>
+                                </th>
+                                <th width="90">
+                                    Qty <span class="d-block">Damage</span>
+                                </th>
+                                <th width="90">
+                                    Qty <span class="d-block">Short</span>
+                                </th>
+                                <th width="60">UOM</th>
+                                <th width="90">Unit <span class="d-block">Price</span></th>
+                                <th width="120">Amount Before<sapn class="d-block">Discount</sapn></th>
+                                <th width="70">Dis. %</th>
+                                <th width="120">Amount After <sapn class="d-block">Discount</sapn></th>
+                                <th width="130">IGST%</th>
+                                <th width="100">IGST <span class="d-block">Amount (₹)</span> </th>
+                                <th width="130">CGST%</th>
+                                <th width="100">CGST <span class="d-block">Amount (₹)</span> </th>
+                                <th width="130">SGST%</th>
+                                <th width="100">SGST <span class="d-block">Amount (₹)</span> </th>
+                                <th width="100">Total</th>
+                                <th width="100">Batch/Lot#</th>
+                                <th width="140">MFG.Date</th>
+                                <th width="140">Exp.Date</th>
+                                <th width="200">Warehouse</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 form-group">
+        <div class="card br-none p-0   ">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Upload Invoice</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-175">
+                <div class="section-container section-container-popup">
+                    <div class="fileuploadview drag-area">
+                        <div class="uploadicon_text file-input-button" id="fileInputButton">
+                            <div class="uploadicon">
+                                <img src="~/assets/images/icons/help/fileupload-icon.svg" alt="">
+                            </div>
+                            <div class="uploadtext drag-file" id="dragFile">
+                                <h4>Drop files here or click to upload</h4>
+                                <h6>This is a dropzone, drop files or click to browse</h6>
+                                <span class="error">The file size should be upto 2MB,<br /> with a maximum of 10 attachments.</span>
+                            </div>
+                        </div>
+                        <input type="file" id="fileMaterialPhoto" class="file-input hidden" multiple />
+                        <div id="documentImages" class="document-images"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*------ view Gate Entry -------*@
+        <div class="col-lg-12 form-group" id="viewGateEntryDoc" style="display: none;">
+            <div class="card br-none p-0">
+                <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                    <h2 class="title-two align-self-center">Gate Entry Attachment</h2>
+                    <div class="align-self-center"></div>
+                </div>
+                <div class="card-body view-form-group min-175 ">
+                    <p class="m-0 nofile" id="NoUploadFile3">No Upload</p>
+                    <div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile3">
+
+                        <div id="documentImagesAtt" class="document-images">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*------ view Gate Entry Ends-------*@
+
+    </div>
+
+
+
+
+
+    <div class="col-lg-3 form-group">
+        <div class="card br-none p-0 ">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Comment</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-205">
+                <textarea id="txtComments" maxlength="250" class="form-control h-cm" rows="5" placeholder="Enter"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5 form-group">
+        <div class="totalamount">
+            <table class="">
+                <thead>
+                    <tr>
+                        <td width="200">Total (before tax) :</td>
+                        <td class="text-right" width="100"><span id="totalBeforeTax">0.00</span></td>
+
+                    </tr>
+                    <tr>
+                        <td><span data-toggle="tooltip" title="" data-original-title="Add"><img src="~/assets/images/icons/help/add.svg" alt="" data-toggle="modal" data-target="#othercharge" onclick="RefreshData()" class="icon-16 cursor-pointer"></span> Other Charges :</td>
+                        <td class="text-right"><span class="otherChargesInput" id="otherChargesInputData">0.00</span> </td>
+                    </tr>
+                    <tr>
+                        <td class="fn-sm">IGST :</td>
+                        <td class="text-right fn-sm"><span id="igstTotal">0.00</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="fn-sm">CGST :</td>
+                        <td class="text-right fn-sm"><span id="cgstTotal">0.00</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="fn-sm">SGST :</td>
+                        <td class="text-right fn-sm"><span id="sgstTotal">0.00</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td>Total Tax :</td>
+                        <td class="text-right"><span id="totalTax">0.00</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td>Total (After Tax) :</td>
+                        <td class="text-right"><span id="totalAfterTax">0.00</span></td>
+
+                    </tr>
+
+
+                    <tr>
+                        <td>Rounding Amount :</td>
+                        <td class="text-right"><input type="number" id="roundingAmountInput" class="form-control text-right w-50 float-right" placeholder="0" fdprocessedid="3a42pn"></td>
+
+                    </tr>
+                    <tr>
+                        <td>Total Amount :</td>
+                        <td class="text-right"><span id="grandTotal">0.00</span> </td>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-12 align-self-end justify-content-end align-items-center d-flex mb-5 gap-10">
+        <a href="/MaterialManagement/Material/Grn?auth=@ViewBag.Auth" class="btn btn-lg cancelbtn">Cancel</a>
+        <button type="button" class="btn btn-lg actionbtn" fdprocessedid="sw1sou" onclick="SavePurchaseOrder()">Save</button>
+
+    </div>
+</div>
+<div class="modal fade" id="othercharge" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100">Add Other Charges</h4>
+                <button type="button" id="btnPopupClose" class="close" data-dismiss="modal" fdprocessedid="sjwo0k"><img src="~/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="table-reponsive">
+                    <table id="tblOtherCharge" class=" dgntable dataTable no-footer othercharnge">
+                        <thead>
+                            <tr>
+                                <th width="20"></th>
+                                <th>Charge Name</th>
+                                <th>Charge Amount</th>
+                                <th id="headerI">IGST (in %)</th>
+                                <th id="headerC">CGST (in %)</th>
+                                <th id="headerS">SGST (in %)</th>
+                                <th>Total Tax Amount</th>
+                                <th>Total Net Amount</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tableToModify">
+                            <tr>
+                                <td data-label="">
+                                    <span>
+                                        <div id="addothercharge" class="cursor-pointer"><img style="pointer-events: none;" src="~/assets/images/icons/help/add.svg" alt="" data-toggle="tooltip" title="" data-original-title="Add" class="icon-sm"></div>
+
+                                        <span style="display:none;" id="hdnOtherChargeId_0" class="hdnOtherChargeId">0</span>
+                                        <span style="display:none;" id="hdnOtherNew_0" class="hdnOtherNew">0</span>
+                                    </span>
+                                </td>
+                                <td data-label="Charge Name">
+                                    <span>
+                                        <select class="form-control applyselect ddlChargeName OMandate" id="ddlCharge_0" onchange="HideErrorMessage(this);setNARRCharges(this)">
+                                            <option>Select</option>
+                                        </select>
+                                        <span id="spddlCharge_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </span>
+                                </td>
+                                <td data-label="Charge Amount">
+                                    <span>
+                                        <input type="number" id="txtChargeAmount_0" class="form-control text-right ChargeAmount OMandate" value="" placeholder="0" oninput="GetTax(this)" onchange="HideErrorMessage(this); SetZero(this)">
+                                        <span id="sptxtChargeAmount_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+
+                                    </span>
+                                </td>
+                                <td data-label="IGST (in %)" id="viewIGST">
+                                    <span>
+
+                                        <select class="form-control applyselect taxDdl" id="ddlTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+                                            <option>Select</option>
+                                        </select>
+                                        <span id="spddlTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </span>
+                                </td>
+                                <td data-label="CGST (in %)" id="viewCGST" style="display: none;">
+                                    <span>
+
+                                        <select class="form-control applyselect taxCDdl" id="ddlCTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+                                            <option>Select</option>
+                                        </select>
+                                        <span id="spddlCTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </span>
+                                </td>
+                                <td data-label="SGST (in %)" id="viewSGST" style="display: none;">
+                                    <span>
+
+                                        <select class="form-control applyselect taxSDdl" id="ddlSTax_0" onchange="HideErrorMessage(this);GetTax(this)">
+                                            <option>Select</option>
+                                        </select>
+                                        <span id="spddlSTax_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    </span>
+                                </td>
+                                <td data-label="Total Tax Amount">
+                                    <span>
+                                        <input placeholder="0" type="text" id="txtTax_0" class="form-control text-right TaxAmount OMandate" fdprocessedid="5nb56" disabled>
+
+                                    </span>
+                                </td>
+                                <td class="text-right" data-label="Total Net Amount"><span class="TotalOtherChargeAmount" id="spTotalOtherCharge_0"></span></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer text-center">
+
+                <button type="button" class="btn btn-lg actionbtn" onclick="SaveOtherCharges()" fdprocessedid="ogmb0u">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  -->
+<!-- Popup Modal for File Limit -->
+<div id="fileLimitPopup" class="popup-modal">
+    <div class="popup-content">
+        <p id="popup-message"></p>
+        <button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+    </div>
+</div>
+<script src="~/Areas/MaterialManagement/DevScript/GRN/UploadInvoice.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/GRN/CreateGRN.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/GRN/GRNOtherCharges.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $(".applyselect").select2();
+
+    });
+    var IsIGST = 0;
+</script>

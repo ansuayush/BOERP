@@ -1,0 +1,75 @@
+﻿@model SahajFramework.Models.AdminModule
+@using SahajFramework.CommonClass;
+@using SahajFramework.Models;
+
+@{
+
+    var random = new Random();
+    Singleton NotiObj = Singleton.Instance;
+    List<PushNotification> PushNotificationList = new List<PushNotification>();
+    PushNotificationList = NotiObj.GetPushNotificationList("Layout");
+    string MenuID = "0";
+    string Empid = clsApplicationSetting.GetSessionValue("EMPID").ToString();   
+    if (ViewBag.MenuID != null)
+    {
+        MenuID = ViewBag.MenuID;
+    }
+}
+
+            @if (Model != null && Model.ModuleID != 0)
+            {
+                foreach (AdminMenu itemMenu in Model.MainMenuList.Where(x => x.ParentMenuID == 0).OrderBy(x => x.MenuPriority).ThenBy(x => x.MenuName).ToList())
+                {
+
+                    <li>
+
+                        <a class="tp-arw ripplelink" data-toggle="@(@itemMenu.MenuURL!="javascripts:;"?"":"dropdown"))" aria-haspopup="true" aria-expanded="false" id="Menu_@itemMenu.MenuID" target="@itemMenu.Target" href="@(itemMenu.MenuURL.Contains("javascripts") ? "javascripts:;": itemMenu.MenuURL+ "?src="+clsApplicationSetting.EncryptQueryString(itemMenu.MenuID.ToString()+"*"+itemMenu.MenuURL))">@itemMenu.MenuName @Html.Raw(!string.IsNullOrEmpty(itemMenu.MenuImage) ? "<i class='" + itemMenu.MenuImage + "' aria-hidden='true'></i>" : "")</a>
+
+                        @if (itemMenu.IsChild == "Y")
+                        {
+                            if (!string.IsNullOrEmpty(itemMenu.MenuImage))
+                            {
+
+                             
+                                    <ul>
+                                        @foreach (AdminMenu itemMenu2 in itemMenu.ChildMenuList.OrderBy(x => x.MenuPriority).ThenBy(x => x.MenuName).ToList())
+                                        {
+
+                                            var color = String.Format("#{0:X6}", random.Next(0x1000000));
+                                            <li> <a style="color:@color;" id="Menu_@itemMenu2.MenuID" target="@itemMenu2.Target" href="@(itemMenu2.MenuURL.Contains("javascripts") ? "javascripts:;": itemMenu2.MenuURL+ "?src="+clsApplicationSetting.EncryptQueryString(itemMenu2.MenuID.ToString()+"*"+itemMenu2.MenuURL))">@itemMenu2.MenuName @Html.Raw(!string.IsNullOrEmpty(itemMenu2.MenuImage) ? "<i class='" + itemMenu2.MenuImage + "' aria-hidden='true'></i>" : "")</a></li>
+
+                                        }
+                                    </ul>
+                                
+                            }
+
+                            else
+                            {
+
+                                <div class="dropdown-menu">
+                                    @foreach (AdminMenu itemMenu2 in itemMenu.ChildMenuList.OrderBy(x => x.MenuPriority).ThenBy(x => x.MenuName).ToList())
+
+                                    {
+
+                                        <a class="dropdown-item" id="Menu_@itemMenu2.MenuID" target="@itemMenu2.Target" onclick="@(!string.IsNullOrEmpty(itemMenu2.MenuURL) && itemMenu2.Target !="_blank" && itemMenu2.MenuURL!="javascripts:;"?"ShowLoadingDialog();":"")" href="@itemMenu2.MenuURL">@itemMenu2.MenuName</a>
+                                    }
+
+                                </div>
+                            }
+
+                        }
+
+                    </li>
+                }
+
+            }
+
+          
+
+ 
+
+
+
+
+
+ 

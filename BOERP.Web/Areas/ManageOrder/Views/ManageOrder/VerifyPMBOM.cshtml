@@ -1,0 +1,693 @@
+﻿
+@{
+    ViewBag.Title = "VerifyPMBOM";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main space-gap-main">
+    <div class="pagetitle gap-bottom d-flex justify-content-between">
+        <h1 class="m-0 d-flex align-items-center">
+            <a onclick="CancelBOM()"><img src="../assets/images/icons/help/back-icon.png" alt="" class="headingicon"></a>Step 2 - Verify PM BOM<div class="ml-3"></div>
+        </h1>
+        <div class="align-self-center">
+            <div class="d-flex justify-content-between align-items-center gap-10">
+                <button class="btn mr-2 actionbtn border-r-8">
+                    <img src="../assets/images/icons/help/print-white-icon.png" class="btn-icon m-0">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 form-group">
+
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none  ">
+                    <h2 class="title-two align-self-center">Formula Information</h2>
+                    <div class="align-self-center"></div>
+                </div>
+                <div class="card-body view-form-group pb-0">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Sales Order Number</label>
+                            <p class="field-value" title="" id="so"></p>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Order Quantity (Pcs)</label>
+                            <p class="field-value" title="100 pcs" id="oq"> <span class="unit">pcs</span></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Order Quantity (Kg)</label>
+                            <p class="field-value" title="100 kg" id="oq2"> <span class="unit">kg</span></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label>FG Item Code</label>
+                            <p class="m-0" id="fg_itemcode"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label>FG BOM Number</label>
+                            <p class="m-0" id="fg_bomno"></p>
+                        </div>
+
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label>FG Item Name</label>
+                            <p class="m-0" id="fg"></p>
+                        </div>
+
+                      
+                        <div class="col-lg-2  col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Pack Size</label>
+                            <p class="field-value" title="General Changes" id="packsize"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Customer Company</label>
+                            <p class="field-value" title="ABC Enterprises" id="cust"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">Customer Brand Name</label>
+                            <p class="field-value" title="Lakme" id="brand"></p>
+                        </div>
+
+
+
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">CRR Name</label>
+                            <p class="field-value" title="Keshav Singh" id="crr"></p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-6 form-group">
+                            <label class="field-label">NBD Name</label>
+                            <p class="field-value" title="Keshav Singh" id="nbd"></p>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12 form-group">
+
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none  ">
+                    <h2 class="title-two align-self-center">BOM Information</h2>
+                    <div class="align-self-center"></div>
+                </div>
+                <div class="card-body view-form-group pb-0">
+                    <div class="card-header d-flex justify-content-between bg-none  ">
+                        <h2 class="title-two align-self-center fn-md">Attachment</h2>
+                        <div class="align-self-center"></div>
+                    </div>
+                    <!--  -->
+                    <div class="col-lg-12 form-group" style="display: none;" id="view_att">
+                        <div class="card br-none p-0">
+                            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                                <h2 class="title-two align-self-center">Material COA Upload</h2>
+                                <div class="align-self-center"></div>
+                            </div>
+                            <div class="card-body view-form-group min-175 ">
+                                <p class="m-0 nofile" id="NoUploadFile1">No Upload</p>
+                                <div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile1">
+                                    <!--  -->
+                                    <div id="documentImagesMCU" class="document-images">
+
+                                    </div>
+                                    <!--  -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="display: none;">
+                        <div class="col-lg-12 form-group">
+
+                            <div class="card br-none p-0">
+                                <div class="card-header d-flex justify-content-between bg-none ">
+                                    <h2 class="title-two align-self-center">Item Information</h2>
+                                    <div class="align-self-center"></div>
+                                </div>
+                                <div class="card-body view-form-group">
+                                    <div class="row">
+
+                                        <div class="col-md-3 col-sm-4 form-group">
+                                            <label>Item Code</label>
+                                            <div class="autocomplete-wrapper" style="position: relative;">
+                                                <label for="ddlI" id="ddlFGI" class="search-label">
+                                                    <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                                </label>
+                                                <input type="text" class="form-control searchlist Mandatory" id="txtMIItemName" onchange="SetItem()" oninput="GetdataMaster(this,'globalSuggestionBox', 'Finished Goods'); HideErrorMessage(this)" onclick="GetdataMaster(this,'globalSuggestionBox', 'Finished Goods'); HideErrorMessage(this)" placeholder="Type item..." autocomplete="off">
+                                                <span id="sptxtMIItemName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                                <ul id="globalSuggestionBox" class="suggestions"></ul>
+                                                <input type="hidden" id="ddlItem" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3 form-group">
+                                            <label>Item Name *</label>
+                                            <input type="text" class="form-control Mandatory" oninput="HideErrorMessage(this)" value="" id="ddlItemName" placeholder="Enter" />
+                                            <span id="spddlItemName" class="text-danger field-validation-error" placeholder="Enter" style="display:none;">Hey, You missed this field!</span>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-4 form-group">
+                                            <label>Pack Size *</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control Mandatory" oninput="HideErrorMessage(this)" value="" id="ddlPackSize" placeholder="Enter" />
+                                                <div class="input-group-append bg-bgl">
+                                                    <span class="input-group-text w-60 d-flex align-self-centre d-flex justify-content-center" ${disabled}>
+                                                        <select id="unit_req_ul" class="form-control hidesearchselect  applyselect">
+                                                            <option value="ml">ml</option>
+                                                            <option value="gm">gm</option>
+                                                        </select>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <span id="spddlPackSize" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 form-group">
+                                            <label>Category *</label>
+                                            <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)" id="ddlBOMCategory">
+                                                <option>Select</option>
+                                                <option value="base">Base</option>
+                                                <option value="oil">Oil</option>
+                                                <option value="sfg">SFG</option>
+                                                <option value="finishedgoods">Finished Goods</option>
+                                            </select>
+                                            <span id="spddlBOMCategory" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                        </div>
+                                        <div class="col-md-3 col-sm-4 form-group">
+                                            <label>BOM Quantity*  (Pcs)</label>
+                                            <input type="number" value="1" disabled oninput="SetZero(this);HideErrorMessage(this)" class="form-control Mandatory" id="bomQty" placeholder="Enter" name="">
+                                            <span id="spbomQty" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                        </div>
+
+
+
+                                        <div class="col-md-3 col-sm-4 form-group">
+                                            <label>HSN Code * </label>
+                                            <select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this); ItemTaxMappingHSN()" id="ddlHSN">
+                                            </select>
+                                            <span id="spddlHSN" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                        </div>
+
+                                        <div class="col-md-3 form-group">
+                                            <label for="" class="d-flex justify-content-between">Tax Mapping</label>
+                                            <p class="text-p" id="itemCharges"></p>
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-4 form-group align-items-center d-flex" id="newItemFG" style="display: none !important">
+                                            <button type="" class="btn  btn-sm  actionbtn" id="savefg" onclick="SaveItemMaster('Mandatory')">Add</button>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 form-group" style="display: none;">
+
+                        <div class="card br-none p-0">
+                            <div class="card-header d-flex justify-content-between bg-none ">
+                                <h2 class="title-two align-self-center">BOM Information</h2>
+                                <div class="align-self-center"></div>
+                            </div>
+                            <div class="card-body view-form-group">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 form-group ">
+
+                                        <label for="" class="readonly">BOM Number</label>
+                                        <input type="text" class="form-control readonlyfield" id="txtBOMNumber" readonly="" value="" name="">
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-4 form-group">
+                                        <label>Customer Company </label>
+                                        <div class="autocomplete-wrapper" style="position: relative;">
+                                            <label for="ddlC" class="search-label">
+                                                <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                            </label>
+                                            <input type="text" class="form-control searchlist Mandate" id="txtCustomerName" oninput="GetdataMasterCustomer(this,'globalSuggestionBoxC', 'Semi Finished Goods'); HideErrorMessage(this)" onclick="GetdataMasterCustomer(this,'globalSuggestionBoxC', 'Semi Finished Goods'); HideErrorMessage(this)" placeholder="Type customer..." autocomplete="off">
+                                            <span id="sptxtCustomerName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                            <ul id="globalSuggestionBoxC" class="suggestions"></ul>
+                                            <input type="hidden" id="ddlCustomer" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 form-group">
+                                        <label>Company Brand Name  </label>
+                                        <input type="text" id="txtBrandName" class="form-control readonlyfield" readonly="" value="" name="">
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 form-group">
+                                        <label>Customer Contact Person </label>
+                                        <select class="form-control applyselect" id="ddlContactPerson">
+                                        </select>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-12 form-group" style="display: none;">
+                        <div class="card br-none p-0">
+                            <div class="card-header d-flex justify-content-between bg-none ">
+                                <h2 class="title-two align-self-center">Semi Finished Goods (RM) Information</h2>
+                                <div class="align-self-center oil hide">
+                                    <input type="checkbox" id="unlistedittem" name="type" value="">
+                                    <label for="unlistedittem" class="m-0">Add Unlisted Item</label>
+                                </div>
+                            </div>
+                            <div class="card-body view-form-group">
+                                <div class="table-responsive oilhide">
+                                    <table class="display  dgntable dataTable no-footer radius-0 ">
+                                        <thead>
+                                            <tr>
+
+                                                <th width="15" class="text-center">#</th>
+                                                <th width="100">Item Code</th>
+                                                <th width="250">Item Name</th>
+                                                <th width="150">Sample Id</th>
+                                                <th width="70">Qty</th>
+                                                <th width="60">UoM</th>
+                                                <th width="80">Selling <span class="d-block">Price (₹)</span></th>
+                                                <th width="60">Total <span class="d-block">Cost (₹)</span></th>
+
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                                <td class="text-center">1</td>
+                                                <td>
+
+                                                    <div class="autocomplete-wrapper" style="position: relative;">
+                                                        <label for="ddlSFG" class="search-label">
+                                                            <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                                        </label>
+                                                        <div class="autocomplete-wrapper" style="position: relative;">
+                                                            <label for="ddlISFG" class="search-label">
+                                                                <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                                            </label>
+                                                            <input type="text" class="form-control searchlist Mandate" id="txtItemSFG" onchange="SetItem()" oninput="GetdataMaster(this,'globalSuggestionBoxSFG', 'Semi Finished Goods'); HideErrorMessage(this)" onclick="GetdataMaster(this,'globalSuggestionBoxSFG', 'Semi Finished Goods'); HideErrorMessage(this)" placeholder="Type item..." autocomplete="off">
+                                                            <span id="sptxtItemSFG" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                                            <ul id="globalSuggestionBoxSFG" class="suggestions"></ul>
+                                                            <input type="hidden" id="ddlItemSFG" />
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td id="SFGItemCode">
+                                                </td>
+
+
+                                                <td>
+                                                    <input type="text" id="txtSAmpleId" class="form-control readonlyfield" readonly="" value="" name="">
+
+                                                </td>
+
+                                                <td>
+                                                    <input type="number" id="txtSFGQty" onchange="CalculateRateSFG(this)" oninput="SetZero(this); HideErrorMessage(this); CalculateRateSFG(this)" class="form-control text-right Mandate" value="" placeholder="Enter" />
+                                                    <span id="sptxtSFGQty" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control applyselect" disabled id="ddlUnitSFG">
+                                                    </select>
+                                                    <span id="spddlUnitSFG" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                                </td>
+
+                                                <td>
+                                                    <input type="number" class="form-control Mandate text-right" onchange="CalculateRateSFG(this)" oninput="SetZero(this); HideErrorMessage(this); CalculateRateSFG(this)" id="ddlSFGSaleRate" value="" placeholder="Enter" />
+                                                    <span id="spddlSFGSaleRate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                                </td>
+                                                <td class="text-right fn-bold" id="totalRateSFG">0</td>
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 form-group ">
+                        <div class="card br-none p-0">
+                            <div class="card-header d-flex justify-content-between bg-none ">
+                                <h2 class="title-two align-self-center">Primary Packing Material Information <span class="d-block red-clr fn-normal">Please ensure you complete BOM details like Bottle, Seal, Cap, Pump etc</span></h2>
+                                <div class="align-self-center oil hide">
+
+                                </div>
+                            </div>
+                            <div class="card-body view-form-group">
+                                <div class="table-responsive oilhide">
+                                    <table id="printed_packing" class="display  dgntable dataTable no-footer radius-0 " st>
+                                        <thead>
+                                            <tr>
+                                                <th width="15" class="text-center"></th>
+                                                <th width="15" class="text-center">#</th>
+                                                <th width="35">From <span class="d-block">Client</span></th>
+                                                <th width="35">Create <span class="d-block">New</span></th>
+                                                <th width="180">Sub category</th>
+                                                <th width="100">Item Code</th>
+                                                <th width="150">Item Name</th>
+                                                <th width="100" style="display: none;">HSN</th>
+                                                <th width="80">Qty</th>
+                                                <th width="100">UoM</th>
+                                                <th width="60px">Purchase <span class="d-block">Price (₹)</span></th>
+                                                <th width="60" class="text-center">Selling <span class="d-block">Price (₹)</span></th>
+                                                <th width="60" class="text-center">Total <span class="d-block">Cost (₹)</span></th>
+                                                <th width="80"></th>
+
+
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                            @*<tr>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">
+                                        <input type="checkbox" id="FromClienttwo" name="FromClient" value="">
+                                        <label for="FromClienttwo" class="m-0 singlecheck pl-0"></label>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" id="FromClientthree" name="FromClient" value="">
+                                        <label for="FromClientthree" class="m-0 singlecheck pl-0"></label>
+                                    </td>
+                                    <td>
+                                        <select class="form-control applyselect">
+                                            <option>Select</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                    <td>
+                                        <div class="autocomplete-wrapper" style="position: relative;">
+                                            <label for="ddlI_0" class="search-label">
+                                                <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                            </label>
+                                            <input type="text" class="form-control searchlist Mandate" id="ddlI_0" placeholder="Type item..." autocomplete="off">
+
+                                        </div>
+                                    </td>
+                                    <td><input type="number" class="form-control  text-right" value="" placeholder="Enter" /></td>
+                                    <td><input type="number" class="form-control  text-right" value="" placeholder="Enter" /></td>
+                                    <td>Pcs</td>
+                                    <td><input type="number" class="form-control  text-right" value="" placeholder="Enter" /></td>
+                                    <td class="text-right fn-bold">₹ 3000.00</td>
+                                    <td class="text-center">
+                                        <button type="" class="btn  btn-sm  actionbtn mx-auto" data-toggle="modal" data-target="#confirmpopup">Add</button>
+                                    </td>
+                                </tr>*@
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 form-group ">
+                        <div class="card br-none p-0">
+                            <div class="card-header d-flex justify-content-between bg-none ">
+                                <h2 class="title-two align-self-center">Secondary Packaging Information</h2>
+                                <div class="align-self-center oil hide">
+
+                                </div>
+                            </div>
+                            <div class="card-body view-form-group">
+                                <div class="table-responsive oilhide">
+                                    <table class="display  dgntable dataTable no-footer radius-0" id="printed_packing_sp">
+                                        <thead>
+                                            <tr>
+                                                <th width="15" class="text-center"></th>
+                                                <th width="15" class="text-center">#</th>
+                                                <th width="35">From <span class="d-block">Client</span></th>
+                                                <th width="35">Create <span class="d-block">New</span></th>
+                                                <th width="180">Sub category</th>
+                                                <th width="100">Item Code</th>
+                                                <th width="150">Item Name</th>
+                                                <th width="100" style="display: none;">HSN</th>
+                                                <th width="80">Qty</th>
+                                                <th width="100">UoM</th>
+                                                <th width="60px">Purchase <span class="d-block">Price (₹)</span></th>
+                                                <th width="60" class="text-center">Selling <span class="d-block">Price (₹)</span></th>
+                                                <th width="60" class="text-center">Total <span class="d-block">Cost (₹)</span></th>
+                                                <th width="80"></th>
+
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+
+
+                                            <!--<tr>-->
+                                            @*<td class="text-center">2</td>
+                                <td class="text-center">
+                                    <input type="checkbox" id="FromClienttwo" name="FromClient" value="">
+                                    <label for="FromClienttwo" class="m-0 singlecheck pl-0"></label>
+                                </td>
+                                <td class="text-center">
+                                    <input type="checkbox" id="FromClientthree" name="FromClient" value="">
+                                    <label for="FromClientthree" class="m-0 singlecheck pl-0"></label>
+                                </td>
+                                <td>
+                                    <select class="form-control applyselect">
+                                        <option>Select</option>
+                                        <option>Shrink Wrap</option>
+                                        <option>Master Carton</option>
+                                        <option>Tamper Proofing</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                <td><input type="text" class="form-control" value="" placeholder="Enter" /></td>
+                                <td><input type="number" class="form-control  text-right" value="" placeholder="Enter" /></td>
+                                <td>Pcs</td>
+                                <td><input type="number" class="form-control  text-right" value="" placeholder="Enter" /></td>
+                                <td class="text-right fn-bold">₹ 3000.00</td>
+                                <td class="text-center">
+                                    <button type="" class="btn  btn-sm  actionbtn mx-auto" data-toggle="modal" data-target="#confirmpopup">Add</button>
+                                </td>*@
+                                            <!--</tr>-->
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12 form-group " style="display: none;">
+            <div class="card br-none p-0">
+                <div class="card-header d-flex justify-content-between bg-none ">
+                    <h2 class="title-two align-self-center">Other Charges</h2>
+                    <div class="align-self-center "></div>
+                </div>
+                <div class="card-body view-form-group">
+                    <div class="table-responsive oilhide">
+                        <table class="display  dgntable dataTable no-footer radius-0" style="table-layout: auto;">
+                            <thead>
+                                <tr>
+
+                                    <th width="15" class="text-center">#</th>
+                                    <th width="300">Classification</th>
+                                    <th width="150">Amount(per piece)</th>
+                                    <th>Comment</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody id="othercharges">
+                                @*<tr>
+
+                                    <td class="text-center">1</td>
+                                    <td>
+                                        Conversion Charge
+                                    </td>
+
+                                    <td class=" text-right"><input type="text" class="form-control text-right" value="" placeholder="Enter Value" /></td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter Text" /></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td class="text-center">2</td>
+                                    <td>
+                                        Margin
+                                    </td>
+
+                                    <td class=" text-right"><input type="text" class="form-control text-right" value="" placeholder="Enter Value" /></td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter Text" /></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td class="text-center">3</td>
+                                    <td>
+                                        Other Charges
+                                    </td>
+
+                                    <td><input type="text" class="form-control text-right" value="" placeholder="Enter Value" /></td>
+                                    <td><input type="text" class="form-control" value="" placeholder="Enter Text" /></td>
+
+                                </tr>*@
+
+
+                            </tbody>
+
+
+                        </table>
+                    </div>
+
+
+                </div>
+
+
+                <div class="card-header d-flex justify-content-between bg-none ">
+                    <h2 class="title-two align-self-center">Total Selling Price</h2>
+                    <div class="align-self-center "></div>
+                </div>
+                <div class="card-body view-form-group">
+                    <div class="table-responsive oilhide">
+                        <table class="display  dgntable dataTable no-footer radius-0" style="table-layout: auto;">
+                            <thead>
+                                <tr>
+
+                                    <th width="15" class="text-center">#</th>
+                                    <th>Classification</th>
+                                    <th width="150">Total (₹)</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Total Bulk Cost/SFG Cost (per pc)</td>
+                                    <td class="text-right fn-bold" id="sfg_total">₹ 0.00</td>
+                                </tr>
+
+                                <tr>
+                                    <td>2</td>
+                                    <td>Total Packing Material Cost (Per pc)</td>
+                                    <td class="text-right fn-bold" id="pm_total">₹ 0.00</td>
+                                </tr>
+
+                                <tr>
+                                    <td>3</td>
+                                    <td>L & C + Margin + Other Charges</td>
+                                    <td class="text-right fn-bold" id="ot_total">₹ 0.00</td>
+                                </tr>
+
+
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" class="text-right">Total Selling Price (Per pc)</td>
+                                    <td class="text-right fn-bold" id="finalTotal">₹ 0.00</td>
+                                </tr>
+                            </tfoot>
+
+
+                        </table>
+                    </div>
+
+
+                </div>
+
+                <div class="card-body">
+                    <label>Remark</label>
+                    <textarea class="form-control h-150" id="txtRemarks" placeholder="Enter"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-12">
+            <input type="checkbox" id="Confirm">
+            <label for="Confirm">I Confirm to initiate procurement for this order</label>
+        </div>
+
+        <div class="col-sm-12">
+            <footer class="footer-action-btn ">
+
+                <button type="" onclick="CancelBOM()" class="btn btn-lg  cancelbtn">Cancel</button>
+                <a onclick="SaveBOMData()" class="btn  btn-lg  actionbtn">Verify & Accept</a>
+            </footer>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</main>
+
+<script>
+    var Edit_ID = localStorage.getItem('Order_ItemID');
+
+    var itemIdFGNew = 0;
+
+    var PP_MaterialInfoArr = [];
+
+    var OtherCharges_Arr = [];
+
+    var edit_id = 0;
+
+    if ($('#hdnBOMId').val() > 0) {
+
+        edit_id = 1;
+
+    }
+
+    var finalTotal_sfg = 0;
+    var finalTotal_ot = 0;
+    var finalTotal_pm = 0
+
+    </script>
+
+
+    <script src="~/Areas/ManageOrder/DevScript/VerifyPMBOM.js"></script>

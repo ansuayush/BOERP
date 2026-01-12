@@ -1,0 +1,118 @@
+﻿
+@model IList<Mitr.Models.ErrorLog>
+
+
+@section style{
+	@System.Web.Optimization.Styles.Render("~/bundle/dataTablecss")
+}
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="card m-b-20">
+			<div class="card-body p-0">
+				<div class="row">
+					<div class="col-sm-5">
+						<h4 class="heading-one m-0">Error Log List</h4>
+					</div>
+
+					<div class="col-sm-7 text-right">
+						@Html.Partial("HeaderMsg_Partial")
+
+						@if (Model.Count > 0)
+						{
+
+							using (Ajax.BeginForm("ErrorLogList", "Tools",
+												new { src = ViewBag.src },
+												new AjaxOptions { HttpMethod = "POST", OnSuccess = "ActionOnSuccess", OnBegin = "ShowLoadingDialog();", OnFailure = "CloseLoadingDialog();" },
+											new { @id = "ErrorLogFrom" })
+											)
+							{
+								<div class="col-sm-12 text-right">
+
+									<input type="hidden" id="HDNErrorID" name="HDNErrorID" value="" />
+									<div class="btn-group" role="group" aria-label="Basic example">
+										<button type="submit" name="Command" value="Clear" class="btn mtr-r-grn ripplelink"><i class="fas fa-trash-alt"></i> Clear All</button>
+										<button type="submit" name="Command" value="Delete" class="btn mtr-r-grn ripplelink pull-right"><i class="fas fa-trash-alt"></i> Delete</button>
+
+									</div>
+								</div>
+							}
+						}
+
+					</div>
+				</div>
+
+				<div>
+
+					@Html.EJS().Grid("TalentGrid").DataSource(Model).RowSelected("rowSelected").RowDeselected("rowSelected").SelectionSettings(ss => ss.EnableToggle(true)).GridLines(Syncfusion.EJ2.Grids.GridLine.Both).Columns(col =>
+			   {
+				   col.Field("ID").Visible(false).Add();
+				   col.Field("ErrorDescription").Visible(false).Add();
+				   col.Field("SystemException").Visible(false).Add();
+				   col.Field("RowNum").HeaderText("SNo").Width("50").Add();
+				   col.Type("checkbox").HeaderText("").Field("").Width("60").AllowFiltering(false).AllowSorting(false).Add();
+				   col.HeaderText("Error").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Template("#tmpErrorDescription").Width("180").Add();
+				   col.HeaderText("System Exception").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Center).Template("#tmpSystemException").Width("150").Add();
+				   col.Field("ActiveFunction").HeaderText("Active Function").Width("100").Add();
+				   col.Field("ActiveForm").HeaderText("Active Form").Width("100").Add();
+				   col.Field("ActiveModule").HeaderText("Active Module").Width("100").Add();
+				   col.Field("LoggedAt").HeaderText("Logged At").Width("80").Add();
+				   col.Field("IPAddress").HeaderText("IP Address").Width("80").Add();
+			   }).AllowPaging().PageSettings(page => page.PageCount(10)).Toolbar(new List<string>() { "Search" }).Render()
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script id="tmpErrorDescription" type="text/x-template">
+	<textarea>${ErrorDescription}</textarea>
+</script>
+<script id="tmpSystemException" type="text/x-template">
+	<textarea>${SystemException}</textarea>
+</script>
+<script>
+
+	function rowSelected(args) {
+		var grid = document.getElementById("TalentGrid").ej2_instances[0];
+		var selectedrowindex = grid.getSelectedRowIndexes();  // get the selected row indexes.
+		var selectedrecords = grid.getSelectedRecords();  // get the selected records.
+		$("#HDNErrorID").val('');
+		for (var i = 0; i < selectedrecords.length; i++) {
+			var ID = selectedrecords[i]['ID'];
+			var resultObj = $("#HDNErrorID");
+			var stringToAppend = resultObj.val().length > 0 ? resultObj.val() + "," : "";
+			resultObj.val(stringToAppend + ID);
+		}
+	}
+
+
+
+
+</script>
+@(Html.EJS().ScriptManager())
+
+
+@section scripts    {
+	<script src="~/assets/design/Scripts/AddInit.js?v=@clsApplicationSetting.GetWebConfigValue("Version")"></script>
+	@System.Web.Optimization.Scripts.Render("~/bundle/unobtrusivejs");
+
+	<script>
+		function ActionOnSuccess(obj) {
+
+			if (obj.Status) {
+				window.location.reload();
+			}
+			else {
+				CloseLoadingDialog();
+				FailToaster(obj.SuccessMessage);
+			}
+
+		}
+	</script>
+
+}
+
+
+
+

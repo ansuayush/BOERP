@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "DelegationDashboard";
+}
+
+<div class="m-content">
+
+    <div class="row">
+        <div class="col-xl-12">
+
+
+            <div class="m-portlet m-portlet--tab defult-height">
+                <div class="m-portlet__body pt-4 p-2">
+
+                    <div class="filterdgn">
+                        <div class="row">
+                            <div class="col-sm-2 form-group wh-799 fieldlable">
+                                <label for="">From</label>
+                                <input type="text" class="form-control datepickersecond" autocomplete="off" placeholder="dd-mm-yyyy" id="fromDate">
+                               @* <input type="date" id="fromDate" class="form-control">*@
+                            </div>
+                            <div class="col-sm-2 form-group wh-799 fieldlable">
+                                <label for="">To</label>
+                                <input type="text" class="form-control datepickersecond" autocomplete="off" placeholder="dd-mm-yyyy" id="toDate">
+                                @*<input type="date" id="toDate" class="form-control">*@
+                            </div>
+
+                            <div class="col-sm-4  wh-799 form-group fieldlable">
+                                <label for="">Employee Name</label>
+                                <select class="form-control applyselect" id="ddlDoer">
+                                </select>
+                            </div>
+                            <div class="col-sm-4 wh-799 form-group fieldlable">
+                                <label for="">Created By</label>
+                                <select class="form-control applyselect" id="ddlCreatedBy">
+                                </select>
+                            </div>
+                            <div class="col-sm-4 wh-799 wh-799 form-group fieldlable">
+                                <label for="">Status</label>
+                                <select class="form-control applyselect" id="Status">
+                                    <option value="All">All</option>
+                                    <option value="1">Pending	</option>
+                                    <option value="2">Pending for Approval	</option>
+                                    <option value="3">Completed</option>
+                                    <option value="5">Cancelled</option>
+                                    <option value="6">Terminated</option>
+
+                                </select>
+                            </div>
+                            <div class="col-sm-4 wh-799 form-group fieldlable">
+                                <label for="">Branch</label>
+                                <select class="form-control applyselect" id="ddlBranch">
+                                </select>
+                            </div>
+                            <div class="col-sm-4 wf-799 form-group">
+
+                                <button type="button" class="btn btn-primary mr-2" data-dismiss="modal" onclick="GetDelegationReport()"><i class="fas fa-search"></i> Search</button>
+                                <button type="button" class="btn btn-primary mr-2" id="exportButton" data-dismiss="modal"><i class="fas fa-file-excel"></i> Export Excel</button>
+                                <button type="button" class="btn btn-primary " data-dismiss="modal" onclick="ClearDelReport()"><i class="fas fa-eraser"></i> Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!---->
+                    <div class="table-responsive">
+                        <table class="w-3000 table  rstable  tablepending table-bordered m-table m-table--border-brand m-table--head-bg-brand width_table-lg" id="DelReport">
+                            <thead>
+                                <tr>
+                                    <th>Delegated Id</th>
+                                    <th>Task Description</th>
+                                    <th width="150">Delegated By</th>
+                                    <th width="150">Doer</th>
+                                    <th width="150">  Approval Authority</th>
+                                    <th width="150">EA</th>
+                                    <th>Branch</th>
+                                    <th width="150">Due On Date</th>
+                                    <th width="150">First Plan Date</th>
+                                    <th width="150">Second Plan Date</th>
+                                    <th width="150">Third Plan Date</th>
+                                    <th>Created By</th>
+                                    <th>WND Planned Score</th>
+                                    <th>WND Actual Score</th>
+                                    <th>WNDOT Planned Score</th>
+                                    <th>WNDOT Actual Score</th>
+                                    <th>Status</th>
+                                    <th width="150">Doer's Completed Date</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <!---->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Areas/ManageDelegation/DevScript/DelegationReport.js"></script>
+<script src="~/assets/design/js/xlsx.full.min.js"></script>

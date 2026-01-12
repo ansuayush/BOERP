@@ -1,0 +1,122 @@
+﻿
+@{
+	ViewBag.Title = "POApproval";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<ul class="tablink">
+	<li>
+		<a href="#" class="nav-link active">Purchase Order</a>
+	</li>
+</ul>
+<div class="secondary-light-bg third-container">
+	<div class="row table-filter">
+		<div class="col-lg-2 col-md-3 col-sm-4 form-group" style="display:none">
+			<label for="role">Supplier </label>
+			<select class="form-control applyselect" id="ddlSupplier" onchange="bindPOApprovalGridFilter()">
+			</select>
+		</div>
+
+		<div class="col-lg-2 col-md-3 col-sm-4 form-group">
+			<label for="role">Status </label>
+			<select class="form-control applyselect" id="ddlStatus" onchange="bindPOApprovalGridFilter(this)">
+			</select>
+		</div>
+		<div class="col-lg-2 col-md-3 col-sm-4 form-group" style="display:none">
+			<label for="role">Created By </label>
+			<select class="form-control applyselect" id="ddlCreator" onchange="bindPOApprovalGridFilter()">
+			</select>
+		</div>
+        <div class="col-lg- col-md-4 col-sm-4 ml-auto form-group align-self-end">
+            <div class="d-flex gap-5 justify-content-end">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox">
+
+                    <div class="search w-350">
+                        <label class="icon d-block" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+		
+
+	</div>
+	<!--  -->
+	<!--<div class="table-responsive">
+		<table id="tblPurchaseOrder" class="display rstable single-sort dgntable dataTable no-footer">
+			<thead>
+				<tr>-->
+	@*<th width="40">SR</th>*@
+	<!--<th width="250">Supplier’s Name</th>
+		<th width="150">Document Number</th>
+		<th width="80">PO Date</th>
+		<th width="80">No. of Items</th>
+		<th width="150">Created By</th>
+		<th width="170">Comments</th>
+		<th width="100">Status</th>
+		<th width="60">Actions</th>
+	</tr>
+	<tr class="searchfilter">-->
+	@*<th></th>*@
+	<!--<th>
+						<div class="filterdgn">
+							<input type="text" class="filter-input" id="txtSuppName"
+								   placeholder="Search"> <label for="search" class="m-0">
+								<img src="~/assets/images/icons/help/search-icon.png"
+									 class="filtersearchincon" />
+							</label>
+						</div>
+					</th>
+					<th>
+						<div class="filterdgn">
+							<input type="text" class="filter-input" id="txtDocNumber"
+								   placeholder="Search"> <label for="search" class="m-0">
+								<img src="~/assets/images/icons/help/search-icon.png"
+									 class="filtersearchincon" />
+							</label>
+						</div>
+					</th>
+
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+		</table>
+	</div>-->
+	<!--  -->
+	<!-- Grid with Scrollable Area -->
+	<div class="grid-wrapper" style="padding-top: 40px">
+		<div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+	</div>
+
+</div>
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/PurchasOrder/POApproval.js"></script>
+
+
+
+

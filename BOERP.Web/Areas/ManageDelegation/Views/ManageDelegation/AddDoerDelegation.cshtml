@@ -1,0 +1,360 @@
+﻿
+@{
+    ViewBag.Title = "AddDoerDelegation";
+}
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="MyDelegation?auth=@ViewBag.Auth"><img src="/assets/images/icons/help/back-icon.png" class="headingicon"></a>Delegation<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-10">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+
+
+    <div class="col-md-12 form-group">
+        <div class="card br-none p-0 h-100">
+
+
+
+            <div class="card-body view-form-group">
+               
+
+                        <div class="row">
+                            <div class="col-lg-3 hw-575">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Delegation  Id</label>
+                                    <input type="text" class="form-control" id="DelId" value="101" name="" placeholder="Enter" disabled="">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 hw-575">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Created On</label>
+                                    <input type="date" class="form-control" id="DelDate" value="2024-06-15" name="" placeholder="Enter" disabled="">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Created By</label>
+                                    <input type="text" class="form-control" id="createdby" name="" placeholder="Enter" disabled="">
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Delegated By<sup class="red-clr">*</sup></label>
+                                    <p class="text-p" id="ddlAssignee">Deepak Kumar</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Task Description<sup class="red-clr">*</sup></label>
+                                    <p class="text-p" id="DelName"></p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">First Completion Date<sup class="red-clr">*</sup></label>
+                                    <input type="date" class="form-control" id="plandate1" value="dd-mm-yyyy" name="" placeholder="Enter" disabled="">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Second Completion Date</label>
+                                    <input type="date" class="form-control" id="plandate2" value="dd-mm-yyyy" name="" placeholder="Enter" disabled="">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Third Completion Date</label>
+                                    <input type="date" class="form-control" id="plandate3" value="dd-mm-yyyy" name="" placeholder="Enter" disabled="">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Doer <sup class="red-clr">*</sup></label>
+                                    <p class="text-p" id="Doer">Raj Sharma</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Department</label>
+                                    <p class="text-p" id="Department">Department 1</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Branch <sup class="red-clr">*</sup></label>
+                                    <p class="text-p" id="ddlBranch">Branch 1</p>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Planned Score <sup class="red-clr">*</sup></label>
+                                    <p class="text-p" id="Weightage"> </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Approval Authority <sup class="red-clr">*</sup></label>
+                                    <p class="text-p" id="PC"></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 align-self-end ">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Escalate To</label>
+                                    <select class="form-control applyselect" id="EscalateTo" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 align-self-end">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">Escalation Time (hrs) </label>
+                                    <p class="text-p" id="EscalationTime"></p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 align-self-end">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label">
+                                        Reminder Escalation Time (hrs)
+                                    </label>
+                                    <p class="text-p" id="ReminderTime"></p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-3 align-self-end">
+                                <div class="form-group">
+                                    <label for="" class="form-control-label ">Image Required To Be Uploaded <sup class="red-clr">*</sup></label>
+                                    <p class="text-p" id="isImageRequired"></p>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-3 align-self-end">
+                                <div class="form-group ">
+                                    <label for="" class="form-control-label">Remarks Required <sup class="red-clr">*</sup></label>
+                                    <p class="text-p" id="isRemarkRequired"></p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 align-self-end">
+                                <div class="form-group ">
+                                    <label for="" class="form-control-label">EA </label>
+                                    <p class="text-p" id="EA"></p>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-12" id="userRemarkUpload" style="display: none;">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label" id="lblRemark">Remarks Required<sup class="red-clr">*</sup></label>
+                                    <textarea placeholder="Enter" id="userRemarks" onchange="HideErrorMessage(this)" class="form-control h-150"></textarea>
+                                    <span id="spuserRemarks" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12" id="yesupload" style="display:block">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">Reference Upload Image <sup class="red-clr">*</sup> </label>
+                                    <div class="table-responsive mt-2">
+                                        <table class="display rstable dgntable dataTable no-footer radius-0 ">
+                                            <thead>
+                                                <tr>
+                                                    <th width="100" class="text-center">Sr.No</th>
+                                                    <th>Reference Image</th>
+                                                    <th id="imageUpload">Image Upload</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="imageBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+        </div>
+
+<footer class="footer-action-btn">
+    <button type="button" onclick="RedirectMyDelegationRequest()" class="btn btn-lg cancelbtn" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-lg actionbtn" id="delSaveDoer" onclick="SaveDoerTask()">Submit</button>
+
+</footer>
+
+        <!-- View Image Modal -->
+
+        <div id="viewimage" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Preview Image</h4>
+                        <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" aria-hidden="true"></i></button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="imgprvw">
+                            <img id="viewMyImage" src="img/login-img.jpg" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-lg cancelbtn" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="m_scroll_top" class="m-scroll-top">
+            <i class="la la-arrow-up"></i>
+        </div>
+        <div class="modal fade" id="followup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+
+                    <input type="hidden" name="_token" value="wc9XEfXwhihSeWJwxFKE68ljvUZPt50BMwGJn1U9">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Follow Up</h5>
+                        <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="Lead Details" class="form-control-label">Remarks <sup class="red-clr">*</sup></label>
+                                    <textarea placeholder="Enter" class="form-control h-150" id="PcRemarks" onchange="HideErrorMessage(this)"></textarea>
+                                    <span id="spPcRemarks" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="submit" class="btn btn-primary" onclick="AddPcRemark()">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="fa fa-times" aria-hidden="true"></i> Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="addDoerDate" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Preview Image</h4>
+                        <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" aria-hidden="true"></i></button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="DoerDoneDate" class="form-control-label">Doer Completion Date <sup class="red-clr">*</sup></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control datepicker" onchange="HideErrorMessage(this)" autocomplete="off" placeholder="dd-mm-yyyy" id="DoerDoneDate">
+                                        <span class="clear-date">×</span>
+                                        <div class="input-group-append ">
+                                            <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <span id="spDoerDoneDate" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-lg cancelbtn" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-lg actionbtn" id="saveEaDoerTask" onclick="SaveDoerDoneEATask()">Save</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+    var Edit_ID = "@ViewBag.id";
+        </script>
+
+        <script>
+    var isEA = "@ViewBag.IsEA";
+        </script>
+
+        <script src="~/Areas/ManageDelegation/DevScript/AddDoerDelegation.js"></script>
+
+
+<script>
+    $(function () {
+        $('.datepicker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-mm-yy",
+            yearRange: "-20:+10",
+            onSelect: function () {
+                // Show × icon when a date is selected
+                $(this).closest('.input-group').find('.clear-date').show();
+            }
+        });
+
+        // Show × icon if input already has a value on load
+        $('.datepicker').each(function () {
+            if ($(this).val()) {
+                $(this).closest('.input-group').find('.clear-date').show();
+            }
+        });
+
+        // Open datepicker when clicking the icon
+        $('.input-group-text').on('click', function () {
+            $(this).closest('.input-group').find('.datepicker').focus();
+        });
+
+        // Clear date when clicking the × icon
+        $('.clear-date').on('click', function () {
+            const $input = $(this).closest('.input-group').find('.datepicker');
+            $input.val('').datepicker('setDate', null);  // Clear input + reset datepicker
+            $(this).hide(); // Hide × icon
+        });
+    });
+
+
+</script>

@@ -1,0 +1,360 @@
+﻿
+@{
+	ViewBag.Title = "ViewGRnOrder";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	var pageType = ViewBag.PageType as string;
+	var backUrl = pageType == "VendorGRN"
+		  ? $"/BusinessPartner/GRN?auth={ViewBag.Auth}&id={ViewBag.ErpPartyId}&PAId={ViewBag.PAId}"
+		: $"/MaterialManagement/Material/GRN?auth={ViewBag.Auth}";
+}
+
+    <input type="hidden" value="@ViewBag.PoId" id="hdnPoId" />
+    <input type="hidden" value="0" id="hdnSuppId" />
+    <div class="pagetitle gap-bottom d-flex justify-content-between">
+		<h1 class="m-0 d-flex align-items-center">
+			@*<a href="GRN?auth=@ViewBag.Auth">*@
+			<a href="@backUrl">
+				<img src="~/assets/images/icons/help/back-icon.png" alt="" class="headingicon">
+			</a> <span id="pGRNNumber"></span><div class="ml-3"></div>
+		</h1>
+        @if (ViewBag.IsGRNView == 1)
+        {
+            <div class="align-self-center">
+                <div class="d-flex justify-content-between align-items-center gap-10">
+                    <button class="btn actionbtn border-r-8">
+                        <img src="../../assets/images/icons/help/share-white-icon.svg" class="btn-icon">
+                    </button>
+                    <button type="" class="btn actionbtn border-r-8"><img src="../../assets/images/icons/help/download-white-icon.svg" alt="" class="btn-icon" onclick="printGRNOrder(@ViewBag.PoId)"></button>
+                    <button type="" class="btn mr-2 actionbtn border-r-8"><img src="../../assets/images/icons/help/print-white-icon.svg" alt="" class="btn-icon"></button>
+                </div>
+            </div>
+        }
+        else
+        {
+        <div class="align-self-center">
+            <div class="d-flex justify-content-between align-items-center gap-16">
+                <a id="btnEdit" style="display:none;" onclick="RedirectToEdit()" href="#" class="btn actionbtn border-r-8"><img src="~/assets/images/icons/help/edit-white-icon.png" alt="" class="btn-icon" >Edit</a>
+            </div>
+        </div>
+        }
+    </div>
+	<div class="row">
+		<div class="col-lg-6 form-group">
+			<div class="row">
+				<div class="col-lg-12 form-group">
+					<div class="card br-none p-0">
+						<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+							<h2 class="title-two align-self-center">Supplier’s Information</h2>
+							<div class="align-self-center"></div>
+						</div>
+						<div class="card-body view-form-group">
+							<div class="row">
+								<div class="col-sm-6">
+									<label class="readonlay">Supplier Name &amp; Address</label>
+									<p class="m-0" id="lblSuppName"></p><span id="lblSuppAdd"></span>
+								</div>
+								<div class="col-sm-6">
+									<label class="label-light">GSTIN</label>
+									<p class="m-0" id="lblSuppGST"></p>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="card br-none p-0">
+						<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+							<h2 class="title-two align-self-center">Buyer’s Information</h2>
+							<div class="align-self-center"></div>
+						</div>
+						<div class="card-body view-form-group">
+							<div class="row">
+								<div class="col-lg-6 col-md-6 col-sm-6 form-group">
+									<label for="" class="readonlay">Name</label>
+									<p id="lblReqName"></p>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 form-group">
+									<label for="" class="readonlay">Department</label>
+									<p id="lblReqDept"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 form-group">
+			<div class="card br-none p-0">
+				<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+					<h2 class="title-two align-self-center">Primary Document Details</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="row">
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">GRN Order</label>
+							<p class="m-0" id="lblSeries"></p>
+						</div>
+						<div class="col-sm-6"></div>
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">Document Number</label>
+							<p class="m-0" id="lblDocNumber"></p>
+						</div>
+
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">
+								Document Date
+							</label>
+							<p class="m-0" id="lblDocDate"></p>
+						</div>
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">Gate Entry Number</label>
+							<p class="m-0" id="lblGEN"></p>
+						</div>
+
+						<!--<div class="col-sm-6 form-group" id="viewGateEntry" style="display: none;">
+					<label class="readonlay">Gate Entry Uploads</label>
+					<ul class="list-unstyled d-flex align-items-baseline gap-10 m-0 scroll-sm feild-scroll scroll" id="GateEntryUpload">-->
+						@*<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>
+						<li><img src="~/assets/images/icons/help/document-attachment-icon.png" alt="" class="icon-md" /></li>*@
+
+						<!--</ul>
+					</div>-->
+
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">Gate Entry Date</label>
+							<p class="m-0" id="lblGED"></p>
+						</div>
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">Invoice Number</label>
+							<p class="m-0" id="lblInvoice"></p>
+						</div>
+
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">Invoice Date</label>
+							<p class="m-0" id="lblInvoiceDate"></p>
+						</div>
+
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">Transporter Name</label>
+							<p class="m-0" id="lblTransName"></p>
+						</div>
+
+						<div class="col-sm-6 form-group">
+							<label class="readonlay">Purchase Order No. </label>
+							<p class="m-0" id="lblPONos"> </p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12 form-group">
+			<div class="card br-none p-0">
+				<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+					<h2 class="title-two align-self-center">Items Information</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group pl-0 pr-0">
+
+					<div class="table-responsive sticky-responsive ">
+						<table id="tblItemInformation" class="display stickyth dgntable dataTable no-footer radius-0">
+							<thead>
+								<tr>
+
+									<th width="80" class="">PO No</th>
+									<th width="80">Item Code</th>
+									<th width="150">Item Name</th>
+									<th width="250">Item Description</th>
+									<th width="70">HSN</th>
+									<th width="70">PO Qty<span class="d-block"> Ordered</span></th>
+									<th width="70">Qty <span class="d-block">Received</span></th>
+									<th width="70">Qty <span class="d-block">Damage</span></th>
+									<th width="70">Qty <span class="d-block">Short</span></th>
+									<th width="70">Qty <span class="d-block">Accepted</span></th>
+
+									<th width="50">UOM</th>
+									<th width="70">Unit <span class="d-block">Price</span></th>
+									<th width="100">Amount Before<sapn class="d-block">Discount</sapn></th>
+									<th width="50">Dis. %</th>
+									<th width="90">Amount After <sapn class="d-block">Discount</sapn></th>
+									<th width="60">IGST%</th>
+									<th width="90">IGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="60">CGST%</th>
+									<th width="90">CGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="60">SGST%</th>
+									<th width="90">SGST <span class="d-block">Amount (₹)</span> </th>
+									<th width="90">Total</th>
+									<th width="80">Batch/Lot#	</th>
+									<th width="90">MFG. Date	</th>
+									<th width="90">Exp. Date</th>
+									<th width="150">Warehouse</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 form-group">
+			<div class="card br-none p-0">
+				<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+					<h2 class="title-two align-self-center">Document</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group min-175 ">
+					<p class="m-0 nofile" id="NoUploadFile1">No Upload</p>
+					<div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile1">
+						<!--  -->
+						<div id="documentImages" class="document-images">
+
+						</div>
+						<!--  -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-4 form-group" id="viewGateEntryDoc" style="display: none;">
+			<div class="card br-none p-0">
+				<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+					<h2 class="title-two align-self-center">Gate Entry Attachment</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group min-175 ">
+					<p class="m-0 nofile" id="NoUploadFile3">No Upload</p>
+					<div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile3">
+
+						<div id="documentImagesAtt" class="document-images">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-4 form-group ml-auto">
+			<div class="totalamount w-100">
+				<table class="">
+					<thead>
+						<tr>
+							<td width="200">Total (before tax) :</td>
+							<td class="text-right" width="100">₹ <span id="totalBeforeTax">0.00</span></td>
+
+						</tr>
+						<tr>
+							<td> <span id="showOtherCharges" data-toggle="tooltip" title="" data-original-title="Add"><img src="~/assets/images/icons/help/add.svg" alt="" data-toggle="modal" data-target="#othercharge" class="icon-xsm cursor-pointer"></span> Other Charges :</td>
+							<td class="text-right">₹ <span id="otherChargesInput">0.00</span> </td>
+						</tr>
+						<tr>
+							<td class="fn-sm">IGST :</td>
+							<td class="text-right fn-sm">₹ <span id="igstTotal">0.00</span></td>
+						</tr>
+
+						<tr>
+							<td class="fn-sm">CGST :</td>
+							<td class="text-right fn-sm">₹ <span id="cgstTotal">0.00</span></td>
+
+						</tr>
+
+						<tr>
+							<td class="fn-sm">SGST :</td>
+							<td class="text-right fn-sm">₹ <span id="sgstTotal">0.00</span></td>
+
+						</tr>
+
+						<tr>
+							<td>Total Tax :</td>
+							<td class="text-right">₹ <span id="totalTax">0.00</span></td>
+
+						</tr>
+
+						<tr>
+							<td>Total (After Tax) :</td>
+							<td class="text-right">₹ <span id="totalAfterTax">0.00</span></td>
+
+						</tr>
+
+
+						<tr>
+							<td>Rounding Amount :</td>
+							<td class="text-right">₹ <span id="roundingAmountInput">0.00</span> </td>
+						</tr>
+						<tr>
+							<td>Total Amount :</td>
+							<td class="text-right">₹ <span id="grandTotal">0.00</span> </td>
+
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+
+		<div class="col-lg-4 form-group">
+			<div class="card br-none p-0">
+				<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+					<h2 class="title-two align-self-center">Comment</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group min-175 center-message ">
+					<div class="empty_data" id="txtComment"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="modal fade" id="othercharge" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100">Other Charges</h4>
+                    <button type="button" id="btnPopupClose" class="close" data-dismiss="modal" fdprocessedid="sjwo0k"><img src="/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="table-responsive sticky-responsive">
+                        <table id="otherchargeTable" class="dgntable dataTable stickyth  no-footer othercharnge">
+                            <thead>
+                                <tr>
+
+                                    <th>Charge Name</th>
+                                    <th>Charge Amount</th>
+                                    <th id="headerI">IGST (in %)</th>
+                                    <th id="headerC">CGST (in %)</th>
+                                    <th id="headerS">SGST (in %)</th>
+                                    <th>Total Tax Amount</th>
+                                    <th>Total Net Amount</th>
+
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer text-center">
+
+                    <button type="button" data-dismiss="modal" class="close btn btn-lg cancelbtn">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<script src="~/Areas/MaterialManagement/DevScript/GRN/GRNView.js"></script>

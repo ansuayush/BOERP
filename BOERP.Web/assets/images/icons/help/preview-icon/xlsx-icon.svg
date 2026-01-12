@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="357.16px" height="454.04px" viewBox="0 0 357.16 454.04"
+	 style="enable-background:new 0 0 357.16 454.04;" xml:space="preserve">
+<font horiz-adv-x="2048">
+<!-- Roboto is a trademark of Google. -->
+<!-- Copyright: Copyright 2025 Adobe System Incorporated. All rights reserved. -->
+<font-face font-family="Roboto-Black" units-per-em="2048" underline-position="-150" underline-thickness="100"/>
+<missing-glyph horiz-adv-x="510"/>
+<glyph unicode="." horiz-adv-x="619" d="M473,0l-337,0l0,284l337,0z"/>
+<glyph unicode="l" horiz-adv-x="561" d="M450,0l-339,0l0,1560l339,0z"/>
+<glyph unicode="s" horiz-adv-x="1048" d="M660,304C660,331 645,355 615,376C584,397 529,415 449,432C323,457 228,495 164,547C100,599 68,670 68,760C68,855 108,936 188,1003C268,1069 376,1102 513,1102C657,1102 772,1070 857,1006C942,941 983,858 979,756l-2,-6l-328,0C649,793 638,825 617,847C595,869 560,880 512,880C477,880 447,870 423,851C399,832 387,807 387,777C387,748 401,724 429,704C456,684 512,666 596,650C728,624 826,585 890,534C953,482 985,409 985,314C985,217 942,137 856,74C769,11 655,-21 513,-21C366,-21 249,16 164,91C78,166 37,249 41,341l2,6l306,0C350,296 366,259 396,236C425,213 467,202 522,202C567,202 602,211 625,229C648,246 660,271 660,304z"/>
+<glyph unicode="x" horiz-adv-x="1053" d="M524,763l6,0l137,319l379,0l-314,-535l325,-547l-379,0l-144,329l-6,0l-144,-329l-379,0l325,547l-315,535l377,0z"/>
+</font>
+
+	<path style="fill:#13854B;" d="M357.163,132.373v304.605c0,9.504-7.707,17.217-17.217,17.217H17.216
+	C7.706,454.195,0,446.482,0,436.979V17.369C0,7.857,7.706,0.152,17.216,0.152h227.842L357.163,132.373z"/>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="244.9248" y1="66.2637" x2="356.9814" y2="66.2637">
+	<stop  offset="0.0054" style="stop-color:#C4E4D2"/>
+	<stop  offset="1" style="stop-color:#9AD3B1"/>
+	<a:midPointStop  offset="0.0054" style="stop-color:#C4E4D2"/>
+	<a:midPointStop  offset="0.5" style="stop-color:#C4E4D2"/>
+	<a:midPointStop  offset="1" style="stop-color:#9AD3B1"/>
+</linearGradient>
+<path style="fill:url(#SVGID_1_);" d="M244.925,115.004L245.237,0l111.744,132.527l-94.889-0.26
+	C252.583,132.242,244.897,124.514,244.925,115.004z"/>
+<text transform="matrix(1 0 0 1 33.7822 301.3975)" style="fill:#FFFFFF; font-family:'Roboto-Black'; font-size:136.4231;">.xlsx</text>
+</svg>

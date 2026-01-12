@@ -1,0 +1,103 @@
+﻿
+@model UserMan.Add
+
+
+
+    @using (Ajax.BeginForm("_AddUser", "Tools",
+            new { src = ViewBag.src },
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnActionSuccess", OnBegin = "ShowLoadingDialog()", OnFailure = "OnPostFailure()" },
+        new { @id = "_AddUserFrom", @autocomplete = "Off" })
+        )
+    {
+        @Html.HiddenFor(x => Model.ID)
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                <label>User Type<sup>*</sup></label>
+                @Html.DropDownListFor(model => model.UserType, new SelectList(Model.UserTypeList, "Name", "Name", Model.UserType), "select",
+               new { @class = "form-control applyselect", @onchange = "FillUsers(this)" })
+                @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                <label>Candidiate<sup>*</sup></label>
+                <select class="form-group applyselect" id="ddCandidiate" onchange="MakeSelected(this)">
+                    @if (Model.CandidiateList != null)
+                    {
+                        <option value="">Select</option>
+                        foreach (var item in Model.CandidiateList)
+                        {
+                            <option value="@item.ExtraValue">@item.Name</option>
+                        }
+                    }
+                </select>
+
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                <label>User ID<sup>*</sup></label>
+                @Html.TextBoxFor(model => model.user_name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.user_name, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                <label>Name<sup>*</sup></label>
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                <label>Email<sup>*</sup></label>
+                @Html.TextBoxFor(model => model.email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                <label>Password<sup>*</sup></label>
+                @Html.TextBoxFor(model => model.password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                <label>Role</label>
+                @Html.HiddenFor(x => Model.RoleIDs)
+                <select class="applyselect" multiple="multiple" id="ddRoleIDs">
+                    <option>Select Thematicarea</option>
+                    @if (Model.RoleList != null)
+                    {
+                        foreach (var item in Model.RoleList)
+                        {
+                            if (string.IsNullOrEmpty(Model.RoleIDs))
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option @(("@" + Model.RoleIDs.Replace(",", "@") + "@").Contains("@" + item.ID.ToString() + "@") ? "selected" : "") value="@item.ID">@item.Name</option>
+                            }
+
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.RoleIDs, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                <label>Description</label>
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row">
+
+            @if (Model.ID > 0)
+            {
+                <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Update</button>
+            }
+            else
+            {
+                <button type="submit" class="btn mtr-o-grn btn-l ripplelink pull-right" name="Command" value="Add"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+            }
+        </div>
+
+    }
+
+

@@ -1,0 +1,58 @@
+﻿
+@{
+	ViewBag.Title = "ControlInformation";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Areas/Masters/DevScript/ControlInformation.js"></script>
+
+	<!-- main -->
+	<div class="pagetitle gap-bottom d-flex justify-content-between">
+		<h1 class="m-0 d-flex ">
+			<a href=""><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Control
+			<div class="ml-3"></div>
+		</h1>
+		<div class="align-self-center"></div>
+	</div>
+	<div class="secondmain bg-none p-0 main-br main-min-height-primary">
+		<!--  -->
+		<div class="row">
+			<div class="col-md-12 form-group">
+				<div class="card br-none p-0 col-default-bottom mb-0">
+
+					<div class="card-header d-flex justify-content-between bg-none ">
+						<h2 class="title-two align-self-center">Control Information</h2>
+						<div class="align-self-center"></div>
+					</div>
+
+					<div class="card-body view-form-group pl-0 pr-0">
+						<div class="table-responsive">
+							<table class="display rstable dgntable dataTable no-footer radius-0 controlrow">
+								<thead>
+									<tr>
+										@*<th width="10" class="text-center">Action</th>*@
+										<th width="150" class="text-left">Control</th>
+										<th width="300" class="text-left">Value</th>
+										<th width="100" class="text-left" style="display:none">ControlID</th>
+									</tr>
+								</thead>
+								<tbody id="tableBody">
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-12 align-self-end justify-content-end align-items-center d-flex gap-10">
+				<button type="button" class="btn btn-lg cancelbtn" fdprocessedid="8dq14s">CANCEL</button>
+				<button type="button" onclick="SaveControlInformation();" class="btn btn-lg actionbtn" fdprocessedid="ck6m">Save</button>
+
+			</div>
+		</div>
+
+	</div>
+
+	<!--  -->
+	<!--  -->
+

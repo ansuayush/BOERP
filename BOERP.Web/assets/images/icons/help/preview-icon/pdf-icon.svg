@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="357.16px" height="454.04px" viewBox="0 0 357.16 454.04"
+	 style="enable-background:new 0 0 357.16 454.04;" xml:space="preserve">
+<font horiz-adv-x="2048">
+<!-- Roboto is a trademark of Google. -->
+<!-- Copyright: Copyright 2025 Adobe System Incorporated. All rights reserved. -->
+<font-face font-family="Roboto-Black" units-per-em="2048" underline-position="-150" underline-thickness="100"/>
+<missing-glyph horiz-adv-x="510"/>
+<glyph unicode="D" horiz-adv-x="1338" d="M114,0l0,1456l526,0C811,1456 955,1400 1070,1289C1185,1177 1243,1034 1243,859l0,-262C1243,422 1185,278 1070,167C955,56 811,0 640,0M453,1196l0,-936l164,0C707,260 777,291 828,353C879,414 904,496 904,597l0,264C904,962 879,1043 828,1104C777,1165 707,1196 617,1196z"/>
+<glyph unicode="F" horiz-adv-x="1177" d="M1036,586l-583,0l0,-586l-339,0l0,1456l1024,0l0,-260l-685,0l0,-350l583,0z"/>
+<glyph unicode="P" horiz-adv-x="1344" d="M453,499l0,-499l-339,0l0,1456l591,0C878,1456 1015,1412 1116,1324C1217,1235 1268,1120 1268,977C1268,834 1217,718 1116,631C1015,543 878,499 705,499M453,759l252,0C778,759 834,779 873,820C911,860 930,912 930,975C930,1040 911,1093 873,1134C834,1175 778,1196 705,1196l-252,0z"/>
+</font>
+
+	<path style="fill:#D91F27;" d="M357.163,132.658v304.605c0,9.503-7.706,17.216-17.217,17.216H17.216
+	C7.706,454.479,0,446.767,0,437.264V17.653C0,8.143,7.706,0.437,17.216,0.437h227.841L357.163,132.658z"/>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="244.9248" y1="66.5474" x2="356.9824" y2="66.5474">
+	<stop  offset="0" style="stop-color:#F39191"/>
+	<stop  offset="1" style="stop-color:#ED7172"/>
+	<a:midPointStop  offset="0" style="stop-color:#F39191"/>
+	<a:midPointStop  offset="0.5" style="stop-color:#F39191"/>
+	<a:midPointStop  offset="1" style="stop-color:#ED7172"/>
+</linearGradient>
+<path style="fill:url(#SVGID_1_);" d="M244.925,115.289l0.313-115.005l111.744,132.527l-94.889-0.259
+	C252.583,132.526,244.898,124.799,244.925,115.289z"/>
+<text transform="matrix(1 0 0 1 53.7822 301.6816)" style="fill:#FFFFFF; font-family:'Roboto-Black'; font-size:136.4231;">PDF</text>
+</svg>

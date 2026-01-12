@@ -1,0 +1,375 @@
+﻿
+@{
+    ViewBag.Title = "ViewGateEntry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="/MaterialManagement/Material/GateEntry?auth=@ViewBag.Auth"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a> View Detail<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center">
+        <div class="d-flex justify-content-between align-items-center gap-16">
+            <a href="create-gate-entry.html" class="btn mr-2 actionbtn border-r-8"><img src="../assets/images/icons/help/edit-white-icon.png" class="btn-icon">Edit</a>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0  col-default-bottom h-100">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                <h2 class="title-two align-self-center"> Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 form-group">
+                        <label>Series</label>
+                        <p class="m-0">GE/Gate Entry</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 form-group">
+                        <label>Document No.</label>
+                        <p class="m-0">5</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 form-group">
+                        <label>
+                            Document Date
+                        </label>
+                        <p class="m-0">07/04/2025</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3  col-sm-6 form-group">
+                        <label>Invoice Number</label>
+                        <p class="m-0">inv0001</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 form-group">
+                        <label>
+                            Invoice Date
+                        </label>
+                        <p class="m-0">07/04/2025</p>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 form-group">
+                        <label>Material Category</label>
+                        <p class="m-0">Face Wash</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 form-group">
+                        <label>Material Category</label>
+                        <p class="m-0">Face Wash</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 ">
+                        <label>Vehicle Number</label>
+                        <p class="m-0">--</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 ">
+                        <label>Gate Number</label>
+                        <p class="m-0">--</p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-6 form-group">
+        <div class="card br-none p-0 h-100">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                <h2 class="title-two align-self-center">Transporter  Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 form-group">
+                        <label>Transporter Name</label>
+                        <p class="m-0">Balaji Loknath Travels</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 form-group">
+                        <label>Client Material								</label>
+                        <p class="m-0">Yes</p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 form-group">
+                        <label>
+                            Address of Transporter
+                        </label>
+                        <p class="m-0">
+                            Balaji Loknath Travels,
+                            assam,  Guwahati, Assam, India, 768926
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-4 form-group">
+        <div class="card br-none p-0  ">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                <h2 class="title-two align-self-center">Material Image</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-175">
+                <div class="section-container fileuploadview  section-container-popup ">
+                    <!--  -->
+                    <div class="document-images">
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/login/bo-internation-image.jpg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download" download><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/doc-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/pdf-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/xlsx-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/other-icon.svg" alt="other Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/profileimg/profile-img.png" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/doc-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/pdf-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/xlsx-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/other-icon.svg" alt="other Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--  -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                <h2 class="title-two align-self-center">
+                    Material COA Upload
+                </h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-175 ">
+                <div class="section-container fileuploadview  section-container-popup ">
+                    <!--  -->
+                    <div class="document-images">
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/login/bo-internation-image.jpg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download" download><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/doc-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/pdf-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/xlsx-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/other-icon.svg" alt="other Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/profileimg/profile-img.png" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/doc-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/pdf-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/xlsx-icon.svg" alt="Word Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview">
+                            <div class="document-file">
+                                <div class="flexline">
+                                    <img src="../assets/images/icons/help/preview-icon/other-icon.svg" alt="other Icon" class="preview-image">
+                                    <button class="delete-document" data-toggle="tooltip" title="Download"><img src="../assets/images/icons/help/download-icon.png" alt=""></button>
+                                </div>
+                                <p>File Name</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--  -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 form-group">
+        <div class="card br-none p-0  ">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                <h2 class="title-two align-self-center">Attachment</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-175 center-message">
+                <div class="empty_data">
+                    No Uploads
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

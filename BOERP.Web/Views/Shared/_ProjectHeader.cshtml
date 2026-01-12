@@ -1,0 +1,48 @@
+﻿@{
+    int TabIndex = 0;
+    long ID = 0;
+    long.TryParse(ViewBag.ID, out ID);
+    if (ViewBag.TabIndex != null)
+    {
+        TabIndex = ViewBag.TabIndex;
+    }
+}
+<div class="empmenu navsky">
+    <nav>
+        <ul class="navbar-scd list-unstyled ">
+            <li class="@(TabIndex==1?"active":"")">
+                <a onclick="ShowLoadingDialog();window.location='@Url.Action("ProjectDetails",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Projects/ProjectDetails*"+ID) })';">
+                    <span class="btn btn-default btn-circle">1</span>  Project <span class="d-block">Details</span>
+                </a>
+            </li>
+            @if (ID > 0)
+            {
+                <li class="@(TabIndex==2?"active":"")">
+                    <a onclick="ShowLoadingDialog();window.location='@Url.Action("ClientsDetails",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Projects/ClientsDetails*"+ID) })';">
+                        <span class="btn btn-default btn-circle">2</span> Donor/Client 
+                    </a>
+                </li>
+                <li class="@(TabIndex==3?"active":"")">
+                    <a onclick="ShowLoadingDialog();window.location='@Url.Action("BudgetDetails",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Projects/BudgetDetails*"+ID) })';">
+                        <span class="btn btn-default btn-circle">3</span>    Budget    <span class="d-block">Conditions </span>
+                    </a>
+                </li>
+                <li class="@(TabIndex==4?"active":"")">
+                    <a onclick="ShowLoadingDialog();window.location='@Url.Action("SpecialConditions",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Projects/SpecialConditions*"+ID) })';">
+                        <span class="btn btn-default btn-circle">4</span>  Special  <span class="d-block">Conditions</span>
+                    </a>
+                </li>
+                <li class="@(TabIndex==5?"active":"")">
+                    <a onclick="ShowLoadingDialog();window.location='@Url.Action("DonorsReport",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Projects/DonorsReport*"+ID) })';">
+                        <span class="btn btn-default btn-circle">5</span>  Donors<span class="d-block">Report</span>
+                    </a>
+                </li>
+                <li class="@(TabIndex==6?"active":"")">
+                    <a onclick="ShowLoadingDialog();window.location='@Url.Action("Attachment",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Projects/Attachment*"+ID) })';">
+                        <span class="btn btn-default btn-circle">5</span> Attachments
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

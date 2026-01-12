@@ -1,0 +1,1111 @@
+﻿
+@{
+    ViewBag.Title = "QCFMS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+
+    .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+        background-color: #44488c !important;
+    }
+
+    #customLoader {
+        background: rgba(0, 0, 0, 0.7) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding: 0px 5px !important;
+    }
+
+    .ag-header-group-cell-label, .ag-cell-label-container {
+        padding: 0px 0px !important;
+    }
+
+    #customLoader img {
+        width: 40px;
+        height: 40px
+    }
+
+    .ag-text-field-input {
+        color: #000 !important;
+        font-size: 10px !important
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        display: none;
+        width: auto;
+        z-index: 1000;
+        overflow: inherit !important;
+    }
+
+        .custom-alert .modal-body {
+            padding-bottom: 0px;
+            overflow: scroll;
+            height: 400px;
+            overflow-x: hidden;
+        }
+
+    .custom-lg {
+        width: 630px;
+        background: #fff;
+        font-size: 10px;
+        border-radius: 8px
+    }
+
+    .custom-alert table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .custom-alert th {
+        background: #2f3261;
+        color: #fff;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 2px 5px !important;
+        text-align: left;
+        word-break: break-all;
+        vertical-align: top;
+        line-height: 25px;
+        font-size: 12px;
+        text-transform: lowercase;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+
+	.input-group-text img {
+		transition: opacity 0.2s;
+	}
+
+		.input-group-text img[disabled],
+		.input-group-text img.disabled {
+			opacity: 0.5;
+			pointer-events: none;
+			cursor: not-allowed;
+		}
+
+</style>
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        QC Inward FMS<div class="ml-2">
+            <svg data-toggle="tooltip" title="This page shows list of all the Purchase Orders" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+        </div>
+    </h1>
+    <div class="align-self-center heading-action-btn w-100-slt primary-color-slt">
+
+
+
+    </div>
+</div>
+<!--  -->
+<ul class="tablink">
+    <li><a href="#" onclick="window.location.reload()" id="open" class="nav-link active">QC Inward  Pending</a></li>
+    <li><a href="#" onclick="bindItemMasterGrid2()" id="completed" class="nav-link">QC Inward Completed</a></li>
+
+</ul>
+<div class="secondary-light-bg third-container">
+    <div class="row table-filter">
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">GRN Number </label>
+            <select class="form-control applyselect" id="ddlGRN" onchange="OnchageBindGrid()">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Item Name </label>
+            <select class="form-control applyselect" id="ddlItem" onchange="OnchageBindGrid()">
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Supplier (Principle) </label>
+            <select class="form-control applyselect" id="ddlSupplier" onchange="OnchageBindGrid()">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group" style="display: none;">
+            <label for="role">Item Category </label>
+            <select class="form-control applyselect" id="ddlCate" onchange="OnchageBindGrid()">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group">
+            <label for="role">Tasks</label>
+            <select class="form-control applyselect" id="ddlTask" onchange="bindItemMasterGridFilter()">
+            </select>
+        </div>
+
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group">
+
+            <label for="role">From Date </label>
+            <div class="input-group">
+                <input type="text" id="txtFromDate" autocomplete="off" class="datepicker form-control" readonly placeholder="DD/MM/YYYY">
+                <span class="clear-date">×</span>
+                <div class="input-group-append "> <span class="input-group-text bg-white"><img src="~/assets/images/icons/help/calendar-icon.svg" alt=""></span> </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-3 form-group">
+
+            <label for="role">To Date </label>
+            <div class="input-group">
+                <input type="text" id="txtToDate" autocomplete="off" class="datepicker form-control" readonly placeholder="DD/MM/YYYY">
+                <span class="clear-date">×</span>
+                <div class="input-group-append "> <span class="input-group-text bg-white"><img src="~/assets/images/icons/help/calendar-icon.svg" alt=""></span> </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-2 ml-auto form-group ml-auto form-group align-self-end">
+            <div class="d-flex gap-5 justify-content-end">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox">
+
+                    <div class="search  w-350">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+    <!--  -->
+    <!--<div class="table-responsive">
+        <table id="tblQC" class="display rstable  dgntable dataTable no-footer">
+            <thead>
+                <tr>
+
+
+                    <th width="80">GRN <span class="d-block">Number</span></th>
+                    <th width="70">GRN <span class="d-block">Date</span></th>
+                    <th width="100">AR <span class="d-block">Number</span></th>
+                    <th width="200">Item Name</th>
+                    <th width="100">Item <span class="d-block">Category</span></th>
+                    <th width="50">Batch <span class="d-block">Number</span></th>
+                    <th width="50">Item <span class="d-block">Qty</span></th>
+
+                    <th width="120">Supplier (Principle)</th>
+                    <th width="60">Expiry<span class="d-block">Date</span></th>
+                    <th width="150">Task no<br />Task Description</th>
+                    <th width="100">Planned <span class="d-block">Date</span></th>
+                    <th width="30">Delay <span class="d-block">(Hr)</span></th>
+                    <th width="50" class="text-center">Action</th>
+
+                </tr>
+
+            </thead>-->
+    @*<tbody>
+            <tr>
+
+                <td>GRN25/26-002</td>
+                <td>14/05/2025</td>
+                <td>RM20250001</td>
+                <td>Glycerin	</td>
+                <td>Raw Material</td>
+                <td>#123456</td>
+                <td>1000</td>
+                <td>ABC Enterprises (Godrej)</td>
+                <td>05/06/2025</td>
+                <td class="text-left"><strong class="text-primary">Task 1</strong> <span class="d-block">Enter QC Parameters</span></td>
+
+                <td>
+                    30/08/2024
+                </td>
+
+                <td>0</td>
+                <td class="text-center">
+                    <div class="dropdown">
+                        <span class="dropdown-toggle arrow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                            <img src="../assets/images/icons/help/more-icon.png" class="icon-md">
+                        </span>
+                        <div class="dropdown-menu actionmenu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#qctestmapping">Mark Done</a>
+                            <a class="dropdown-item" href="Add-new-sample.html">Print COA</a>
+
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+
+
+
+        </tbody>*@
+    <!--</table>
+    </div>-->
+    <!--  -->
+
+    <div class="grid-wrapper" style="padding-top: 40px">
+        <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+    </div>
+
+</div>
+<!-- QC Test Mapping -->
+<div class="modal fade drawer right-align" id="qctestmapping">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Add QC Test Mapping</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+
+				<div class="row">
+					@*<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+			<label class="label-light">AR Number</label>
+			<p id="lbArnNumberMapping"></p>
+		</div>
+		<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+			<label class="label-light">GRN Date</label>
+			<p id="lbDocDateMapping"></p>
+		</div>
+		<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+			<label class="label-light">Batch number</label>
+			<p id="lbBatchNumerMapping"></p>
+		</div>*@
+
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Item Name</label>
+						<p id="lbItemNameMapping"></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">
+							Item Code
+						</label>
+						<p id="lbItemCodeMapping"></p>
+					</div>
+
+					@*<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+			<label class="label-light">Total Qty</label>
+			<p id="lbTotalQtyMapping"> </p>
+		</div>
+
+		<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+			<label class="label-light">Vendor Name</label>
+			<p id="lbSuppNameMapping"> </p>
+		</div>*@
+
+					<div class="col-sm-12 form-group">
+						<p class="mb-2">Please Select the Quality Parameters needed for the QC Check of this item. </p>
+						<div class="table-responsive sticky-responsive">
+							<table id="tblQCTestMapping" class="display stickyth  dgntable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+								<thead>
+									<tr>
+										<th width="20"></th>
+										<th width="150">Test Name</th>
+										<th width="100">Result Type</th>
+										<th width="60">Measuring <span class="d-block">Unit</span></th>
+										<th width="100">Approved Range</th>
+									</tr>
+								</thead>
+								<tbody id="tblQcCheckBody">
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-sm-12 form-group">
+						<label>Is Microbiology test required</label>
+						<p class="p-0">
+							<label class="pure-material-switch ">
+								<input id="isMandatory" type="checkbox" onchange="OnChangeCheckBox(this)">
+								<span class="m-0"></span>
+							</label>
+						</p>
+					</div>
+					<div id="divMicrobiologyTests" class="col-sm-12 form-group" style="display:none">
+						<p class="mb-2">Please Select the Microbiology Tests needed for the QC Check of this item.</p>
+						<div class="table-responsive sticky-responsive">
+							<table id="tblMicrobiologyTests" class="display stickyth dgntable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+								<thead>
+									<tr>
+										<th width="20"></th>
+										<th width="150">Test Name</th>
+										<th width="100">Result Type</th>
+										<th width="60">Measuring <span class="d-block">Unit</span></th>
+										<th width="100">Approved Range</th>
+
+									</tr>
+								</thead>
+								<tbody id="tblMicroMappingBody">
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="col-md-4 form-group" style="display:none">
+						<label>No. of Containers</label>
+						<input type="text" id="txtNoOfContainers" placeholder="Enter" class="form-control" />
+					</div>
+
+					<div class="col-sm-12 form-group">
+						<div class="d-flex gap-20 align-items-center flex-wrap">
+							<a href="#" id="open_pdf1">View Guidelines / S.O.P</a>
+							<a href="#" id="video1" target="blank">View Guidelines Video</a>
+						</div>
+					</div>
+
+				</div>
+            </div>
+            <div class="side-footer">
+                <button type="button" class="btn btn-lg  cancelbtn" data-dismiss="modal">Cancel</button>
+                <button type="button" onclick="SaveQCCheck();" class="btn btn-lg actionbtn">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="yourModalContainer"></div>
+
+<!-- qctestmapping -->
+<input type="hidden" id="hdnIsMicro" />
+<div class="modal fade drawer right-align" id="qctestmappingInitiated">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Step 2 - QC Check initiated</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">AR Number</label>
+						<p id="lbArnNumberInitiated"></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">GRN Date</label>
+						<p id="lbDocDateInitiated"></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Batch number</label>
+						<p id="lbBatchNumerInitiated"></p>
+					</div>
+
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Item Name</label>
+						<p id="lbItemNameInitiated"></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">
+							Item Code
+						</label>
+						<p id="lbItemCodeInitiated"></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Vendor Name</label>
+						<p id="lbSuppNameInitiated"> </p>
+					</div>
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group" style="display:none">
+						<label class="label-light">No. of Containers</label>
+						<p id="lbNoOfContainers"> </p>
+					</div>
+					<div class="col-sm-12 form-group">
+						<div class="table-responsive sticky-responsive">
+
+							<table id="dtStockTransferInitiated" class="display stickyth     dgntable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+								<thead>
+									<tr>
+										<th width="150">Test Name</th>
+										<th width="100">Result Type</th>
+										<th width="60">Measuring <span class="d-block">Unit</span></th>
+										<th width="100">Approved Range</th>
+										<th style="display:none;">QCID</th>
+										<th width="100">Result Value</th>
+
+									</tr>
+								</thead>
+
+							</table>
+						</div>
+					</div>
+					<div class="col-md-5 form-group">
+						<label>Manufacturing Date</label>
+						<div class="input-group">
+							<input type="text" id="txtManufacturingDateInitiated" autocomplete="off" class="datepicker form-control" placeholder="DD/MM/YYYY">
+							<span class="clear-date">×</span>
+							<div class="input-group-append ">
+								<span class="input-group-text bg-white"><img src="~/assets/images/icons/help/calendar-icon.svg" alt=""></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 form-group">
+						<label>Exp Date</label>
+						<div class="input-group">
+							<input type="text" id="txtExpDateInitiated" autocomplete="off" class="datepicker form-control" placeholder="DD/MM/YYYY">
+							<span class="clear-date">×</span>
+							<div class="input-group-append ">
+								<span class="input-group-text bg-white"><img src="~/assets/images/icons/help/calendar-icon.svg" alt=""></span>
+							</div>
+
+						</div>
+						<span id="sptxtExpDateInitiated" class="text-danger field-validation-error" style="display:none;">Expiry Date must be later than Manufacturing Date!</span>
+					</div>
+					<div class="col-md-4 col-sm-6 form-group">
+						<label>No Of Container</label>
+						<input type="number" id="txtNoOfContainerInitiated" placeholder="Enter" class="form-control MandateInitiated" oninput="HideErrorMessage(this)" />
+						<span id="sptxtNoOfContainerInitiated" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6 form-group">
+						<label>Sample Quantity</label>
+						<input type="text" id="txtSampleQty1" placeholder="Enter" class="form-control MandateInitiated" oninput="HideErrorMessage(this)" />
+						<span id="sptxtSampleQty1" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+					<div class="col-md-4 form-group">
+						<label>Total Quantity</label>
+						<input type="text" id="txtTotalQtyInitiated" placeholder="Enter" class="form-control" disabled /> <label id="lblUomTotal"></label>
+						<input type="hidden" id="hdntxtTotalQtyInitiated" />
+						<input type="hidden" id="hdntxtApprovedQtyInitiated" />
+						<input type="hidden" id="hdnUOM" />
+						<input type="hidden" id="hdbQtyRejected" />
+					</div>
+
+
+					<div class="col-md-4 form-group">
+						<label>Rejected Quantity</label>
+						<input type="number" id="txtRejectedQtyInitiated" placeholder="Enter" class="form-control MandateInitiated" onchange="HideErrorMessage(this)" />
+						<span id="sptxtRejectedQtyInitiated" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+					<div class="col-md-4 form-group">
+						<label>Approved Quantity</label>
+						<input type="text" id="txtApprovedQtyInitiated" disabled placeholder="Enter" class="form-control MandateInitiated" onchange="HideErrorMessage(this)" /> <label id="lblUomApproved"></label>
+						<span id="sptxtApprovedQtyInitiated" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+
+					<div class="col-md-4 col-sm-6 form-group">
+						<label>Final Result</label>
+						<select id="txtFinalResultInitiated" class="form-control applyselect MandateInitiated" onchange="HideErrorMessage(this)">
+							<option value="">Select</option>
+							<option value="Approved">Approved</option>
+							<option value="Rejected">Rejected</option>
+							<option value="Partial Approved">Partial Approved</option>
+						</select>
+						<span id="sptxtFinalResultInitiated" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+
+					<div class="col-md-12 form-group">
+						<label>Reason for Rejection (Optional)</label>
+						<textarea id="txtRemarkInitiated" class="form-control h-120" maxlength="250" placeholder="Enter"></textarea>
+						<span id="spRemarkInitiated" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+					</div>
+
+					<div class="col-sm-12 form-group">
+						<div class="d-flex gap-20 align-items-center flex-wrap">
+							<a href="#" id="open_pdf2">View Guidelines / S.O.P</a>
+							<a href="#" id="video2" target="blank">View Guidelines Video</a>
+						</div>
+					</div>
+
+				</div>
+
+
+            </div>
+            <div class="side-footer">
+                <button type="button" data-toggle="modal" data-dismiss="modal" class="btn btn-lg cancelbtn">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn" id="initiatedBtn" onclick="OpenInitiated()">Submit</button>
+                <button style="display:none;" id="btnInitiatedPopup" type="button" class="btn btn-lg actionbtn" data-toggle="modal" data-target="#confirmpopupInitiated" fdprocessedid="k7r59">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal confirmdgn modaloverlay" id="confirmpopupInitiated" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="warningmsg">
+                    <p>Before proceeding any further please confirm <br>the approved and rejected quantity.</p>
+                    <h6 class="text-center">Item Code : <label id="lblItemCode"></label> <span class="d-block">Total Qty : <label id="lblTotalQty"></label></span></h6>
+                    <div class="d-flex justify-content-between">
+                        <span class="d-block">Approved Quantity : <label id="lblApproved"></label></span>
+                        <span class="d-block">Rejected Quantity : <label id="lblRejected"></label></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn" onclick="SaveDataInitiated()">Confirm</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- qctestmapping -->
+<div class="modal fade drawer right-align" id="qctestmappingMicro" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Step 3 - Approved Quantity</h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+                @*<div class="row">
+                        <div class="col-sm-4 form-group">
+                            <label class="label-light">AR Number</label>
+                            <p id="lbArnNumberMicro"></p>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="label-light">GRN Date</label>
+                            <p id="lbDocDateMicro"></p>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="label-light">Batch number</label>
+                            <p id="lbBatchNumerMicro"></p>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="label-light">Item Name</label>
+                            <p id="lbItemNameMicro"></p>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="label-light">
+                                Item Code
+                            </label>
+                            <p id="lbItemCodeMicro"></p>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label class="label-light">Vendor Name</label>
+                            <p id="lbSuppNameMicro"> </p>
+                        </div>
+                        <div class="col-sm-12 form-group">
+                            <div class="table-responsive sticky-responsive">
+
+                                <table id="dtStockTransferMicro" class="display stickyth     dgntable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+                                    <thead>
+                                        <tr>
+                                            <th width="150">Test Name</th>
+                                            <th width="100">Result Type</th>
+                                            <th width="60">Measuring <span class="d-block">Unit</span></th>
+                                            <th width="100">Approved Range</th>
+                                            <th width="100">Result Value</th>
+
+                                        </tr>
+                                    </thead>
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 form-group">
+                            <label>Final Result</label>
+                            <select id="txtFinalResultMicro" class="form-control applyselect MandateMicro" onchange="HideErrorMessage(this)">
+                                <option value="">Select</option>
+                                <option value="Pass">Pass</option>
+                                <option value="Fail">Fail</option>
+                            </select>
+                            <span id="sptxtFinalResultMicro" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>Remarks (Optional)</label>
+                            <textarea id="txtRemarkMicro" class="form-control h-120" maxlength="250" placeholder="Enter"></textarea>
+                            <span id="spRemarkMicro" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                        </div>
+
+
+                    </div>*@
+
+
+
+
+            </div>
+            <div class="side-footer">
+                <button type="button" data-toggle="modal" data-dismiss="modal" class="btn btn-lg cancelbtn">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn" onclick="SaveDataMicro()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- qctestmapping -->
+<div class="modal fade drawer right-align" id="qctestmappingRejected" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header side-header justify-content-between d-flex">
+                <h2 class="modal-title">Step 3 - Microtesting </h2>
+                <img src="~/assets/images/icons/help/close-white-icon.png" class="cursor-pointer align-self-center close" data-dismiss="modal" />
+            </div>
+            <div class="modal-body mb-100">
+                <!-- open -->
+
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">AR Number</label>
+						<p id="lbArnNumberRejected"></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">GRN Date</label>
+						<p id="lbDocDateRejected"></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Batch number</label>
+						<p id="lbBatchNumerRejected"></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Total Quantity</label>
+						<p id="lbQtyRejected"></p>
+					</div>
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Item Name</label>
+						<p id="lbItemNameRejected"></p>
+					</div>
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">
+							Item Code
+						</label>
+						<p id="lbItemCodeRejected"></p>
+					</div>
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Vendor Name</label>
+						<p id="lbSuppNameRejected"> </p>
+					</div>
+
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Chemist Name</label>
+						<p id="txtChemistRejected"></p>
+					</div>
+
+
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Manufacturing Date</label>
+						<p id="txtManufacturingDateRejected"> </p>
+					</div>
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">Exp Date</label>
+						<p id="txtExpDateRejected"> </p>
+					</div>
+
+					<div class="col-lg-3 col-md-4 col-sm-6 form-group">
+						<label class="label-light">No. of Containers</label>
+						<p id="lbNoOfContainers4"> </p>
+					</div>
+
+					<div class="col-sm-12 form-group">
+						<div class="table-responsive ">
+
+							<table id="dtStockTransferMicro" class="display stickyth dgntable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+								<thead>
+									<tr>
+										<th width="150">Test Name</th>
+										<th width="100">Result Type</th>
+										<th width="60">Measuring <span class="d-block">Unit</span></th>
+										<th width="100">Approved Range</th>
+										<th style="display:none;">QCID</th>
+										<th width="250">Incubation <span class="d-block">Date &amp; Time</span></th>
+										<th width="250">Observation <span class="d-block">Date &amp; Time</span></th>
+										<th width="100">Negative Control</th>
+										<th width="100">Result Value</th>
+
+									</tr>
+								</thead>
+
+							</table>
+							@*<table class="display dgntable no-footer radius-0 dataTable ">
+					<thead>
+						<tr>
+							<th width="150">Test Name</th>
+							<th width="100">Result Type</th>
+							<th width="100">Measuring <span class="d-block">Unit</span></th>
+							<th width="100">Approved Range</th>
+							<th width="250">Incubation <span class="d-block">Date &amp; Time</span></th>
+							<th width="250">Observation <span class="d-block">Date &amp; Time</span></th>
+							<th width="100">Negative Control</th>
+							<th width="100">Result Value</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Total Yeast Mold Count	</td>
+							<td>Range</td>
+							<td>1-4</td>
+							<td>1-4</td>
+							<td>
+								<div class="d-flex  gap-10">
+									<div class="w-100">
+										<div class="input-group">
+											<input type="text" id="txtExpDateInitiated" autocomplete="off" class="datepicker form-control" placeholder="DD/MM/YYYY">
+											<span class="clear-date">×</span>
+											<div class="input-group-append ">
+												<span class="input-group-text bg-white"><img src="~/assets/images/icons/help/calendar-icon.svg" alt=""></span>
+											</div>
+										</div>
+									</div>
+									<div class="w-100">
+										<input type="time" autocomplete="off" class="form-control">
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="d-flex  gap-10">
+									<div class="w-100">
+										<div class="input-group">
+											<input type="text" id="txtExpDateInitiated" autocomplete="off" class="datepicker form-control" placeholder="DD/MM/YYYY">
+											<span class="clear-date">×</span>
+											<div class="input-group-append ">
+												<span class="input-group-text bg-white"><img src="~/assets/images/icons/help/calendar-icon.svg" alt=""></span>
+											</div>
+										</div>
+									</div>
+									<div class="w-100">
+										<input type="time" autocomplete="off" class="form-control">
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<input type="number" placeholder="Enter" class="form-control" />
+							</td>
+
+							<td>
+								<input type="number" placeholder="Enter" class="form-control" />
+							</td>
+
+						</tr>
+					</tbody>
+
+				</table>*@
+						</div>
+					</div>
+					<div class="col-sm-12 form-group">
+						<div class="row">
+							<div class="col-md-6 col-sm-12 form-group">
+								<div class="table-responsive">
+
+									<table id="dtStockTransfer" class="display stickyth     dgntable no-footer radius-0 dataTable itemsinformationMedia" style="table-layout:fixed;">
+										<thead>
+											<tr>
+												<th width="50">Action</th>
+												<th>Used Media</th>
+												<th>Lot Number</th>
+
+											</tr>
+										</thead>
+										<tbody id="tableToModify">
+											<tr>
+												<td class="text-center"><div id="addrow" class="cursor-pointer"><img style="pointer-events: none;" src="~/assets/images/icons/help/add.svg" alt=""></div></td>
+												<td>
+
+													<input type="text" id="txtUsedMedia_0" class="form-control MandateRejected" value="" oninput="HideErrorMessage(this)">
+													<span id="sptxtUsedMedia_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+												</td>
+												<td>
+
+													<input type="text" id="txtLotNumber_0" class="form-control  MandateRejected" value="" oninput="HideErrorMessage(this); alphanumeric(this)">
+													<span id="sptxtLotNumber_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+												</td>
+
+											</tr>
+
+
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							<div class="col-md-6 col-sm-12 form-group">
+								<div class="row">
+
+
+
+									<input type="hidden" id="hdntxtApprovedQtyRejected" />
+									<input type="hidden" id="hdntxtTotalQtyRejected" />
+									<input type="hidden" id="hdntxtTotalQtyApproved" />
+									<input type="hidden" id="hdnRejectedUOM" />
+									<div class="col-lg-4 col-md-4 col-sm-6 form-group">
+										<label>Sample Quantity</label>
+										<input type="text" id="txtSampleQty2" placeholder="Enter" class="form-control MandateRejected" oninput="HideErrorMessage(this)" />
+										<span id="sptxtSampleQty2" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</div>
+
+									<div class="col-lg-4 col-md-4 col-sm-6 form-group" id="viewRejQty">
+										<label>Rejected Quantity</label>
+										<input type="number" id="txtRejectedQtyRejected" placeholder="Enter" class="form-control MandateRejected" onchange="HideErrorMessage(this)" />
+										<span id="sptxtRejectedQtyRejected" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 form-group">
+										<label>Approved Quantity</label>
+										<input type="text" id="txtApprovedQtyRejected" disabled placeholder="Enter" class="form-control MandateRejected" onchange="HideErrorMessage(this)" />
+										<span id="sptxtApprovedQtyRejected" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 form-group">
+										<label>Total Rejected Quantity</label>
+										<input type="hidden" id="hdbQtyExistingRejected" />
+										<input type="text" id="txtTotalQtyRejected" disabled placeholder="Enter" class="form-control" />
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-6 form-group" style="display:none;">
+										<label>Total Approved Quantity</label>
+										<input type="hidden" id="hdbQtyExistingApproved" />
+										<input type="text" id="txtTotalQtyApproved" disabled placeholder="Enter" class="form-control" />
+									</div>
+
+									<div class="col-md-4 col-sm-6 form-group">
+										<label>Final Result</label>
+										<select id="txtFinalResultMicro" class="form-control applyselect MandateRejected" onchange="HideErrorMessage(this)">
+											<option value="Select">Select</option>
+											<option value="Approved">Approved</option>
+											<option value="Rejected">Rejected</option>
+											<option value="Partial Approved">Partial Approved</option>
+										</select>
+										<span id="sptxtFinalResultMicro" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="col-md-12 form-group">
+						<label>Reason for Rejection (Optional)</label>
+						<textarea class="form-control" maxlength="250" id="txtRemarkMicro" placeholder="Enter"></textarea>
+
+					</div>
+					<div class="col-md-12 form-group">
+
+						<input type="checkbox" id="returnprocess" name="">
+						<label for="returnprocess">
+							Please go ahead with the return process for the rejected goods
+						</label>
+
+					</div>
+
+					<div class="col-sm-12 form-group">
+						<div class="d-flex gap-20 align-items-center flex-wrap">
+							<a href="#" id="open_pdf3">View Guidelines / S.O.P</a>
+							<a href="#" id="video3" target="blank">View Guidelines Video</a>
+						</div>
+					</div>
+
+				</div>
+
+            </div>
+            <div class="side-footer justify-content-end">
+                <div class="w-400 d-flex gap-10">
+                    <div class="w-400 d-flex gap-10">
+                        <button type="button" data-toggle="modal" data-dismiss="modal" class="btn btn-lg cancelbtn">Cancel</button>
+                        <button type="button" id="rejected_submit" class="btn btn-lg actionbtn" onclick="ShowRejectedCnfMsg()">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal confirmdgn modaloverlay show" id="confirmpopup" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-default">
+        <div class="modal-content ">
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="warningmsg">
+                    <p>Before proceeding any further please confirm <br>the approved and rejected quantity.</p>
+                    <h6 class="text-center">Item Code : <enum id="cnf_item_code"></enum></h6>
+                    <div class="d-flex justify-content-between">
+                        <span class="d-block">Approved Quantity : <enum id="cnf_approve_qty"></enum></span>
+                        <span class="d-block">Rejected Quantity : <enum id="cnf_reject_qty"></enum></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn radius-24" onclick="SaveDataRejected()">Confirm</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    #globalSearch {
+        display: none
+    }
+
+    .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+        transition: opacity 0.2s;
+        opacity: 1;
+        color: #fff;
+    }
+
+    .ag-icon::before {
+        color: #fff;
+    }
+
+    .ag-theme-balham .ag-header-cell-label {
+        white-space: normal; /* Allow wrapping in header text */
+    }
+
+    .ag-theme-balham {
+        overflow-x: auto; /* Avoid extra whitespace */
+    }
+
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding-left: var(--ag-cell-horizontal-padding);
+        padding-right: var(--ag-cell-horizontal-padding);
+        background: #44488c;
+        color: #fff !important
+    }
+
+    .ag-icon-filter {
+        font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+        font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+        color: #ffffff !important;
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 1000;
+    }
+
+        .custom-alert table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-alert th {
+            background-color: #f2f2f2;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+
+    .ag-icon.ag-icon-previous::before {
+        content: "\f104"; /* Font Awesome: fa-angle-left */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .ag-icon.ag-icon-next::before {
+        content: "\f105"; /* Font Awesome: fa-angle-right */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 14px;
+        color: #333;
+    }
+</style>
+
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+
+@*Ag Grid Scripts End*@
+
+<script src="~/Areas/ManageQualityCheck/DevScript/QC_FMs.js"></script>
+
+<script>
+    function OnChangeCheckBox(ctrl) {
+        if ($(ctrl).is(':checked')) {
+            document.getElementById('divMicrobiologyTests').style.display = 'block';
+        } else {
+            document.getElementById('divMicrobiologyTests').style.display = 'none';
+        }
+    }
+
+    // Initially hide the div if checkbox is not checked
+    if (!$('.isMandatory').is(':checked')) {
+        document.getElementById('divMicrobiologyTests').style.display = 'none';
+    }
+</script>
+
+ 
+

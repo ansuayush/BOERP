@@ -1,0 +1,290 @@
+﻿
+@{
+	ViewBag.Title = "StockTransfer";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+	.is-invalid {
+		border-color: red;
+	}
+</style>
+<ul class="tablink">
+	<li><a href="/MaterialManagement/Material/StocksAdjustment?auth=@ViewBag.Auth" class="nav-link ">Stock Adjustment</a></li>
+	<li>
+		<a href="/MaterialManagement/Material/StockTransfer?auth=@ViewBag.Auth"
+		   class="nav-link active">Stock Transfer</a>
+	</li>
+</ul>
+
+<!-- page title -->
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex ">
+		Stock Transfer
+		<div class="ml-2">
+			<svg data-toggle="tooltip" title="This page shows list of all Stock Transfer"
+				 width="18" height="18" viewBox="0 0 20 20" fill="none"
+				 xmlns="http://www.w3.org/2000/svg">
+				<g clip-path="url(#clip0_423_173595)">
+					<path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z"
+						  stroke="#25282B" stroke-width="2"
+						  stroke-linecap="round"
+						  stroke-linejoin="round"></path>
+					<path d="M10 13.3333V10" stroke="#25282B"
+						  stroke-width="2" stroke-linecap="round"
+						  stroke-linejoin="round"></path>
+					<path d="M10 6.66675H10.0083" stroke="#25282B"
+						  stroke-width="2" stroke-linecap="round"
+						  stroke-linejoin="round"></path>
+				</g>
+				<defs>
+					<clippath id="clip0_423_173595">
+						<rect width="20" height="20"
+							  fill="white"></rect>
+					</clippath>
+				</defs>
+			</svg>
+		</div>
+	</h1>
+	<div class="align-self-center">
+		@*<a href="" class="btn mr-2 actionbtn border-r-8" data-toggle="modal" data-target="#stocktransfer">
+				<img src="../../assets/images/icons/help/add-white-icon.png"
+					 class="btn-icon">Manage Stock Transfer
+			</a>*@
+		<button class="btn mr-2 actionbtn border-r-8" data-toggle="modal" data-target="#stocktransfer" onclick="ClearFormControl()">
+			<img src="../../assets/images/icons/help/add-white-icon.png" class="btn-icon">Manage Stock Transfer
+		</button>
+	</div>
+</div>
+<!--  -->
+
+<div class="secondary-light-bg third-container">
+	<div class="row table-filter">
+		<div class="col-lg-2 col-md-3 col-sm-4 form-group">
+			<label for="role">Status </label>
+			<select class="form-control applyselect" id="ddlStatus" onchange="bindStockTransferGridFilter()"></select>
+		</div>
+		<div class="col-lg-2 col-md-3 col-sm-4 form-group" style="display:none">
+			<label for="role">From Warehouse </label>
+			<select class="form-control applyselect" id="ddlFromWarehouseList" onchange="bindStockTransferGridFilter()"></select>
+		</div>
+
+		<div class="col-lg-2 col-md-3 col-sm-4 form-group" style="display:none">
+			<label for="role">To Warehouse </label>
+			<select class="form-control applyselect" id="ddlToWarehouseList" onchange="bindStockTransferGridFilter()"></select>
+		</div>
+
+        <div class="col-lg-2 col-md-3 col-sm-4 ml-auto form-group  align-self-end">
+            <div class="d-flex gap-5 justify-content-end ">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox w-350">
+                    
+                    <div class="search w-300">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+            </div>
+            </div>
+
+
+        </div>
+	<!--  -->
+	<!--<div class="table-responsive">
+		<table id="tblStockTransferList"
+			   class="display rstable sorting dgntable dataTable no-footer">
+			<thead>
+				<tr>-->
+	@*<th width="20">SR#</th>*@
+	<!--<th width="100">Document Number</th>
+		<th width="80">Document Date</th>
+		<th width="100">From Warehouse</th>
+		<th width="100">To Warehouse</th>
+		<th width="50">No. of <span class="d-block">Items</span></th>
+		<th width="80">User</th>
+		<th width="60">Status</th>
+	</tr>
+	<tr class="searchfilter">-->
+	@*<th></th>*@
+	<!--<th>
+				<div class="filterdgn">
+					<input type="text" class="filter-input" placeholder="Search" id="txtDocNumber">
+					<label for="search" class="m-0">
+						<img src="../../assets/images/icons/help/search-icon.png"
+							 class="filtersearchincon" />
+					</label>
+				</div>
+			</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>-->
+	@*<tbody>
+			<tr>
+				<td>12340</td>
+				<td class="text-center">25/06/2024</td>
+				<td class="text-center">Warehouse Storage 1 </td>
+				<td class="text-center">Warehouse Storage 2 </td>
+				<td class="text-center">1</td>
+				<td>Ronald Richards</td>
+
+
+				<td class="text-center">
+					<span class="align-self-center badge badge-success ">Completed</span>
+				</td>
+
+			</tr>
+
+		</tbody>*@
+	<!--</table>
+	</div>-->
+	<!--  -->
+	<!-- Grid with Scrollable Area -->
+	<div class="grid-wrapper" style="padding-top: 40px">
+		<div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+	</div>
+
+</div>
+
+<!--  -->
+<!-- Stock Transfer  -->
+<input type="hidden" id="hdnStockId" value="0" />
+<input type="hidden" id="hdnSeriesId" value="0" />
+
+<div class="modal fade" id="stocktransfer" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-xxl modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Stock Transfer</h5>
+				<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" onclick="ClearFormControl();"><img src="/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-3 col-md-6 col-sm-6 form-group">
+						<label for="">Series</label>
+						<select class="form-control applyselect MandateMSA" id="ddlSeries" onchange="HideErrorMessage(this); GetSeriesDocNo()"></select>
+						<span id="spddlSeries" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3 col-md-6 col-sm-6  form-group">
+						<label>Document Number<sup>*</sup></label>
+						<input type="text" readonly="" class="form-control MandateStockTransfer" value="" name="DocNo" id="txtDocNo" onchange="HideErrorMessage(this)">
+						<span id="sptxtDocNo" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3 col-md-6 col-sm-6  form-group">
+						<label>From Warehouse<sup>*</sup></label>
+						<select class="form-control applyselect MandateStockTransfer" id="ddlFromWarehouse" name="Warehouse" onchange="HideErrorMessage(this); validateWarehouses();"></select>
+						<span id="spddlFromWarehouse" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div class="col-lg-3 col-md-6 col-sm-6  form-group">
+						<label>To Warehouse<sup>*</sup></label>
+						<select class="form-control applyselect MandateStockTransfer" id="ddlToWarehouse" name="Warehouse" onchange="HideErrorMessage(this); validateWarehouses();"></select>
+						<span id="spddlToWarehouse" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+					</div>
+					<div id="SADocDate" class="col-lg-3 col-md-6 col-sm-6 form-group">
+						<label>SA Date<sup>*</sup></label>
+						<div class="input-group border-light border-r-8 cursor-pointer">
+							<input type="text" class="datepicker form-control  MandateSADocDate" placeholder="DD/MM/YYYY" value="" id="txtSADocDate" onchange="HideErrorMessage(this)">
+							<div class="input-group-append">
+								<span class="input-group-text bg-white dateicon"><img src="~/assets/images/icons/help/calendar-icon.svg" alt=""></span>
+							</div>
+							<span id="sptxtSADocDate" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+						</div>
+					</div>
+					<div class="col-sm-12 form-group">
+						<div class="secondary-light-bg third-container">
+							<h2 class="title-two align-self-center mb-4">Items Details</h2>
+							<div class="table-responsive sticky-responsive">
+								<table id="dtStockTransfer" class="display stickyth     dgntable no-footer radius-0 dataTable itemsinformation" style="table-layout:fixed;">
+									<thead>
+										<tr>
+											<th width="50">Add</th>
+											<th width="150">Item Code</th>
+											<th width="150">Item Name</th>
+											<th width="70">UOM</th>
+											<th width="100">Available Qty</th>
+											<th width="100">Transfer Qty</th>
+											<th width="100">Default Price</th>
+											<th width="160">Comment</th>
+										</tr>
+									</thead>
+									<tbody id="tableToModify">
+										<tr>
+											<td class="text-center">
+												<div id="addrow" class="cursor-pointer"><img style="pointer-events: none;" src="~/assets/images/icons/help/add.svg" alt="" data-toggle="tooltip" title="Add" /></div>
+												<input type="hidden" id="hdnStockDetId_0" value="0" />
+											</td>
+											@*<td>
+													<select class="form-control applyselect MandateStockTransfer" id="ddlItem_0" onchange="FillItemDetails(this); HideErrorMessage(this)">
+														<option>Select</option>
+													</select>
+													<span id="spddlItem_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+												</td>*@
+											<td>
+
+												<div class="autocomplete-wrapper" style="position: relative;">
+													<label for="ddlI_0" class="search-label">
+														<img src="../../../assets/images/icons/help/search-icon.png" class="icon-sm" />
+													</label>
+													<input type="text" class="form-control searchlist MandateStockTransfer" id="ddlI_0" oninput="Getdata(this);" onclick="Getdata(this);" placeholder="Type item..." autocomplete="off" onchange="HideErrorMessage(this)" />
+													<span id="spddlI_0" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+													<ul id="globalSuggestionBox_0" class="suggestions"></ul>
+													<input type="hidden" id="ddlItem_0" />
+												</div>
+
+											</td>
+											<td id="lblItemName_0"></td>
+											<td id="lblUnit_0"></td>
+											<td class="text-right"><label id="lblAvailQty_0"></label></td>
+											<td>
+												<input type="text" id="txtTransferQty_0" class="form-control text-right MandateStockTransfer numeric-decimal-restrict" value="" placeholder="0" oninput="HideErrorMessage(this)">
+												<span id="sptxtTransferQty_0" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>
+											</td>
+											<td><input type="text" id="txtDefaultPrice_0" class="form-control text-right numeric-decimal-restrict" placeholder="0" value=""></td>
+											<td><textarea id="txtComment_0" placeholder="Enter Text" class="form-control"></textarea></td>
+										</tr>
+									</tbody>
+								</table>
+
+							</div>
+
+							<div class="form-group">
+								<label>Add Comment Here</label>
+								<textarea class="form-control h-sm" placeholder="Enter Text" rows="3" id="txtStockTransferComment"></textarea>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" id="btnSave" class="btn btn-lg actionbtn" onclick="SaveStockTransferData(1)">Save</button>
+				<button type="button" id="btnPost" class="btn btn-lg actionbtn" onclick="PostStockRecords()">Approve</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/CreateStockTransfer.js"></script>

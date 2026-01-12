@@ -1,0 +1,129 @@
+﻿@model IEnumerable<SahajFramework.Models.PushNotification>
+
+    
+
+<div id="tabs">
+    <input type="radio" name="tabs" id="toggle-Approvaltab" checked="checked" />
+    <label for="toggle-Approvaltab" class="ripplelink">Approval <span class="count-nt wow swing" >@Model.Where(x => x.Status == "Pending").Count()</span></label>
+    <input type="radio" name="tabs" id="toggle-Confirmationtab" />
+    <label for="toggle-Confirmationtab" class="ripplelink">Confirmation <span   class="count-nt wow swing mtr-o-bg">@Model.Where(x => x.Status == "Rejected" || x.Status == "Approved").Count()</span></label>
+    <input type="radio" name="tabs" id="toggle-Infotab" />
+    <label for="toggle-Infotab" class="ripplelink">Info <span  class="count-nt wow swing mtr-g-bg">@Model.Where(x => x.Status != "Pending" && x.Status == "Approved" && x.Status == "Rejected").Count()</span></label>
+
+    <div id="Approvaltab" class="tab-contain art-cntr">
+        <div class="tab-contain-txt p-0 ">
+            <div class="scroll Approvaltab">
+                <ul class="list-group ntf-list ">
+                    @if (Model.Where(x => x.Status == "Pending").Count() > 0)
+                    {
+                        foreach (var item in Model.Where(x => x.Status == "Pending"))
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="@(!string.IsNullOrEmpty(item.GotoURL)?item.GotoURL:"javascripts:;")" class="ripplelink">
+                                    <div class="c-media align-items-center">
+                                        <div class="c-media__avatar "><span><i class="fas fa-suitcase"></i></span></div>
+                                        <div class="c-media__content sz-sm">
+                                            @item.CreatedDate
+                                            <h5 class="sz-sm"><strong> @item.Subject</strong></h5>
+                                            <p> <strong>Status:</strong> <i class="far fa-clock red-clr"></i>@item.Status</p>
+                                            <span class="red-clr-bg count-nt"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        }
+
+                    }
+                    else
+                    {
+
+                        <li class="no-data">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            <p>No Messages, Yet.<span>No Messages in your Confirmation</span></p>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="Confirmationtab" class="tab-contain art-cntr">
+        <div class="tab-contain-txt p-0 ">
+            <div class="scroll Confirmationtab">
+                <ul class="list-group ntf-list ">
+                    @if (Model.Where(x => x.Status == "Rejected" || x.Status == "Approved").Count() > 0)
+                    {
+
+                        foreach (var item in Model.Where(x => x.Status == "Rejected" || x.Status == "Approved"))
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="@(!string.IsNullOrEmpty(item.GotoURL)?item.GotoURL:"javascripts:;")" class="ripplelink">
+                                    <div class="c-media align-items-center">
+                                        <div class="c-media__avatar "><span><i class="fas fa-suitcase"></i></span></div>
+                                        <div class="c-media__content sz-sm">
+                                            @item.CreatedDate
+                                            <h5 class="sz-sm"><strong> @item.Subject</strong></h5>
+                                            <p> <strong>Status:</strong> <i class="@(@item.Status=="Approved"?"fas fa-check green-clr":"far fa-clock red-clr")"></i>@item.Status</p>
+                                            <span class="red-clr-bg count-nt"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        }
+
+                    }
+                    else
+                    {
+
+                        <li class="no-data">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            <p>No Messages, Yet.<span>No Messages in your Confirmation</span></p>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="Infotab" class="tab-contain art-cntr">
+        <div class="tab-contain-txt p-0 ">
+            <div class="scroll Infotab">
+                <ul class="list-group ntf-list ">
+                    @if (Model.Where(x => x.Status != "Rejected" && x.Status != "Approved" && x.Status != "Pending").Count() > 0)
+                    {
+
+                        foreach (var item in Model.Where(x => x.Status != "Rejected" && x.Status != "Approved" && x.Status != "Pending"))
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="@(!string.IsNullOrEmpty(item.GotoURL)?item.GotoURL:"javascripts:;")" class="ripplelink">
+                                    <div class="c-media align-items-center">
+                                        <div class="c-media__avatar "><span><i class="fas fa-suitcase"></i></span></div>
+                                        <div class="c-media__content sz-sm">
+                                            @item.CreatedDate
+                                            <h5 class="sz-sm"><strong> @item.Subject</strong></h5>
+                                            <p> <strong>Status:</strong> <i class="far fa-clock red-clr"></i>@item.Status</p>
+                                            <span class="red-clr-bg count-nt"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        }
+
+                    }
+                    else
+                    {
+
+                        <li class="no-data">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            <p>No Messages, Yet.<span>No Messages in your Confirmation</span></p>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

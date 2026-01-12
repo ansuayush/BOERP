@@ -1,0 +1,1246 @@
+﻿
+@{
+    ViewBag.Title = "CreateBOM";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<input type="hidden" id="hdnBOMId" value="@ViewBag.bomId" />
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex align-items-center">
+        <a href="/ManageBOM/BOMList?auth=@ViewBag.Auth"><img src="../../assets/images/icons/help/back-icon.png" class="headingicon"></a>@ViewBag.PH<div class="ml-3"></div>
+    </h1>
+    <div class="align-self-center"></div>
+</div>
+<div class="row">
+    <div class="col-lg-12 form-group">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Formula Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-sm-2 form-group">
+						<label class="readonlay">Category<sup>*</sup></label>
+						@*<select class="form-control applyselect MandateBOM" id="ddlItemCategory" name="Category" onchange="HideErrorMessage(this); GetItemSubCategoryListById(this)"></select>
+			<span id="spddlItemCategory" class="text-danger field-validation-error" style="display:none;">Oops! You've missed this field.</span>*@
+
+						<select class="form-control applyselect Mandatory" onchange="HideErrorMessage(this); SetCategory(this)" id="ddlBOMCategory">
+							<option>Select</option>
+							@*   <option value="base">Base</option>*@
+							<option value="oil">Oil</option>
+							<option value="sfg">SFG</option>
+							@*      <option value="finishedgoods">Finished Goods</option>*@
+
+						</select>
+						<span id="spddlBOMCategory" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+					</div>
+					<div class="col-sm-2 form-group">
+						<label class="readonlay">BOM Number<sup>*</sup></label>
+						<input type="text" class="form-control Mandatory" value="" disabled placeholder="BOM Number" id="txtBOMNumber" oninput="HideErrorMessage(this)" />
+						<span id="splblBOMNo" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+					</div>
+					<div class="col-sm-2 form-group sfg hide">
+						<label>Sample ID<sup>*</sup></label>
+						<input type="text" class="form-control" id="txtSampleID" oninput="HideErrorMessage(this)" value="" placeholder="Enter" />
+						<span id="sptxtSampleID" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+					</div>
+					@*<div class="col-sm-2 form-group">
+			        <label>Item Code</label>
+			        <select class="form-control applyselect Mandatory" id="ddlBOMItemCode">
+				        <option value="0">Select</option>
+				        <option value="1">BS1234</option>
+				        <option value="2">BS1233</option>
+				        <option value="3">BS1231</option>
+
+			        </select>
+			        <span id="spddlBOMItemCode" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+		        </div>*@
+
+					<div class="col-sm-2 form-group">
+						<label>Item Code</label>
+						<div class="autocomplete-wrapper" style="position: relative;">
+							<label for="ddlI" class="search-label">
+								<img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+							</label>
+							<input type="text" class="form-control searchlist Mandatory" id="txtMIItemName" oninput="GetdataMaster(this); HideErrorMessage(this)" onclick="GetdataMaster(this); HideErrorMessage(this)" placeholder="Type item..." autocomplete="off">
+							<span id="sptxtMIItemName" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+							<ul id="globalSuggestionBox" class="suggestions"></ul>
+							<input type="hidden" id="ddlItem" />
+						</div>
+					</div>
+					    <div class="col-sm-2 form-group">
+						    <label>Item Name</label>
+                            <label type="text" class="form-control" id="lblItemName" placeholder="Item Name" style="background: #f0f2f4;"></label>
+					    </div>
+
+						<div class="col-sm-2 form-group finishedgoods hide">
+							<label>Pack Size <sup>*</sup></label>
+							<input type="text" class="form-control Mandatory" id="txtPackSize" oninput="HideErrorMessage(this)" value="" placeholder="Enter" />
+							<span id="sptxtPackSize" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+						</div>
+
+						<div class="col-sm-2 form-group">
+							<label>Quantity<sup>*</sup></label>
+							<input type="number" class="form-control Mandatory" value="" placeholder="Enter" id="txtQuantity" oninput="HideErrorMessage(this); SetZero(this)" />
+							<span id="sptxtQuantity" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+						</div>
+						@*<div class="col-sm-2 form-group" style="display:none">
+				            <label>Wastage %</label>
+				            <input type="number" class="form-contro" value="" placeholder="Enter" oninput="HideErrorMessage(this); SetZero(this)" id="txtWastage" />
+				            <span id="sptxtWastage" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+			            </div>*@
+						<div class="col-sm-2 form-group">
+							<label>Formulated By</label>
+							<input type="text" class="form-control Mandatory" disabled oninput="HideErrorMessage(this)" " placeholder="Enter" id="txtFormulatedBy" />
+							<span id="sptxtFormulatedBy" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+						</div>
+
+
+
+					</div>
+				</div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 form-group finishedgoods hide">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">BOM Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="row">
+                    <div class="col-sm-3 form-group">
+                        <label class="readonlay">BOM Number<sup>*</sup></label>
+                        <input type="text" class="form-control MandateBOM" id="" value="BOM/2526/1234" readonly placeholder="Enter" />
+                        <span id="sptxtFormulatedBy" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                    </div>
+
+                    <div class="col-sm-3 form-group">
+                        <label>FM Code<sup>*</sup></label>
+                        <input type="text" class="form-control MandateBOM" id="txtFMCode" value="FG1234" placeholder="Enter" />
+                        <span id="sptxtFMCode" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label class="readonlay">Customer Company<sup>*</sup></label>
+                        <select class="form-control applyselect MandateBOM" id="ddlBOMCustomerCompany">
+                            <option>Select</option>
+                            <option value="base">ABC Enterprises</option>
+                            <option value="oil">XYZ Enterprises</option>
+                        </select>
+                        <span id="spddlBOMCustomerCompany" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                    </div>
+
+
+                    <div class="col-sm-3 form-group">
+                        <label>Company Brand Name</label>
+                        <input type="text" class="form-control" value="" id="txtBrandName" placeholder="Enter" />
+                    </div>
+
+                    <div class="col-sm-3 form-group">
+                        <label class="readonlay">Customer Contact Person<sup>*</sup></label>
+                        <select class="form-control applyselect" id="ddlBOMCustomerContactPerson">
+                            <option>Select</option>
+                            <option value="base">Raj Kumar</option>
+                            <option value="oil">Amit</option>
+                            <option value="sfg">Akash</option>
+
+
+                        </select>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group finishedgoods hide">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Material Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive sticky-responsive">
+                    <table id="tblMaterialInfo" class="display  stickyth  dgntable dataTable no-footer radius-0 ">
+                        <thead>
+                            <tr>
+                                <th width="40">Add Rows</th>
+                                <th width="30">S.No.</th>
+                                <th width="100px">Reference</th>
+                                <th width="100px">Item Name</th>
+                                <th width="100px">Qty</th>
+                                <th width="100px">UoM</th>
+                                <th width="100px">Selling Price (₹)</th>
+                                <th width="100px">Total Cost (₹)</th>
+                                <th width="50px" class="text-center">From <br />Client</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                                <td>
+                                    <div onclick="MaterialInformationAddRow(this);" class="cursor-pointer">
+                                        <img src="../../assets/images/icons/help/add.svg" class="img-15" alt="">
+                                    </div>
+                                </td>
+
+                                <td>1</td>
+                                <td>Print Label</td>
+                                <td>
+                                    <div class="autocomplete-wrapper" style="position: relative;">
+                                        <label for="ddlI_0" class="search-label">
+                                            <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                        </label>
+                                        <input type="text" class="form-control searchlist Mandate" id="txtMIItemName_0" oninput="Getdata(this)" onclick="Getdata(this)" placeholder="Type item..." autocomplete="off">
+                                        <span id="sptxtMIItemName_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" id="txtMIQty_0" />
+                                    <span id="sptxtMIQty_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" id="txtMIUoM_0" />
+                                    <span id="sptxtMIUoM_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" id="txtMISellingPrice_0" />
+                                    <span id="sptxtMISellingPrice_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" id="txtMITotalCost_0" />
+                                    <span id="sptxtMITotalCost_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+
+                                <td class="text-center">
+
+                                    <input type="radio" id="rdoFromClient_0" class="radio singleradio" name="rdoFromClient_0" value="">
+                                    <label for="rdoFromClient_0"></label>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group finishedgoods hide">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Printed Packing Material Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive sticky-responsive">
+                    <table id="tblPrintedPM" class="display  stickyth  dgntable dataTable no-footer radius-0 ">
+                        <thead>
+                            <tr>
+                                <th width="40">Add Rows</th>
+                                <th width="30">S.No.</th>
+                                <th width="100px">Reference</th>
+                                <th width="100px">Item Name</th>
+
+                                <th width="100px">Qty</th>
+                                <th width="100px">UoM</th>
+                                <th width="100px">Selling Price (₹)</th>
+                                <th width="100px">Total Cost (₹)</th>
+                                <th width="50px" class="text-center">From <br />Client</th>
+                                <th width="50px" class="text-center">Create <br />New</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                                <td>
+                                    <div onclick="PrintedPMAddRow(this);" class="cursor-pointer">
+                                        <img src="../../assets/images/icons/help/add.svg" class="img-15" alt="">
+                                    </div>
+                                </td>
+
+                                <td>1</td>
+                                <td>Print Label</td>
+                                <td>
+                                    <div class="autocomplete-wrapper" style="position: relative;">
+                                        <label for="ddlI_0" class="search-label">
+                                            <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                        </label>
+                                        <input type="text" class="form-control searchlist Mandate" id="txtPPMIItemName_0" oninput="Getdata(this)" onclick="Getdata(this)" placeholder="Type item..." autocomplete="off">
+                                        <span id="sptxtPPMIItemName_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <input type="number" id="txtPPMIQty_0" class="form-control" placeholder="Enter" value="" />
+                                    <span id="sptxtPPMIQty_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+                                <td>
+                                    <input type="number" id="txtPPMIUoM_0" class="form-control" placeholder="Enter" value="" />
+                                    <span id="sptxtPPMIUoM_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+
+                                <td>
+                                    <input type="number" id="txtPPMISellingPrice_0" class="form-control" placeholder="Enter" value="" />
+                                    <span id="sptxtPPMISellingPrice_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+                                <td>
+                                    <input type="number" id="txtPPMITotalCost_0" class="form-control" placeholder="Enter" value="" />
+                                    <span id="sptxtPPMITotalCost_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+                                <td class="text-center">
+                                    <input type="radio" id="radPPMIFromclient_0" class="radio singleradio" name="radPPMIFromclient_0" value="">
+                                    <label for="radPPMIFromclient_0"></label>
+                                </td>
+                                <td class="text-center">
+                                    <input type="radio" id="radCreateNew_0" class="radio singleradio" name="radCreateNew_0" value="">
+                                    <label for="radCreateNew_0"></label>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group finishedgoods hide">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Other Charges</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive sticky-responsive">
+                    <table id="tblOtherCharges" class="display  stickyth  dgntable dataTable no-footer radius-0 ">
+                        <thead>
+                            <tr>
+                                <th width="70">Add Rows</th>
+                                <th width="50">S.No.</th>
+                                <th>Classification</th>
+                                <th width="300px">Amount(per piece)</th>
+                                <th width="300px">Comment</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="row" name="type" value="">
+                                    <label for="row"> </label>
+                                </td>
+                                <td>1</td>
+                                <td>Print Label</td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="row1" name="type" value="">
+                                    <label for="row1"> </label>
+                                </td>
+
+                                <td>2</td>
+                                <td>Master Carton</td>
+
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+
+
+
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+
+                                <td>3</td>
+                                <td>Conversion Charge</td>
+
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+
+
+
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+
+                                <td>4</td>
+                                <td>Margin</td>
+
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+
+
+
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+
+                                <td>5</td>
+                                <td>Other Charges</td>
+
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Enter" value="" />
+                                </td>
+
+
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 form-group finishedgoods hide ">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Remarks</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="col-lg-12 form-group">
+                    <label>Remarks</label>
+                    <textarea placeholder="Enter" class="form-control h-80" id="txtRemarks"></textarea>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 form-group sfg base oil hide">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Quality Parameters</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive sticky-responsive">
+                    <table id="tblQualityParameters" class="display  stickyth  dgntable dataTable no-footer radius-0 ">
+                        <thead>
+                            <tr>
+                                <th width="70">Add Rows	</th>
+                                <th width="50">S.No.</th>
+                                <th>Test Name</th>
+                                <th width="100px">Measuring Unit</th>
+                                <th width="100px">Result Type</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                                <td>
+                                    <div onclick="QualityParametersAddRow(this);" class="cursor-pointer text-center">
+                                        <img src="../../assets/images/icons/help/add.svg" class="img-15" alt="">
+                                    </div>
+                                </td>
+
+                                <td>1</td>
+                                <td>
+                                    <select class="form-control applyselect MandateQ" onchange="HideErrorMessage(this); GetQCParam(this)" id="ddlBOMTestName_0">
+                                    </select>
+                                    <span id="spddlBOMTestName_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+
+                                <td>
+                                    <input type="text" id="txtResultType_0" onchange="HideErrorMessage(this)" oninput="HideErrorMessage(this)" disabled class="form-control  MandateQ text-right" placeholder="---">
+                                    <span id="sptxtResultType_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+                                <td>
+                                    <input type="text" id="txtMeasuringUnit_0" onchange="HideErrorMessage(this)" oninput="HideErrorMessage(this)" disabled class="form-control  MandateQ text-right" placeholder="---">
+                                    <span id="sptxtMeasuringUnit_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 form-group sfg base oil hide">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Ingredients Information</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive sticky-responsive">
+                    <table id="tblIngredients" class="display  stickyth dgntable dataTable no-footer radius-0 ">
+                        <thead>
+                            <tr>
+                                <th width="70px">Add Rows</th>
+                                <th width="50px">SR.NO.</th>
+                                <th width="180px">Ingredient Name</th>
+                                <th width="180px">Quantity (gm)</th>
+                                <th width="120px">Sale Price (₹)</th>
+                                <th width="120px">Purchase Price (₹)</th>
+                                <th width="140px">Material <span class="d-block">Proportionate Ratio</span></th>
+                                <th width="140px">Total Selling Cost (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ingredientTable1">
+                            <tr class="ing" id="ing_0">
+                                <td class="text-center">
+                                    <div onclick="addRow1(this);" class="cursor-pointer">
+                                        <img src="../../assets/images/icons/help/add.svg" class="img-15" alt="">
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>
+
+                                    <div class="autocomplete-wrapper" style="position: relative;">
+                                        <label for="ddlI_0" class="search-label">
+                                            <img src="../../../assets/images/icons/help/search-icon.png" class="icon-sm" />
+                                        </label>
+                                        <input type="text" class="form-control searchlist MandateIng" id="ddlI_0" oninput="Getdata(this), HideErrorMessage(this)" onclick="Getdata(this), HideErrorMessage(this)" placeholder="Type item..." autocomplete="off" />
+                                        <span id="spddlI_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                        <ul id="globalSuggestionBox_0" class="suggestions"></ul>
+                                        <input type="hidden" id="ddlItem_0" />
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <input type="number" id="quantity_0" oninput="CalculateRate(this), HideErrorMessage(this)" class="form-control MandateIng text-right" placeholder="0">
+                                    <span id="spquantity_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                </td>
+                                <td>
+                                    <input type="number" id="sale_0" onchange="CalculateRate(this)" oninput="CalculateRate(this), HideErrorMessage(this)" class="form-control MandateIng text-right" placeholder="0">
+                                    <span id="spsale_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    <input type="hidden" id="purch_0" />
+                                </td>
+
+                                <td>
+                                    <input type="number" id="purchrate_0" oninput="HideErrorMessage(this); SetZero(this)" class="form-control MandateIng text-right" placeholder="0">
+                                    <span id="sppurchrate_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                                    <input type="hidden" id="purchrate1_0" />
+                                </td>
+
+                                <td>
+                                    <input type="number" id="mpr_0" disabled class="form-control  text-right" placeholder="0">
+                                </td>
+                                <td class="text-right">₹ <enum id="total_0">0</enum></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="tfoot-stickyth-two">
+                                <td colspan="3"></td>
+                                <td class="fn-bold text-right">Total Quantity : <enum id="total_quantity">0</enum> gm</td>
+                                <td colspan="3"></td>
+
+                                <td class="fn-bold text-right">Total Cost : ₹ <enum id="total_cost">0</enum></td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td class="fn-bold text-right" colspan="3"></td>
+
+                                <td colspan="4" class="fn-bold text-right">Total Cost per kg : ₹ <enum id="cost_per_kg">0</enum></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 form-group sfg base  hide">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Manufacturing Process</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group">
+                <div class="table-responsive">
+                    <table id="tblManufacturingProcess" class="display rstable dgntable dataTable no-footer radius-0 " style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th width="70px">Add Rows</th>
+                                <th width="40px">Phase</th>
+                                <th>Process</th>
+                                <th width="80px">RPM</th>
+                                <th width="80px">Temp (°C)</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">
+                                    <div onclick="ManufacturingProcessAddRow(this);" class="cursor-pointer">
+                                        <img src="../../assets/images/icons/help/add.svg" class="img-15" alt="">
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <textarea id="txtManufacturingProcess_0" oninput="HideErrorMessage(this)" class="form-control MandateP" placeholder="Enter"></textarea>
+                                    <span id="sptxtManufacturingProcess_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+                                <td>
+
+                                    <input type="number" oninput="HideErrorMessage(this); SetZero(this);" id="txtManufacturingRPM_0" class="form-control MandateP text-right" placeholder="---">
+                                    <span id="sptxtManufacturingRPM_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+                                <td>
+                                    <input type="number" id="txtManufacturingTemp_0" oninput="HideErrorMessage(this); SetZero(this);" class="form-control MandateP  text-right" placeholder="---">
+                                    <span id="sptxtManufacturingTemp_0" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group" id="add_att">
+        <div class="card br-none p-0">
+            <div class="card-header d-flex justify-content-between bg-none ">
+                <h2 class="title-two align-self-center">Attachment</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body  view-form-group">
+                <div class="section-container section-container-popup">
+                    <div class="fileuploadview drag-area">
+                        <div class="uploadicon_text file-input-button">
+                            <div class="uploadicon">
+                                <img src="~/assets/images/icons/help/fileupload-icon.svg" alt="">
+                            </div>
+                            <div class="uploadtext drag-file">
+                                <h4>Drop files here or click to upload</h4>
+                                <h6>This is a dropzone, drop files or click to browse</h6>
+                                <span class="error">The file size should be upto 2MB,<br /> with a maximum of 10 attachments.</span>
+                            </div>
+                        </div>
+                        <input type="file" id="fileIndent" class="file-input hidden" multiple />
+                        <div id="documentImages" class="document-images"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-group" style="display: none;" id="view_att">
+        <div class="card br-none p-0">
+            <div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+                <h2 class="title-two align-self-center">Material COA Upload</h2>
+                <div class="align-self-center"></div>
+            </div>
+            <div class="card-body view-form-group min-175 ">
+                <p class="m-0 nofile" id="NoUploadFile1">No Upload</p>
+                <div class="section-container fileuploadview hidden section-container-popup" id="ShowUploadFile1">
+                    <!--  -->
+                    <div id="documentImagesMCU" class="document-images">
+
+                    </div>
+                    <!--  -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" align-self-end justify-content-end align-items-center d-flex mb-5 gap-10 ">
+
+    <button id="btnCancel" type="button" class="btn btn-lg  cancelbtn">Cancel</button>
+    <button id="btnSave" type="button" class="btn  btn-lg  actionbtn" onclick="SaveBOMData()">@ViewBag.BT</button>
+
+</div>
+
+<div id="fileLimitPopup" class="popup-modal">
+    <div class="popup-content">
+        <p id="popup-message"></p>
+        <button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+    </div>
+</div>
+
+<!-- confirmation Modal popup -->
+<div class="modal fade" id="confirmpopup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-default" role="document">
+        <div class="modal-content">
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="warningmsg">
+                    <img src="../../assets/images/icons/help/warning-icon.svg" class="warningicon">
+                    <h6 class="text-center">Do You Want to delete this process? </h6>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn radius-24" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-lg actionbtn radius-24" data-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script>
+        $(() => {
+
+            $(".applyselect").select2();
+            fileUploadWithPreview(dropAreaId);
+        });
+
+
+    </script>*@
+
+<script>
+    //$(() => {
+    //	fileUploadWithPreview();
+    //	$(".applyselect").select2();
+    //});
+    function QualityParametersAddRow(button) {
+        const tableBody = document.querySelector('#tblQualityParameters tbody');
+        const rowCount = tableBody.rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+        <td class="text-center">
+            <div onclick="deleteRow1(this);">
+                <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer img-15">
+            </div>
+        </td>
+        <td>${rowCount}</td>
+
+        <td>
+            <select class="form-control MandateQ applyselect" onchange="HideErrorMessage(this); GetQCParam(this)" id="ddlBOMTestName_${rowCount}">
+
+                                        </select>
+                                        <span id="spddlBOMTestName_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+
+        </td>
+
+
+         <td>
+            <input type="text" id="txtResultType_${rowCount}" onchange="HideErrorMessage(this)" oninput="HideErrorMessage(this)" disabled class="form-control MandateQ text-right" placeholder="---">
+            <span id="sptxtResultType_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+        </td>
+         <td>
+            <input type="text" id="txtMeasuringUnit_${rowCount}" onchange="HideErrorMessage(this)" oninput="HideErrorMessage(this)" disabled class="form-control MandateQ text-right" placeholder="---">
+            <span id="sptxtMeasuringUnit_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+        </td>
+
+    `;
+
+        tableBody.appendChild(newRow);
+
+        var obj6 = {
+            parentId: 0,
+            masterTableTypeId: 0,
+            isMasterTableType: false,
+            isManualTable: true,
+            manualTable: 8,
+            manualTableId: 0,
+            ScreenId: 'ERP_FMS_101'
+        }
+        LoadMasterDropdown(`ddlBOMTestName_${rowCount}`, obj6, 'Select', false);
+
+        $(".applyselect").select2();
+    }
+
+
+    function QualityParametersAddRowEdit(SelectedValue) {
+        const tableBody = document.querySelector('#tblQualityParameters tbody');
+        const rowCount = tableBody.rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+    <td class="text-center">
+        <div onclick="deleteRow1(this);">
+            <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer img-15">
+        </div>
+    </td>
+    <td>${rowCount}</td>
+
+    <td>
+        <select class="form-control MandateQ applyselect" onchange="HideErrorMessage(this)" id="ddlBOMTestName_${rowCount}">
+
+                                    </select>
+                                    <span id="spddlBOMTestName_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+
+    </td>
+
+     <td>
+        <input type="text" id="txtResultType_${rowCount}" oninput="HideErrorMessage(this)" class="form-control MandateQ text-right" placeholder="---">
+        <span id="sptxtResultType_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+    </td>
+     <td>
+        <input type="text" id="txtMeasuringUnit_${rowCount}" oninput="HideErrorMessage(this)" class="form-control MandateQ text-right" placeholder="---">
+        <span id="sptxtMeasuringUnit_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+    </td>
+
+`;
+
+        tableBody.appendChild(newRow);
+
+        var obj6 = {
+            parentId: 0,
+            masterTableTypeId: 0,
+            isMasterTableType: false,
+            isManualTable: true,
+            manualTable: 8,
+            manualTableId: 0,
+            ScreenId: 'ERP_FMS_101'
+        }
+        LoadMasterDropdown(`ddlBOMTestName_${rowCount}`, obj6, 'Select', false, SelectedValue);
+
+        $(".applyselect").select2();
+
+        return rowCount;
+    }
+
+
+    function addRow1() {
+
+        var rowCount;
+
+        const tableBody = document.getElementById('ingredientTable1');
+        rowCount = tableBody.rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.className = 'ing';
+        newRow.id = `ing_${rowCount}`;
+
+        newRow.innerHTML = `
+
+            <td class="text-center">
+                <div onclick="deleteRow1(this);CalculateTotal()">
+                    <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer img-15">
+                </div>
+            </td>
+            <td>${rowCount}</td>
+
+           <td>
+
+                <div class="autocomplete-wrapper" style="position: relative;">
+                    <label for="ddlI_${rowCount}" class="search-label">
+                        <img src="../../../assets/images/icons/help/search-icon.png" class="icon-sm" />
+                    </label>
+                    <input type="text" class="form-control searchlist MandateIng" id="ddlI_${rowCount}" oninput="Getdata(this), HideErrorMessage(this)" onclick="Getdata(this), HideErrorMessage(this)" placeholder="Type item..." autocomplete="off" />
+                    <span id="spddlI_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                    <ul id="globalSuggestionBox_${rowCount}" class="suggestions"></ul>
+                    <input type="hidden" id="ddlItem_${rowCount}" />
+                </div>
+
+            </td>
+             <td>
+                 <input type="number" id="quantity_${rowCount}" oninput="CalculateRate(this), HideErrorMessage(this)"  class="form-control MandateIng text-right" placeholder="0">
+                  <span id="spquantity_${rowCount}" class="text-danger field-validation-error"  style="display:none;">Hey, You missed this field!!</span>
+             </td>
+             <td>
+                 <input type="number" id="sale_${rowCount}" onchange="CalculateRate(this)" oninput="CalculateRate(this), HideErrorMessage(this)" class="form-control MandateIng text-right" placeholder="0">
+                  <span id="spsale_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                 <input type="hidden" id="purch_${rowCount}" />
+             </td>
+              <td>
+                 <input type="number" id="purchrate_${rowCount}" oninput="HideErrorMessage(this); SetZero(this)" class="form-control MandateIng text-right" placeholder="0">
+                  <span id="sppurchrate_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                 <input type="hidden" id="purchrate1_${rowCount}" />
+             </td>
+
+             <td>
+                 <input type="number" id="mpr_${rowCount}" disabled class="form-control  text-right" placeholder="0">
+             </td>
+             <td class="text-right">₹ <enum id="total_${rowCount}">0</enum></td>
+        `;
+
+        tableBody.appendChild(newRow);
+        $(".applyselect").select2();
+
+        return rowCount;
+    }
+
+    function ManufacturingProcessAddRow(button) {
+        const tableBody = document.querySelector('#tblManufacturingProcess tbody');
+        const rowCount = tableBody.rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+        <td class="text-center">
+            <div onclick="showdeleteRow2(this);">
+                <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer img-15">
+            </div>
+        </td>
+        <td>${rowCount}</td>
+
+         <td>
+            <input type="text" id="txtManufacturingProcess_${rowCount}"  oninput="HideErrorMessage(this)" class="form-control MandateP" placeholder="---">
+            <span id="sptxtManufacturingProcess_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+        </td>
+
+         <td>
+            <input type="number" id="txtManufacturingRPM_${rowCount}"  oninput="HideErrorMessage(this); SetZero(this)" class="form-control MandateP text-right" placeholder="---">
+            <span id="sptxtManufacturingRPM_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+        </td>
+         <td>
+            <input type="number"  oninput="HideErrorMessage(this); SetZero(this)" id="txtManufacturingTemp_${rowCount}" class="form-control MandateP text-right" placeholder="---">
+            <span id="sptxtManufacturingTemp_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+        </td>
+
+    `;
+
+        tableBody.appendChild(newRow);
+        $(".applyselect").select2();
+
+        return rowCount;
+    }
+
+    let currentDeleteButton = null;
+
+    function showdeleteRow2(button) {
+        currentDeleteButton = button;
+        $('#confirmpopup').modal('show');
+    }
+
+    $(document).ready(function () {
+
+        $('#confirmpopup .actionbtn').click(function () {
+            if (currentDeleteButton) {
+                deleteRow1(currentDeleteButton);
+                currentDeleteButton = null;
+            }
+        });
+
+
+        $('#confirmpopup').on('hidden.bs.modal', function () {
+            currentDeleteButton = null;
+        });
+    });
+
+
+    function MaterialInformationAddRow(button) {
+        const tableBody = document.querySelector('#tblMaterialInfo tbody');
+        const rowCount = tableBody.rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+    <td class="text-center">
+        <div onclick="deleteRow1(this);">
+            <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer img-15">
+        </div>
+    </td>
+    <td>${rowCount}</td>
+     <td>Print Label</td>
+<td>
+                <div class="autocomplete-wrapper" style="position: relative;">
+                                <label for="ddlI_${rowCount}" class="search-label">
+                                    <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                </label>
+                                <input type="text" class="form-control searchlist Mandate" id="txtMIItemName_${rowCount}" oninput="Getdata(this)" onclick="Getdata(this)" placeholder="Type item..." autocomplete="off">
+                                <span id="sptxtMIItemName_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+
+                </div>
+</td>
+
+<td>
+                <input type="number" class="form-control Mandate" placeholder="Enter" value="" id="txtMIQty_${rowCount}"/>
+                <span id="sptxtMIQty_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+</td>
+<td>
+                <input type="number" class="form-control Mandate" placeholder="Enter" value="" id="txtMIUoM_${rowCount}"/>
+                <span id="sptxtMIUoM_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+</td>
+
+<td>
+                <input type="number" class="form-control Mandate" placeholder="Enter" value="" id="txtMISellingPrice_${rowCount}"/>
+                <span id="sptxtMISellingPrice_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+</td>
+
+<td>
+                <input type="number" class="form-control Mandate" placeholder="Enter" value="" id="txtMITotalCost_${rowCount}"/>
+                <span id="sptxtMITotalCost_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+</td>
+
+<td class="text-center">
+
+                <input type="radio" id="rdoFromClient_${rowCount}" class="radio singleradio" name="rdoFromClient_${rowCount}"  value="">
+                <label for="rdoFromClient_${rowCount}"></label>
+
+</td>
+`;
+
+        tableBody.appendChild(newRow);
+        $(".applyselect").select2();
+    }
+    function PrintedPMAddRow(button) {
+        const tableBody = document.querySelector('#tblPrintedPM tbody');
+        const rowCount = tableBody.rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+    <td class="text-center">
+        <div onclick="deleteRow1(this);">
+            <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer img-15">
+        </div>
+    </td>
+    <td>${rowCount}</td>
+     <td>Print Label</td>
+     <td>
+                <div class="autocomplete-wrapper" style="position: relative;">
+                                <label for="ddlI_${rowCount}" class="search-label">
+                                    <img src="../../assets/images/icons/help/search-icon.png" class="icon-sm">
+                                </label>
+                                <input type="text" class="form-control searchlist Mandate" id="txtPPMIItemName_${rowCount}" oninput="Getdata(this)" onclick="Getdata(this)" placeholder="Type item..." autocomplete="off">
+                                <span id="sptxtPPMIItemName_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+                </div>
+</td>
+
+<td>
+                <input type="number" id="txtPPMIQty_${rowCount}" class="form-control" placeholder="Enter" value="" />
+                <span id="sptxtPPMIQty_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+</td>
+<td>
+                <input type="number" id="txtPPMIUoM_${rowCount}" class="form-control" placeholder="Enter" value="" />
+                <span id="sptxtPPMIUoM_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+</td>
+
+<td>
+                <input type="number" id="txtPPMISellingPrice_${rowCount}" class="form-control" placeholder="Enter" value="" />
+                <span id="sptxtPPMISellingPrice_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+</td>
+<td>
+                <input type="number" id="txtPPMITotalCost_${rowCount}" class="form-control" placeholder="Enter" value="" />
+                <span id="sptxtPPMITotalCost_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+</td>
+<td class="text-center">
+                <input type="radio" id="radPPMIFromclient_${rowCount}" class="radio singleradio" name="radPPMIFromclient_${rowCount}" value="">
+                <label for="radPPMIFromclient_${rowCount}"></label>
+</td>
+<td class="text-center">
+                <input type="radio" id="radCreateNew_${rowCount}" class="radio singleradio" name="radCreateNew_${rowCount}" value="">
+                <label for="radCreateNew_${rowCount}"></label>
+</td>
+`;
+
+        tableBody.appendChild(newRow);
+        $(".applyselect").select2();
+    }
+
+    function deleteRow1(button) {
+        const row = button.closest('tr');
+        if (!row) return;
+        const tbody = row.parentNode;
+
+        // Remove the clicked row
+        tbody.removeChild(row);
+
+        // ---------- Detect id-start from first remaining row ----------
+        // Default: start ids at 1
+        let idStart = 1;
+        const firstRow = tbody.rows[0];
+        if (firstRow) {
+            // Find any element with an id inside the first row
+            const elWithId = firstRow.querySelector('[id]');
+            if (elWithId && elWithId.id) {
+                const match = elWithId.id.match(/_(\d+)(?!.*_.*)/); // last _digits
+                if (match) {
+                    idStart = parseInt(match[1], 10) || 1;
+                }
+            }
+        }
+
+        // If idStart < 99 we will keep ids == visible index (1..N).
+        // If idStart >= 100 we will keep ids starting from idStart (100,101,...).
+        const useSeparateIdBase = idStart >= 100;
+
+        // ---------- Reindex remaining rows ----------
+        const rows = Array.from(tbody.rows);
+        rows.forEach((r, idx) => {
+            if (idx == 0) {
+                return;
+            }
+            const visibleIndex = idx + 1;
+            const idIndex = useSeparateIdBase ? (idStart + idx) : visibleIndex;
+
+            // Update visible sequence cell:
+            // prefer .seq-cell if present, else fallback to second cell (index 1)
+            const seqCell = r.querySelector('.seq-cell') || r.cells[1];
+            if (seqCell) seqCell.innerText = visibleIndex;
+
+            // Update attributes inside row for id/for/name and inline handlers
+            const attrsToFix = ['id', 'for', 'name', 'onclick', 'oninput', 'onchange', 'onblur', 'onfocus', 'aria-labelledby', 'data-id', 'data-target', 'data-index'];
+
+            r.querySelectorAll('*').forEach(el => {
+                attrsToFix.forEach(attr => {
+                    if (!el.hasAttribute(attr)) return;
+                    const oldVal = el.getAttribute(attr);
+                    if (!oldVal) return;
+
+                    // Replace suffix _<digits> with new idIndex
+                    let newVal = oldVal.replace(/_(\d+)\b/g, `_${idIndex}`);
+
+                    // Replace simple function calls like Foo(5) -> Foo(idIndex)
+                    // Only change when argument is a single numeric literal.
+                    newVal = newVal.replace(/([A-Za-z0-9_]+)\(\s*\d+\s*\)/g, function (m, fn) {
+                        return fn + '(' + idIndex + ')';
+                    });
+
+                    if (newVal !== oldVal) el.setAttribute(attr, newVal);
+                });
+
+                // For plain text nodes or innerHTML that contain e.g. SaveItemMasterDynamic(5)
+                // update those occurrences conservatively (only single-number args)
+                if (el.children.length === 0 && typeof el.innerHTML === 'string') {
+                    const oldHtml = el.innerHTML;
+                    const newHtml = oldHtml.replace(/([A-Za-z0-9_]+)\(\s*\d+\s*\)/g, function (m, fn) {
+                        return fn + '(' + idIndex + ')';
+                    });
+                    if (newHtml !== oldHtml) el.innerHTML = newHtml;
+                }
+            });
+
+            // Also update attributes on row itself (like id="row_100")
+            attrsToFix.forEach(attr => {
+                if (!r.hasAttribute(attr)) return;
+                const oldVal = r.getAttribute(attr);
+                if (!oldVal) return;
+                const newVal = oldVal.replace(/_(\d+)\b/g, `_${idIndex}`);
+                if (newVal !== oldVal) r.setAttribute(attr, newVal);
+            });
+        });
+
+        // ---------- Re-init UI plugins (safe) ----------
+        try {
+            if (window.jQuery) {
+                jQuery('.applyselect').each(function () {
+                    try { jQuery(this).select2('destroy'); } catch (e) { }
+                });
+                jQuery('.applyselect').select2();
+            }
+        } catch (e) {
+            console.warn('select2 re-init skipped/failed', e);
+        }
+
+        try {
+            CalculateTotal();
+        }
+        catch (e) {
+            console.warn('select2 re-init skipped/failed', e);
+        }
+      
+    }
+
+    function addRow2(button) {
+        const tableBody = document.getElementById('ingredientTable2');
+        const rowCount = tableBody.rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td class="text-center">
+                <div onclick="deleteRow2(this);">
+                    <img src="../../assets/images/icons/help/close.svg" alt="" class="cursor-pointer">
+                </div>
+            </td>
+           <td>
+                <select class="form-control applyselect">
+                                                <option value="">Select</option>
+                                                <option value="">Phase 1</option>
+                                                <option value="" >Phase 2</option>
+                                            </select>
+                                            <span id="spddlBOMTestName_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+            </td>
+            <td>
+                <input type="text" class="form-control" placeholder="--">
+                <span id="spddlBOMTestName_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+            </td>
+            <td>
+                <input type="text" class="form-control" placeholder="--">
+                <span id="spddlBOMTestName_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+            </td>
+            <td>
+                <input type="text" class="form-control" placeholder="Enter">
+                <span id="spddlBOMTestName_${rowCount}" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!</span>
+            </td>
+        `;
+
+        tableBody.appendChild(newRow);
+        $(".applyselect").select2();
+    }
+
+    function deleteRow2(button) {
+        const row = button.parentNode.parentNode;
+        const tableBody = row.parentNode;
+
+        tableBody.removeChild(row);
+
+        // Update the numbering in the first column
+        Array.from(tableBody.rows).forEach((row, index) => {
+            row.cells[1].innerText = index + 1;
+        });
+    }
+    $(function () {
+        $('#ddlBOMCategory').change(function () {
+            $('.hide').hide();
+
+            if ($('#ddlBOMCategory').val() == 'sfg') {
+                $('#txtSampleID').addClass('Mandatory');
+            }
+            else {
+                $('#txtSampleID').removeClass('Mandatory');
+            }
+
+            if ($('#ddlBOMCategory').val() == 'finishedgoods') {
+                $('#txtPackSize').addClass('Mandatory');
+            }
+            else {
+                $('#txtPackSize').removeClass('Mandatory');
+            }
+
+            $('.' + $(this).val()).show();
+        });
+    });
+</script>
+
+<script src="~/Areas/ManageBOM/DevScript/ManageBOM.js"></script>
+<script src="~/Areas/MaterialManagement/DevScript/fileupload_Material.js"></script>

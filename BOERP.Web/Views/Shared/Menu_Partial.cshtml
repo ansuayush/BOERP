@@ -1,0 +1,161 @@
+﻿@using SahajFramework.CommonClass;
+@using SahajFramework.Models;
+@{
+    string userType = clsApplicationSetting.GetSessionValue("UserType");
+    string LoginId = clsApplicationSetting.GetSessionValue("LoginID");
+    string auth = Request.QueryString["auth"];
+    var AdminModuleMenu = new AdminModuleMenu();
+    var MainMenuModal = new List<AdminModule>();
+    var MenuList = new List<AdminMenu>();
+    try
+    {
+
+        AdminModuleMenu = SahajFramework.CommonClass.ClsCommon.GetAdminModuleMenu(auth);
+        MainMenuModal = AdminModuleMenu.AdminModuleList;
+        MenuList = AdminModuleMenu.AdminMenuList;
+
+    }
+    catch (Exception)
+    {
+
+        Response.Redirect(Url.Action("Login", "Account"));
+        return; // prevent further rendering
+    }
+
+
+    //<span class="menu-text" @(menuItem.MenuID == 26 ? "style='display: none;'" : "")>@menuItem.MenuName</span>
+
+}
+<div>
+    <nav class="nav">
+        <div>
+            <div class="nav__brand">
+                <div class="toplogo web-toggle">
+                    <div class="logo-menu align-self-center">
+                        <div class="nav-icon3 nav-toggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <a href="" class="nav__logo"><img src="~/assets/images/logo/bo-international-logo.png" alt="BO International Logo" /> <span class="logo-text"></span> </a>
+                <a href="" class="nav__logo-m"><img src="~/assets/images/logo/bo-international-logo-full.png" alt="BO International Logo" /> <span class="logo-text"></span> </a>
+                <span class="nav-remove"><img src="~/assets/images/icons/help/close-icon.png" alt="" class="icon-sm" /></span>
+            </div>
+            <div class="nav__list">
+                <ul class="menulist list-unstyled">
+                    @foreach (AdminModule item in MainMenuModal.OrderBy(a => a.ModulePriority))
+                    {
+                        <li>
+                            <div class="nav__link collapse collapse__link ">
+                                <span class="menu-icon">
+                                    <img src="@item.ActualFileName" al="" class="" />
+                                </span><span class="menu-text module-click" data-moduleid="@item.ModuleID" data-moduleurl="@Request.RawUrl">
+                                    @item.ModuleName
+                                </span>
+
+                                <span class="menu-arrow-icon"><i class="fas fa-chevron-down"></i></span>
+                            </div>
+
+                            @if (MenuList.Where(a => a.ModuleID == item.ModuleID).ToList().Count > 0)
+                            {
+                                <ul class="collapse__menu ">
+                                    @foreach (var menuItem in MenuList.Where(a => a.ModuleID == item.ModuleID).OrderBy(a => a.MenuPriority).ToList())
+                                    {
+                                        if (menuItem.ParentMenuID != 0)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            if (MenuList.Where(a => a.ParentMenuID == menuItem.MenuID && a.ModuleID == item.ModuleID).ToList().Count > 0)
+                                            {
+                                                <li>
+                                                    <div class="nav__link collapse collapse__link">
+                                                        <span class="menu-text">@menuItem.MenuName</span>
+                                                        <span class="menu-arrow-icon"><i class="fas fa-chevron-down"></i></span>
+                                                    </div>
+                                                    <ul class="collapse__menu">
+                                                        @foreach (var itemChild in MenuList.Where(a => a.ParentMenuID == menuItem.MenuID && a.ModuleID == item.ModuleID).ToList())
+                                                        {
+                                                            <li><a href="@itemChild.MenuURL" class="collapse__sublink" data-baseurl="@itemChild.MenuURL">@itemChild.MenuName</a></li>
+                                                        }
+                                                    </ul>
+                                                </li>
+
+                                            }
+                                            else
+                                            {
+                                                if (menuItem.MenuID == 417)
+                                                {
+                                                    if (userType == "26" || LoginId == "1")
+                                                    {
+                                                        <li><a href="@menuItem.MenuURL" class="collapse__sublink" data-baseurl="@menuItem.MenuURL">@menuItem.MenuName</a></li>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <li><a href="@menuItem.MenuURL" class="collapse__sublink" data-baseurl="@menuItem.MenuURL">@menuItem.MenuName</a></li>
+                                                }
+
+                                            }
+                                        }
+
+
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+@*<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuLinks = document.querySelectorAll('.collapse__sublink');
+            menuLinks.forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    const storedValue = AuthToken;
+                    if (storedValue) {
+                        e.preventDefault(); // Stop the normal link behavior
+                        let mURL = baseURL;
+                        // Remove trailing slash if it exists
+                        if (mURL.endsWith("/")) {
+                            mURL = mURL.slice(0, -1);
+                        }
+                        const Url = mURL + this.getAttribute('data-baseurl'); // or this.dataset.baseurl
+                        console.log(URL)
+                        const separator = Url.includes('?') ? '&' : '?';
+                        const finalUrl = `${Url}${separator}auth=${storedValue}`;
+                        console.log(finalUrl)
+                       window.location.href = finalUrl;
+                    }
+                });
+            });
+        });
+    </script>*@
+
+@*<script>
+        $(document).ready(function () {
+            $('.module-click').on('dblclick', function () {
+                var moduleId = $(this).data('moduleid');
+                var redirectUrl = $(this).data('moduleurl');
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Account/SetSelectedModule',
+                    data: { moduleId: moduleId },
+                    success: function () {
+                        window.location.href = redirectUrl; // redirect back to same page
+                    },
+                    error: function (xhr, status, error) {
+                        FailToaster("Error setting module:" + error);
+                    }
+                });
+            });
+        });
+    </script>*@

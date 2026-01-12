@@ -1,0 +1,764 @@
+﻿
+<!DOCTYPE html>
+
+@{
+    string PageName = SahajFramework.CommonClass.ClsCommon.GetPageName();
+    string loginIDs = clsApplicationSetting.GetSessionValue("LoginID");
+
+
+    string FileUrl = clsApplicationSetting.GetSessionValue("FileURL");
+    string FullName = clsApplicationSetting.GetSessionValue("FullName");
+
+    string full_name = loginIDs == "1" ? "Admin" : clsApplicationSetting.GetSessionValue("FullName");
+    string CompanyName = clsApplicationSetting.GetSessionValue("CompanyName");
+
+}
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title </title>
+    <meta name="title" content="@ViewBag.Title" />
+    <meta name="keywords" content="@PageName" />
+    <meta name="description" content="@PageName" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @*comment by ajay*@
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- intl-tel-input CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/css/intlTelInput.min.css" />
+
+
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/intlTelInput.min.js"></script>
+
+    <!-- JSZip library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- FileSaver for saving the zip file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <link rel="icon" href="~/assets/images/logo/bo-international-logo.png" type="image/png" sizes="50x50">
+    <link href="~/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/css/responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/css/jquery-ui.css">
+    <link rel="stylesheet" href="~/assets/css/jquery.dataTables.min.css">
+    <link href="~/assets/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/css/daterangepicker.css">
+    <link href="~/assets/css/questiondgn.css" rel="stylesheet" />
+
+    @*<link href="~/assets/css/loader.css" rel="stylesheet" />*@
+
+
+    @Styles.Render("~/Content/ej2/material.css")
+    @Scripts.Render("~/Scripts/ej2/ej2.min.js")
+    <script src="~/CommonJS/Common.js"></script>
+    <script src="~/CommonJS/TMS_Common.js"></script>
+    <script src="~/CommonJS/TMS_ComboFill.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/jquery-ui.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+
+    <script>
+
+              var virtualPath = "@System.Configuration.ConfigurationManager.AppSettings["APIURL"]";
+              var baseURL = "@System.Configuration.ConfigurationManager.AppSettings["BaseURL"]";
+              var ClientSecret = "@System.Configuration.ConfigurationManager.AppSettings["ClientSecret"]";
+              var ClientAccessKey = "@System.Configuration.ConfigurationManager.AppSettings["ClientAccessKey"]";
+    </script>
+
+    <style>
+
+        .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+            background-color: #44488c !important;
+        }
+
+      /*  #customLoader {
+            background: rgba(0, 0, 0, 0.7) !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }*/
+
+        .ag-header-cell, .ag-header-group-cell {
+            padding: 0px 5px !important;
+        }
+
+        .ag-header-group-cell-label, .ag-cell-label-container {
+            padding: 0px 0px !important;
+        }
+
+        #customLoader img {
+            width: 40px;
+            height: 40px
+        }
+
+        .ag-text-field-input {
+            color: #000 !important;
+            font-size: 10px !important
+        }
+        /* Styles for the alert box */
+        .custom-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+            display: none;
+            width: auto;
+            z-index: 1000;
+            overflow: inherit !important;
+        }
+
+            .custom-alert .modal-body {
+                padding-bottom: 0px;
+                overflow: scroll;
+                height: 400px;
+                overflow-x: hidden;
+            }
+
+        .custom-lg {
+            width: 630px;
+            background: #fff;
+            font-size: 10px;
+            border-radius: 8px
+        }
+
+        .custom-alert table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-alert th {
+            background: #2f3261;
+            color: #fff;
+        }
+
+        .custom-alert th, .custom-alert td {
+            border: 1px solid #ddd;
+            padding: 2px 5px !important;
+            text-align: left;
+            word-break: break-all;
+            vertical-align: top;
+            line-height: 25px;
+            font-size: 12px;
+            text-transform: lowercase;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+    </style>
+    <style>
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #loader {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body id="body-pd" class="body-pd">
+    <div id="dvMaskFullpage" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.8);
+    z-index: 9999;
+    text-align: center;
+">
+        <div class="vertical-centered-box">
+            <div class="content">
+                <div class="loader-circle"></div>
+                <div class="loader-line-mask">
+                    <div class="loader-line"></div>
+                </div>
+                <img src="~/assets/images/logo/bo-international-logo.png" />
+                <p>Loading ...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast">
+        <div id="toasticon"><i></i></div>
+        <div id="toastMsg"></div>
+    </div>
+
+    <!-- Global Loader -->
+    <div id="loader" style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.8);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- sidepanel  -->
+    <div class="l-navbar" id="navbar">
+        @Html.Partial("Menu_Partial")
+    </div>
+    <!--  -->
+    <div class="modal-backdrop hide" id="mobile-backdrop"></div>
+
+    <!-- top header -->
+    <div class="body-header mb-36">
+        <header class="header-shadow h-72 space-gap-main pr-30">
+
+            <div class="d-flex flex-row-reverse w-100 justify-content-between">
+
+                <div class="d-flex justify-center items-center">
+                    <ul class="list-unstyled d-flex  top-menu float-right m-0">
+                        <li class="align-self-center align-self-center dropdown dropdown-default">
+                            <a id="dropdown-notification" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 10.6667C24 8.54502 23.1571 6.51018 21.6569 5.00989C20.1566 3.5096 18.1217 2.66675 16 2.66675C13.8783 2.66675 11.8434 3.5096 10.3431 5.00989C8.84286 6.51018 8 8.54502 8 10.6667C8 20.0001 4 22.6667 4 22.6667H28C28 22.6667 24 20.0001 24 10.6667Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18.3067 28C18.0723 28.4041 17.7358 28.7395 17.331 28.9727C16.9262 29.2059 16.4672 29.3286 16 29.3286C15.5329 29.3286 15.0739 29.2059 14.6691 28.9727C14.2642 28.7395 13.9278 28.4041 13.6934 28" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right notificationbox w-23rem h-450" role="menu" aria-labelledby="dropdown-notification">
+                                <li class="emptymessage">
+                                    <div class="emptynotification">
+                                        <svg width="50" height="50" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 10.6667C24 8.54502 23.1571 6.51018 21.6569 5.00989C20.1566 3.5096 18.1217 2.66675 16 2.66675C13.8783 2.66675 11.8434 3.5096 10.3431 5.00989C8.84286 6.51018 8 8.54502 8 10.6667C8 20.0001 4 22.6667 4 22.6667H28C28 22.6667 24 20.0001 24 10.6667Z" stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18.3067 28C18.0723 28.4041 17.7358 28.7395 17.331 28.9727C16.9262 29.2059 16.4672 29.3286 16 29.3286C15.5329 29.3286 15.0739 29.2059 14.6691 28.9727C14.2642 28.7395 13.9278 28.4041 13.6934 28" stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                        <h3 class="text-md mb-0">No Notification</h3>
+                                        <span class="text-small-subtitle">There are no notifications at the moment</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        @*<li class="notifcationlist align-self-center  dropdown dropdown-default">
+                                <a id="dropdown-setting" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_595_53083)"><path d="M16 20C18.2091 20 20 18.2091 20 16C20 13.7909 18.2091 12 16 12C13.7909 12 12 13.7909 12 16C12 18.2091 13.7909 20 16 20Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M25.8666 19.9999C25.6891 20.4021 25.6362 20.8482 25.7146 21.2807C25.793 21.7132 25.9992 22.1123 26.3066 22.4266L26.3866 22.5066C26.6345 22.7542 26.8312 23.0483 26.9654 23.3721C27.0996 23.6958 27.1687 24.0428 27.1687 24.3933C27.1687 24.7437 27.0996 25.0907 26.9654 25.4144C26.8312 25.7382 26.6345 26.0323 26.3866 26.2799C26.1389 26.5279 25.8448 26.7245 25.5211 26.8587C25.1974 26.9929 24.8504 27.062 24.4999 27.062C24.1495 27.062 23.8025 26.9929 23.4787 26.8587C23.155 26.7245 22.8609 26.5279 22.6132 26.2799L22.5333 26.1999C22.219 25.8925 21.8199 25.6863 21.3874 25.6079C20.9548 25.5295 20.5087 25.5824 20.1066 25.7599C19.7122 25.9289 19.3759 26.2096 19.139 26.5673C18.9021 26.925 18.775 27.3442 18.7733 27.7733V27.9999C18.7733 28.7072 18.4923 29.3854 17.9922 29.8855C17.4921 30.3856 16.8138 30.6666 16.1066 30.6666C15.3993 30.6666 14.7211 30.3856 14.221 29.8855C13.7209 29.3854 13.4399 28.7072 13.4399 27.9999V27.8799C13.4296 27.4386 13.2867 27.0106 13.0299 26.6515C12.7731 26.2925 12.4142 26.019 11.9999 25.8666C11.5978 25.6891 11.1517 25.6362 10.7191 25.7146C10.2866 25.793 9.88749 25.9992 9.57325 26.3066L9.49325 26.3866C9.24559 26.6345 8.95149 26.8312 8.62776 26.9654C8.30403 27.0996 7.95703 27.1687 7.60658 27.1687C7.25614 27.1687 6.90914 27.0996 6.58541 26.9654C6.26168 26.8312 5.96758 26.6345 5.71992 26.3866C5.47198 26.1389 5.27529 25.8448 5.14109 25.5211C5.00689 25.1974 4.93782 24.8504 4.93782 24.4999C4.93782 24.1495 5.00689 23.8025 5.14109 23.4787C5.27529 23.155 5.47198 22.8609 5.71992 22.6132L5.79992 22.5333C6.1073 22.219 6.3135 21.8199 6.39192 21.3874C6.47035 20.9548 6.41741 20.5087 6.23992 20.1066C6.0709 19.7122 5.79026 19.3759 5.43254 19.139C5.07482 18.9021 4.65563 18.775 4.22659 18.7733H3.99992C3.29267 18.7733 2.6144 18.4923 2.1143 17.9922C1.6142 17.4921 1.33325 16.8138 1.33325 16.1066C1.33325 15.3993 1.6142 14.7211 2.1143 14.221C2.6144 13.7209 3.29267 13.4399 3.99992 13.4399H4.11992C4.56124 13.4296 4.98926 13.2867 5.34832 13.0299C5.70738 12.7731 5.98087 12.4142 6.13325 11.9999C6.31074 11.5978 6.36368 11.1517 6.28526 10.7191C6.20683 10.2866 6.00063 9.88749 5.69325 9.57325L5.61325 9.49325C5.36531 9.24559 5.16862 8.95149 5.03443 8.62776C4.90023 8.30403 4.83115 7.95703 4.83115 7.60658C4.83115 7.25614 4.90023 6.90914 5.03443 6.58541C5.16862 6.26168 5.36531 5.96758 5.61325 5.71992C5.86091 5.47198 6.15502 5.27529 6.47874 5.14109C6.80247 5.00689 7.14948 4.93782 7.49992 4.93782C7.85036 4.93782 8.19736 5.00689 8.52109 5.14109C8.84482 5.27529 9.13892 5.47198 9.38658 5.71992L9.46658 5.79992C9.78082 6.1073 10.1799 6.3135 10.6125 6.39192C11.045 6.47035 11.4911 6.41741 11.8933 6.23992H11.9999C12.3943 6.0709 12.7306 5.79026 12.9675 5.43254C13.2044 5.07482 13.3315 4.65563 13.3333 4.22659V3.99992C13.3333 3.29267 13.6142 2.6144 14.1143 2.1143C14.6144 1.6142 15.2927 1.33325 15.9999 1.33325C16.7072 1.33325 17.3854 1.6142 17.8855 2.1143C18.3856 2.6144 18.6666 3.29267 18.6666 3.99992V4.11992C18.6683 4.54897 18.7954 4.96815 19.0323 5.32587C19.2692 5.68359 19.6056 5.96423 19.9999 6.13325C20.4021 6.31074 20.8482 6.36368 21.2807 6.28526C21.7132 6.20683 22.1123 6.00063 22.4266 5.69325L22.5066 5.61325C22.7542 5.36531 23.0483 5.16862 23.3721 5.03443C23.6958 4.90023 24.0428 4.83115 24.3933 4.83115C24.7437 4.83115 25.0907 4.90023 25.4144 5.03443C25.7382 5.16862 26.0323 5.36531 26.2799 5.61325C26.5279 5.86091 26.7245 6.15502 26.8587 6.47874C26.9929 6.80247 27.062 7.14948 27.062 7.49992C27.062 7.85036 26.9929 8.19736 26.8587 8.52109C26.7245 8.84482 26.5279 9.13892 26.2799 9.38658L26.1999 9.46658C25.8925 9.78082 25.6863 10.1799 25.6079 10.6125C25.5295 11.045 25.5824 11.4911 25.7599 11.8933V11.9999C25.9289 12.3943 26.2096 12.7306 26.5673 12.9675C26.925 13.2044 27.3442 13.3315 27.7733 13.3333H27.9999C28.7072 13.3333 29.3854 13.6142 29.8855 14.1143C30.3856 14.6144 30.6666 15.2927 30.6666 15.9999C30.6666 16.7072 30.3856 17.3854 29.8855 17.8855C29.3854 18.3856 28.7072 18.6666 27.9999 18.6666H27.8799C27.4509 18.6683 27.0317 18.7954 26.674 19.0323C26.3162 19.2692 26.0356 19.6056 25.8666 19.9999V19.9999Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_595_53083"><rect width="32" height="32" fill="white"></rect></clipPath></defs></svg>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right w-23rem" role="menu" aria-labelledby="dropdown--setting">
+
+
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="">Setting 2</a></li>
+
+
+                                </ul>
+                            </li>*@
+
+                        <li class="notifcationlist align-self-center dropdown dropdown-default">
+
+
+                            <a id="dropdown-logout" href="#" class="dropdown-toggle d-flex align-items-center gap-10" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                @if (!string.IsNullOrEmpty(FileUrl))
+                                {
+                                    <img src="@FileUrl" alt="Bo User" class="profileimg mb-0 rounded-circle" />
+                                }
+                                else
+                                {
+                                    <img src="~/assets/images/icons/header/image.png" alt="" class="profileimg mb-0 rounded-circle" />
+
+                                }
+                                <p class="m-0 ellipsis d-none-sm">@full_name</p>
+
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-right scroll-none w-56" role="menu" aria-labelledby="dropdown-logout">
+                                <li role="presentation"><a role="menuitem" href="/ManageEmployee/ProfilePage?auth=@ViewBag.Auth" tabindex="-1">Profile</a></li>
+
+                                <li role="presentation" class="logoutactive"><a href="/Account/Logout?auth=@ViewBag.Auth"><strong>Logout</strong></a></li>
+
+
+                            </ul>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="align-self-center ml-auto">
+                    @Html.Partial("TopMenu_Partial")
+
+                </div>
+                <div class="align-self-center cp-dtl">
+                    <div class="companyinfo">
+                        <div class="nav-icon3 nav-toggle mobile-toggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="company-name">
+                            <strong class="d-block" id="compName"></strong>
+                            <span id="spFinDate" class="fn-12"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </header>
+    </div>
+
+    <main class="main space-gap-main">
+        @RenderBody()
+    </main>
+
+    <div id="errorPopupYash" class="error-popup green-popup">
+        <span id="errorMessageYash"></span>
+    </div>
+    @Html.Partial("Footer_Partial")
+
+    <div id="customLoader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 999999999999; text-align: center; ">
+        <div style="margin-top:10%"><img src="~/assets/images/logo/Gray_circles_rotate.gif" /></div>
+    </div>
+
+    <!-- Popup Modal for File Limit -->
+    <div id="fileLimitPopup" class="popup-modal">
+        <div class="popup-content">
+            <p id="popup-message"></p>
+            <button id="close-popup"><img src="~/assets/images/icons/help/close.svg" alt=""></button>
+        </div>
+    </div>
+    <!-- Logout Warning Modal -->
+    <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header br-tr error-bg">
+                    <h4 class="modal-title white-clr text-left w-100">Session Expiring</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-self-center gap-10 align-items-center mb-5">
+                        <div class="w-50 ">
+                            <img src="/assets/images/icons/help/time-icon.png" alt="Session Expiring time" class="icon-lg" />
+                        </div>
+                        <div>Security is essential and you have been gone for a while. Your session will expire in</div>
+                    </div>
+                    <h2 class="text-center fn-normal mb-3"><span id="logoutCountdown">1:00</span></h2>
+
+                    <p class="text-center">If you are still with us please click on continue working.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-lg actionbtn" data-bs-dismiss="modal" onclick="resetTimers(1)">Continue Working</button>
+                    <a class="btn btn-lg btn cancelbtn"    href="/Account/Logout?auth=@ViewBag.Auth"><strong>Redirect To Login Page</strong></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/assets/js/datepicker/daterangepicker.js"></script>
+    <script src="~/assets/js/select2.min.js"></script>
+    <script src="~/assets/js/menu.js"></script>
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/js/select2.min.js"></script>
+    <script src="~/assets/js/commonfile.js"></script>
+    <script src="~/assets/pages/fourboxwidgets.js"></script>
+    <script src="~/assets/js/moment.min.js"></script>
+    <script src="~/assets/js/daterangepicker.min.js"></script>
+    <script src="~/CommonJS/ComboFill.js"></script>
+    <script src="~/assets/pages/box-one.js"></script>
+    <script src="~/assets/js/bootstrap-multiselect.js"></script>
+
+
+
+
+
+
+	<script>
+
+        var AuthToken = "@ViewBag.Auth";
+        var CompId = "@clsApplicationSetting.DecryptQueryString(ViewBag.Auth)[2]";
+        var FinYearId = "@clsApplicationSetting.DecryptQueryString(ViewBag.Auth)[1]";
+        var loggedinUserName = "@clsApplicationSetting.DecryptQueryString(ViewBag.Auth)[6]";
+        var loggedinUserDept = "@clsApplicationSetting.DecryptQueryString(ViewBag.Auth)[7]";
+        var FinYearDate = "@clsApplicationSetting.DecryptQueryString(ViewBag.Auth)[4]";
+        var logoutUrl = "@System.Configuration.ConfigurationManager.AppSettings["BaseURL"]Account/Logout?auth=@ViewBag.Auth";
+        var autoUrl = "@System.Configuration.ConfigurationManager.AppSettings["BaseURL"]Account/AutoLogout?auth=@ViewBag.Auth";
+        var AutoLogoutTime= "@System.Configuration.ConfigurationManager.AppSettings["AutoLogoutTime"]";
+        var WaitTimeLogOut = "@System.Configuration.ConfigurationManager.AppSettings["WaitTimeLogOut"]";
+        var userAuth = "@clsApplicationSetting.DecryptQueryString(ViewBag.Auth)[0]";
+        var LogoutFromPopup = "@System.Configuration.ConfigurationManager.AppSettings["BaseURL"]Account/LogoutFromPopup?auth=@ViewBag.Auth";
+
+        const ACTIVITY_KEY = 'userActivity';
+        const DEBOUNCE_INTERVAL = 1000; // 1 second minimum between updates
+        let lastActivityBroadcast = 0;
+
+        function broadcastActivity() {
+            const now = Date.now();
+            if (now - lastActivityBroadcast > DEBOUNCE_INTERVAL) {
+                localStorage.setItem(ACTIVITY_KEY, now);
+                lastActivityBroadcast = now;
+            }
+        }
+
+
+        // Listen for activity from other tabs
+        window.addEventListener('storage', (event) => {
+            if (event.key === ACTIVITY_KEY) {
+                resetTimers(1); // Sync timers across tabs
+            }
+        });
+
+        // Configuration
+        var warningTime = parseInt(AutoLogoutTime) * 60 * 1000; // 10 minutes
+        var logoutTime = parseInt(WaitTimeLogOut) * 60 * 1000;   // 1 more minute
+
+        var logoutCountdownInterval;
+        var warningTimer, logoutTimer;
+
+        $(document).ready(function ()
+		{
+			$('#compName').text("@CompanyName");
+            $('#spFinDate').text(FinYearDate);
+
+        });
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs < 10 ? '0' + secs : secs}`;
+        }
+
+        function showLogoutWarning()
+        {
+            let secondsRemaining = parseInt(WaitTimeLogOut) * 60;
+
+            $('#logoutCountdown').text(formatTime(secondsRemaining));
+            $('#logoutModal').modal('show');
+
+            // Clear any previous interval before starting a new one
+            clearInterval(logoutCountdownInterval);
+
+            logoutCountdownInterval = setInterval(function () {
+                secondsRemaining--;
+
+                if (secondsRemaining >= 0) {
+                    $('#logoutCountdown').text(formatTime(secondsRemaining));
+                }
+
+                if (secondsRemaining <= 0) {
+                    clearInterval(logoutCountdownInterval);
+                }
+            }, 1000);
+        }
+
+
+
+
+        function resetTimers(from) {
+            var model =
+            {
+                AuthToken: userAuth,
+                AutologoutTime: parseInt(AutoLogoutTime) +1
+            };
+            const jsonString = JSON.stringify(model);
+            CommonAjaxMethod(virtualPath + 'Generic/UpdateToken', { modelData: jsonString, screenId: 'Logout_100' }, 'GET', function (response) {
+                var d = response.data.data.Table;
+                if (d && d.length == 0) {
+                    window.location = autoUrl;
+                }
+                else {
+                    $("#customLoader").hide();
+                    $('#logoutModal').modal('hide');
+                    clearTimers();
+                    broadcastActivity(); // Notify other tabs
+                    startTimers();
+                }
+            });
+        }
+
+        function clearTimers() {
+            clearTimeout(warningTimer);
+            clearTimeout(logoutTimer);
+            clearInterval(logoutCountdownInterval);
+        }
+
+
+
+        function startTimers() {
+            clearTimers();
+
+            const autoLogoutMs = Number(AutoLogoutTime) * 60 * 1000;
+            const waitLogoutMs = Number(WaitTimeLogOut) * 60 * 1000;
+
+            warningTimer = setTimeout(() => {
+                showLogoutWarning();
+
+                logoutTimer = setTimeout(() => {
+                    window.location.href = LogoutFromPopup;
+                }, waitLogoutMs);
+
+            }, autoLogoutMs);
+        }
+
+
+        // Bind events for user activity
+        document.addEventListener("click", resetTimers);
+       // document.addEventListener("keypress", resetTimers);
+        // document.addEventListener("scroll", resetTimers);
+        //document.addEventListener("click", function (event) {
+        //    resetTimers(1);
+        //});
+
+
+        // Kick it off
+        startTimers();
+
+	</script>
+    <script>
+        $(document).ready(function () {
+            // Normal select2
+            $(".applyselect").select2();
+
+            // Hide search for specific dropdown
+            $(".hidesearchselect").select2({
+                minimumResultsForSearch: Infinity // disables the search box
+            });
+        });
+
+        // Applyselect > disabled >  Enter key not work
+        // Call once on page load
+        $(function () {
+            // 1) Hard-stop any attempt to open a disabled <select>
+            $(document).on('select2:opening', 'select.applyselect', function (e) {
+                if ($(this).prop('disabled')) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                }
+            });
+
+            // 2) Block mouse/touch on the visible Select2 UI if underlying select is disabled
+            $(document).on('mousedown touchstart', '.select2-container', function (e) {
+                const $sel = $(this).prev('select.applyselect');
+                if ($sel.length && $sel.prop('disabled')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
+
+            // 3) Block **Enter** (and Space) on the Select2 UI when disabled
+            $(document).on('keydown', '.select2-container, .select2-selection, .select2-search__field', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    const $sel = $(this).closest('.select2-container').prev('select.applyselect');
+                    if ($sel.length && $sel.prop('disabled')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                }
+            });
+
+            // 4) Safety: when you (re)initialize Select2, keep DOM disabled in sync and set tabindex
+            function syncDisabled($scope) {
+                $scope.find('select.applyselect').each(function () {
+                    const $sel = $(this);
+                    const $c = $sel.next('.select2-container');
+                    if ($c.length) {
+                        $c.attr('tabindex', $sel.prop('disabled') ? '-1' : '0')
+                            .attr('aria-disabled', $sel.prop('disabled') ? 'true' : 'false');
+                    }
+                });
+            }
+
+            // Run once now; call again after you add/clone rows
+            syncDisabled($(document));
+
+            // Optional helper you can call after add-row reinit
+            window.syncSelect2DisabledState = function ($scope) { syncDisabled($scope); };
+        });
+        //
+
+        // Common Date Range Picker Utility (single date)
+        window.DRP = (function () {
+            const Z = 9999999;
+            const IN_FLAG = 'drp-inited';
+
+            function bindGlobalOnce() {
+                // z-index guard
+                if (!document.getElementById('drp-zfix')) {
+                    $('<style id="drp-zfix">.daterangepicker{z-index:9999999!important}</style>').appendTo(document.head);
+                }
+
+                // calendar icon click (delegated)
+                $(document)
+                    .off('click.drp', '.input-group-text')
+                    .on('click.drp', '.input-group-text', function () {
+                        $(this).closest('.input-group').find('.datepicker').focus();
+                    });
+
+                // clear (×) button (delegated)
+                $(document)
+                    .off('click.drp', '.clear-date')
+                    .on('click.drp', '.clear-date', function () {
+                        const $input = $(this).closest('.input-group').find('.datepicker');
+                        $input.val('');
+                        $(this).hide();
+                    });
+            }
+
+            function placeFactory($inp, $cal) {
+                return function place() {
+                    // fixed to viewport for stability on month nav
+                    $cal.css({ top: '', left: '', right: '', bottom: '', position: 'fixed' });
+
+                    const rect = $inp[0].getBoundingClientRect();
+                    const winW = window.innerWidth;
+                    const winH = window.innerHeight;
+
+                    const popupW = $cal.outerWidth();
+                    const popupH = $cal.outerHeight();
+
+                    // prefer below, else above
+                    let top = rect.bottom + 6;
+                    if (rect.bottom + popupH > winH) top = rect.top - popupH - 6;
+
+                    // left align, clamp
+                    let left = rect.left;
+                    const vpLeft = 8, vpRight = winW - 8;
+                    if (left + popupW > vpRight) left = Math.max(vpLeft, vpRight - popupW);
+                    if (left < vpLeft) left = vpLeft;
+
+                    // vertical clamp safety
+                    const vpTop = 8, vpBot = winH - 8;
+                    if (top + popupH > vpBot) top = Math.max(vpTop, vpBot - popupH);
+                    if (top < vpTop) top = vpTop;
+
+                    $cal.css({ top, left, zIndex: Z });
+                };
+            }
+
+            function wireOne($inp) {
+                if ($inp.data(IN_FLAG)) return;
+
+                $inp.daterangepicker({
+                    opens: 'right',
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    autoApply: true,
+                    autoUpdateInput: false,
+                    parentEl: 'body',
+                    locale: { format: 'DD/MM/YYYY' }
+                })
+                    .on('apply.daterangepicker', function (ev, picker) {
+                        $inp.val(picker.startDate.format('DD/MM/YYYY'));
+                        $inp.closest('.input-group').find('.clear-date').show();
+                    })
+                    .on('show.daterangepicker', function (ev, picker) {
+                        const $cal = picker.container;
+                        const place = placeFactory($inp, $cal);
+                        const placeRAF = () => requestAnimationFrame(place);
+
+                        // initial
+                        placeRAF();
+
+                        // keep stuck on viewport resize
+                        $(window).on('resize.drp', placeRAF);
+
+                        // re-place on any calendar redraws (prev/next, month/year change)
+                        $inp.on('showCalendar.daterangepicker.drpfix', placeRAF);
+                        $cal.on('click.drpfix', '.prev, .next', placeRAF);
+                        $cal.on('change.drpfix', 'select.monthselect, select.yearselect', placeRAF);
+
+                        // observe size changes (row count varies per month)
+                        let ro = null, mo = null;
+                        if ('ResizeObserver' in window) {
+                            ro = new ResizeObserver(placeRAF);
+                            ro.observe($cal[0]);
+                        } else if ('MutationObserver' in window) {
+                            mo = new MutationObserver(placeRAF);
+                            mo.observe($cal[0], { childList: true, subtree: true, attributes: true });
+                        }
+
+                        // clean up when hidden
+                        $inp.one('hide.daterangepicker', function () {
+                            $(window).off('resize.drp', placeRAF);
+                            $inp.off('showCalendar.daterangepicker.drpfix');
+                            $cal.off('.drpfix');
+                            if (ro) { try { ro.disconnect(); } catch (e) { } }
+                            if (mo) { try { mo.disconnect(); } catch (e) { } }
+                        });
+                    });
+
+                $inp.data(IN_FLAG, true);
+            }
+
+            function init(root) {
+                bindGlobalOnce();
+                const $root = root ? $(root) : $(document);
+                $root.find('.datepicker').each(function () { wireOne($(this)); });
+            }
+
+            function destroy(root) {
+                const $root = root ? $(root) : $(document);
+                $root.find('.datepicker').each(function () {
+                    const $inp = $(this);
+                    if ($inp.data(IN_FLAG)) {
+                        try { $inp.data('daterangepicker').remove(); } catch (e) { }
+                        $inp.removeData(IN_FLAG);
+                    }
+                });
+            }
+
+            return { init, destroy };
+        })();
+
+        // ---- call once on page load ----
+        $(function () { DRP.init(); });
+
+
+    </script>
+
+    <script>
+        // Global hide on page load
+        window.addEventListener("load", function () {
+            // $("#customLoader").hide();
+        });
+
+
+
+        //$(document).on("click", ".collapse__sublink", function (e) {
+        //    const href = $(this).attr("href");
+        //    if (href && !href.startsWith("#") && $(this).attr("target") !== "_blank") {
+        //        $("#customLoader").show();
+        //    }
+        //});
+
+    </script>
+
+
+</body>
+</html>

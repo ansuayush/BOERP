@@ -1,0 +1,90 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>ERP - BO International</title>
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#6B54C8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="~/assets/images/logo/bo-international-logo.png" type="image/png" sizes="50x50">
+    <link href="~/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/help.css" rel="stylesheet">
+    <link href="~/assets/css/login.css " rel="stylesheet">
+    <link href="~/assets/css/colorguide.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/css/responsive.css" rel="stylesheet">
+
+</head>
+<body>
+    <section class="d-flex flex-row justify-content-between">
+        <div class="left-side">
+            <div class="overlay"></div>
+            <img src="~/assets/images/login/bo-internation-image.jpg" alt="" class="w-full h-full object-cover">
+        </div>
+        <div class="right-side">
+            <div class="opt_details login_detail">
+                <div class="loginlogo">
+
+                    <img src="~/assets/images/logo/bo-international-logo.png" class="logo-sm" alt="">
+                    <h2>Bo International</h2>
+                </div>
+                <!-- Step 1  -->
+                <div class="logintext">
+                    <h3>Email Verification</h3>
+                    <div class="form-label-group">
+                        @if (TempData["SuccessMsg"].ToString() != "")
+                        {
+                            <p style="color: red;">
+                                @TempData["SuccessMsg"]
+                            </p>
+                        }
+                    </div>
+                </div>
+                <form method="POST">
+                    <div class="login-from">
+                        <div class="form-group">
+                            <label for="OTP">OTP <sup>*</sup></label>
+                            <input type="number" class="form-control" id="OTP" oninput="setOtpTosixDigits()" name="OTP" placeholder="Enter OTP">
+                            <small id="OTPMessage" class="text-danger error" style="display: none;">Please enter a valid OTP</small>
+                        </div>
+                    </div>
+
+
+                    <div class="loginbtn"> <input type="submit" id="submitButton" class="btn btn-lg actionbtn" value="Verify & Login" /></div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+    <script>
+
+        function setOtpTosixDigits() {
+            let otp = $('#OTP').val();
+
+            // Remove any non-digit characters and limit to 6 characters
+            otp = otp.replace(/\D/g, '').substring(0, 6);
+
+            $('#OTP').val(otp);
+        }
+
+
+    </script>
+
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/otp.js"></script>
+
+   
+</body>
+
+
+</html>

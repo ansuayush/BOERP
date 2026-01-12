@@ -1,0 +1,361 @@
+﻿
+@{
+	ViewBag.Title = "View Customer";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<input type="hidden" id="hdnCustId" value="@ViewBag.CustId" />
+<input type="hidden" id="hdnPageStatus" value="@ViewBag.PageStatus" />
+
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+	<h1 class="m-0 d-flex align-items-center">
+		<a href="/BusinessPartner/CustomerList?auth=@ViewBag.Auth"><img src="~/assets/images/icons/help/back-icon.png" class="headingicon"></a>Customer Details<div class="ml-3"></div>
+	</h1>
+	<div class="align-self-center">
+		<div class="d-flex justify-content-between align-items-center gap-16">
+			<a href="AddCustomer?auth=@ViewBag.Auth&custid=@ViewBag.CustId" class="btn mr-2 actionbtn border-r-8"><img src="~/assets/images/icons/help/edit-white-icon.png" class="btn-icon">Edit</a>
+
+		</div>
+	</div>
+</div>
+
+<ul class="tablink">
+	<li><a href="/BusinessPartner/ViewCustomer?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link active">Customer Details</a></li>
+	@if (ViewBag.PAId > 0)
+	{
+		<li class="vendorverified-tab"><a href="/BusinessPartner/CustSOItems?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link">Sales Order History</a></li>
+		<li class="vendorverified-tab"><a href="/BusinessPartner/CustFinancialLedgers?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link">Financial Ledgers</a></li>
+		<li class="vendorverified-tab"><a href="/BusinessPartner/CustSampleRecords?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link">Sample</a></li>
+		<li class="vendorverified-tab"><a href="/BusinessPartner/CustPMInventory?auth=@ViewBag.Auth&id=@ViewBag.CustId&PAId=@ViewBag.PAId" class="nav-link">Client PM Inventory</a></li>
+	}
+</ul>
+
+<div class="row">
+
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0  col-default-bottom h-100">
+			<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+				<h2 class="title-two align-self-center">Customer Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-lg-2 col-md-3 col-sm-4 from-group">
+						<label>Company Code</label>
+						<p class="m-0" id="compCode"></p>
+					</div>
+					<div class="col-lg-2 col-md-3 col-sm-4 from-group">
+						<label>Company Name</label>
+						<p class="m-0" id="compName"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-3 col-sm-4 form-group">
+						<label>Comp Email</label>
+						<p class="m-0" id="emailId"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-3  col-sm-4 form-group">
+						<label>Type</label>
+						<p class="m-0" id="custType"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-3 col-sm-4  form-group">
+						<label>Phone No</label>
+						<p class="m-0" id="phoneNo"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-3 col-sm-4 form-group">
+						<label>GSTIN</label>
+						<p class="m-0" id="gstIn"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-3 col-sm-4 form-group">
+						<label>TAN No.</label>
+						<p class="m-0" id="tanNo"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-3 col-sm-4 form-group">
+						<label>PAN no.</label>
+						<p class="m-0" id="panNo"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-3 col-sm-4 form-group">
+						<label>NBD User</label>
+						<p class="m-0" id="nbdUser"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-3 col-sm-4 form-group">
+						<label>CRR User</label>
+						<p class="m-0" id="crrUser"></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	@*<div class="col-lg-6 form-group">
+			<div class="card br-none p-0 h-100">
+				<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+					<h2 class="title-two align-self-center">Contact Information</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="row">
+						<div class="col-lg-6 col-md-6 form-group">
+							<label>Contact Name</label>
+							<p class="m-0" id="contactName"></p>
+						</div>
+						<div class="col-lg-6 col-md-6 form-group">
+							<label>Email ID</label>
+							<p class="m-0" id="contactEmailId"></p>
+						</div>
+						<div class="col-lg-6 col-md-6 form-group">
+							<label>Contact Number</label>
+							<p class="m-0" id="contactPhoneNo"></p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>*@
+
+
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0 h-100">
+			<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+				<h2 class="title-two align-self-center">Contact Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="row" id="contactInfoContainer">
+					@*<div class="col-lg-3 col-md-3 col-sm-6 form-group">
+							<label>Contact Name</label>
+							<p class="m-0" id="contactName1"></p>
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-6 form-group">
+							<label>Contact Number</label>
+							<p class="m-0" id="contactNo1"></p>
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-6 form-group">
+							<label>Email ID</label>
+							<p class="m-0" id="emailId1"></p>
+						</div>
+
+						<div class="col-sm-12 contact2"><hr></div>
+
+						<div class="col-lg-3 col-md-3 col-sm-6 contact2 form-group">
+							<label>Contact Name</label>
+							<p class="m-0" id="contactName2"></p>
+						</div>
+						<div class="col-lg-3 col-md-3 contact2 col-sm-6 form-group">
+							<label>Contact Number</label>
+							<p class="m-0" id="contactNo2"></p>
+						</div>
+						<div class="col-lg-3 col-md-3 contact2 col-sm-6 form-group">
+							<label>Email ID</label>
+							<p class="m-0" id="emailId2"></p>
+						</div>*@
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="col-lg-6 form-group">
+		<div class="card br-none p-0 h-100">
+			<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+				<h2 class="title-two align-self-center">Delivery / Shipping Address</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="row" id="shippingAddressContainerView">
+					@*<div class="col-lg-12 form-group">
+							<label>Location 1</label>
+							<p class="m-0">
+								<span id="sAdd1U"></span>,<br />
+								<span id="sAdd2U"></span>,<br />
+								<span id="sCityU"></span>,<br />
+								<span id="sStateU"></span>
+							</p>
+						</div>
+						<div class="col-sm-12 address2S"><hr /></div>
+						<div class="col-lg-12 form-group address2S">
+							<label>Location 2</label>
+							<p class="m-0">
+								<span id="sAdd1L"></span>,<br />
+								<span id="sAdd2L"></span>,<br />
+								<span id="sCityL"></span>,<br />
+								<span id="sStateL"></span>
+							</p>
+						</div>*@
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6 form-group">
+		<div class="card br-none p-0 h-100">
+			<div class="card-header border-top-RL header-active br-none  d-flex flex-wrap justify-content-between gap-10 ">
+				<h2 class="title-two align-self-center">Billing Address</h2>
+				<div class="align-self-center" style="display:none">
+					<input type="checkbox" id="delivery" name="" value="" checked disabled>
+
+					<input type="checkbox" id="chkSameAddress" name="" value="">
+					<label for="chkSameAddress"> Same as Shipping Address</label>
+
+				</div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="row" id="billingAddressContainerView">
+					@*<div class="col-lg-12 form-group">
+							<label>Location 1</label>
+							<p class="m-0">
+								<span id="bAdd1U"></span>,<br />
+								<span id="bAdd2U"></span>,<br />
+								<span id="bCityU"></span>,<br />
+								<span id="bStateU"></span>
+							</p>
+						</div>
+						<div class="col-sm-12 address2B"><hr /></div>
+						<div class="col-lg-12 address2B form-group">
+							<label>Location 2</label>
+							<p class="m-0">
+								<span id="bAdd1L"></span>,<br />
+								<span id="bAdd2L"></span>,<br />
+								<span id="bCityL"></span>,<br />
+								<span id="bStateL"></span>
+							</p>
+						</div>*@
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	@*<div class="col-lg-6 form-group">
+			<div class="card br-none p-0 h-100">
+				<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+					<h2 class="title-two align-self-center">Delivery / Shipping Address</h2>
+					<div class="align-self-center"></div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="row">
+						<div class="col-lg-12 form-group">
+							<label>Location 1</label>
+							<p class="m-0">
+								<span id="sAdd1"></span>,<br />
+								<span id="sAdd2"></span>,<br />
+								<span id="sCity"></span>,<br />
+								<span id="sState"></span>
+							</p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-6 form-group">
+			<div class="card br-none p-0 h-100">
+				<div class="card-header border-top-RL header-active br-none  d-flex flex-wrap justify-content-between gap-10 ">
+					<h2 class="title-two align-self-center">Billing Address</h2>
+					<div class="align-self-center" style="display:none">
+						<input type="checkbox" id="delivery" name="" value="" checked disabled>
+
+						<input type="checkbox" id="chkSameAddress" name="" value="">
+						<label for="chkSameAddress"> Same as Shipping Address</label>
+
+					</div>
+				</div>
+				<div class="card-body view-form-group">
+					<div class="row">
+						<div class="col-lg-12 form-group">
+							<label>Location 1</label>
+							<p class="m-0">
+								<span id="bAdd1"></span>,<br />
+								<span id="bAdd2"></span>,<br />
+								<span id="bCity"></span>,<br />
+								<span id="bState"></span>
+							</p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>*@
+
+	<div class="col-lg-12 form-group">
+		<div class="card br-none p-0  col-default-bottom h-100">
+			<div class="card-header border-top-RL header-active br-none  d-flex justify-content-between ">
+				<h2 class="title-two align-self-center">Business Information</h2>
+				<div class="align-self-center"></div>
+			</div>
+			<div class="card-body view-form-group">
+				<div class="row">
+					<div class="col-lg-2 col-md-2 from-group">
+						<label>Payment Terms</label>
+						<p class="m-0" id="paymentTerms"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-2 form-group">
+						<label>Client Brand Type</label>
+						<p class="m-0" id="clientBrandType"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-2  form-group">
+						<label>Lead Source</label>
+						<p class="m-0" id="leadSource"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-2  form-group">
+						<label>Default Currency</label>
+						<p class="m-0" id="defaultCurrency"></p>
+					</div>
+
+					<div class="col-lg-2 col-md-2 form-group">
+						<label>Brand Name</label>
+						<p class="m-0" id="brandName"></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	@if (ViewBag.PartyStatus != 2)
+	{
+		<div class="col-lg-12  text-right form-group">
+			<div class="d-flex justify-content-end align-items-center gap-10">
+				<button id="btnReject" type="button" class="btn btn-lg btn-warning" onclick="CustomerStatus(3)">Reject</button>
+				<button id="btnApprove" type="button" class="btn btn-lg btn-success" onclick="CustomerStatus(2)">Approve</button>
+			</div>
+
+		</div>
+
+	}
+	else
+	{
+		<div class="col-lg-12  text-right form-group"></div>
+	}
+</div>
+
+@*Ag Grid Scripts Start*@
+<link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+<link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+<link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+<script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+<script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+<script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+<script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+<script src="~/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/CommonJS/GenericAgGrid.js"></script>
+@*Ag Grid Scripts End*@
+
+<script src="~/Areas/BusinessPartner/DevScript/ViewCustomer.js"></script>

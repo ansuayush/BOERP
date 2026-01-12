@@ -1,0 +1,108 @@
+﻿@{
+	int TabIndex = 0;
+	long EMPID = 0;
+	long UserId = 0;
+	long LocationId = 0;
+	long.TryParse(ViewBag.EMPID, out EMPID);
+	long.TryParse(ViewBag.LocationId, out LocationId);
+	if (ViewBag.Mobile == "Mobile")
+	{
+		long.TryParse(ViewBag.UserId, out UserId);
+	}
+
+	if (ViewBag.TabIndex != null)
+	{
+		TabIndex = ViewBag.TabIndex;
+	}
+}
+<div class="empmenu navsky">
+<a class="logo" id ="achorname" href="">My Profile</a>
+    <input id="nav" type="checkbox">
+    <label for="nav"></label>
+    <nav>
+		<ul class="navbar-scd list-unstyled ">
+			<li class="@(TabIndex==1?"active":"")">
+
+				@if (ViewBag.Mobile == "Mobile")
+				{
+					<a onclick="ShowLoadingDialog();window.location='@Url.Action("RegistrationDetails",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/RegistrationDetails*"+EMPID+"*" + "Mobile"+"*"+UserId+"*"+LocationId) })';">
+						<span class="btn btn-default btn-circle">1</span> Registration <span class="d-block">Details</span>
+					</a>
+				}
+				else
+				{
+					<a onclick="ShowLoadingDialog();window.location='@Url.Action("RegistrationDetails",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/RegistrationDetails*"+EMPID) })';">
+						<span class="btn btn-default btn-circle">1</span> Registration <span class="d-block">Details</span>
+					</a>
+				}
+
+			</li>
+			@if (EMPID > 0)
+			{
+				if (ViewBag.Mobile == "Mobile")
+				{
+					<li class="@(TabIndex==2?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("PersonalDetails",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/PersonalDetails*"+EMPID+"*" + "Mobile"+"*"+UserId+"*"+LocationId) })';">
+							<span class="btn btn-default btn-circle">2</span> Personal <span class="d-block">Information</span>
+						</a>
+					</li>
+					<li class="@(TabIndex==3?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("GeneralInfo",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/GeneralInfo*"+EMPID+"*" + "Mobile"+"*"+UserId+"*"+LocationId) })';">
+							<span class="btn btn-default btn-circle">3</span> General <span class="d-block">Information</span>
+						</a>
+					</li>
+					<li class="@(TabIndex==4?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("IDInformation",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/IDInformation*"+EMPID+"*" + "Mobile"+"*"+UserId+"*"+LocationId) })';">
+							<span class="btn btn-default btn-circle">4</span> ID <span class="d-block">Information</span>
+						</a>
+					</li>
+					<li class="@(TabIndex==5?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("Attachments",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/Attachments*"+EMPID+"*" + "Mobile"+"*"+UserId+"*"+LocationId) })';">
+							<span class="btn btn-default btn-circle">5</span> Attachments
+						</a>
+					</li>
+					<li class="@(TabIndex==6?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("Declaration",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/Declaration*"+EMPID+"*" + "Mobile"+"*"+UserId+"*"+LocationId) })';">
+							<span class="btn btn-default btn-circle"></span> Declaration
+						</a>
+						@*<a href="#">
+						<span class="btn btn-default btn-circle">5</span> Declaration
+					</a>*@
+					</li>
+				}
+				else
+				{
+					<li class="@(TabIndex==2?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("PersonalDetails",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/PersonalDetails*"+EMPID) })';">
+							<span class="btn btn-default btn-circle">2</span> Personal <span class="d-block">Information</span>
+						</a>
+					</li>
+					<li class="@(TabIndex==3?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("GeneralInfo",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/GeneralInfo*"+EMPID) })';">
+							<span class="btn btn-default btn-circle">3</span> General <span class="d-block">Information</span>
+						</a>
+					</li>
+					<li class="@(TabIndex==4?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("IDInformation",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/IDInformation*"+EMPID) })';">
+							<span class="btn btn-default btn-circle">4</span> ID <span class="d-block">Information</span>
+						</a>
+					</li>
+					<li class="@(TabIndex==5?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("Attachments",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/Attachments*"+EMPID) })';">
+							<span class="btn btn-default btn-circle">5</span> Attachments
+						</a>
+					</li>
+					<li class="@(TabIndex==6?"active":"")">
+						<a onclick="ShowLoadingDialog();window.location='@Url.Action("Declaration",new { src = clsApplicationSetting.EncryptQueryString(ViewBag.MenuID.ToString()+"*/Employee/Declaration*"+EMPID) })';">
+							<span class="btn btn-default btn-circle"></span> Declaration
+						</a>
+						@*<a href="#">
+						<span class="btn btn-default btn-circle">5</span> Declaration
+					</a>*@
+					</li>
+				}
+
+			}
+		</ul>
+    </nav>
+</div>

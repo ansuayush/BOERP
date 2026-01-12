@@ -1,0 +1,411 @@
+﻿﻿
+@{
+    ViewBag.Title = "HolidayMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-group-cell:not(.ag-column-resizing) + .ag-header-group-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover):not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-resizing) + .ag-header-cell:not(.ag-column-hover).ag-column-resizing, .ag-header-group-cell:first-of-type:not(.ag-header-cell-moving):hover, .ag-header-group-cell:first-of-type.ag-column-resizing, .ag-header-cell:not(.ag-column-hover):first-of-type:not(.ag-header-cell-moving):hover, .ag-header-cell:not(.ag-column-hover):first-of-type.ag-column-resizing {
+        background-color: #44488c !important;
+    }
+
+    #customLoader {
+        background: rgba(0, 0, 0, 0.7) !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ag-header-cell, .ag-header-group-cell {
+        padding: 0px 5px !important;
+    }
+
+    .ag-header-group-cell-label, .ag-cell-label-container {
+        padding: 0px 0px !important;
+    }
+
+    #customLoader img {
+        width: 40px;
+        height: 40px
+    }
+
+    .ag-text-field-input {
+        color: #000 !important;
+        font-size: 10px !important
+    }
+    /* Styles for the alert box */
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        display: none;
+        width: auto;
+        z-index: 1000;
+        overflow: inherit !important;
+    }
+
+        .custom-alert .modal-body {
+            padding-bottom: 0px;
+            overflow: scroll;
+            height: 400px;
+            overflow-x: hidden;
+        }
+
+    .custom-lg {
+        width: 630px;
+        background: #fff;
+        font-size: 10px;
+        border-radius: 8px
+    }
+
+    .custom-alert table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .custom-alert th {
+        background: #2f3261;
+        color: #fff;
+    }
+
+    .custom-alert th, .custom-alert td {
+        border: 1px solid #ddd;
+        padding: 2px 5px !important;
+        text-align: left;
+        word-break: break-all;
+        vertical-align: top;
+        line-height: 25px;
+        font-size: 12px;
+        text-transform: lowercase;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 999;
+    }
+</style>
+<div class="pagetitle gap-bottom d-flex justify-content-between">
+    <h1 class="m-0 d-flex ">
+        Holiday<div class="ml-2">
+            <svg data-toggle="tooltip" title="" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" data-original-title=""><g clip-path="url(#clip0_423_173595)"><path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334Z" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 13.3333V10" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 6.66675H10.0083" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_423_173595"><rect width="20" height="20" fill="white"></rect></clipPath></defs></svg>
+
+        </div>
+    </h1>
+    <div class="align-self-center">
+        
+        <a href="" data-toggle="modal" data-target="#add" type="button" onclick="addHolidayId()" class="btn mr-2 actionbtn border-r-8"><img src="../assets/images/icons/help/add-white-icon.png" class="btn-icon">Add</a>
+    </div>
+</div>
+
+<div class="white-bg third-container">
+    <div class="row">
+
+        <div class="col-sm-2 form-group">
+            <label for="Lead Details" class="form-control-label"> Year</label>
+            <select id="drdfinyear" class="form-control applyselect" onchange="changeFinancialYear()">
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-4 ml-auto form-group align-self-end ">
+            <div class="d-flex gap-5 justify-content-end ">
+                <a href="#" class="btn border-r-8" data-toggle="tooltip" id="exportExcel" title="Download Excel Report"><img src="~/assets/images/icons/help/filter/download-icon.svg" class="btn-icon m-0"></a>
+                <div class="searchbox w-350">
+                    <div class="search">
+                        <label class="icon" for="globalSearch"><img src="../../assets/images/icons/help/search-icon.png" class="icon-sm"></label>
+                        <input type="text" id="globalSearch" class="form-control d-inline-block" placeholder="Global Search...">
+                    </div>
+
+                </div>
+            </div>
+
+            </div>
+
+
+        <div class="col-sm-12 form-group">
+            @*<div class="table-responsive">
+
+            <table class="display rstable single-sort dgntable dataTable no-footer" id="tableHoliday">
+                <thead>
+                    <tr>
+            <th width="50">SNo.</th>
+            <th>Holiday Name</th>
+            <th>Holiday Date</th>
+            <th>Branch Name</th>
+            <th width="150">Updated Date</th>
+            <th width="150">Inserted Date</th>
+            <th width="100px" id="Del_9">Status</th>
+            <th width="50px">Action</th>
+        </tr>
+
+        <tr class="searchfilter">
+            <th width="50" class="searchhide"></th>
+            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th width="150"></th>
+                            <th width="150"></th>
+                            <th width="100px" id="Del_9"></th>
+                            <th width="20px"  class="searchhide"></th>
+                        </tr>
+
+
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>*@
+
+            <div class="grid-wrapper" style="padding-top: 40px">
+                <div id="myGrid" class="ag-theme-alpine agrid-dgn" style="height: 600px"></div>
+
+            </div>
+        </div>
+
+       
+
+
+    </div>
+
+    </div>
+
+    
+    <div id="add" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Holiday</h4>
+                    <button type="button" class="close" data-dismiss="modal"><img src="/assets/images/icons/help/close-icon.png" class="closeicon"></button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" id="hdnHolidayMasterId" />
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="Lead Details" class="form-control-label">Branch<sup>*</sup></label>
+                                <select id="dldBranch" onchange="HideErrorMessage(this)" class="form-control applyselect Mandatory">
+                                </select>
+                                <span id="spdldBranch" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="Lead Details" class="form-control-label">Holiday Name<sup>*</sup></label>
+                                <input type="text" id="txtHoliday" onchange="HideErrorMessage(this)" class="form-control Mandatory" placeholder="Enter">
+                                <span id="sptxtHoliday" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="Lead Details" class="form-control-label">Holiday Date </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control Mandatory datepickersecond" onchange="HideErrorMessage(this)" autocomplete="off" placeholder="dd-mm-yyyy" id="dtHoliday" readonly>
+                                    <span class="clear-date">×</span>
+                                    <div class="input-group-append dateicon ">
+                                        <span class="input-group-text bg-white"><img src="../assets/images/icons/help/calendar-icon.svg" alt=""></span>
+                                    </div>
+                                </div>
+                                <span id="spdtHoliday" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="Lead Details" class="form-control-label">Year<sup >*</sup></label>
+                                <select id="dldfinyear" class="form-control applyselect Mandatory" onchange="HideErrorMessage(this)">
+                                </select>
+                                <span id="spdldfinyear" class="text-danger field-validation-error" style="display:none;">Hey, You missed this field!!</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="Lead Details" class="form-control-label">Description</label>
+                                <textarea placeholder="Enter" id="desHoliday" class="form-control h-80" maxlength="100"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="checkbox" class="checkbox" id="popswitch1">
+                            <label for="popswitch1" class="checkbox-label">
+                                <img src="../assets/images/icons/help/check-white-icon.png" class="icon-16">
+                                <img src="../assets/images/icons/help/close-white-icon.png" class="icon-16 right-icon">
+                                <span class="ball"></span>
+                            </label>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg cancelbtn" data-dismiss="modal" onclick="clearForm()">Close</button>
+                    <button type="submit" class="btn btn-lg actionbtn" onclick="saveHolidayMaster()">Save</button>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="m_scroll_top" class="m-scroll-top">
+        <i class="la la-arrow-up"></i>
+    </div>
+
+    @*v--------- View Warning model-------------*@
+<div id="confirmmsg" class="modal fade confirmdgn" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+                    <div class="warningmsg">
+                        <img src="../assets/images/icons/help/warning-icon.svg" class="warningicon">
+                        <h6 class="text-center">You can only delete or edit the Holiday dates that are 3 days ahed of the today's date</h6>
+
+                    </div>
+                </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg cancelbtn" onclick="closeEmpDel()" data-dismiss="modal">Cancel</button>
+
+            </div>
+
+        </div>
+    </div>
+    @*--------model close-----------*@
+    <style>
+        #globalSearch {
+            display: none
+        }
+
+        .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
+            transition: opacity 0.2s;
+            opacity: 1;
+            color: #fff;
+        }
+
+        .ag-icon::before {
+            color: #fff;
+        }
+
+        .ag-theme-balham .ag-header-cell-label {
+            white-space: normal; /* Allow wrapping in header text */
+        }
+
+        .ag-theme-balham {
+            overflow-x: auto; /* Avoid extra whitespace */
+        }
+
+
+        .ag-header-cell, .ag-header-group-cell {
+            padding-left: var(--ag-cell-horizontal-padding);
+            padding-right: var(--ag-cell-horizontal-padding);
+            background: #44488c;
+            color: #fff !important
+        }
+
+        .ag-icon-filter {
+            font-family: var(--ag-icon-font-family-filter, var(--ag-icon-font-family));
+            font-weight: var(--ag-icon-font-weight-filter, var(--ag-icon-font-weight));
+            color: #ffffff !important;
+        }
+        /* Styles for the alert box */
+        .custom-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+            .custom-alert table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .custom-alert th, .custom-alert td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .custom-alert th {
+                background-color: #f2f2f2;
+            }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .ag-icon.ag-icon-previous::before {
+            content: "\f104"; /* Font Awesome: fa-angle-left */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .ag-icon.ag-icon-next::before {
+            content: "\f105"; /* Font Awesome: fa-angle-right */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+
+
+    @*Ag Grid Scripts Start*@
+    <link href="~/css/Aggrid/Aggrid1.css" rel="stylesheet" />
+    <link href="~/css/Aggrid/Aggrid2.css" rel="stylesheet" />
+    <link href="~/css/aggrid/ag-grid.css" rel="stylesheet" />
+    <link href="~/css/aggrid/ag-theme-alpine.css" rel="stylesheet" />
+    <script src="~/CommonJS/AgGrid/dist_aggrid_community.js"></script>
+    <script src="~/CommonJS/AgGrid/aggridCom.min.js"></script>
+    <script src="~/CommonJS/AgGrid/autotable.umd.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/CommonJS/AgGrid/jspdf.umd.min.js"></script>
+    <script src="~/CommonJS/AgGrid/libs.umd.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/CommonJS/GenericAgGrid.js"></script>
+
+    @*Ag Grid Scripts End*@
+
+
+
+    <script src="~/Areas/ManageEmployee/DevScript/HolidayMaster.js"></script>
+
+
